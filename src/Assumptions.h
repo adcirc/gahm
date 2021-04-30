@@ -23,33 +23,26 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef LOGGING_H
-#define LOGGING_H
+#ifndef ASSUMPTIONS_H
+#define ASSUMPTIONS_H
 
-#include <iostream>
-#include <string>
+#include <vector>
+#include "Assumption.h"
 
-class Logging {
+class Assumptions {
  public:
-  Logging() = default;
+  Assumptions();
 
-  static void throwError(const std::string &s);
-  static void throwError(const std::string &s, const char *file, int line);
+  void add(const Assumption &a);
 
-  static void logError(const std::string &s,
-                       const std::string &heading = std::string());
-  static void warning(const std::string &s,
-                      const std::string &heading = std::string());
-  static void log(const std::string &s,
-                  const std::string &heading = std::string());
+  Assumption get(size_t index) const;
+
+  size_t count() const;
+
+  void log(const Assumption::Severity s = Assumption::Severity::MAJOR);
 
  private:
-  static void printMessage(const std::string &header,
-                           const std::string &message);
-  static void printErrorMessage(const std::string &header,
-                                const std::string &message);
+  std::vector<Assumption> m_assumptions;
 };
 
-#define gahm_throw_exception(arg) Logging::throwError(arg, __FILE__, __LINE__)
-
-#endif  // LOGGING_H
+#endif  // ASSUMPTIONS_H

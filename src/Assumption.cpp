@@ -23,33 +23,34 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef LOGGING_H
-#define LOGGING_H
+#include "Assumption.h"
 
-#include <iostream>
-#include <string>
+Assumption::Assumption(const Assumption::Severity s, const std::string &message,
+                       const std::string file, const size_t line)
+    : m_severity(s), m_message(message), m_filename(file), m_line(line) {}
 
-class Logging {
- public:
-  Logging() = default;
+Assumption::Severity Assumption::severity() const { return m_severity; }
 
-  static void throwError(const std::string &s);
-  static void throwError(const std::string &s, const char *file, int line);
+std::string Assumption::message() const { return m_message; }
 
-  static void logError(const std::string &s,
-                       const std::string &heading = std::string());
-  static void warning(const std::string &s,
-                      const std::string &heading = std::string());
-  static void log(const std::string &s,
-                  const std::string &heading = std::string());
+std::string Assumption::filename() const { return m_filename; }
 
- private:
-  static void printMessage(const std::string &header,
-                           const std::string &message);
-  static void printErrorMessage(const std::string &header,
-                                const std::string &message);
-};
+size_t Assumption::line() const { return m_line; }
 
-#define gahm_throw_exception(arg) Logging::throwError(arg, __FILE__, __LINE__)
+std::string Assumption::toString() const {
+  return "ASSUMPTION: " + Assumption::severityString(m_severity) + " [" +
+         this->m_filename + ", " + std::to_string(m_line) + "]: " + m_message;
+}
 
-#endif  // LOGGING_H
+std::string Assumption::severityString(Assumption::Severity s) {
+  switch (s) {
+    case Assumption::Severity::INFO:
+      return "INFO";
+    case Assumption::Severity::MINOR:
+      return "MINOR";
+    case Assumption::Severity::MAJOR:
+      return "MAJOR";
+    case Assumption::Severity::CRITICAL:
+      return "CRITICAL";
+  }
+}

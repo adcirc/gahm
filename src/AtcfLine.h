@@ -28,10 +28,11 @@
 
 #include <iostream>
 #include <string>
+#include <tuple>
 #include <vector>
 #include "Date.h"
-#include "boost/algorithm/string/trim.hpp"
 #include "Isotach.h"
+#include "boost/algorithm/string/trim.hpp"
 
 class AtcfLine {
  public:
@@ -129,6 +130,18 @@ class AtcfLine {
 
   bool operator<(const AtcfLine &a) const;
 
+  void setStormTranslationVelocities(double u, double v, double uv);
+  std::tuple<double, double, double> stormTranslationVelocities() const;
+
+  double uvTrans() const;
+  void setUvTrans(double uv);
+
+  double uTrans() const;
+  void setUTrans(double u);
+
+  double vTrans() const;
+  void setVTrans(double v);
+
  private:
   std::string m_basin;
   int m_cycloneNumber;
@@ -157,6 +170,10 @@ class AtcfLine {
   std::string m_systemDepth;
   std::vector<Isotach> m_seas;
   bool m_null;
+
+  double m_uv;
+  double m_u;
+  double m_v;
 
   static std::vector<std::string> splitString(const std::string &line);
 

@@ -28,22 +28,53 @@
 
 #include <string>
 #include <vector>
+#include "Assumptions.h"
 #include "AtcfLine.h"
 
 class Atcf {
  public:
   Atcf();
-  Atcf(const std::string &filename);
+  Atcf(const std::string &filename, Assumptions *assumptions = nullptr);
 
   std::string filename() const;
   void setFilename(const std::string &filename);
 
   int read();
 
+  int calculateRmax();
+
+  size_t nRecords() const;
+  const AtcfLine *record(size_t index) const;
+  AtcfLine record(size_t index);
+
+  struct StormParameters {
+    int cycle;
+    double wtratio;
+    double latitude;
+    double longitude;
+    double central_pressure;
+    double background_pressure;
+    double vmax;
+    double utrans;
+    double vtrans;
+    double uvtrans;
+  };
+
+  StormParameters getStormParameters(const Date &d) const;
+
  private:
   std::string m_filename;
 
   std::vector<AtcfLine> m_atcfData;
+
+  Assumptions *m_assumptions;
+
+  static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
+                     double &vv, double &uuvv);
+  static inline double linearInterp(double weight, double v1, double v2);
+
+  int calculateOverlandTranslationVelocity();
+  std::pair<int, double> getCycleNumber(const Date &d) const;
 };
 
 #endif  // ATCF_H

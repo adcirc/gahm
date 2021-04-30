@@ -26,9 +26,51 @@
 #ifndef GAHM_H
 #define GAHM_H
 
+#include "Assumptions.h"
+#include "Atcf.h"
+
 class Gahm {
  public:
-  Gahm();
+  Gahm(const std::string filename);
+
+  std::string filename() const;
+
+  int read();
+
+  int get(const Date &d, const std::vector<double> &x,
+          const std::vector<double> &y, std::vector<double> &u,
+          std::vector<double> &v, std::vector<double> &p);
+
+ private:
+  struct uvp {
+    double u;
+    double v;
+    double p;
+  };
+
+  template <bool geofactor>
+  static uvp getUvpr(double distance, double angle, double rmax,
+                     double rmax_true, double p_c, double p_background,
+                     double b, double vmax, double pmin, double phi,
+                     double utrans, double coriolis, double vtrans,
+                     double clat);
+
+  const std::string m_filename;
+  Assumptions m_assumptions;
+  Atcf m_atcf;
 };
+
+template <>
+Gahm::uvp Gahm::getUvpr<true>(double distance, double angle, double rmax,
+                              double rmax_true, double p_c, double p_background,
+                              double b, double vmax, double pmin, double phi,
+                              double utrans, double coriolis, double vtrans,
+                              double clat);
+template <>
+Gahm::uvp Gahm::getUvpr<false>(double distance, double angle, double rmax,
+                               double rmax_true, double p_c,
+                               double p_background, double b, double vmax,
+                               double pmin, double phi, double utrans,
+                               double coriolis, double vtrans, double clat);
 
 #endif  // GAHM_H

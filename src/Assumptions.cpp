@@ -23,33 +23,29 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef LOGGING_H
-#define LOGGING_H
-
+#include "Assumptions.h"
+#include <cassert>
 #include <iostream>
-#include <string>
 
-class Logging {
- public:
-  Logging() = default;
+Assumptions::Assumptions() {}
 
-  static void throwError(const std::string &s);
-  static void throwError(const std::string &s, const char *file, int line);
+void Assumptions::add(const Assumption &a) {
+  m_assumptions.push_back(a);
+}
 
-  static void logError(const std::string &s,
-                       const std::string &heading = std::string());
-  static void warning(const std::string &s,
-                      const std::string &heading = std::string());
-  static void log(const std::string &s,
-                  const std::string &heading = std::string());
+Assumption Assumptions::get(size_t index) const {
+  assert(index < m_assumptions.size());
+  return m_assumptions[index];
+}
 
- private:
-  static void printMessage(const std::string &header,
-                           const std::string &message);
-  static void printErrorMessage(const std::string &header,
-                                const std::string &message);
-};
+size_t Assumptions::count() const { return m_assumptions.size(); }
 
-#define gahm_throw_exception(arg) Logging::throwError(arg, __FILE__, __LINE__)
-
-#endif  // LOGGING_H
+void Assumptions::log(const Assumption::Severity s) {
+  for (const auto &a : m_assumptions) {
+    if (a.severity() >= s) {
+      const std::string logmessage = a.toString();
+      std::cout << a.toString() << "\n";
+    }
+  }
+  std::cout.flush();
+}

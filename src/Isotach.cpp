@@ -23,7 +23,7 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#include "isotach.h"
+#include "Isotach.h"
 #include <cassert>
 
 static constexpr std::array<const char *, 6> radiusString = {
@@ -92,6 +92,24 @@ Isotach::RadiusCode Isotach::codeFromString(const std::string &code) {
 
 std::string Isotach::stringFromCode(Isotach::RadiusCode code) {
   return radiusString[code];
+}
+
+std::array<double, 6> Isotach::lookupRadii() const { return m_lookup_radii; }
+
+void Isotach::setLookupRadii(const std::array<double, 6> &lookup_radii) {
+  m_lookup_radii = lookup_radii;
+}
+
+std::array<int, 4> Isotach::quadflag() const { return m_quadflag; }
+
+void Isotach::setQuadflag(const std::array<int, 4> &quadflag) {
+  m_quadflag = quadflag;
+}
+
+Isotach::RadiusCode Isotach::radiusCode() const { return m_radiusCode; }
+
+void Isotach::setRadiusCode(const RadiusCode &radiusCode) {
+  m_radiusCode = radiusCode;
 }
 
 std::ostream &operator<<(std::ostream &os, const Isotach &iso) {

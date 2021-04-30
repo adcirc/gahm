@@ -23,11 +23,11 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#include "atcfline.h"
+#include "AtcfLine.h"
 #include <cassert>
+#include "Physical.h"
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
-#include "physical.h"
 
 AtcfLine::AtcfLine()
     : m_basin("NA"),
@@ -359,3 +359,26 @@ bool AtcfLine::operator<(const AtcfLine &a) const {
   if (this->cisotach(0)->windSpeed() < a.cisotach(0)->windSpeed()) return true;
   return false;
 }
+
+void AtcfLine::setStormTranslationVelocities(double u, double v, double uv) {
+  m_u = u;
+  m_v = v;
+  m_uv = uv;
+}
+
+std::tuple<double, double, double> AtcfLine::stormTranslationVelocities()
+    const {
+  return std::make_tuple(m_u, m_v, m_uv);
+}
+
+double AtcfLine::uvTrans() const { return m_uv; }
+
+void AtcfLine::setUvTrans(double uv) { m_uv = uv; }
+
+double AtcfLine::uTrans() const { return m_u; }
+
+void AtcfLine::setUTrans(double u) { m_u = u; }
+
+double AtcfLine::vTrans() const { return m_v; }
+
+void AtcfLine::setVTrans(double v) { m_v = v; }

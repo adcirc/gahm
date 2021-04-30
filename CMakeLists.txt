@@ -54,6 +54,12 @@ add_library(gahm SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/HurricanePressure.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Logging.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Logging.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
 )
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)

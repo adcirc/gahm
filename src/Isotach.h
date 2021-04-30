@@ -69,9 +69,20 @@ class Isotach {
 
   friend std::ostream &operator<<(std::ostream &os, const Isotach &iso);
 
- private:
+  std::array<double, 6> lookupRadii() const;
+  void setLookupRadii(const std::array<double, 6> &lookupRadii);
+
+  std::array<int, 4> quadflag() const;
+  void setQuadflag(const std::array<int, 4> &quadflag);
+
+  RadiusCode radiusCode() const;
+  void setRadiusCode(const RadiusCode &radiusCode);
+
+private:
   double m_windSpeed;
   std::array<double, 4> m_radius;
+  std::array<double, 6> m_lookup_radii;
+  std::array<int, 4> m_quadflag;
   RadiusCode m_radiusCode;
 };
 

@@ -26,6 +26,8 @@
 #ifndef HURRICANEPRESSURE_H
 #define HURRICANEPRESSURE_H
 
+#include "Assumptions.h"
+
 class HurricanePressure {
  public:
   enum PressureMethod {
@@ -37,7 +39,8 @@ class HurricanePressure {
     COURTNEYKNAFF
   };
 
-  HurricanePressure(PressureMethod p = TWOSLOPE);
+  HurricanePressure(PressureMethod p = TWOSLOPE,
+                    Assumptions *assumptions = nullptr);
 
   double computePressure(double wind_speed);
 
@@ -51,6 +54,7 @@ class HurricanePressure {
                          double last_vmax, double last_pressure,
                          double latitude, double forward_speed);
 
+ private:
   static double knaffzehr(double wind_speed);
   static double dvorak(double wind_speed);
   static double ah77(double wind_speed);
@@ -67,8 +71,8 @@ class HurricanePressure {
                                                    double last_vmax,
                                                    double last_pressure);
 
- private:
   const PressureMethod m_pressureMethod;
+  Assumptions *m_assumptions;
 };
 
 #endif  // HURRICANEPRESSURE_H

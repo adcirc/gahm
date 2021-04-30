@@ -23,33 +23,37 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef LOGGING_H
-#define LOGGING_H
+#ifndef ASSUMTION_H
+#define ASSUMTION_H
 
-#include <iostream>
 #include <string>
 
-class Logging {
+class Assumption {
  public:
-  Logging() = default;
+  enum Severity { INFO, MINOR, MAJOR, CRITICAL };
 
-  static void throwError(const std::string &s);
-  static void throwError(const std::string &s, const char *file, int line);
+  Assumption(const Assumption::Severity s, const std::string &message,
+             const std::string file, const size_t line);
 
-  static void logError(const std::string &s,
-                       const std::string &heading = std::string());
-  static void warning(const std::string &s,
-                      const std::string &heading = std::string());
-  static void log(const std::string &s,
-                  const std::string &heading = std::string());
+  Severity severity() const;
+
+  std::string message() const;
+
+  std::string filename() const;
+
+  size_t line() const;
+
+  std::string toString() const;
+  static std::string severityString(Assumption::Severity s);
 
  private:
-  static void printMessage(const std::string &header,
-                           const std::string &message);
-  static void printErrorMessage(const std::string &header,
-                                const std::string &message);
+  const Severity m_severity;
+  const std::string m_message;
+  const std::string m_filename;
+  const size_t m_line;
 };
 
-#define gahm_throw_exception(arg) Logging::throwError(arg, __FILE__, __LINE__)
+#define generate_assumption(sev, msg) \
+  Assumption(sev, msg, __FILE__, __LINE__)
 
-#endif  // LOGGING_H
+#endif  // ASSUMTION_H
