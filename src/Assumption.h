@@ -53,7 +53,4 @@ class Assumption {
   const size_t m_line;
 };
 
-#define generate_assumption(sev, msg) \
-  Assumption(sev, msg, __FILE__, __LINE__)
-
 #endif  // ASSUMTION_H

@@ -24,8 +24,11 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "Atcf.h"
+
+#include <algorithm>
 #include <fstream>
 #include <numeric>
+
 #include "Logging.h"
 #include "Physical.h"
 
@@ -44,7 +47,8 @@ void Atcf::setFilename(const std::string &filename) { m_filename = filename; }
  */
 int Atcf::read() {
   std::ifstream f(m_filename);
-  if (f.bad()) {
+  if (f.fail()) {
+    gahm_throw_exception("Specified file does not exist");
     return 1;
   }
 
@@ -67,7 +71,9 @@ int Atcf::read() {
       m_atcfData.erase(m_atcfData.begin() + i);
     }
   }
+
   this->calculateOverlandTranslationVelocity();
+  this->generateMissingPressureData();
   this->calculateRmax();
   return 0;
 }
@@ -91,7 +97,7 @@ int Atcf::uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
 }
 
 int Atcf::calculateOverlandTranslationVelocity() {
-  for (auto it = m_atcfData.cbegin() + 1; it != m_atcfData.cend(); ++it) {
+  for (auto it = m_atcfData.begin() + 1; it != m_atcfData.end(); ++it) {
     auto r1 = *(it - 1);
     auto r2 = *(it);
     double u, v, uv;
@@ -103,13 +109,13 @@ int Atcf::calculateOverlandTranslationVelocity() {
 
     if (uv * Physical::ms2kt() < 1.0) {
       uv = 1.0 * Physical::kt2ms();
-      r2.setStormDirection(r1.stormDirection());
+      it->setStormDirection((it - 1)->stormDirection());
     } else {
       double dir = std::atan2(u, v);
       if (dir < 0.0) dir += 360.0;
-      r2.setStormDirection(dir);
+      it->setStormDirection(dir);
     }
-    r2.setStormTranslationVelocities(u, v, uv);
+    it->setStormTranslationVelocities(u, v, uv);
   }
   return 0;
 }
@@ -235,7 +241,7 @@ inline double Atcf::linearInterp(const double weight, const double v1,
 
 Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
   auto w = this->getCycleNumber(d);
-  StormParameters s;
+  StormParameters s{};
   s.cycle = w.first;
   s.wtratio = w.second;
   if (s.cycle < 1) {
@@ -277,4 +283,38 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
   }
 
   return s;
+}
+int Atcf::generateMissingPressureData(
+    const HurricanePressure::PressureMethod &method) {
+  HurricanePressure hp(method);
+  double vmax_global = 0.0;
+  for (auto it = m_atcfData.begin(); it != m_atcfData.end(); ++it) {
+    vmax_global = std::max(vmax_global, it->vmax());
+    if (it->mslp() <= 0.0) {
+      if (it == m_atcfData.begin()) {
+        it->setMslp(
+            HurricanePressure::computeInitialPressureEstimate(it->vmax()));
+        m_assumptions->add(
+            generate_assumption(Assumption::MINOR,
+                                "Pressure data was assumed using initial "
+                                "pressure estimate method. Record " +
+                                    std::to_string(it - m_atcfData.begin())));
+      } else {
+        it->setMslp(hp.computePressure(it->vmax(), vmax_global,
+                                       (it - 1)->vmax(), (it - 1)->mslp(),
+                                       it->lat(), it->uvTrans()));
+        m_assumptions->add(generate_assumption(
+            Assumption::MINOR,
+            "Pressure was computed as " + std::to_string(it->mslp()) +
+                "mb using vmax=" + std::to_string(it->vmax()) +
+                "m/s, vmax_global=" + std::to_string(vmax_global) +
+                "m/s, previous_pressure=" + std::to_string((it - 1)->mslp()) +
+                "mb, lat=" + std::to_string(it->lat()) + ", speed=" +
+                std::to_string(it->uvTrans()) + "m/s, with method=" +
+                HurricanePressure::pressureMethodString(hp.pressureMethod()) +
+                " for record " + std::to_string(it - m_atcfData.begin())));
+      }
+    }
+  }
+  return 0;
 }

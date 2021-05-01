@@ -97,23 +97,13 @@ class Physical {
                              std::pow(std::sin((lon2 - lon1) / 2.0), 2.0)));
   }
 
-  static double sphericalDistance(const double dx, const double dy,
-                                  const double y1, const double y2) {
-    return radiusEarth(y1, y2) *
-           (2.0 * std::asin(std::sqrt(std::pow(std::sin(dy / 2.0), 2.0) +
-                                      std::cos(y1 * deg2rad()) *
-                                          std::cos(y2 * deg2rad()) *
-                                          std::pow(std::sin(dx / 2.0), 2.0))));
-  }
-
   static std::tuple<double, double, double> sphericalDx(const double x1,
                                                         const double y1,
                                                         const double x2,
                                                         const double y2) {
-    const double avglat = (y2 + y1) / 2.0;
-    return {sphericalDistance(x2 - x1, 0.0, avglat, avglat),
-            sphericalDistance(0.0, y2 - y1, avglat, avglat),
-            geodesic_distance(x1, x2, y1, y2)};
+    return {geodesic_distance(x1, y1, x2, y1),
+            geodesic_distance(x1, y1, x1, y2),
+            geodesic_distance(x1, y1, x2, y2)};
   }
 
   static double distance(const double x1, const double y1, const double x2,

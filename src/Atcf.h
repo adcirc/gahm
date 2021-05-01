@@ -28,8 +28,10 @@
 
 #include <string>
 #include <vector>
+
 #include "Assumptions.h"
 #include "AtcfLine.h"
+#include "HurricanePressure.h"
 
 class Atcf {
  public:
@@ -68,6 +70,10 @@ class Atcf {
   std::vector<AtcfLine> m_atcfData;
 
   Assumptions *m_assumptions;
+
+  int generateMissingPressureData(
+      const HurricanePressure::PressureMethod &method =
+          HurricanePressure::KNAFFZEHR);
 
   static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                      double &vv, double &uuvv);

@@ -54,6 +54,13 @@ class HurricanePressure {
                          double last_vmax, double last_pressure,
                          double latitude, double forward_speed);
 
+  static double computeInitialPressureEstimate(double wind_speed,
+                                               double last_vmax = 0.0,
+                                               double last_pressure = 0.0);
+
+  static std::string pressureMethodString(const HurricanePressure::PressureMethod &method);
+
+  HurricanePressure::PressureMethod pressureMethod() const;
  private:
   static double knaffzehr(double wind_speed);
   static double dvorak(double wind_speed);
@@ -67,9 +74,6 @@ class HurricanePressure {
                               double eye_latitude);
   static double computePressureCurveFit(double wind_speed, double a, double b,
                                         double c);
-  static double computeInitialPressureEstimateAsgs(double wind_speed,
-                                                   double last_vmax,
-                                                   double last_pressure);
 
   const PressureMethod m_pressureMethod;
   Assumptions *m_assumptions;

@@ -30,9 +30,9 @@
 #include <string>
 #include <tuple>
 #include <vector>
+
 #include "Date.h"
 #include "Isotach.h"
-#include "boost/algorithm/string/trim.hpp"
 
 class AtcfLine {
  public:
@@ -179,17 +179,7 @@ class AtcfLine {
 
   template <typename T, typename = typename std::enable_if<
                             std::is_arithmetic<T>::value, T>::type>
-  static T readValueCheckBlank(const std::string &line) {
-    if (boost::trim_copy(line) == "") {
-      return 0;
-    } else {
-      if (std::is_integral<T>::value) {
-        return stoi(line);
-      } else if (std::is_floating_point<T>::value) {
-        return stod(line);
-      }
-    }
-  }
+  static T readValueCheckBlank(const std::string &line);
 };
 
 std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);

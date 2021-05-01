@@ -27,8 +27,6 @@
 #include <cassert>
 #include <iostream>
 
-Assumptions::Assumptions() {}
-
 void Assumptions::add(const Assumption &a) {
   m_assumptions.push_back(a);
 }

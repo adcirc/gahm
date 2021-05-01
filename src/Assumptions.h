@@ -27,11 +27,12 @@
 #define ASSUMPTIONS_H
 
 #include <vector>
+
 #include "Assumption.h"
 
 class Assumptions {
  public:
-  Assumptions();
+  Assumptions() = default;
 
   void add(const Assumption &a);
 
@@ -39,10 +40,12 @@ class Assumptions {
 
   size_t count() const;
 
-  void log(const Assumption::Severity s = Assumption::Severity::MAJOR);
+  void log(Assumption::Severity s = Assumption::Severity::MAJOR);
 
  private:
   std::vector<Assumption> m_assumptions;
 };
+
+#define generate_assumption(sev, msg) Assumption(sev, msg, __FILE__, __LINE__)
 
 #endif  // ASSUMPTIONS_H

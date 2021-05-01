@@ -24,7 +24,9 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "AtcfLine.h"
+
 #include <cassert>
+
 #include "Physical.h"
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
@@ -54,7 +56,10 @@ AtcfLine::AtcfLine()
       m_stormSpeed(0.0),
       m_stormName("NONE"),
       m_systemDepth("NA"),
-      m_null(true) {}
+      m_null(true),
+      m_u(0.0),
+      m_v(0.0),
+      m_uv(0.0) {}
 
 /**
  * @brief Static function to parse an atcf line text using boost. Places data
@@ -63,7 +68,7 @@ AtcfLine::AtcfLine()
  * @return AtcfLine object. Will have null field set if unsuccessful
  */
 AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
-  if (line.size() < 250) return AtcfLine();
+  if (line.size() < 150) return AtcfLine();
   AtcfLine a;
   auto split = AtcfLine::splitString(line);
   a.setBasin(split[0]);
@@ -118,14 +123,27 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) *
                    Physical::nmi2km());
   a.setSubregion(split[22][0]);
-  a.setMaxSeas(AtcfLine::readValueCheckBlank<double>(split[22]));
-  a.setInitials(split[23]);
+  a.setMaxSeas(AtcfLine::readValueCheckBlank<double>(split[23]));
+  a.setInitials(split[24]);
   a.setStormDirection(AtcfLine::readValueCheckBlank<double>(split[25]));
   a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) *
                   Physical::kt2ms());
   a.setStormName(split[27]);
   a.setIsNull(false);
   return a;
+}
+
+template <typename T, typename>
+T AtcfLine::readValueCheckBlank(const std::string &line) {
+  if (boost::trim_copy(line).empty()) {
+    return 0;
+  } else {
+    if (std::is_integral<T>::value) {
+      return stoi(line);
+    } else if (std::is_floating_point<T>::value) {
+      return stod(line);
+    }
+  }
 }
 
 std::vector<std::string> AtcfLine::splitString(const std::string &line) {
@@ -360,7 +378,8 @@ bool AtcfLine::operator<(const AtcfLine &a) const {
   return false;
 }
 
-void AtcfLine::setStormTranslationVelocities(double u, double v, double uv) {
+void AtcfLine::setStormTranslationVelocities(const double u, const double v,
+                                             const double uv) {
   m_u = u;
   m_v = v;
   m_uv = uv;

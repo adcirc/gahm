@@ -24,7 +24,9 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "HurricanePressure.h"
+
 #include <cmath>
+
 #include "Logging.h"
 
 HurricanePressure::HurricanePressure(HurricanePressure::PressureMethod p,
@@ -137,15 +139,14 @@ double HurricanePressure::courtneyknaff(const double wind_speed,
   return dp + background_pressure;
 }
 
-double HurricanePressure::computeInitialPressureEstimateAsgs(
+double HurricanePressure::computeInitialPressureEstimate(
     const double wind_speed, const double last_vmax,
     const double last_pressure) {
   double our_last_pressure = last_pressure;
   if (last_pressure == 0.0) {
-    if (last_vmax == 0.0) {
-      gahm_throw_exception("No valid prior wind speed given");
+    if (last_vmax != 0.0) {
+      our_last_pressure = HurricanePressure::dvorak(last_vmax);
     }
-    our_last_pressure = HurricanePressure::dvorak(last_vmax);
   }
 
   double p = our_last_pressure;
@@ -165,7 +166,7 @@ double HurricanePressure::asgs2012(const double wind_speed,
                                    const double vmax_global,
                                    const double last_vmax,
                                    const double last_pressure) {
-  double p = HurricanePressure::computeInitialPressureEstimateAsgs(
+  double p = HurricanePressure::computeInitialPressureEstimate(
       wind_speed, last_vmax, last_pressure);
   if (wind_speed <= 35.0) {
     if (vmax_global > 39.0) {
@@ -180,8 +181,28 @@ double HurricanePressure::asgs2012(const double wind_speed,
 double HurricanePressure::twoslope(const double wind_speed,
                                    const double last_vmax,
                                    const double last_pressure) {
-  return wind_speed < 30.0
-             ? last_pressure
-             : HurricanePressure::computeInitialPressureEstimateAsgs(
-                   wind_speed, last_vmax, last_pressure);
+  return wind_speed < 30.0 ? last_pressure
+                           : HurricanePressure::computeInitialPressureEstimate(
+                                 wind_speed, last_vmax, last_pressure);
+}
+
+std::string HurricanePressure::pressureMethodString(
+    const HurricanePressure::PressureMethod &method) {
+  switch (method) {
+    case KNAFFZEHR:
+      return "Knaff-Zehr";
+    case DVORAK:
+      return "Dvorak";
+    case AH77:
+      return "AH77";
+    case ASGS2012:
+      return "ASGS2012";
+    case TWOSLOPE:
+      return "Two Slope";
+    case COURTNEYKNAFF:
+      return "Courtney-Knaff";
+  }
+}
+HurricanePressure::PressureMethod HurricanePressure::pressureMethod() const {
+  return m_pressureMethod;
 }
