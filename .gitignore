@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Documentation dmy directories
+doc-html
+doc-latex
