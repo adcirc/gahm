@@ -24,7 +24,9 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "Gahm.h"
+
 #include <iostream>
+
 #include "Logging.h"
 #include "Physical.h"
 #include "Vortex.h"
@@ -75,7 +77,7 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
                 sp.latitude, sp.vmax);
 
   if (sp.cycle < 0) {
-    for (size_t i = 0; i < m_atcf.record(0).nIsotach(); ++i) {
+    for (size_t i = 0; i < m_atcf.crecord(0)->nIsotach(); ++i) {
       //      vortex.setRadii(i, m_atcf.record(sp.cycle),
       //                      m_atcf.record(sp.cycle).isotach(i)->radii(),
       //                      m_atcf.record(sp.cycle).isotach(i)->quadflag(), )

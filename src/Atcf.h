@@ -33,21 +33,31 @@
 #include "AtcfLine.h"
 #include "HurricanePressure.h"
 
+/**
+ * @class Atcf
+ * @author Zachary Cobell
+ * @brief Class that handles operations on Atcf format files
+ * @copyright Copyright 2021 ADCIRC Development Group. All Rights Reserved. This
+ * project is released under the terms of the MIT License
+ *
+ * This class handles the reading and manipulation of Atcf format data to
+ * describe hurricane track data
+ *
+ */
 class Atcf {
  public:
-  Atcf();
-  Atcf(const std::string &filename, Assumptions *assumptions = nullptr);
+  Atcf(std::string filename, Assumptions *assumptions);
 
   std::string filename() const;
   void setFilename(const std::string &filename);
 
   int read();
 
-  int calculateRmax();
+  int calculateRadii();
 
   size_t nRecords() const;
-  const AtcfLine *record(size_t index) const;
-  AtcfLine record(size_t index);
+  const AtcfLine *crecord(size_t index) const;
+  AtcfLine *record(size_t index);
 
   struct StormParameters {
     int cycle;
@@ -65,15 +75,32 @@ class Atcf {
   StormParameters getStormParameters(const Date &d) const;
 
  private:
+  /// Filename of the Atcf file to use
   std::string m_filename;
 
+  /// Vector of AtcfLine data representing individual time points
   std::vector<AtcfLine> m_atcfData;
 
-  Assumptions *m_assumptions;
+  /// Assumptions that are made within this code for diagnostic analysis later
+  Assumptions *m_assumptions{};
 
-  int generateMissingPressureData(
-      const HurricanePressure::PressureMethod &method =
-          HurricanePressure::KNAFFZEHR);
+  int generateMissingPressureData(const HurricanePressure::PressureMethod
+                                      &method = HurricanePressure::KNAFFZEHR);
+
+  void setAllRadiiToRmax(std::array<double, 4> &radii,
+                         std::array<int, 4> &quadFlag, double rmax,
+                         size_t record, size_t isotach);
+  void setMissingRadiiToHalfNonzeroRadii(std::array<double, 4> &radii,
+                                         double radiisum, size_t record,
+                                         size_t isotach);
+
+  void setMissingRadiiToHalfOfAverageSpecifiedRadii(
+      std::array<double, 4> &radii, double radiisum, size_t record,
+      size_t isotach);
+
+  void setMissingRadiiToAverageOfAdjacentRadii(
+      std::array<double, 4> &radii, const std::array<double, 6> &lookup_radii,
+      size_t record, size_t isotach);
 
   static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                      double &vv, double &uuvv);

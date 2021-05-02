@@ -28,21 +28,33 @@
 #include <algorithm>
 #include <fstream>
 #include <numeric>
+#include <utility>
 
 #include "Logging.h"
 #include "Physical.h"
 
-Atcf::Atcf() : m_filename("none") {}
+/**
+ * Constructor
+ * @param[in] filename filename of the Atcf file to read
+ * @param[in] assumptions pointer to Assumptions object
+ */
+Atcf::Atcf(std::string filename, Assumptions *assumptions)
+    : m_filename(std::move(filename)), m_assumptions(assumptions) {}
 
-Atcf::Atcf(const std::string &filename, Assumptions *assumptions)
-    : m_filename(filename), m_assumptions(assumptions) {}
-
+/**
+ * Returns the filename of the Atcf file that is being used
+ * @return filename
+ */
 std::string Atcf::filename() const { return m_filename; }
 
+/**
+ * @brief Sets the Atcf filename to use
+ * @param filename
+ */
 void Atcf::setFilename(const std::string &filename) { m_filename = filename; }
 
 /**
- * @brief Reads the specified atcf file into a vector of AtcfLine objects
+ * Reads the specified atcf file into a vector of AtcfLine objects
  * @return
  */
 int Atcf::read() {
@@ -74,10 +86,19 @@ int Atcf::read() {
 
   this->calculateOverlandTranslationVelocity();
   this->generateMissingPressureData();
-  this->calculateRmax();
+  this->calculateRadii();
   return 0;
 }
 
+/**
+ * Compute the U/V translational velocities on sphere
+ * @param d1 Previous AtcfLine object
+ * @param d2 Current AtcfLine object
+ * @param[out] uv u-speed
+ * @param[out] vv v-speed
+ * @param[out] uuvv uv-speed
+ * @return error code
+ */
 int Atcf::uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                   double &vv, double &uuvv) {
   const auto dxdy =
@@ -96,6 +117,10 @@ int Atcf::uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
   return 0;
 }
 
+/**
+ * Compute the translation velocities for all records in the storm
+ * @return error code
+ */
 int Atcf::calculateOverlandTranslationVelocity() {
   for (auto it = m_atcfData.begin() + 1; it != m_atcfData.end(); ++it) {
     auto r1 = *(it - 1);
@@ -120,7 +145,95 @@ int Atcf::calculateOverlandTranslationVelocity() {
   return 0;
 }
 
-int Atcf::calculateRmax() {
+/**
+ * Sets the isotach to have all radii at rmax
+ * @param[inout] radii array of radii in each quadrant
+ * @param[inout] quadFlag flag specifying if the quadrant has data
+ * @param[in] rmax radius to isotach
+ * @param[in] record record number
+ * @param[in] isotach isotach number
+ */
+void Atcf::setAllRadiiToRmax(std::array<double, 4> &radii,
+                             std::array<int, 4> &quadFlag, const double rmax,
+                             const size_t record, const size_t isotach) {
+  std::fill(quadFlag.begin(), quadFlag.end(), 1);
+  std::fill(radii.begin(), radii.end(), rmax);
+  this->m_assumptions->add(generate_assumption(
+      Assumption::MAJOR,
+      "No isotachs reported. Assuming a constant "
+      "radius (RMAX). Record " +
+          std::to_string(record) + ", isotach: " + std::to_string(isotach)));
+}
+
+/**
+ * Sets the radii to half of the sum of the nonzero radii
+ * @param[inout] radii array of radii in each quadrant
+ * @param[in] radiisum sum of available radii
+ * @param[in] record record number
+ * @param[in] isotach isotach number
+ */
+void Atcf::setMissingRadiiToHalfNonzeroRadii(std::array<double, 4> &radii,
+                                             const double radiisum,
+                                             const size_t record,
+                                             const size_t isotach) {
+  for (auto &r : radii) {
+    if (r == 0.0) r = radiisum * 0.5;
+  }
+  this->m_assumptions->add(generate_assumption(
+      Assumption::MAJOR,
+      "One isotach reported. Missing radii are half "
+      "the nonzero radius. Record " +
+          std::to_string(record) + ", isotach: " + std::to_string(isotach)));
+}
+
+/**
+ * Sets the missing radii to half of the average of the two specified radii
+ * @param radii array of radii in each quadrant
+ * @param radiisum sum of available radii
+ * @param record record number
+ * @param isotach isotach number
+ */
+void Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii(
+    std::array<double, 4> &radii, const double radiisum, size_t record,
+    size_t isotach) {
+  for (auto &r : radii) {
+    if (r == 0.0) r = radiisum * 0.25;
+  }
+  this->m_assumptions->add(generate_assumption(
+      Assumption::MAJOR,
+      "Two isotachs reported. Missing radii are half "
+      "the average of the nonzero radii, Record " +
+          std::to_string(record) + ", isotach: " + std::to_string(isotach)));
+}
+
+/**
+ * Sets the radii to the average of the specified adjacent radii
+ * @param radii array of radii for this isotach
+ * @param lookup_radii radii specified in extended space
+ * @param record record number
+ * @param isotach isotach number
+ */
+void Atcf::setMissingRadiiToAverageOfAdjacentRadii(
+    std::array<double, 4> &radii, const std::array<double, 6> &lookup_radii,
+    size_t record, size_t isotach) {
+  for (size_t j = 0; j < radii.size(); ++j) {
+    if (radii[j] == 0.0) {
+      radii[j] = (lookup_radii[j - 1] + lookup_radii[j + 1]) * 0.5;
+    }
+  }
+  this->m_assumptions->add(generate_assumption(
+      Assumption::MAJOR,
+      "Three isotachs reported. Missing radius is half "
+      "the nonzero radius on either side. Record " +
+          std::to_string(record) + ", isotach: " + std::to_string(isotach)));
+}
+
+/**
+ * Computes the isotach radii values when they are not fully specified by the
+ * Atcf file
+ * @return
+ */
+int Atcf::calculateRadii() {
   for (auto ait = m_atcfData.begin(); ait != m_atcfData.end(); ++ait) {
     for (size_t i = 0; i < ait->nIsotach(); ++i) {
       const std::array<double, 6> lookup_radii = {
@@ -136,51 +249,22 @@ int Atcf::calculateRmax() {
                                      lookup_radii[3], lookup_radii[4]};
       const int numNonzero =
           std::accumulate(quadflag.begin(), quadflag.end(), 0);
+      const size_t record = ait - m_atcfData.begin();
       switch (numNonzero) {
         case 0:
-          std::fill(quadflag.begin(), quadflag.end(), 1);
-          std::fill(radii.begin(), radii.end(), ait->radiusMaxWinds());
-          this->m_assumptions->add(generate_assumption(
-              Assumption::MAJOR,
-              "No isotachs reported. Assuming a constant "
-              "radius (RMAX). Record " +
-                  std::to_string(ait - m_atcfData.cbegin()) +
-                  ", isotach: " + std::to_string(i)));
+          this->setAllRadiiToRmax(radii, quadflag, ait->radiusMaxWinds(),
+                                  record, i);
           break;
         case 1:
-          for (auto &r : radii) {
-            if (r == 0.0) r = radiisum * 0.5;
-          }
-          this->m_assumptions->add(generate_assumption(
-              Assumption::MAJOR,
-              "One isotach reported. Missing radii are half "
-              "the nonzero radius. Record " +
-                  std::to_string(ait - m_atcfData.cbegin()) +
-                  ", isotach: " + std::to_string(i)));
+          this->setMissingRadiiToHalfNonzeroRadii(radii, radiisum, record, i);
           break;
         case 2:
-          for (auto &r : radii) {
-            if (r == 0.0) r = radiisum * 0.25;
-          }
-          this->m_assumptions->add(generate_assumption(
-              Assumption::MAJOR,
-              "Two isotachs reported. Missing radii are half "
-              "the average of the nonzero radii, Record " +
-                  std::to_string(ait - m_atcfData.cbegin()) +
-                  ", isotach: " + std::to_string(i)));
+          this->setMissingRadiiToHalfOfAverageSpecifiedRadii(radii, radiisum,
+                                                             record, i);
           break;
         case 3:
-          for (size_t j = 0; j < radii.size(); ++j) {
-            if (radii[j] == 0.0) {
-              radii[j] = (lookup_radii[j - 1] + lookup_radii[j + 1]) * 0.5;
-            }
-          }
-          this->m_assumptions->add(generate_assumption(
-              Assumption::MAJOR,
-              "Three isotachs reported. Missing radius is half "
-              "the nonzero radius on either side. Record " +
-                  std::to_string(ait - m_atcfData.cbegin()) +
-                  ", isotach: " + std::to_string(i)));
+          this->setMissingRadiiToAverageOfAdjacentRadii(radii, lookup_radii,
+                                                        record, i);
           break;
         case 4:
           //...No missing radii
@@ -198,12 +282,32 @@ int Atcf::calculateRmax() {
   return 0;
 }
 
+/**
+ * Returns the total number of records currently in the Atcf
+ * @return
+ */
 size_t Atcf::nRecords() const { return m_atcfData.size(); }
 
-const AtcfLine *Atcf::record(size_t index) const { return &m_atcfData[index]; }
+/**
+ * Returns a reference to an immutable AtcfLine object at the specified index
+ * @param[in] index position of the record to return
+ * @return AtcfLine object
+ */
+const AtcfLine *Atcf::crecord(size_t index) const { return &m_atcfData[index]; }
 
-AtcfLine Atcf::record(size_t index) { return m_atcfData[index]; }
+/**
+ * Returns the AtcfLine data at the specified location
+ * @param[in] index position of the record to return
+ * @return Reference to AtcfLine
+ */
+AtcfLine *Atcf::record(size_t index) { return &m_atcfData[index]; }
 
+/**
+ * Returns the cycle number and weighting factor for the specified time
+ * @param[in] d date/time to select a cycle for
+ * @return pair of cycle number prior to or equal to the specified time and the
+ * appropriate weighting factor to use
+ */
 std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
   if (d < m_atcfData.front().datetime()) {
     m_assumptions->add(generate_assumption(
@@ -220,12 +324,13 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
                                "). Assuming storm is in the last position."));
     return {m_atcfData.size(), 1.0};
   } else {
-    double dt = d.toSeconds();
+    auto dt = d.toSeconds();
     for (auto it = m_atcfData.begin(); it < m_atcfData.end(); ++it) {
-      double t1 = it->datetime().toSeconds();
-      double t2 = (it + 1)->datetime().toSeconds();
+      auto t1 = it->datetime().toSeconds();
+      auto t2 = (it + 1)->datetime().toSeconds();
       if (dt >= t1 && dt < t2) {
-        return {it - m_atcfData.begin(), (dt - t1) / (t2 - t1)};
+        return {it - m_atcfData.begin(),
+                static_cast<double>(dt - t1) / static_cast<double>(t2 - t1)};
       }
     }
     gahm_throw_exception(
@@ -234,11 +339,25 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
   }
 }
 
+/**
+ * Computes a linear interpolation between two values with a specified weighting
+ * factor
+ * @param[in] weight weighting factor
+ * @param[in] v1 value 1 for weighting
+ * @param[in] v2 value 2 for weighting
+ * @return interpolated value
+ */
 inline double Atcf::linearInterp(const double weight, const double v1,
                                  const double v2) {
   return (1.0 - weight) * v1 + weight * v2;
 }
 
+/**
+ * Returns a StormParameters object constructed via linear interpolation at the
+ * specified date/time
+ * @param[in] d date/time to compute parameters for
+ * @return StormParameters object for specified date
+ */
 Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
   auto w = this->getCycleNumber(d);
   StormParameters s{};
@@ -253,7 +372,7 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
     s.utrans = m_atcfData.front().uTrans();
     s.vtrans = m_atcfData.front().vTrans();
     s.uvtrans = m_atcfData.front().uvTrans();
-  } else if (s.cycle > m_atcfData.size()) {
+  } else if (s.cycle >= m_atcfData.size()) {
     s.central_pressure = m_atcfData.back().mslp();
     s.background_pressure = m_atcfData.back().pouter();
     s.vmax = m_atcfData.back().vmax();
@@ -284,6 +403,13 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
 
   return s;
 }
+
+/**
+ * Computes any missing pressure values in the specified Atcf data using the
+ * specified method
+ * @param[in] method method to use for hurricane pressure
+ * @return error code
+ */
 int Atcf::generateMissingPressureData(
     const HurricanePressure::PressureMethod &method) {
   HurricanePressure hp(method);
