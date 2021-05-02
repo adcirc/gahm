@@ -1,0 +1,4 @@
+<map id="printErrorMessage" name="printErrorMessage">
+<area shape="rect" id="node1" title="Prints a message to standard error." alt="" coords="120,5,248,32"/>
+<area shape="rect" id="node2" href="$classLogging.html#a3db8b5fbd105a1b5057ea3c77c906cee" title="Logs an error message to the screen." alt="" coords="5,5,72,32"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="warning" name="warning">
+<area shape="rect" id="node1" title="Logs a warning message." alt="" coords="5,31,72,57"/>
+<area shape="rect" id="node2" href="$Logging_8cpp.html#a17db8e63390eccaf0aceb3b2cb909b63" title=" " alt="" coords="120,5,249,32"/>
+<area shape="rect" id="node3" href="$classLogging.html#a46423d1b66f1695ca6221aec6188630e" title="Prints a message to screen." alt="" coords="135,56,235,83"/>
+</map>

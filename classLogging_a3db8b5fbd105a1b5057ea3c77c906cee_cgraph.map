@@ -1,0 +1,5 @@
+<map id="logError" name="logError">
+<area shape="rect" id="node1" title="Logs an error message to the screen." alt="" coords="5,31,72,57"/>
+<area shape="rect" id="node2" href="$Logging_8cpp.html#a7bd8600b8de4da16b12a1a7fc9a576ed" title=" " alt="" coords="129,5,239,32"/>
+<area shape="rect" id="node3" href="$classLogging.html#a8fe0a117f00cdaeba1eb0055019b93ac" title="Prints a message to standard error." alt="" coords="120,56,248,83"/>
+</map>

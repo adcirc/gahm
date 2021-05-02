@@ -1,0 +1,5 @@
+<map id="c_errorHeading" name="c_errorHeading">
+<area shape="rect" id="node1" title=" " alt="" coords="188,31,299,57"/>
+<area shape="rect" id="node2" href="$classLogging.html#a3db8b5fbd105a1b5057ea3c77c906cee" title="Logs an error message to the screen." alt="" coords="13,5,133,32"/>
+<area shape="rect" id="node3" href="$classLogging.html#a69e65063c7dfaeb4330d31801a987a8e" title="Throws a runtime error." alt="" coords="5,56,140,83"/>
+</map>

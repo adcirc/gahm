@@ -1,0 +1,36 @@
+var classAtcf =
+[
+    [ "StormParameters", "classAtcf.html#structAtcf_1_1StormParameters", [
+      [ "background_pressure", "classAtcf.html#ac40d20fe04abf86a408ff0f6227198f0", null ],
+      [ "central_pressure", "classAtcf.html#a5c692b6abf4232a8877bafa9e96bb524", null ],
+      [ "cycle", "classAtcf.html#a1f4871d45089b039d95d3832dd123827", null ],
+      [ "latitude", "classAtcf.html#a76714bdbc5c536fa77dfb14533ff82a9", null ],
+      [ "longitude", "classAtcf.html#ac155e35fdeebafc89723a51520fb9fe6", null ],
+      [ "utrans", "classAtcf.html#a0174654d575a2ac637b8535e48375702", null ],
+      [ "uvtrans", "classAtcf.html#a00e67c8998941b74f09fe345d19ae2d4", null ],
+      [ "vmax", "classAtcf.html#a596d97a518b401eeab7129763b548b7f", null ],
+      [ "vtrans", "classAtcf.html#a81b04b09a099cce6223604329033ca67", null ],
+      [ "wtratio", "classAtcf.html#ae0ce0b36798bdd89dc1e65cbcf5bbf89", null ]
+    ] ],
+    [ "Atcf", "classAtcf.html#a0a1892d2727c8073609a246bdf2157e7", null ],
+    [ "calculateOverlandTranslationVelocity", "classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1", null ],
+    [ "calculateRadii", "classAtcf.html#a4392a7255cda22dc330a996257216c31", null ],
+    [ "crecord", "classAtcf.html#a0f40f03f570bebb240bd99f8560c0147", null ],
+    [ "filename", "classAtcf.html#a94c732bb0f167eab349228237a8fbe3c", null ],
+    [ "generateMissingPressureData", "classAtcf.html#a2c8fb312c911c7d35cc921e303cac875", null ],
+    [ "getCycleNumber", "classAtcf.html#a288aec5ac021ac483da71812a26dc9c3", null ],
+    [ "getStormParameters", "classAtcf.html#af2619be19171e8e1e2f6b110d18c755a", null ],
+    [ "linearInterp", "classAtcf.html#ac775141fc311e59db12fdba1a913f8e2", null ],
+    [ "nRecords", "classAtcf.html#ad4b417bc07d6eaf90884ef415347e3cb", null ],
+    [ "read", "classAtcf.html#aaab5dab5b969a87f538242e524431637", null ],
+    [ "record", "classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d", null ],
+    [ "setAllRadiiToRmax", "classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5", null ],
+    [ "setFilename", "classAtcf.html#a56171296cefcc0d92118f33a5b41e01e", null ],
+    [ "setMissingRadiiToAverageOfAdjacentRadii", "classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6", null ],
+    [ "setMissingRadiiToHalfNonzeroRadii", "classAtcf.html#a21717052904854109237917697bd4e73", null ],
+    [ "setMissingRadiiToHalfOfAverageSpecifiedRadii", "classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5", null ],
+    [ "uvTrans", "classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e", null ],
+    [ "m_assumptions", "classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd", null ],
+    [ "m_atcfData", "classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944", null ],
+    [ "m_filename", "classAtcf.html#abeab36922e15d948509bdf36c5a46cd9", null ]
+];

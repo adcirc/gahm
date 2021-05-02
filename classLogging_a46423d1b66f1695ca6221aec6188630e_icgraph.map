@@ -1,0 +1,5 @@
+<map id="printMessage" name="printMessage">
+<area shape="rect" id="node1" title="Prints a message to screen." alt="" coords="120,31,220,57"/>
+<area shape="rect" id="node2" href="$classLogging.html#a97ea357cd10f25fa95e27c63725be4f4" title="Informational log message." alt="" coords="19,5,58,32"/>
+<area shape="rect" id="node3" href="$classLogging.html#aa991e722150df4187e473be0044f21ea" title="Logs a warning message." alt="" coords="5,56,72,83"/>
+</map>

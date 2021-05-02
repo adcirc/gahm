@@ -1,0 +1,5 @@
+<map id="log" name="log">
+<area shape="rect" id="node1" title="Informational log message." alt="" coords="5,31,44,57"/>
+<area shape="rect" id="node2" href="$Logging_8cpp.html#ada828559b474567398f0fd58ce7690c8" title=" " alt="" coords="92,5,193,32"/>
+<area shape="rect" id="node3" href="$classLogging.html#a46423d1b66f1695ca6221aec6188630e" title="Prints a message to screen." alt="" coords="93,56,193,83"/>
+</map>
