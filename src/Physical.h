@@ -101,9 +101,9 @@ class Physical {
                                                         const double y1,
                                                         const double x2,
                                                         const double y2) {
-    return {geodesic_distance(x1, y1, x2, y1),
-            geodesic_distance(x1, y1, x1, y2),
-            geodesic_distance(x1, y1, x2, y2)};
+    return std::make_tuple(geodesic_distance(x1, y1, x2, y1),
+                           geodesic_distance(x1, y1, x1, y2),
+                           geodesic_distance(x1, y1, x2, y2));
   }
 
   static double distance(const double x1, const double y1, const double x2,
