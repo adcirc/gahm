@@ -25,6 +25,7 @@
 //
 #include "Vortex.h"
 
+#include <cassert>
 #include <numeric>
 
 #include "Logging.h"
@@ -37,10 +38,13 @@ Vortex::Vortex(double pinf, double p0, double lon, double lat, double vmax)
       m_cLon(lon),
       m_vMax(vmax),
       m_corio(Vortex::coriolis(lat)),
-      m_vr(0.0) {
-  Vortex::fillWindArray(m_b, Vortex::calcHollandB(m_vMax, m_pc, m_pn));
-  Vortex::fillWindArray(m_phi, 1.0);
-}
+      m_vr(0.0),
+      m_rMaxes4(Vortex::makeWindArray(0.0)),
+      m_b(Vortex::makeWindArray(Vortex::calcHollandB(m_vMax, m_pc, m_pn))),
+      m_phi(Vortex::makeWindArray(1.0)),
+      m_vmBL4(Vortex::makeWindArray(0.0)),
+      m_quadFlag4(Vortex::makeWindArray(0)),
+      m_quadIr4(Vortex::makeWindArray(0.0)) {}
 
 void Vortex::setVortex(double pinf, double p0, double lon, double lat,
                        double vmax) noexcept {
@@ -75,19 +79,21 @@ std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
 }
 
 std::pair<int, double> Vortex::getBaseQuadrant(const double angle) {
+  assert(angle <= 360.0);
+  assert(angle >= 0.0);
   if (angle <= 45.0) {
-    return {5, 45.0 + angle};
+    return std::make_pair(5, 45.0 + angle);
   } else if (angle <= 135.0) {
-    return {2, angle - 45.0};
+    return std::make_pair(2, angle - 45.0);
   } else if (angle <= 225.0) {
-    return {3, angle - 135.0};
+    return std::make_pair(3, angle - 135.0);
   } else if (angle <= 315.0) {
-    return {4, angle - 225.0};
+    return std::make_pair(4, angle - 225.0);
   } else if (angle > 315.0) {
-    return {5, angle - 315.0};
+    return std::make_pair(5, angle - 315.0);
   }
   gahm_throw_exception("Invalid angle provided!");
-  return {0, 0.0};
+  return std::make_pair(0, 0.0);
 }
 
 double Vortex::spInterp(const std::array<std::array<double, Vortex::nQuads>,
@@ -126,7 +132,7 @@ double Vortex::interpR(const WindArray<double> &array, const int quad,
   return array[quad].back();
 }
 
-double Vortex::coriolis(const double lat) noexcept {
+constexpr double Vortex::coriolis(const double lat) noexcept {
   return Physical::omega() * Physical::deg2rad() * lat;
 }
 
@@ -138,10 +144,12 @@ constexpr double Vortex::calcHollandB(double vmax, double p0,
                   1.0);
 }
 
-void Vortex::setRadii(size_t index, std::array<double, 4> quadFlag,
-                      std::array<double, 4> rmax, std::array<double, 4> quadIr,
-                      std::array<double, 4> b, std::array<double, 4> vmbl) {
-  for (size_t i = 0; i < 4; ++i) {
+void Vortex::setRadii(size_t index, std::array<double, nQuads> quadFlag,
+                      std::array<double, nQuads> rmax,
+                      std::array<double, nQuads> quadIr,
+                      std::array<double, nQuads> b,
+                      std::array<double, nQuads> vmbl) {
+  for (size_t i = 0; i < nQuads; ++i) {
     m_quadFlag4[index][i] = quadFlag[i];
     m_rMaxes4[index][i] = rmax[i];
     m_quadIr4[index][i] = quadIr[i];

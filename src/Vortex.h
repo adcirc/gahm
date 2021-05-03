@@ -37,15 +37,16 @@ class Vortex {
   void setVortex(double pinf, double p0, double lon, double lat,
                  double vmax) noexcept;
 
-  void setRadii(size_t index, std::array<double, 4> quadFlag,
-                std::array<double, 4> rmax, std::array<double, 4> quadIr,
-                std::array<double, 4> b, std::array<double, 4> vmbl);
-
   /// Number of quadrants for which wind radii are provided
   static constexpr size_t nQuads = 4;
 
   /// Number of points for curve fit
   static constexpr size_t nPoints = nQuads + 2;
+
+  void setRadii(size_t index, std::array<double, nQuads> quadFlag,
+                std::array<double, nQuads> rmax,
+                std::array<double, nQuads> quadIr, std::array<double, nQuads> b,
+                std::array<double, nQuads> vmbl);
 
   template <typename T>
   using WindArray = std::array<std::array<T, nQuads>, nPoints>;
@@ -113,7 +114,7 @@ class Vortex {
 
   double interpR(const WindArray<double> &array, int quad, double r) const;
 
-  static double coriolis(double lat) noexcept;
+  static constexpr double coriolis(double lat) noexcept;
 
   static constexpr double calcHollandB(double vmax, double p0,
                                        double pinf) noexcept;
@@ -129,6 +130,15 @@ class Vortex {
     for (auto &a : arr) {
       std::fill(a.begin(), a.end(), value);
     }
+  }
+
+  template <typename T>
+  static WindArray<T> makeWindArray(T value) {
+    WindArray<T> a;
+    for (auto &b : a) {
+      std::fill(b.begin(), b.end(), value);
+    }
+    return a;
   }
 };
 
