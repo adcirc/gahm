@@ -15,6 +15,9 @@ GAHM is built using the CMake build system, C++14, Boost, and SWIG. GAHM can be 
 library. The library contains interfaces for C++, Fortran, and Python. The SWIG library is used to generate a Python
 interface to GAHM as an option.
 
+## Documentation
+Documentation is provided via Doxygen and Github Pages [here](https://adcirc.github.io/gahm).
+
 ### Sample build command
 
 ```bash
