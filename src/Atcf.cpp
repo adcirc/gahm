@@ -87,6 +87,7 @@ int Atcf::read() {
   this->calculateOverlandTranslationVelocity();
   this->generateMissingPressureData();
   this->calculateRadii();
+  this->setInitialHollandB();
   return 0;
 }
 
@@ -443,4 +444,8 @@ int Atcf::generateMissingPressureData(
     }
   }
   return 0;
+}
+void Atcf::setInitialHollandB() {
+  for (auto it : m_atcfData) {
+  }
 }

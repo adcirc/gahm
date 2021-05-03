@@ -17,7 +17,10 @@ endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 cmake_policy(SET CMP0048 NEW)
-project(gahm LANGUAGES CXX VERSION 0.0.1)
+project(
+  gahm
+  LANGUAGES CXX
+  VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -26,6 +29,9 @@ include(CheckLibraryExists)
 include(CheckFunctionExists)
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
+
+enable_testing()
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/test_cases.cmake)
 
 mark_as_advanced(
   CLEAR
@@ -38,7 +44,8 @@ mark_as_advanced(
   CMAKE_CXX_FLAGS_DEBUG
   CMAKE_CXX_FLAGS_RELEASE)
 
-add_library(gahm SHARED
+add_library(
+  gahm SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Physical.h
@@ -59,13 +66,12 @@ add_library(gahm SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
-)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp)
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
-target_include_directories(gahm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
-    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_75_0)
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/test_cases.cmake)
+target_include_directories(
+  gahm
+  PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
+          ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
+          ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_75_0)
 

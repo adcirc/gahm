@@ -34,3 +34,12 @@
 # Documentation dmy directories
 doc-html
 doc-latex
+
+# Build directory
+build
+cmake-build-debug
+cmake-build-release
+
+# Misc
+.idea
+.DS_Store

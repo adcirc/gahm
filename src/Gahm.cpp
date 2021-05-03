@@ -26,6 +26,7 @@
 #include "Gahm.h"
 
 #include <iostream>
+#include <utility>
 
 #include "Logging.h"
 #include "Physical.h"
@@ -37,13 +38,13 @@
 #define gahm_exp std::exp
 #endif
 
-Gahm::Gahm(const std::string filename) : m_filename(filename) {}
+Gahm::Gahm(std::string filename) : m_filename(std::move(filename)) {}
 
 std::string Gahm::filename() const { return m_filename; }
 
 int Gahm::read() {
-  this->m_atcf = Atcf(m_filename, &m_assumptions);
-  int ierr = this->m_atcf.read();
+  this->m_atcf = std::make_unique<Atcf>(m_filename, &m_assumptions);
+  int ierr = this->m_atcf->read();
   if (ierr != 0) {
     gahm_throw_exception("Could not read the ATCF file");
   }
@@ -56,7 +57,7 @@ int Gahm::read() {
 int Gahm::get(const Date &d, const std::vector<double> &x,
               const std::vector<double> &y, std::vector<double> &u,
               std::vector<double> &v, std::vector<double> &p) {
-  const Atcf::StormParameters sp = m_atcf.getStormParameters(d);
+  const Atcf::StormParameters sp = m_atcf->getStormParameters(d);
   const double stormMotion =
       1.5 *
       std::pow(std::sqrt(std::pow(sp.utrans, 2.0) + std::pow(sp.vtrans, 2.0)),
@@ -77,7 +78,7 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
                 sp.latitude, sp.vmax);
 
   if (sp.cycle < 0) {
-    for (size_t i = 0; i < m_atcf.crecord(0)->nIsotach(); ++i) {
+    for (size_t i = 0; i < m_atcf->crecord(0)->nIsotach(); ++i) {
       //      vortex.setRadii(i, m_atcf.record(sp.cycle),
       //                      m_atcf.record(sp.cycle).isotach(i)->radii(),
       //                      m_atcf.record(sp.cycle).isotach(i)->quadflag(), )

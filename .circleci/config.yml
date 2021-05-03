@@ -1,0 +1,26 @@
+########################################################################
+# GAHM CircleCI Yaml
+#
+# Written By: Zach Cobell
+#
+# Generated for: CircleCI v2.0
+#
+########################################################################
+version: 2
+jobs:
+  build:
+      docker:
+        - image: zcobell/adcirc_20200513 
+      steps:
+        - checkout
+        - run: 
+            name: Build GAHM 
+            command: mkdir build; cd build; cmake .. -DCMAKE_CXX_COMPILER=g++; make -j
+        - run: 
+            name: Test GAHM
+            command: cd build; make test
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build

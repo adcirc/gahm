@@ -102,6 +102,8 @@ class Atcf {
       std::array<double, 4> &radii, const std::array<double, 6> &lookup_radii,
       size_t record, size_t isotach);
 
+  void setInitialHollandB();
+
   static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                      double &vv, double &uuvv);
   static inline double linearInterp(double weight, double v1, double v2);

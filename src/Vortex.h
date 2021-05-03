@@ -41,6 +41,15 @@ class Vortex {
                 std::array<double, 4> rmax, std::array<double, 4> quadIr,
                 std::array<double, 4> b, std::array<double, 4> vmbl);
 
+  /// Number of quadrants for which wind radii are provided
+  static constexpr size_t nQuads = 4;
+
+  /// Number of points for curve fit
+  static constexpr size_t nPoints = nQuads + 2;
+
+  template <typename T>
+  using WindArray = std::array<std::array<T, nQuads>, nPoints>;
+
   void fillRadii();
 
   enum VortexParameterType { RMAX, B, VMBL };
@@ -51,24 +60,17 @@ class Vortex {
       case RMAX:
         return this->spInterp(m_rMaxes4, angle, distance);
       case B:
-        return this->spInterp(m_bs4, angle, distance);
+        return this->spInterp(m_b, angle, distance);
       case VMBL:
         return this->spInterp(m_vmBL4, angle, distance);
     }
   }
 
-  static double frictionAngle(const double r, const double rmx) noexcept;
-  static std::pair<double, double> rotateWinds(double x, double y,
-                                               const double angle,
-                                               const double whichWay) noexcept;
+  static double frictionAngle(double r, double rmx) noexcept;
+  static std::pair<double, double> rotateWinds(double x, double y, double angle,
+                                               double whichWay) noexcept;
 
  private:
-  /// Number of quadrants for which wind radii are provided
-  static constexpr size_t nQuads = 4;
-
-  /// Number of points for curve fit
-  static constexpr size_t nPoints = nQuads + 2;
-
   /// Ambient surface pressure (mb)
   double m_pn;
 
@@ -84,27 +86,19 @@ class Vortex {
   /// Maximum sustained wind velocity
   double m_vMax;
 
-  /// Exponential shape parameter
-  double m_b;
-
   /// Coriolis force (1/s)
   double m_corio;
 
   /// Velocity @ wind radii
   double m_vr;
 
-  double m_phi;
-
-  template <typename T>
-  using WindArray = std::array<std::array<T, nQuads>, nPoints>;
-
   /// Radius of maximum winds
   WindArray<double> m_rMaxes4;
 
-  WindArray<double> m_bs4;
+  WindArray<double> m_b;
 
   /// Correction factor to B and Vh
-  WindArray<double> m_phis4;
+  WindArray<double> m_phi;
 
   WindArray<double> m_vmBL4;
 
@@ -121,13 +115,20 @@ class Vortex {
 
   static double coriolis(double lat) noexcept;
 
-  static double calcHollandB(double vmax, double p0, double pinf) noexcept;
+  static constexpr double calcHollandB(double vmax, double p0,
+                                       double pinf) noexcept;
 
   template <typename T>
   static void fillEdges(WindArray<T> &arr) {
     arr[0] = arr[4];
     arr[5] = arr[1];
-    return;
+  }
+
+  template <typename T>
+  static void fillWindArray(WindArray<T> &arr, T value) {
+    for (auto &a : arr) {
+      std::fill(a.begin(), a.end(), value);
+    }
   }
 };
 

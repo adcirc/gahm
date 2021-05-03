@@ -26,6 +26,7 @@
 #ifndef ATCFLINE_H
 #define ATCFLINE_H
 
+#include <array>
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -143,36 +144,94 @@ class AtcfLine {
   void setVTrans(double v);
 
  private:
+  /// Basin where the cyclone occurs
   std::string m_basin;
+
+  /// Cyclone number
   int m_cycloneNumber;
+
+  /// Reference date/time
   Date m_refDatetime;
+
+  /// Current date/time
   Date m_datetime;
+
+  /// Technique number
   int m_technum;
+
+  /// Technique name
   std::string m_techstring;
+
+  /// Forecast hour
   int m_tau;
+
+  /// Storm center latitude
   double m_lat;
+
+  /// Storm center longitude
   double m_lon;
+
+  /// Storm maximum wind velocity
   double m_vmax;
+
+  /// Storm minimum sea level pressure
   double m_mslp;
+
+  /// Maximum development level that the storm has achieved
   std::string m_maxDevelopmentLevel;
+
+  /// Vector of storm isotachs
   std::vector<Isotach> m_isotach;
+
+  /// Background pressure
   double m_pouter;
+
+  /// Radius of last closed isobar
   double m_radiusPouter;
+
+  /// Radius to maximum winds
   double m_radiusMaxWinds;
+
+  /// Diameter of the storm eye
   double m_eyeDiameter;
+
+  /// Maximum gust wind speed
   double m_gusts;
+
+  /// Subregion where the storm occurs
   char m_subregion;
+
+  /// Maximum wave heights
   double m_maxSeas;
+
+  /// Forecaster initials
   std::string m_initials;
+
+  /// Storm direction in degrees
   double m_stormDirection;
+
+  /// Storm speed in m/s
   double m_stormSpeed;
+
+  /// Storm name
   std::string m_stormName;
+
+  /// System depth
   std::string m_systemDepth;
+
+  /// "Isotachs" of wave heights
   std::vector<Isotach> m_seas;
+
+  /// Is this record null
   bool m_null;
 
+  /// Translation speed
   double m_uv;
+
+  /// Translation velocity (u-direction)
   double m_u;
+
+  /// Translation velocity (v-direction)
   double m_v;
 
   static std::vector<std::string> splitString(const std::string &line);
@@ -180,6 +239,7 @@ class AtcfLine {
   template <typename T, typename = typename std::enable_if<
                             std::is_arithmetic<T>::value, T>::type>
   static T readValueCheckBlank(const std::string &line);
+
 };
 
 std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);

@@ -31,6 +31,9 @@
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
 
+/**
+ * Default constructor
+ */
 AtcfLine::AtcfLine()
     : m_basin("NA"),
       m_cycloneNumber(0),
@@ -62,9 +65,9 @@ AtcfLine::AtcfLine()
       m_uv(0.0) {}
 
 /**
- * @brief Static function to parse an atcf line text using boost. Places data
+ * Static function to parse an atcf line text using boost. Places data
  * into an Atcfline object and returns
- * @param line line from the file being read
+ * @param[in] line line from the file being read
  * @return AtcfLine object. Will have null field set if unsuccessful
  */
 AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
@@ -133,6 +136,12 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   return a;
 }
 
+/**
+ * Generic helper function to check for blank data in Atcf lines during read
+ * @tparam T variable type
+ * @param line string of data
+ * @return data as number or zero in appropriate type
+ */
 template <typename T, typename>
 T AtcfLine::readValueCheckBlank(const std::string &line) {
   if (boost::trim_copy(line).empty()) {
@@ -146,6 +155,12 @@ T AtcfLine::readValueCheckBlank(const std::string &line) {
   }
 }
 
+/**
+ * Split a string by commas using Boost libraries. Note that token compression
+ * is turned off
+ * @param line string to split
+ * @return vector of split strings
+ */
 std::vector<std::string> AtcfLine::splitString(const std::string &line) {
   auto line2 = line;
   std::vector<std::string> result;
@@ -158,10 +173,22 @@ std::vector<std::string> AtcfLine::splitString(const std::string &line) {
   return result;
 }
 
+/**
+ * Check if the current object is nulled
+ * @return
+ */
 bool AtcfLine::isNull() const { return m_null; }
 
+/**
+ * Set the current object null status
+ * @param isNull null status of object
+ */
 void AtcfLine::setIsNull(bool isNull) { m_null = isNull; }
 
+/**
+ * Get the current gust speed
+ * @return
+ */
 double AtcfLine::gusts() const { return m_gusts; }
 
 void AtcfLine::setGusts(double gusts) { m_gusts = gusts; }

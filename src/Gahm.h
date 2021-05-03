@@ -26,12 +26,15 @@
 #ifndef GAHM_H
 #define GAHM_H
 
+#include <array>
+#include <memory>
+
 #include "Assumptions.h"
 #include "Atcf.h"
 
 class Gahm {
  public:
-  Gahm(const std::string filename);
+  Gahm(std::string filename);
 
   std::string filename() const;
 
@@ -57,7 +60,8 @@ class Gahm {
 
   const std::string m_filename;
   Assumptions m_assumptions;
-  Atcf m_atcf;
+  std::unique_ptr<Atcf> m_atcf;
+
 };
 
 template <>

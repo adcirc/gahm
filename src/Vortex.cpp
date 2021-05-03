@@ -24,7 +24,9 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "Vortex.h"
+
 #include <numeric>
+
 #include "Logging.h"
 #include "Physical.h"
 
@@ -34,10 +36,11 @@ Vortex::Vortex(double pinf, double p0, double lon, double lat, double vmax)
       m_cLat(lat),
       m_cLon(lon),
       m_vMax(vmax),
-      m_b(Vortex::calcHollandB(vmax, p0, pinf)),
       m_corio(Vortex::coriolis(lat)),
-      m_vr(0.0),
-      m_phi(1.0) {}
+      m_vr(0.0) {
+  Vortex::fillWindArray(m_b, Vortex::calcHollandB(m_vMax, m_pc, m_pn));
+  Vortex::fillWindArray(m_phi, 1.0);
+}
 
 void Vortex::setVortex(double pinf, double p0, double lon, double lat,
                        double vmax) noexcept {
@@ -127,9 +130,10 @@ double Vortex::coriolis(const double lat) noexcept {
   return Physical::omega() * Physical::deg2rad() * lat;
 }
 
-double Vortex::calcHollandB(double vmax, double p0, double pinf) noexcept {
-  return std::max(std::min(std::pow(vmax, 2.0) * Physical::rhoAir() *
-                               Physical::e() / Physical::mb2pa() * (p0 - pinf),
+constexpr double Vortex::calcHollandB(double vmax, double p0,
+                                      double pinf) noexcept {
+  return std::max(std::min(vmax * vmax * Physical::rhoAir() * Physical::e() /
+                               Physical::mb2pa() * (p0 - pinf),
                            2.50),
                   1.0);
 }
@@ -141,7 +145,7 @@ void Vortex::setRadii(size_t index, std::array<double, 4> quadFlag,
     m_quadFlag4[index][i] = quadFlag[i];
     m_rMaxes4[index][i] = rmax[i];
     m_quadIr4[index][i] = quadIr[i];
-    m_bs4[index][i] = b[i];
+    m_b[index][i] = b[i];
     m_vmBL4[index][i] = vmbl[i];
   }
 }
@@ -150,7 +154,7 @@ void Vortex::fillRadii() {
   Vortex::fillEdges(m_quadFlag4);
   Vortex::fillEdges(m_quadIr4);
   Vortex::fillEdges(m_rMaxes4);
-  Vortex::fillEdges(m_bs4);
-  Vortex::fillEdges(m_phis4);
+  Vortex::fillEdges(m_b);
+  Vortex::fillEdges(m_phi);
   Vortex::fillEdges(m_vmBL4);
 }
