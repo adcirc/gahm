@@ -2,8 +2,8 @@ var searchData=
 [
   ['rad2deg_237',['rad2deg',['../classPhysical.html#aa8f2ca4ad36dc6b5f53e25e9e746d008',1,'Physical']]],
   ['radii_238',['radii',['../classIsotach.html#a2126175890ff8e19cf6458368f8da22b',1,'Isotach']]],
-  ['radiuscode_239',['radiusCode',['../classIsotach.html#ad375a4cd087bac574ffa5589b56ad81f',1,'Isotach']]],
-  ['radiuscode_240',['RadiusCode',['../classIsotach.html#a3664264733a00224fa3738b94428023b',1,'Isotach']]],
+  ['radiuscode_239',['RadiusCode',['../classIsotach.html#a3664264733a00224fa3738b94428023b',1,'Isotach']]],
+  ['radiuscode_240',['radiusCode',['../classIsotach.html#ad375a4cd087bac574ffa5589b56ad81f',1,'Isotach']]],
   ['radiusearth_241',['radiusEarth',['../classPhysical.html#a0af6386ea46179fb49f33ea168613246',1,'Physical::radiusEarth(const double latitude=std::numeric_limits&lt; double &gt;::max())'],['../classPhysical.html#a9ebd20411025eccc634afb460a75df72',1,'Physical::radiusEarth(const double y1, const double y2)']]],
   ['radiusmaxwinds_242',['radiusMaxWinds',['../classAtcfLine.html#ad2910e96b46c135de328985b5afac3cb',1,'AtcfLine']]],
   ['radiuspouter_243',['radiusPouter',['../classAtcfLine.html#a6ac5cb831a411289763eecc6f40e7722',1,'AtcfLine']]],
@@ -20,6 +20,6 @@ var searchData=
   ['rhoair_254',['rhoAir',['../classPhysical.html#aad2b9f195b6512f3156a21eacc1c726b',1,'Physical']]],
   ['rhowat0_255',['rhoWat0',['../classPhysical.html#a3f3ad27c60c663938315137d8118f7e2',1,'Physical']]],
   ['rmax_256',['RMAX',['../classVortex.html#a0e507cc920013fa6467b4279dd2417b0a2f4fc02e2c869a68404689ecadff748f',1,'Vortex']]],
-  ['rotatewinds_257',['rotateWinds',['../classVortex.html#a1c4d01b0ee5b7e612fee5f49b17e8816',1,'Vortex']]],
+  ['rotatewinds_257',['rotateWinds',['../classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13',1,'Vortex']]],
   ['rotation_5fearth_258',['rotation_earth',['../classPhysical.html#acbf23a54b4a872a5c1a3ca9f9423d882',1,'Physical']]]
 ];

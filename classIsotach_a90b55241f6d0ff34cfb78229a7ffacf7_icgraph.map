@@ -1,9 +1,8 @@
 <map id="windSpeed" name="windSpeed">
-<area shape="rect" id="node1" title=" " alt="" coords="492,93,579,120"/>
-<area shape="rect" id="node2" href="$classIsotach.html#a64352a7d018b8161e34e42ae0aad2e32" title=" " alt="" coords="330,5,385,32"/>
-<area shape="rect" id="node3" href="$classAtcfLine.html#a3554190fe6a66d73743a6aa7407be529" title=" " alt="" coords="271,57,444,98"/>
-<area shape="rect" id="node6" href="$classAtcfLine.html#a724049144ca597838876a0068ff224de" title=" " alt="" coords="291,123,424,149"/>
-<area shape="rect" id="node7" href="$classIsotach.html#a5b4ca0a37fa5d07800ef26f35899ae50" title=" " alt="" coords="304,173,411,200"/>
-<area shape="rect" id="node4" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="144,64,223,91"/>
-<area shape="rect" id="node5" href="$classGahm.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,64,96,91"/>
+<area shape="rect" id="node1" title=" " alt="" coords="353,93,440,120"/>
+<area shape="rect" id="node2" href="$classIsotach.html#a64352a7d018b8161e34e42ae0aad2e32" title=" " alt="" coords="191,5,246,32"/>
+<area shape="rect" id="node3" href="$classAtcfLine.html#a3554190fe6a66d73743a6aa7407be529" title=" " alt="" coords="132,57,305,98"/>
+<area shape="rect" id="node5" href="$classAtcfLine.html#a724049144ca597838876a0068ff224de" title=" " alt="" coords="152,123,285,149"/>
+<area shape="rect" id="node6" href="$classIsotach.html#a5b4ca0a37fa5d07800ef26f35899ae50" title=" " alt="" coords="165,173,272,200"/>
+<area shape="rect" id="node4" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,64,84,91"/>
 </map>

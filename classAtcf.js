@@ -26,6 +26,7 @@ var classAtcf =
     [ "record", "classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d", null ],
     [ "setAllRadiiToRmax", "classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5", null ],
     [ "setFilename", "classAtcf.html#a56171296cefcc0d92118f33a5b41e01e", null ],
+    [ "setInitialHollandB", "classAtcf.html#a841866c9625b20c5fb1f452110668f66", null ],
     [ "setMissingRadiiToAverageOfAdjacentRadii", "classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6", null ],
     [ "setMissingRadiiToHalfNonzeroRadii", "classAtcf.html#a21717052904854109237917697bd4e73", null ],
     [ "setMissingRadiiToHalfOfAverageSpecifiedRadii", "classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5", null ],

@@ -1,7 +1,6 @@
 <map id="kt2ms" name="kt2ms">
-<area shape="rect" id="node1" title=" " alt="" coords="541,42,600,69"/>
-<area shape="rect" id="node2" href="$classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" title=" " alt="" coords="271,5,493,47"/>
-<area shape="rect" id="node5" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title="Static function to parse an atcf line text using boost. Places data into an Atcfline object and retur..." alt="" coords="303,71,461,98"/>
-<area shape="rect" id="node3" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="144,42,223,69"/>
-<area shape="rect" id="node4" href="$classGahm.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,42,96,69"/>
+<area shape="rect" id="node1" title=" " alt="" coords="403,42,461,69"/>
+<area shape="rect" id="node2" href="$classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" title=" " alt="" coords="132,5,355,47"/>
+<area shape="rect" id="node4" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title=" " alt="" coords="164,71,323,98"/>
+<area shape="rect" id="node3" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,42,84,69"/>
 </map>

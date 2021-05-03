@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 626;
+var viewWidth = 519;
 var viewHeight = 110;
 var sectionId = 'dynsection-49';
 </script>
@@ -54,13 +54,13 @@ var sectionId = 'dynsection-49';
 <svg id="graph" class="graph">
 <g id="viewport">
 <title>toSeconds</title>
-<polygon fill="white" stroke="transparent" points="-4,4 -4,-105.5 622,-105.5 622,4 -4,4"/>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-105.5 515,-105.5 515,4 -4,4"/>
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#bfbfbf" stroke="black" points="555,-44 555,-63 618,-63 618,-44 555,-44"/>
-<text text-anchor="middle" x="586.5" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00">toSeconds</text>
+<polygon fill="#bfbfbf" stroke="black" points="448,-44 448,-63 511,-63 511,-44 448,-44"/>
+<text text-anchor="middle" x="479.5" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00">toSeconds</text>
 </a>
 </g>
 </g>
@@ -68,122 +68,92 @@ var sectionId = 'dynsection-49';
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="classAtcf.html#a288aec5ac021ac483da71812a26dc9c3" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="405,-82 405,-101 519,-101 519,-82 405,-82"/>
-<text text-anchor="middle" x="462" y="-89" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::getCycleNumber</text>
+<polygon fill="white" stroke="black" points="298,-82 298,-101 412,-101 412,-82 298,-82"/>
+<text text-anchor="middle" x="355" y="-89" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::getCycleNumber</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M545.33,-65.96C528.51,-71.18 509.28,-77.15 493.63,-82"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="546.39,-69.3 554.9,-62.99 544.32,-62.61 546.39,-69.3"/>
+<path fill="none" stroke="midnightblue" d="M438.33,-65.96C421.51,-71.18 402.28,-77.15 386.63,-82"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="439.39,-69.3 447.9,-62.99 437.32,-62.61 439.39,-69.3"/>
+</g>
+<!-- Node4 -->
+<g id="node4" class="node">
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="classDate.html#a8bc73730c18471da988081ce2725dbab" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="319.5,-44 319.5,-63 390.5,-63 390.5,-44 319.5,-44"/>
+<text text-anchor="middle" x="355" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00">toMSeconds</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge3" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="midnightblue" d="M437.68,-53.5C422.39,-53.5 405.19,-53.5 390.53,-53.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="437.9,-57 447.9,-53.5 437.9,-50 437.9,-57"/>
 </g>
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
-<g id="a_node5"><a xlink:href="classDate.html#a8bc73730c18471da988081ce2725dbab" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="426.5,-44 426.5,-63 497.5,-63 497.5,-44 426.5,-44"/>
-<text text-anchor="middle" x="462" y="-51" font-family="Helvetica,sans-Serif" font-size="10.00">toMSeconds</text>
+<g id="a_node5"><a xlink:href="classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="317,-6 317,-25 393,-25 393,-6 317,-6"/>
+<text text-anchor="middle" x="355" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::uvTrans</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node5 -->
 <g id="edge4" class="edge">
 <title>Node1&#45;&gt;Node5</title>
-<path fill="none" stroke="midnightblue" d="M544.68,-53.5C529.39,-53.5 512.19,-53.5 497.53,-53.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="544.9,-57 554.9,-53.5 544.9,-50 544.9,-57"/>
-</g>
-<!-- Node6 -->
-<g id="node6" class="node">
-<title>Node6</title>
-<g id="a_node6"><a xlink:href="classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="424,-6 424,-25 500,-25 500,-6 424,-6"/>
-<text text-anchor="middle" x="462" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::uvTrans</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M545.33,-41.04C528.51,-35.82 509.28,-29.85 493.63,-25"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="544.32,-44.39 554.9,-44.01 546.39,-37.7 544.32,-44.39"/>
+<path fill="none" stroke="midnightblue" d="M438.33,-41.04C421.51,-35.82 402.28,-29.85 386.63,-25"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="437.32,-44.39 447.9,-44.01 439.39,-37.7 437.32,-44.39"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:href="classAtcf.html#af2619be19171e8e1e2f6b110d18c755a" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="220,-82 220,-101 351,-101 351,-82 220,-82"/>
-<text text-anchor="middle" x="285.5" y="-89" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::getStormParameters</text>
+<polygon fill="white" stroke="black" points="113,-82 113,-101 244,-101 244,-82 113,-82"/>
+<text text-anchor="middle" x="178.5" y="-89" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::getStormParameters</text>
 </a>
 </g>
 </g>
 <!-- Node2&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node2&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M394.6,-91.5C380.33,-91.5 365.27,-91.5 351.07,-91.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="394.83,-95 404.83,-91.5 394.83,-88 394.83,-95"/>
+<path fill="none" stroke="midnightblue" d="M287.6,-91.5C273.33,-91.5 258.27,-91.5 244.07,-91.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="287.83,-95 297.83,-91.5 287.83,-88 287.83,-95"/>
 </g>
-<!-- Node4 -->
-<g id="node4" class="node">
-<title>Node4</title>
-<g id="a_node4"><a xlink:href="classGahm.html#a6cacdf953e6387e58ca0dc1369e15c00" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="104,-82 104,-101 166,-101 166,-82 104,-82"/>
-<text text-anchor="middle" x="135" y="-89" font-family="Helvetica,sans-Serif" font-size="10.00">Gahm::get</text>
+<!-- Node6 -->
+<g id="node6" class="node">
+<title>Node6</title>
+<g id="a_node6"><a xlink:href="classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="95,-0.5 95,-30.5 262,-30.5 262,-0.5 95,-0.5"/>
+<text text-anchor="start" x="103" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::calculateOverlandTranslation</text>
+<text text-anchor="middle" x="178.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Velocity</text>
 </a>
 </g>
 </g>
-<!-- Node3&#45;&gt;Node4 -->
-<g id="edge3" class="edge">
-<title>Node3&#45;&gt;Node4</title>
-<path fill="none" stroke="midnightblue" d="M209.72,-91.5C194.35,-91.5 179,-91.5 166.33,-91.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="209.8,-95 219.8,-91.5 209.8,-88 209.8,-95"/>
+<!-- Node5&#45;&gt;Node6 -->
+<g id="edge5" class="edge">
+<title>Node5&#45;&gt;Node6</title>
+<path fill="none" stroke="midnightblue" d="M306.78,-15.5C292.95,-15.5 277.4,-15.5 262.05,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="306.99,-19 316.99,-15.5 306.99,-12 306.99,-19"/>
 </g>
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a xlink:href="classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="202,-0.5 202,-30.5 369,-30.5 369,-0.5 202,-0.5"/>
-<text text-anchor="start" x="210" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::calculateOverlandTranslation</text>
-<text text-anchor="middle" x="285.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">Velocity</text>
+<g id="a_node7"><a xlink:href="classAtcf.html#aaab5dab5b969a87f538242e524431637" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="black" points="0,-6 0,-25 59,-25 59,-6 0,-6"/>
+<text text-anchor="middle" x="29.5" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::read</text>
 </a>
 </g>
 </g>
 <!-- Node6&#45;&gt;Node7 -->
 <g id="edge6" class="edge">
 <title>Node6&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M413.78,-15.5C399.95,-15.5 384.4,-15.5 369.05,-15.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="413.99,-19 423.99,-15.5 413.99,-12 413.99,-19"/>
-</g>
-<!-- Node8 -->
-<g id="node8" class="node">
-<title>Node8</title>
-<g id="a_node8"><a xlink:href="classAtcf.html#aaab5dab5b969a87f538242e524431637" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="105.5,-6 105.5,-25 164.5,-25 164.5,-6 105.5,-6"/>
-<text text-anchor="middle" x="135" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::read</text>
-</a>
-</g>
-</g>
-<!-- Node7&#45;&gt;Node8 -->
-<g id="edge7" class="edge">
-<title>Node7&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M191.77,-15.5C182.09,-15.5 172.85,-15.5 164.78,-15.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="192,-19 202,-15.5 192,-12 192,-19"/>
-</g>
-<!-- Node9 -->
-<g id="node9" class="node">
-<title>Node9</title>
-<g id="a_node9"><a xlink:href="classGahm.html#aaab5dab5b969a87f538242e524431637" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="black" points="0,-6 0,-25 68,-25 68,-6 0,-6"/>
-<text text-anchor="middle" x="34" y="-13" font-family="Helvetica,sans-Serif" font-size="10.00">Gahm::read</text>
-</a>
-</g>
-</g>
-<!-- Node8&#45;&gt;Node9 -->
-<g id="edge8" class="edge">
-<title>Node8&#45;&gt;Node9</title>
-<path fill="none" stroke="midnightblue" d="M95.16,-15.5C86.22,-15.5 76.78,-15.5 68.11,-15.5"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="95.37,-19 105.37,-15.5 95.37,-12 95.37,-19"/>
+<path fill="none" stroke="midnightblue" d="M84.86,-15.5C75.67,-15.5 66.91,-15.5 59.21,-15.5"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="84.98,-19 94.98,-15.5 84.98,-12 84.98,-19"/>
 </g>
 </g>
 </svg>

@@ -1,9 +1,8 @@
 <map id="computeInitialPressureEstimate" name="computeInitialPressureEstimate">
-<area shape="rect" id="node1" title=" " alt="" coords="593,56,800,83"/>
-<area shape="rect" id="node2" href="$classHurricanePressure.html#abd75a10e6f9ef19bfd4296a6c9584f7b" title=" " alt="" coords="391,5,470,32"/>
-<area shape="rect" id="node4" href="$classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" title=" " alt="" coords="316,107,545,133"/>
-<area shape="rect" id="node7" href="$classHurricanePressure.html#a4916b7f06af118c7c6f471b7a67672fb" title=" " alt="" coords="393,56,468,83"/>
-<area shape="rect" id="node3" href="$classHurricanePressure.html#a716f4bb7417738b6ba825432ec75eb2a" title=" " alt="" coords="144,31,268,57"/>
-<area shape="rect" id="node5" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="167,107,245,133"/>
-<area shape="rect" id="node6" href="$classGahm.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,107,96,133"/>
+<area shape="rect" id="node1" title=" " alt="" coords="455,56,661,83"/>
+<area shape="rect" id="node2" href="$classHurricanePressure.html#abd75a10e6f9ef19bfd4296a6c9584f7b" title=" " alt="" coords="253,5,331,32"/>
+<area shape="rect" id="node4" href="$classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" title=" " alt="" coords="177,107,407,133"/>
+<area shape="rect" id="node6" href="$classHurricanePressure.html#a4916b7f06af118c7c6f471b7a67672fb" title=" " alt="" coords="255,56,329,83"/>
+<area shape="rect" id="node3" href="$classHurricanePressure.html#a716f4bb7417738b6ba825432ec75eb2a" title=" " alt="" coords="5,31,129,57"/>
+<area shape="rect" id="node5" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="28,107,107,133"/>
 </map>

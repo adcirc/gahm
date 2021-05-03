@@ -16,14 +16,14 @@
 <polygon fill="#bfbfbf" stroke="black" points="0,-0.5 0,-365.5 122,-365.5 122,-0.5 0,-0.5"/>
 <text text-anchor="middle" x="61" y="-353.5" font-family="Helvetica,sans-Serif" font-size="10.00">Vortex</text>
 <polyline fill="none" stroke="black" points="0,-346.5 122,-346.5 "/>
-<text text-anchor="start" x="8" y="-334.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_b</text>
-<text text-anchor="start" x="8" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_bs4</text>
-<text text-anchor="start" x="8" y="-312.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_cLat</text>
-<text text-anchor="start" x="8" y="-301.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_cLon</text>
-<text text-anchor="start" x="8" y="-290.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_corio</text>
-<text text-anchor="start" x="8" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_pc</text>
-<text text-anchor="start" x="8" y="-268.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_phi</text>
-<text text-anchor="start" x="8" y="-257.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_phis4</text>
+<text text-anchor="start" x="8" y="-334.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ nPoints</text>
+<text text-anchor="start" x="8" y="-323.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ nQuads</text>
+<text text-anchor="start" x="8" y="-312.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_b</text>
+<text text-anchor="start" x="8" y="-301.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_cLat</text>
+<text text-anchor="start" x="8" y="-290.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_cLon</text>
+<text text-anchor="start" x="8" y="-279.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_corio</text>
+<text text-anchor="start" x="8" y="-268.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_pc</text>
+<text text-anchor="start" x="8" y="-257.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_phi</text>
 <text text-anchor="start" x="8" y="-246.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_pn</text>
 <text text-anchor="start" x="8" y="-235.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_quadFlag4</text>
 <text text-anchor="start" x="8" y="-224.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_quadIr4</text>
@@ -31,22 +31,22 @@
 <text text-anchor="start" x="8" y="-202.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_vMax</text>
 <text text-anchor="start" x="8" y="-191.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_vmBL4</text>
 <text text-anchor="start" x="8" y="-180.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; m_vr</text>
-<text text-anchor="start" x="8" y="-169.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; nPoints</text>
-<text text-anchor="start" x="8" y="-158.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; nQuads</text>
-<polyline fill="none" stroke="black" points="0,-151.5 122,-151.5 "/>
-<text text-anchor="start" x="8" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Vortex()</text>
-<text text-anchor="start" x="8" y="-128.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fillRadii()</text>
-<text text-anchor="start" x="8" y="-117.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ interpolateParameter()</text>
-<text text-anchor="start" x="8" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setRadii()</text>
-<text text-anchor="start" x="8" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setVortex()</text>
-<text text-anchor="start" x="8" y="-84.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ frictionAngle()</text>
-<text text-anchor="start" x="8" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ rotateWinds()</text>
-<text text-anchor="start" x="8" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; interpR()</text>
-<text text-anchor="start" x="8" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; spInterp()</text>
-<text text-anchor="start" x="8" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; calcHollandB()</text>
-<text text-anchor="start" x="8" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; coriolis()</text>
-<text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fillEdges()</text>
-<text text-anchor="start" x="8" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; getBaseQuadrant()</text>
+<polyline fill="none" stroke="black" points="0,-173.5 122,-173.5 "/>
+<text text-anchor="start" x="8" y="-161.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ Vortex()</text>
+<text text-anchor="start" x="8" y="-150.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ fillRadii()</text>
+<text text-anchor="start" x="8" y="-139.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ interpolateParameter()</text>
+<text text-anchor="start" x="8" y="-128.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setRadii()</text>
+<text text-anchor="start" x="8" y="-117.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ setVortex()</text>
+<text text-anchor="start" x="8" y="-106.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ frictionAngle()</text>
+<text text-anchor="start" x="8" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ rotateWinds()</text>
+<text text-anchor="start" x="8" y="-84.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; interpR()</text>
+<text text-anchor="start" x="8" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; spInterp()</text>
+<text text-anchor="start" x="8" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; calcHollandB()</text>
+<text text-anchor="start" x="8" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; coriolis()</text>
+<text text-anchor="start" x="8" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fillEdges()</text>
+<text text-anchor="start" x="8" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; fillWindArray()</text>
+<text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; getBaseQuadrant()</text>
+<text text-anchor="start" x="8" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; makeWindArray()</text>
 </a>
 </g>
 </g>

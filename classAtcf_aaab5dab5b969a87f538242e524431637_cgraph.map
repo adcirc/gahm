@@ -1,11 +1,12 @@
 <map id="read" name="read">
-<area shape="rect" id="node1" title=" " alt="" coords="5,1093,52,1119"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,1430,52,1457"/>
 <area shape="rect" id="node2" href="$classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" title=" " alt="" coords="103,107,294,148"/>
-<area shape="rect" id="node11" href="$classAtcf.html#a4392a7255cda22dc330a996257216c31" title=" " alt="" coords="147,1451,251,1478"/>
-<area shape="rect" id="node18" href="$classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" title=" " alt="" coords="100,1729,297,1755"/>
-<area shape="rect" id="node23" href="$classAtcfLine.html#abada6dfb33f4cbafe1e443a5cf8dc8d0" title=" " alt="" coords="143,1779,254,1806"/>
+<area shape="rect" id="node11" href="$classAtcf.html#a4392a7255cda22dc330a996257216c31" title=" " alt="" coords="147,1430,251,1457"/>
+<area shape="rect" id="node18" href="$classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" title=" " alt="" coords="100,1649,297,1675"/>
+<area shape="rect" id="node23" href="$classAtcfLine.html#abada6dfb33f4cbafe1e443a5cf8dc8d0" title=" " alt="" coords="143,1699,254,1726"/>
 <area shape="rect" id="node24" href="$classAtcfLine.html#a3554190fe6a66d73743a6aa7407be529" title=" " alt="" coords="366,393,539,435"/>
-<area shape="rect" id="node29" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title="Static function to parse an atcf line text using boost. Places data into an Atcfline object and retur..." alt="" coords="119,763,278,790"/>
+<area shape="rect" id="node29" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title=" " alt="" coords="119,738,278,765"/>
+<area shape="rect" id="node50" href="$classAtcf.html#a841866c9625b20c5fb1f452110668f66" title=" " alt="" coords="137,1750,261,1777"/>
 <area shape="rect" id="node3" href="$classPhysical.html#a446b34a690f7a1f10433e477ad0ac973" title=" " alt="" coords="395,38,511,65"/>
 <area shape="rect" id="node4" href="$classPhysical.html#aec8d798f5701bd9c2e131410022ec8f7" title=" " alt="" coords="635,13,751,39"/>
 <area shape="rect" id="node5" href="$classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e" title=" " alt="" coords="418,190,487,217"/>
@@ -14,16 +15,16 @@
 <area shape="rect" id="node8" href="$classAtcfLine.html#abf1373f021c76c8df3ab03e92eddc42f" title=" " alt="" coords="645,527,740,554"/>
 <area shape="rect" id="node9" href="$classPhysical.html#ac6d713f1908e7e0538db20f88b34f639" title=" " alt="" coords="618,173,767,199"/>
 <area shape="rect" id="node10" href="$classDate.html#a1fa70aa48f749203df9a600eb190dd7b" title=" " alt="" coords="633,223,753,250"/>
-<area shape="rect" id="node12" href="$classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" title=" " alt="" coords="663,1481,722,1507"/>
-<area shape="rect" id="node13" href="$classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" title=" " alt="" coords="385,1422,520,1449"/>
-<area shape="rect" id="node15" href="$classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" title=" " alt="" coords="364,1473,541,1515"/>
-<area shape="rect" id="node16" href="$classAtcf.html#a21717052904854109237917697bd4e73" title=" " alt="" coords="351,1539,554,1580"/>
-<area shape="rect" id="node17" href="$classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" title=" " alt="" coords="345,1604,560,1645"/>
-<area shape="rect" id="node14" href="$classAssumptions.html#a20319f7261289f879d667fe91034d503" title=" " alt="" coords="629,1546,756,1573"/>
-<area shape="rect" id="node19" href="$classHurricanePressure.html#a6e093920e46b7c9326e027f7c17082e2" title=" " alt="" coords="349,1721,556,1763"/>
-<area shape="rect" id="node20" href="$classHurricanePressure.html#ab7f4b85c45ecbd2fdc5b5757f3eb37e6" title=" " alt="" coords="383,1787,522,1828"/>
-<area shape="rect" id="node21" href="$classHurricanePressure.html#aede796baf8d694cdeeef3d2dc2693244" title=" " alt="" coords="383,1852,522,1893"/>
-<area shape="rect" id="node22" href="$classHurricanePressure.html#a87f90b0890179ce21401f05f0a5c7ec0" title=" " alt="" coords="378,1917,527,1959"/>
+<area shape="rect" id="node12" href="$classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" title=" " alt="" coords="663,1430,722,1457"/>
+<area shape="rect" id="node13" href="$classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" title=" " alt="" coords="385,1371,520,1398"/>
+<area shape="rect" id="node15" href="$classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" title=" " alt="" coords="364,1423,541,1464"/>
+<area shape="rect" id="node16" href="$classAtcf.html#a21717052904854109237917697bd4e73" title=" " alt="" coords="351,1488,554,1529"/>
+<area shape="rect" id="node17" href="$classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" title=" " alt="" coords="345,1553,560,1595"/>
+<area shape="rect" id="node14" href="$classAssumptions.html#a20319f7261289f879d667fe91034d503" title=" " alt="" coords="629,1495,756,1522"/>
+<area shape="rect" id="node19" href="$classHurricanePressure.html#a6e093920e46b7c9326e027f7c17082e2" title=" " alt="" coords="349,1671,556,1712"/>
+<area shape="rect" id="node20" href="$classHurricanePressure.html#ab7f4b85c45ecbd2fdc5b5757f3eb37e6" title=" " alt="" coords="383,1736,522,1777"/>
+<area shape="rect" id="node21" href="$classHurricanePressure.html#aede796baf8d694cdeeef3d2dc2693244" title=" " alt="" coords="383,1801,522,1843"/>
+<area shape="rect" id="node22" href="$classHurricanePressure.html#a87f90b0890179ce21401f05f0a5c7ec0" title=" " alt="" coords="378,1867,527,1908"/>
 <area shape="rect" id="node25" href="$classAtcfLine.html#a757a667960cf8420a7d565899ba74dd5" title=" " alt="" coords="638,325,747,351"/>
 <area shape="rect" id="node26" href="$classAtcfLine.html#af02cbe832e0a7a708e691fff2b48ebc4" title=" " alt="" coords="629,375,756,402"/>
 <area shape="rect" id="node27" href="$classAtcfLine.html#afcbce102d14966134f6a19e60597c61c" title=" " alt="" coords="608,477,777,503"/>
@@ -40,13 +41,12 @@
 <area shape="rect" id="node39" href="$classAtcfLine.html#a820d2d4a882e977cc3e1a4e543067428" title=" " alt="" coords="394,561,511,587"/>
 <area shape="rect" id="node40" href="$classAtcfLine.html#a70386cf97cc13ad4eccb2556d0339f0a" title=" " alt="" coords="391,865,515,891"/>
 <area shape="rect" id="node41" href="$classAtcfLine.html#ae091671d04a10571b3788f0e2877ee32" title=" " alt="" coords="385,915,520,942"/>
-<area shape="rect" id="node42" href="$classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" title=" " alt="" coords="353,966,552,993"/>
-<area shape="rect" id="node43" href="$classAtcfLine.html#a34c654291dd08cde0d1de4fb6d0a3704" title=" " alt="" coords="365,1017,540,1043"/>
-<area shape="rect" id="node44" href="$classAtcfLine.html#a0fc89ec97a25a3e2a23bbc3c2b4bda56" title=" " alt="" coords="348,291,557,318"/>
-<area shape="rect" id="node45" href="$classAtcfLine.html#ad57a2b2bb9a17190f60c202bcc91f7c1" title=" " alt="" coords="394,1118,511,1145"/>
-<area shape="rect" id="node46" href="$classAtcfLine.html#a70da9c9b2893017befb42f0692c0de03" title=" " alt="" coords="645,1093,741,1119"/>
-<area shape="rect" id="node47" href="$classAtcfLine.html#a4fa34cd3a6f778e4403e176ea1f3541f" title=" " alt="" coords="378,1169,527,1195"/>
-<area shape="rect" id="node48" href="$classAtcfLine.html#abdb3c2bffc3702fa3e4f9536d9f541f3" title=" " alt="" coords="375,1219,531,1246"/>
-<area shape="rect" id="node49" href="$classAtcfLine.html#a946c6bb3652bb5510a52cd7e7f22fac7" title=" " alt="" coords="387,1270,518,1297"/>
-<area shape="rect" id="node50" href="$classAtcfLine.html#a86d591997eedb1660c07467b712d6bbc" title=" " alt="" coords="385,1321,521,1347"/>
+<area shape="rect" id="node42" href="$classAtcfLine.html#a34c654291dd08cde0d1de4fb6d0a3704" title=" " alt="" coords="365,966,540,993"/>
+<area shape="rect" id="node43" href="$classAtcfLine.html#a0fc89ec97a25a3e2a23bbc3c2b4bda56" title=" " alt="" coords="348,291,557,318"/>
+<area shape="rect" id="node44" href="$classAtcfLine.html#ad57a2b2bb9a17190f60c202bcc91f7c1" title=" " alt="" coords="394,1067,511,1094"/>
+<area shape="rect" id="node45" href="$classAtcfLine.html#a70da9c9b2893017befb42f0692c0de03" title=" " alt="" coords="645,1042,741,1069"/>
+<area shape="rect" id="node46" href="$classAtcfLine.html#a4fa34cd3a6f778e4403e176ea1f3541f" title=" " alt="" coords="378,1118,527,1145"/>
+<area shape="rect" id="node47" href="$classAtcfLine.html#abdb3c2bffc3702fa3e4f9536d9f541f3" title=" " alt="" coords="375,1169,531,1195"/>
+<area shape="rect" id="node48" href="$classAtcfLine.html#a946c6bb3652bb5510a52cd7e7f22fac7" title=" " alt="" coords="387,1219,518,1246"/>
+<area shape="rect" id="node49" href="$classAtcfLine.html#a86d591997eedb1660c07467b712d6bbc" title=" " alt="" coords="385,1270,521,1297"/>
 </map>

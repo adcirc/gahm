@@ -62,6 +62,7 @@
               <section title="record" ref="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" />
               <section title="setAllRadiiToRmax" ref="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" />
               <section title="setFilename" ref="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e" />
+              <section title="setInitialHollandB" ref="classAtcf.html#a841866c9625b20c5fb1f452110668f66" />
               <section title="setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" />
               <section title="setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a21717052904854109237917697bd4e73" />
               <section title="setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" />
@@ -249,7 +250,7 @@
                 <section title="u" ref="classGahm.html#aed08c8478a62910aab06ba708a0e5b5f" />
                 <section title="v" ref="classGahm.html#a3b90d5a73541ab9402511d87bed076ef" />
               </section>
-              <section title="Gahm" ref="classGahm.html#a844b18eaf43c2a178a2109e96478c69f" />
+              <section title="Gahm" ref="classGahm.html#a7bd572fd4eaf8adc3c7ea88d7bcb8e47" />
               <section title="filename" ref="classGahm.html#a94c732bb0f167eab349228237a8fbe3c" />
               <section title="get" ref="classGahm.html#a6cacdf953e6387e58ca0dc1369e15c00" />
               <section title="getUvpr" ref="classGahm.html#abd838ada495dbe369ae8b2cae185e063" />
@@ -257,7 +258,7 @@
               <section title="getUvpr" ref="classGahm.html#acf925ca78bcde04ab622bb05d0e027a9" />
               <section title="read" ref="classGahm.html#aaab5dab5b969a87f538242e524431637" />
               <section title="m_assumptions" ref="classGahm.html#a7a1e4367fdbf60eb1b2271a581ce7d7c" />
-              <section title="m_atcf" ref="classGahm.html#a3ef91369c1d85d824ca7e9e43fbe44db" />
+              <section title="m_atcf" ref="classGahm.html#a6a0b5506c8f291e20c8f2bbff1304936" />
               <section title="m_filename" ref="classGahm.html#a294fc0ffd4511d48fad3989ee33219eb" />
             </section>
             <section title="HurricanePressure" ref="classHurricanePressure.html">
@@ -404,26 +405,26 @@
                 <section title="VMBL" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f" />
               </section>
               <section title="Vortex" ref="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732" />
-              <section title="calcHollandB" ref="classVortex.html#a651370d8f5722d8ed5a3c0533ae22e61" />
-              <section title="coriolis" ref="classVortex.html#aebe7a0f05d05690f9b112693c29f07f1" />
+              <section title="calcHollandB" ref="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815" />
+              <section title="coriolis" ref="classVortex.html#a06a2befc5762ac390217ded44041d055" />
               <section title="fillEdges" ref="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f" />
               <section title="fillRadii" ref="classVortex.html#a7029c117dd3645958a27ef3ea5acf801" />
-              <section title="frictionAngle" ref="classVortex.html#a88a6f4217035305fd70ff969f77a6ef5" />
+              <section title="fillWindArray" ref="classVortex.html#a93c9a3d66cc02127f99d1857a320e409" />
+              <section title="frictionAngle" ref="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" />
               <section title="getBaseQuadrant" ref="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464" />
               <section title="interpolateParameter" ref="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65" />
               <section title="interpR" ref="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816" />
-              <section title="rotateWinds" ref="classVortex.html#a1c4d01b0ee5b7e612fee5f49b17e8816" />
-              <section title="setRadii" ref="classVortex.html#a6f5fe5142cff585ad5e279e01f26ae7f" />
+              <section title="makeWindArray" ref="classVortex.html#ac533446af0e461d68d9c3839b8406f7c" />
+              <section title="rotateWinds" ref="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" />
+              <section title="setRadii" ref="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0" />
               <section title="setVortex" ref="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152" />
               <section title="spInterp" ref="classVortex.html#ad32c573698fbb788efee81699e65e624" />
-              <section title="m_b" ref="classVortex.html#abd0a6fc00c328cbb23361e70bea2ed3b" />
-              <section title="m_bs4" ref="classVortex.html#a01dfec00c840d9d8364ee4415205a9a4" />
+              <section title="m_b" ref="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140" />
               <section title="m_cLat" ref="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c" />
               <section title="m_cLon" ref="classVortex.html#a914455e27bc940b1d4a384c59b1da820" />
               <section title="m_corio" ref="classVortex.html#aef02befeab438216402dd5864b4482dc" />
               <section title="m_pc" ref="classVortex.html#a128153b7d117c2717185dab5c48f322e" />
-              <section title="m_phi" ref="classVortex.html#a729f751c62063ed9714ffecb786dd568" />
-              <section title="m_phis4" ref="classVortex.html#aa512d0e7d1bb56d181de4923b24acba6" />
+              <section title="m_phi" ref="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712" />
               <section title="m_pn" ref="classVortex.html#a066fc99714adb677ef89ba04249182ec" />
               <section title="m_quadFlag4" ref="classVortex.html#a9fc81595545f0e7e5f042139cc80f583" />
               <section title="m_quadIr4" ref="classVortex.html#a2abe6c7109052db50f11317bbe818c1e" />
@@ -559,6 +560,7 @@
                 <section title="record" ref="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" />
                 <section title="setAllRadiiToRmax" ref="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" />
                 <section title="setFilename" ref="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e" />
+                <section title="setInitialHollandB" ref="classAtcf.html#a841866c9625b20c5fb1f452110668f66" />
                 <section title="setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" />
                 <section title="setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a21717052904854109237917697bd4e73" />
                 <section title="setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" />
@@ -799,7 +801,7 @@
                   <section title="u" ref="classGahm.html#aed08c8478a62910aab06ba708a0e5b5f" />
                   <section title="v" ref="classGahm.html#a3b90d5a73541ab9402511d87bed076ef" />
                 </section>
-                <section title="Gahm" ref="classGahm.html#a844b18eaf43c2a178a2109e96478c69f" />
+                <section title="Gahm" ref="classGahm.html#a7bd572fd4eaf8adc3c7ea88d7bcb8e47" />
                 <section title="filename" ref="classGahm.html#a94c732bb0f167eab349228237a8fbe3c" />
                 <section title="get" ref="classGahm.html#a6cacdf953e6387e58ca0dc1369e15c00" />
                 <section title="getUvpr" ref="classGahm.html#abd838ada495dbe369ae8b2cae185e063" />
@@ -807,7 +809,7 @@
                 <section title="getUvpr" ref="classGahm.html#acf925ca78bcde04ab622bb05d0e027a9" />
                 <section title="read" ref="classGahm.html#aaab5dab5b969a87f538242e524431637" />
                 <section title="m_assumptions" ref="classGahm.html#a7a1e4367fdbf60eb1b2271a581ce7d7c" />
-                <section title="m_atcf" ref="classGahm.html#a3ef91369c1d85d824ca7e9e43fbe44db" />
+                <section title="m_atcf" ref="classGahm.html#a6a0b5506c8f291e20c8f2bbff1304936" />
                 <section title="m_filename" ref="classGahm.html#a294fc0ffd4511d48fad3989ee33219eb" />
               </section>
               <section title="uvp" ref="classGahm.html#structGahm_1_1uvp">
@@ -961,26 +963,26 @@
                   <section title="VMBL" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f" />
                 </section>
                 <section title="Vortex" ref="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732" />
-                <section title="calcHollandB" ref="classVortex.html#a651370d8f5722d8ed5a3c0533ae22e61" />
-                <section title="coriolis" ref="classVortex.html#aebe7a0f05d05690f9b112693c29f07f1" />
+                <section title="calcHollandB" ref="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815" />
+                <section title="coriolis" ref="classVortex.html#a06a2befc5762ac390217ded44041d055" />
                 <section title="fillEdges" ref="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f" />
                 <section title="fillRadii" ref="classVortex.html#a7029c117dd3645958a27ef3ea5acf801" />
-                <section title="frictionAngle" ref="classVortex.html#a88a6f4217035305fd70ff969f77a6ef5" />
+                <section title="fillWindArray" ref="classVortex.html#a93c9a3d66cc02127f99d1857a320e409" />
+                <section title="frictionAngle" ref="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" />
                 <section title="getBaseQuadrant" ref="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464" />
                 <section title="interpolateParameter" ref="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65" />
                 <section title="interpR" ref="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816" />
-                <section title="rotateWinds" ref="classVortex.html#a1c4d01b0ee5b7e612fee5f49b17e8816" />
-                <section title="setRadii" ref="classVortex.html#a6f5fe5142cff585ad5e279e01f26ae7f" />
+                <section title="makeWindArray" ref="classVortex.html#ac533446af0e461d68d9c3839b8406f7c" />
+                <section title="rotateWinds" ref="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" />
+                <section title="setRadii" ref="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0" />
                 <section title="setVortex" ref="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152" />
                 <section title="spInterp" ref="classVortex.html#ad32c573698fbb788efee81699e65e624" />
-                <section title="m_b" ref="classVortex.html#abd0a6fc00c328cbb23361e70bea2ed3b" />
-                <section title="m_bs4" ref="classVortex.html#a01dfec00c840d9d8364ee4415205a9a4" />
+                <section title="m_b" ref="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140" />
                 <section title="m_cLat" ref="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c" />
                 <section title="m_cLon" ref="classVortex.html#a914455e27bc940b1d4a384c59b1da820" />
                 <section title="m_corio" ref="classVortex.html#aef02befeab438216402dd5864b4482dc" />
                 <section title="m_pc" ref="classVortex.html#a128153b7d117c2717185dab5c48f322e" />
-                <section title="m_phi" ref="classVortex.html#a729f751c62063ed9714ffecb786dd568" />
-                <section title="m_phis4" ref="classVortex.html#aa512d0e7d1bb56d181de4923b24acba6" />
+                <section title="m_phi" ref="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712" />
                 <section title="m_pn" ref="classVortex.html#a066fc99714adb677ef89ba04249182ec" />
                 <section title="m_quadFlag4" ref="classVortex.html#a9fc81595545f0e7e5f042139cc80f583" />
                 <section title="m_quadIr4" ref="classVortex.html#a2abe6c7109052db50f11317bbe818c1e" />
@@ -1056,6 +1058,7 @@
       <keyword name="generateMissingPressureData" id="Atcf::generateMissingPressureData" ref="classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" />
       <keyword name="getCycleNumber" id="Atcf::getCycleNumber" ref="classAtcf.html#a288aec5ac021ac483da71812a26dc9c3" />
       <keyword name="setAllRadiiToRmax" id="Atcf::setAllRadiiToRmax" ref="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" />
+      <keyword name="setInitialHollandB" id="Atcf::setInitialHollandB" ref="classAtcf.html#a841866c9625b20c5fb1f452110668f66" />
       <keyword name="setMissingRadiiToAverageOfAdjacentRadii" id="Atcf::setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" />
       <keyword name="setMissingRadiiToHalfNonzeroRadii" id="Atcf::setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a21717052904854109237917697bd4e73" />
       <keyword name="setMissingRadiiToHalfOfAverageSpecifiedRadii" id="Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" />
@@ -1236,7 +1239,7 @@
       <keyword name="m_datetime" id="Date::m_datetime" ref="classDate.html#a0da4566ec8527ef7bd255d90e046f120" />
       <keyword name="operator&lt;&lt;" id="Date::operator&lt;&lt;" ref="classDate.html#a1b0dcfcc21bf11a788f4ee1e0208dfa8" />
       <keyword name="Gahm" id="Gahm" ref="classGahm.html" />
-      <keyword name="Gahm" id="Gahm::Gahm" ref="classGahm.html#a844b18eaf43c2a178a2109e96478c69f" />
+      <keyword name="Gahm" id="Gahm::Gahm" ref="classGahm.html#a7bd572fd4eaf8adc3c7ea88d7bcb8e47" />
       <keyword name="filename" id="Gahm::filename" ref="classGahm.html#a94c732bb0f167eab349228237a8fbe3c" />
       <keyword name="get" id="Gahm::get" ref="classGahm.html#a6cacdf953e6387e58ca0dc1369e15c00" />
       <keyword name="read" id="Gahm::read" ref="classGahm.html#aaab5dab5b969a87f538242e524431637" />
@@ -1244,7 +1247,7 @@
       <keyword name="getUvpr" id="Gahm::getUvpr" ref="classGahm.html#acf925ca78bcde04ab622bb05d0e027a9" />
       <keyword name="getUvpr" id="Gahm::getUvpr" ref="classGahm.html#acf925ca78bcde04ab622bb05d0e027a9" />
       <keyword name="m_assumptions" id="Gahm::m_assumptions" ref="classGahm.html#a7a1e4367fdbf60eb1b2271a581ce7d7c" />
-      <keyword name="m_atcf" id="Gahm::m_atcf" ref="classGahm.html#a3ef91369c1d85d824ca7e9e43fbe44db" />
+      <keyword name="m_atcf" id="Gahm::m_atcf" ref="classGahm.html#a6a0b5506c8f291e20c8f2bbff1304936" />
       <keyword name="m_filename" id="Gahm::m_filename" ref="classGahm.html#a294fc0ffd4511d48fad3989ee33219eb" />
       <keyword name="HurricanePressure" id="HurricanePressure" ref="classHurricanePressure.html" />
       <keyword name="HurricanePressure" id="HurricanePressure::HurricanePressure" ref="classHurricanePressure.html#a5db7cf88d797c1cb82d6b0b26d4d76be" />
@@ -1373,28 +1376,30 @@
       <keyword name="t" id="s_datetime::t" ref="structs__datetime.html#a935a95aee86f6713c06c53e4b15404ea" />
       <keyword name="tt" id="s_datetime::tt" ref="structs__datetime.html#a1465e0c2431f2f4bd26f7635d833fad0" />
       <keyword name="Vortex" id="Vortex" ref="classVortex.html" />
+      <keyword name="WindArray" id="Vortex::WindArray" ref="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9" />
       <keyword name="Vortex" id="Vortex::Vortex" ref="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732" />
       <keyword name="fillRadii" id="Vortex::fillRadii" ref="classVortex.html#a7029c117dd3645958a27ef3ea5acf801" />
       <keyword name="interpolateParameter" id="Vortex::interpolateParameter" ref="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65" />
-      <keyword name="setRadii" id="Vortex::setRadii" ref="classVortex.html#a6f5fe5142cff585ad5e279e01f26ae7f" />
+      <keyword name="setRadii" id="Vortex::setRadii" ref="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0" />
       <keyword name="setVortex" id="Vortex::setVortex" ref="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152" />
-      <keyword name="frictionAngle" id="Vortex::frictionAngle" ref="classVortex.html#a88a6f4217035305fd70ff969f77a6ef5" />
-      <keyword name="rotateWinds" id="Vortex::rotateWinds" ref="classVortex.html#a1c4d01b0ee5b7e612fee5f49b17e8816" />
-      <keyword name="WindArray" id="Vortex::WindArray" ref="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9" />
+      <keyword name="frictionAngle" id="Vortex::frictionAngle" ref="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" />
+      <keyword name="rotateWinds" id="Vortex::rotateWinds" ref="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" />
+      <keyword name="nPoints" id="Vortex::nPoints" ref="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1" />
+      <keyword name="nQuads" id="Vortex::nQuads" ref="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931" />
       <keyword name="interpR" id="Vortex::interpR" ref="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816" />
       <keyword name="spInterp" id="Vortex::spInterp" ref="classVortex.html#ad32c573698fbb788efee81699e65e624" />
-      <keyword name="calcHollandB" id="Vortex::calcHollandB" ref="classVortex.html#a651370d8f5722d8ed5a3c0533ae22e61" />
-      <keyword name="coriolis" id="Vortex::coriolis" ref="classVortex.html#aebe7a0f05d05690f9b112693c29f07f1" />
+      <keyword name="calcHollandB" id="Vortex::calcHollandB" ref="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815" />
+      <keyword name="coriolis" id="Vortex::coriolis" ref="classVortex.html#a06a2befc5762ac390217ded44041d055" />
       <keyword name="fillEdges" id="Vortex::fillEdges" ref="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f" />
+      <keyword name="fillWindArray" id="Vortex::fillWindArray" ref="classVortex.html#a93c9a3d66cc02127f99d1857a320e409" />
       <keyword name="getBaseQuadrant" id="Vortex::getBaseQuadrant" ref="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464" />
-      <keyword name="m_b" id="Vortex::m_b" ref="classVortex.html#abd0a6fc00c328cbb23361e70bea2ed3b" />
-      <keyword name="m_bs4" id="Vortex::m_bs4" ref="classVortex.html#a01dfec00c840d9d8364ee4415205a9a4" />
+      <keyword name="makeWindArray" id="Vortex::makeWindArray" ref="classVortex.html#ac533446af0e461d68d9c3839b8406f7c" />
+      <keyword name="m_b" id="Vortex::m_b" ref="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140" />
       <keyword name="m_cLat" id="Vortex::m_cLat" ref="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c" />
       <keyword name="m_cLon" id="Vortex::m_cLon" ref="classVortex.html#a914455e27bc940b1d4a384c59b1da820" />
       <keyword name="m_corio" id="Vortex::m_corio" ref="classVortex.html#aef02befeab438216402dd5864b4482dc" />
       <keyword name="m_pc" id="Vortex::m_pc" ref="classVortex.html#a128153b7d117c2717185dab5c48f322e" />
-      <keyword name="m_phi" id="Vortex::m_phi" ref="classVortex.html#a729f751c62063ed9714ffecb786dd568" />
-      <keyword name="m_phis4" id="Vortex::m_phis4" ref="classVortex.html#aa512d0e7d1bb56d181de4923b24acba6" />
+      <keyword name="m_phi" id="Vortex::m_phi" ref="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712" />
       <keyword name="m_pn" id="Vortex::m_pn" ref="classVortex.html#a066fc99714adb677ef89ba04249182ec" />
       <keyword name="m_quadFlag4" id="Vortex::m_quadFlag4" ref="classVortex.html#a9fc81595545f0e7e5f042139cc80f583" />
       <keyword name="m_quadIr4" id="Vortex::m_quadIr4" ref="classVortex.html#a2abe6c7109052db50f11317bbe818c1e" />
@@ -1402,8 +1407,6 @@
       <keyword name="m_vMax" id="Vortex::m_vMax" ref="classVortex.html#af509da395ff96c0318bbda561856f2f4" />
       <keyword name="m_vmBL4" id="Vortex::m_vmBL4" ref="classVortex.html#a92ed3ec2573be34aa01ca0db33cba9b8" />
       <keyword name="m_vr" id="Vortex::m_vr" ref="classVortex.html#a6a191ae4612ab8b2434202f96ba63192" />
-      <keyword name="nPoints" id="Vortex::nPoints" ref="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1" />
-      <keyword name="nQuads" id="Vortex::nQuads" ref="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931" />
       <keyword name="RMAX" id="Vortex::RMAX" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a2f4fc02e2c869a68404689ecadff748f" />
       <keyword name="B" id="Vortex::B" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a3f2a77ecd272aa6d6b5902faa5e5fc68" />
       <keyword name="VMBL" id="Vortex::VMBL" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f" />
@@ -1521,21 +1524,19 @@
       <file>classAtcf_a4bec7c75f41a2643be3bccf63921dfa1_icgraph.svg</file>
       <file>classAtcf_a4392a7255cda22dc330a996257216c31_cgraph.svg</file>
       <file>classAtcf_a4392a7255cda22dc330a996257216c31_icgraph.svg</file>
-      <file>classAtcf_a0f40f03f570bebb240bd99f8560c0147_icgraph.svg</file>
       <file>classAtcf_a94c732bb0f167eab349228237a8fbe3c_icgraph.svg</file>
       <file>classAtcf_a2c8fb312c911c7d35cc921e303cac875_cgraph.svg</file>
       <file>classAtcf_a2c8fb312c911c7d35cc921e303cac875_icgraph.svg</file>
       <file>classAtcf_a288aec5ac021ac483da71812a26dc9c3_cgraph.svg</file>
       <file>classAtcf_a288aec5ac021ac483da71812a26dc9c3_icgraph.svg</file>
       <file>classAtcf_af2619be19171e8e1e2f6b110d18c755a_cgraph.svg</file>
-      <file>classAtcf_af2619be19171e8e1e2f6b110d18c755a_icgraph.svg</file>
       <file>classAtcf_ac775141fc311e59db12fdba1a913f8e2_icgraph.svg</file>
       <file>classAtcf_aaab5dab5b969a87f538242e524431637_cgraph.svg</file>
-      <file>classAtcf_aaab5dab5b969a87f538242e524431637_icgraph.svg</file>
       <file>classAtcf_a2c3a3d17067e7d0d53018ec96531bd3d_icgraph.svg</file>
       <file>classAtcf_a4b3387ddd1546cf6bad5444c70ec5cc5_cgraph.svg</file>
       <file>classAtcf_a4b3387ddd1546cf6bad5444c70ec5cc5_icgraph.svg</file>
       <file>classAtcf_a56171296cefcc0d92118f33a5b41e01e_cgraph.svg</file>
+      <file>classAtcf_a841866c9625b20c5fb1f452110668f66_icgraph.svg</file>
       <file>classAtcf_a71fa11a421dc675f7b8190758fa0b2e6_cgraph.svg</file>
       <file>classAtcf_a71fa11a421dc675f7b8190758fa0b2e6_icgraph.svg</file>
       <file>classAtcf_a21717052904854109237917697bd4e73_cgraph.svg</file>
@@ -1593,7 +1594,6 @@
       <file>classAtcfLine_ae091671d04a10571b3788f0e2877ee32_cgraph.svg</file>
       <file>classAtcfLine_ae091671d04a10571b3788f0e2877ee32_icgraph.svg</file>
       <file>classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_cgraph.svg</file>
-      <file>classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_icgraph.svg</file>
       <file>classAtcfLine_a34c654291dd08cde0d1de4fb6d0a3704_cgraph.svg</file>
       <file>classAtcfLine_a34c654291dd08cde0d1de4fb6d0a3704_icgraph.svg</file>
       <file>classAtcfLine_a0fc89ec97a25a3e2a23bbc3c2b4bda56_cgraph.svg</file>
@@ -1802,17 +1802,17 @@
       <file>structs__datetime-members.html</file>
       <file>classVortex.html</file>
       <file>classVortex__coll__graph.svg</file>
-      <file>classVortex_a651370d8f5722d8ed5a3c0533ae22e61_cgraph.svg</file>
-      <file>classVortex_aebe7a0f05d05690f9b112693c29f07f1_cgraph.svg</file>
-      <file>classVortex_aebe7a0f05d05690f9b112693c29f07f1_icgraph.svg</file>
+      <file>classVortex_a3d3d41c13add60885c9ab06ba3ca6815_cgraph.svg</file>
+      <file>classVortex_a06a2befc5762ac390217ded44041d055_cgraph.svg</file>
+      <file>classVortex_a06a2befc5762ac390217ded44041d055_icgraph.svg</file>
       <file>classVortex_ad2d034b91ee1d70ddd82ee743658898f_icgraph.svg</file>
       <file>classVortex_a7029c117dd3645958a27ef3ea5acf801_cgraph.svg</file>
-      <file>classVortex_a88a6f4217035305fd70ff969f77a6ef5_icgraph.svg</file>
+      <file>classVortex_a0c44236b8df53da4d14e7fb76d40d194_icgraph.svg</file>
       <file>classVortex_ac6cc0dffbc1abd13fc6b212cf701a464_icgraph.svg</file>
       <file>classVortex_a77f9a5acf2467da0fc540737fcb1ba65_cgraph.svg</file>
       <file>classVortex_a7dd6dceb1f90086d5b214607b79d7816_icgraph.svg</file>
-      <file>classVortex_a1c4d01b0ee5b7e612fee5f49b17e8816_cgraph.svg</file>
-      <file>classVortex_a1c4d01b0ee5b7e612fee5f49b17e8816_icgraph.svg</file>
+      <file>classVortex_ae8ae0a3d4ce49e437c521815b907ea13_cgraph.svg</file>
+      <file>classVortex_ae8ae0a3d4ce49e437c521815b907ea13_icgraph.svg</file>
       <file>classVortex_a0ac693bb2d65ec6cf3e5b632e6af4152_cgraph.svg</file>
       <file>classVortex_ad32c573698fbb788efee81699e65e624_cgraph.svg</file>
       <file>classVortex_ad32c573698fbb788efee81699e65e624_icgraph.svg</file>

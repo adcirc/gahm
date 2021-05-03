@@ -1,7 +1,6 @@
 <map id="tau" name="tau">
-<area shape="rect" id="node1" title=" " alt="" coords="531,5,571,32"/>
-<area shape="rect" id="node2" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title="Static function to parse an atcf line text using boost. Places data into an Atcfline object and retur..." alt="" coords="271,5,373,32"/>
-<area shape="rect" id="node5" href="$classAtcfLine.html#ad57a2b2bb9a17190f60c202bcc91f7c1" title=" " alt="" coords="421,31,483,57"/>
-<area shape="rect" id="node3" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="144,5,223,32"/>
-<area shape="rect" id="node4" href="$classGahm.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,96,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="392,5,432,32"/>
+<area shape="rect" id="node2" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title=" " alt="" coords="132,5,235,32"/>
+<area shape="rect" id="node4" href="$classAtcfLine.html#ad57a2b2bb9a17190f60c202bcc91f7c1" title=" " alt="" coords="283,31,344,57"/>
+<area shape="rect" id="node3" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,84,32"/>
 </map>

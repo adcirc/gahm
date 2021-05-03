@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="classVortex.html#a88a6f4217035305fd70ff969f77a6ef5" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="97,-152.5 97,-171.5 202,-171.5 202,-152.5 97,-152.5"/>
 <text text-anchor="middle" x="149.5" y="-159.5" font-family="Helvetica,sans-Serif" font-size="10.00">Vortex::frictionAngle</text>
 </a>
@@ -66,7 +66,7 @@
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
-<g id="a_node6"><a xlink:href="classVortex.html#a1c4d01b0ee5b7e612fee5f49b17e8816" target="_top" xlink:title=" ">
+<g id="a_node6"><a xlink:href="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="97.5,-38.5 97.5,-57.5 201.5,-57.5 201.5,-38.5 97.5,-38.5"/>
 <text text-anchor="middle" x="149.5" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00">Vortex::rotateWinds</text>
 </a>

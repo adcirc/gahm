@@ -9,6 +9,6 @@ var searchData=
   ['dd_61',['dd',['../structs__date.html#a945057aa39f3d43d25ad84e7f148d179',1,'s_date::dd()'],['../structs__datetime.html#a945057aa39f3d43d25ad84e7f148d179',1,'s_datetime::dd()']]],
   ['deg2rad_62',['deg2rad',['../classPhysical.html#ae43063ac7bf556cb933a0206301b9748',1,'Physical']]],
   ['distance_63',['distance',['../classPhysical.html#a0d5a798f989b297250dec7184c34840a',1,'Physical']]],
-  ['dvorak_64',['dvorak',['../classHurricanePressure.html#acb482ff2d606abe160f6a0bb36db82fa',1,'HurricanePressure']]],
-  ['dvorak_65',['DVORAK',['../classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0a0cfd2e0a670e64b60586334d333a2818',1,'HurricanePressure']]]
+  ['dvorak_64',['DVORAK',['../classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0a0cfd2e0a670e64b60586334d333a2818',1,'HurricanePressure']]],
+  ['dvorak_65',['dvorak',['../classHurricanePressure.html#acb482ff2d606abe160f6a0bb36db82fa',1,'HurricanePressure']]]
 ];

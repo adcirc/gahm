@@ -1,7 +1,4 @@
 <map id="radiusMaxWinds" name="radiusMaxWinds">
-<area shape="rect" id="node1" title=" " alt="" coords="612,5,731,32"/>
-<area shape="rect" id="node2" href="$classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" title=" " alt="" coords="421,5,564,32"/>
-<area shape="rect" id="node3" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title="Static function to parse an atcf line text using boost. Places data into an Atcfline object and retur..." alt="" coords="271,5,373,32"/>
-<area shape="rect" id="node4" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="144,5,223,32"/>
-<area shape="rect" id="node5" href="$classGahm.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,96,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="196,5,315,32"/>
+<area shape="rect" id="node2" href="$classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" title=" " alt="" coords="5,5,148,32"/>
 </map>

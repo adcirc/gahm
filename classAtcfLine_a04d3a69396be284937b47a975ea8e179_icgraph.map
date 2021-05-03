@@ -1,7 +1,6 @@
 <map id="technum" name="technum">
-<area shape="rect" id="node1" title=" " alt="" coords="563,5,635,32"/>
-<area shape="rect" id="node2" href="$classAtcfLine.html#a4fa34cd3a6f778e4403e176ea1f3541f" title=" " alt="" coords="421,5,515,32"/>
-<area shape="rect" id="node3" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title="Static function to parse an atcf line text using boost. Places data into an Atcfline object and retur..." alt="" coords="271,5,373,32"/>
-<area shape="rect" id="node4" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="144,5,223,32"/>
-<area shape="rect" id="node5" href="$classGahm.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,96,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="424,5,496,32"/>
+<area shape="rect" id="node2" href="$classAtcfLine.html#a4fa34cd3a6f778e4403e176ea1f3541f" title=" " alt="" coords="283,5,376,32"/>
+<area shape="rect" id="node3" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title=" " alt="" coords="132,5,235,32"/>
+<area shape="rect" id="node4" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,84,32"/>
 </map>

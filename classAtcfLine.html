@@ -243,7 +243,6 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a3554190fe6a66d73743a6aa7407be529"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a3554190fe6a66d73743a6aa7407be529">isSameForecastPeriod</a> (const <a class="el" href="classAtcfLine.html">AtcfLine</a> &amp;a1, const <a class="el" href="classAtcfLine.html">AtcfLine</a> &amp;a2)</td></tr>
 <tr class="separator:a3554190fe6a66d73743a6aa7407be529"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a669437f8facd47f46097adc21d0d497b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classAtcfLine.html">AtcfLine</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a669437f8facd47f46097adc21d0d497b">parseAtcfLine</a> (const std::string &amp;line)</td></tr>
-<tr class="memdesc:a669437f8facd47f46097adc21d0d497b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Static function to parse an atcf line text using boost. Places data into an Atcfline object and returns.  <a href="classAtcfLine.html#a669437f8facd47f46097adc21d0d497b">More...</a><br /></td></tr>
 <tr class="separator:a669437f8facd47f46097adc21d0d497b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
@@ -257,64 +256,94 @@ Static Private Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a5fc3d3403d3a8973fd49b1cb8876bf2f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f">m_basin</a></td></tr>
+<tr class="memdesc:a5fc3d3403d3a8973fd49b1cb8876bf2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basin where the cyclone occurs.  <a href="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f">More...</a><br /></td></tr>
 <tr class="separator:a5fc3d3403d3a8973fd49b1cb8876bf2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe656ea7b0797b1b3997ba38d7cd0905"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905">m_cycloneNumber</a></td></tr>
+<tr class="memdesc:abe656ea7b0797b1b3997ba38d7cd0905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cyclone number.  <a href="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905">More...</a><br /></td></tr>
 <tr class="separator:abe656ea7b0797b1b3997ba38d7cd0905"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a941d6e2d0bd983eb49250ea3dd09873b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDate.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a941d6e2d0bd983eb49250ea3dd09873b">m_datetime</a></td></tr>
+<tr class="memdesc:a941d6e2d0bd983eb49250ea3dd09873b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Current date/time.  <a href="classAtcfLine.html#a941d6e2d0bd983eb49250ea3dd09873b">More...</a><br /></td></tr>
 <tr class="separator:a941d6e2d0bd983eb49250ea3dd09873b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab7831467e3e9a8d6399463f4fbb8f7d5"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ab7831467e3e9a8d6399463f4fbb8f7d5">m_eyeDiameter</a></td></tr>
+<tr class="memdesc:ab7831467e3e9a8d6399463f4fbb8f7d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Diameter of the storm eye.  <a href="classAtcfLine.html#ab7831467e3e9a8d6399463f4fbb8f7d5">More...</a><br /></td></tr>
 <tr class="separator:ab7831467e3e9a8d6399463f4fbb8f7d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3385ac5e343a3929fdbe9f613beb044a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a3385ac5e343a3929fdbe9f613beb044a">m_gusts</a></td></tr>
+<tr class="memdesc:a3385ac5e343a3929fdbe9f613beb044a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum gust wind speed.  <a href="classAtcfLine.html#a3385ac5e343a3929fdbe9f613beb044a">More...</a><br /></td></tr>
 <tr class="separator:a3385ac5e343a3929fdbe9f613beb044a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92242ba751186e85b63cc852e59a8655"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a92242ba751186e85b63cc852e59a8655">m_initials</a></td></tr>
+<tr class="memdesc:a92242ba751186e85b63cc852e59a8655"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forecaster initials.  <a href="classAtcfLine.html#a92242ba751186e85b63cc852e59a8655">More...</a><br /></td></tr>
 <tr class="separator:a92242ba751186e85b63cc852e59a8655"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fa89015e7215efd76d30fd3ec09b0cf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classIsotach.html">Isotach</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a2fa89015e7215efd76d30fd3ec09b0cf">m_isotach</a></td></tr>
+<tr class="memdesc:a2fa89015e7215efd76d30fd3ec09b0cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Vector of storm isotachs.  <a href="classAtcfLine.html#a2fa89015e7215efd76d30fd3ec09b0cf">More...</a><br /></td></tr>
 <tr class="separator:a2fa89015e7215efd76d30fd3ec09b0cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d7de21e0be4d9b778dc9cc1fd6514f9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5d7de21e0be4d9b778dc9cc1fd6514f9">m_lat</a></td></tr>
+<tr class="memdesc:a5d7de21e0be4d9b778dc9cc1fd6514f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm center latitude.  <a href="classAtcfLine.html#a5d7de21e0be4d9b778dc9cc1fd6514f9">More...</a><br /></td></tr>
 <tr class="separator:a5d7de21e0be4d9b778dc9cc1fd6514f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74b9738eda250dd70bb7adab81ccd75c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a74b9738eda250dd70bb7adab81ccd75c">m_lon</a></td></tr>
+<tr class="memdesc:a74b9738eda250dd70bb7adab81ccd75c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm center longitude.  <a href="classAtcfLine.html#a74b9738eda250dd70bb7adab81ccd75c">More...</a><br /></td></tr>
 <tr class="separator:a74b9738eda250dd70bb7adab81ccd75c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9df0fba1e2f50c17fa07101b9002b005"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005">m_maxDevelopmentLevel</a></td></tr>
+<tr class="memdesc:a9df0fba1e2f50c17fa07101b9002b005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum development level that the storm has achieved.  <a href="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005">More...</a><br /></td></tr>
 <tr class="separator:a9df0fba1e2f50c17fa07101b9002b005"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a48ea358b4846e9b1845b9fd0d293bec4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4">m_maxSeas</a></td></tr>
+<tr class="memdesc:a48ea358b4846e9b1845b9fd0d293bec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum wave heights.  <a href="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4">More...</a><br /></td></tr>
 <tr class="separator:a48ea358b4846e9b1845b9fd0d293bec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ca9d44c6e999628e73c19952bc57cdb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb">m_mslp</a></td></tr>
+<tr class="memdesc:a1ca9d44c6e999628e73c19952bc57cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm minimum sea level pressure.  <a href="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb">More...</a><br /></td></tr>
 <tr class="separator:a1ca9d44c6e999628e73c19952bc57cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae16b3f134144a9464fb913b8ea0a622a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ae16b3f134144a9464fb913b8ea0a622a">m_null</a></td></tr>
+<tr class="memdesc:ae16b3f134144a9464fb913b8ea0a622a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is this record null.  <a href="classAtcfLine.html#ae16b3f134144a9464fb913b8ea0a622a">More...</a><br /></td></tr>
 <tr class="separator:ae16b3f134144a9464fb913b8ea0a622a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af014827ed3618e28ef0a84e8281a7c35"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#af014827ed3618e28ef0a84e8281a7c35">m_pouter</a></td></tr>
+<tr class="memdesc:af014827ed3618e28ef0a84e8281a7c35"><td class="mdescLeft">&#160;</td><td class="mdescRight">Background pressure.  <a href="classAtcfLine.html#af014827ed3618e28ef0a84e8281a7c35">More...</a><br /></td></tr>
 <tr class="separator:af014827ed3618e28ef0a84e8281a7c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77757315546135bd8342f83562d35609"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a77757315546135bd8342f83562d35609">m_radiusMaxWinds</a></td></tr>
+<tr class="memdesc:a77757315546135bd8342f83562d35609"><td class="mdescLeft">&#160;</td><td class="mdescRight">Radius to maximum winds.  <a href="classAtcfLine.html#a77757315546135bd8342f83562d35609">More...</a><br /></td></tr>
 <tr class="separator:a77757315546135bd8342f83562d35609"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add4fd4445a829c2a31ee56ef20e6d3e6"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#add4fd4445a829c2a31ee56ef20e6d3e6">m_radiusPouter</a></td></tr>
+<tr class="memdesc:add4fd4445a829c2a31ee56ef20e6d3e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Radius of last closed isobar.  <a href="classAtcfLine.html#add4fd4445a829c2a31ee56ef20e6d3e6">More...</a><br /></td></tr>
 <tr class="separator:add4fd4445a829c2a31ee56ef20e6d3e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2d5cbd28bd1dbad29214e5bf98c5a5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDate.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d">m_refDatetime</a></td></tr>
+<tr class="memdesc:ab2d5cbd28bd1dbad29214e5bf98c5a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference date/time.  <a href="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d">More...</a><br /></td></tr>
 <tr class="separator:ab2d5cbd28bd1dbad29214e5bf98c5a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a464f54775802f2ddf0bb08a6a266a0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classIsotach.html">Isotach</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0">m_seas</a></td></tr>
+<tr class="memdesc:a5a464f54775802f2ddf0bb08a6a266a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">"Isotachs" of wave heights  <a href="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0">More...</a><br /></td></tr>
 <tr class="separator:a5a464f54775802f2ddf0bb08a6a266a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af67dfb2171b4be0f0111bd6d492b456f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f">m_stormDirection</a></td></tr>
+<tr class="memdesc:af67dfb2171b4be0f0111bd6d492b456f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm direction in degrees.  <a href="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f">More...</a><br /></td></tr>
 <tr class="separator:af67dfb2171b4be0f0111bd6d492b456f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abac2d3e5fbdd3a7d537eedb60577a504"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#abac2d3e5fbdd3a7d537eedb60577a504">m_stormName</a></td></tr>
+<tr class="memdesc:abac2d3e5fbdd3a7d537eedb60577a504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm name.  <a href="classAtcfLine.html#abac2d3e5fbdd3a7d537eedb60577a504">More...</a><br /></td></tr>
 <tr class="separator:abac2d3e5fbdd3a7d537eedb60577a504"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b184944fb10e8dbc82c35f497b0fcaa"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a0b184944fb10e8dbc82c35f497b0fcaa">m_stormSpeed</a></td></tr>
+<tr class="memdesc:a0b184944fb10e8dbc82c35f497b0fcaa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm speed in m/s.  <a href="classAtcfLine.html#a0b184944fb10e8dbc82c35f497b0fcaa">More...</a><br /></td></tr>
 <tr class="separator:a0b184944fb10e8dbc82c35f497b0fcaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11c47ef181e0a30ab5de19f507cbb502"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a11c47ef181e0a30ab5de19f507cbb502">m_subregion</a></td></tr>
+<tr class="memdesc:a11c47ef181e0a30ab5de19f507cbb502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subregion where the storm occurs.  <a href="classAtcfLine.html#a11c47ef181e0a30ab5de19f507cbb502">More...</a><br /></td></tr>
 <tr class="separator:a11c47ef181e0a30ab5de19f507cbb502"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad92a3e653312652dcc25d5f3f4db1a6d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ad92a3e653312652dcc25d5f3f4db1a6d">m_systemDepth</a></td></tr>
+<tr class="memdesc:ad92a3e653312652dcc25d5f3f4db1a6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">System depth.  <a href="classAtcfLine.html#ad92a3e653312652dcc25d5f3f4db1a6d">More...</a><br /></td></tr>
 <tr class="separator:ad92a3e653312652dcc25d5f3f4db1a6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a579b84fbdc7ee7f46ec184b9f43116ff"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a579b84fbdc7ee7f46ec184b9f43116ff">m_tau</a></td></tr>
+<tr class="memdesc:a579b84fbdc7ee7f46ec184b9f43116ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Forecast hour.  <a href="classAtcfLine.html#a579b84fbdc7ee7f46ec184b9f43116ff">More...</a><br /></td></tr>
 <tr class="separator:a579b84fbdc7ee7f46ec184b9f43116ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a802539bf7fe4e8e59b55f1339b4e61ba"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a802539bf7fe4e8e59b55f1339b4e61ba">m_technum</a></td></tr>
+<tr class="memdesc:a802539bf7fe4e8e59b55f1339b4e61ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Technique number.  <a href="classAtcfLine.html#a802539bf7fe4e8e59b55f1339b4e61ba">More...</a><br /></td></tr>
 <tr class="separator:a802539bf7fe4e8e59b55f1339b4e61ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77ee804d25d78029f95b712b7c7c2a0f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a77ee804d25d78029f95b712b7c7c2a0f">m_techstring</a></td></tr>
+<tr class="memdesc:a77ee804d25d78029f95b712b7c7c2a0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Technique name.  <a href="classAtcfLine.html#a77ee804d25d78029f95b712b7c7c2a0f">More...</a><br /></td></tr>
 <tr class="separator:a77ee804d25d78029f95b712b7c7c2a0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a532e53cb4f53c9cf77f82dcd66cbd037"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a532e53cb4f53c9cf77f82dcd66cbd037">m_u</a></td></tr>
+<tr class="memdesc:a532e53cb4f53c9cf77f82dcd66cbd037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translation velocity (u-direction)  <a href="classAtcfLine.html#a532e53cb4f53c9cf77f82dcd66cbd037">More...</a><br /></td></tr>
 <tr class="separator:a532e53cb4f53c9cf77f82dcd66cbd037"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f7fd7a503ac6c08d31d84e990bace12"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a9f7fd7a503ac6c08d31d84e990bace12">m_uv</a></td></tr>
+<tr class="memdesc:a9f7fd7a503ac6c08d31d84e990bace12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translation speed.  <a href="classAtcfLine.html#a9f7fd7a503ac6c08d31d84e990bace12">More...</a><br /></td></tr>
 <tr class="separator:a9f7fd7a503ac6c08d31d84e990bace12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6322dc94f9b442feaf909050195e0f41"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a6322dc94f9b442feaf909050195e0f41">m_v</a></td></tr>
+<tr class="memdesc:a6322dc94f9b442feaf909050195e0f41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Translation velocity (v-direction)  <a href="classAtcfLine.html#a6322dc94f9b442feaf909050195e0f41">More...</a><br /></td></tr>
 <tr class="separator:a6322dc94f9b442feaf909050195e0f41"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1fcc1f3310fb1bc8b81afe20b4a0b30"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ad1fcc1f3310fb1bc8b81afe20b4a0b30">m_vmax</a></td></tr>
+<tr class="memdesc:ad1fcc1f3310fb1bc8b81afe20b4a0b30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm maximum wind velocity.  <a href="classAtcfLine.html#ad1fcc1f3310fb1bc8b81afe20b4a0b30">More...</a><br /></td></tr>
 <tr class="separator:ad1fcc1f3310fb1bc8b81afe20b4a0b30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
@@ -338,10 +367,11 @@ Friends</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Default constructor </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a35c13e37b2ea718539aa5f54b88eb55b_icgraph.svg" width="498" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a35c13e37b2ea718539aa5f54b88eb55b_icgraph.svg" width="359" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -366,7 +396,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_acc738a7f1329678309e649d09156d29c_icgraph.svg" width="514" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_acc738a7f1329678309e649d09156d29c_icgraph.svg" width="375" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -389,7 +419,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a757a667960cf8420a7d565899ba74dd5_icgraph.svg" width="654" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a757a667960cf8420a7d565899ba74dd5_icgraph.svg" width="515" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -413,7 +443,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af02cbe832e0a7a708e691fff2b48ebc4_icgraph.svg" width="550" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af02cbe832e0a7a708e691fff2b48ebc4_icgraph.svg" width="411" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -454,7 +484,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcfLine_afcbce102d14966134f6a19e60597c61c_icgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_afcbce102d14966134f6a19e60597c61c_icgraph.svg" width="636" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -520,6 +550,7 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Get the current gust speed </p><dl class="section return"><dt>Returns</dt><dd></dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -566,10 +597,11 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Check if the current object is nulled </p><dl class="section return"><dt>Returns</dt><dd></dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_abada6dfb33f4cbafe1e443a5cf8dc8d0_icgraph.svg" width="331" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_abada6dfb33f4cbafe1e443a5cf8dc8d0_icgraph.svg" width="192" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -635,7 +667,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a3554190fe6a66d73743a6aa7407be529_icgraph.svg" width="431" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a3554190fe6a66d73743a6aa7407be529_icgraph.svg" width="292" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -658,7 +690,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af473414f523913837f7ee7520fa9e63d_icgraph.svg" width="100%" height="385"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af473414f523913837f7ee7520fa9e63d_icgraph.svg" width="596" height="114"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -681,7 +713,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcfLine_abf1373f021c76c8df3ab03e92eddc42f_icgraph.svg" width="100%" height="385"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_abf1373f021c76c8df3ab03e92eddc42f_icgraph.svg" width="596" height="114"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -750,7 +782,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a3edde0bc6afb6f2de5faed719ca41b52_icgraph.svg" width="594" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a3edde0bc6afb6f2de5faed719ca41b52_icgraph.svg" width="455" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -826,11 +858,9 @@ Here is the call graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
-
-<p>Static function to parse an atcf line text using boost. Places data into an Atcfline object and returns. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Static function to parse an atcf line text using boost. Places data into an Atcfline object and returns </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">line</td><td>line from the file being read </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">line</td><td>line from the file being read </td></tr>
   </table>
   </dd>
 </dl>
@@ -844,7 +874,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a669437f8facd47f46097adc21d0d497b_icgraph.svg" width="379" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a669437f8facd47f46097adc21d0d497b_icgraph.svg" width="240" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -867,7 +897,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a666b44934c6c535221a830365097c42d_icgraph.svg" width="612" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a666b44934c6c535221a830365097c42d_icgraph.svg" width="474" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -890,7 +920,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ad2910e96b46c135de328985b5afac3cb_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ad2910e96b46c135de328985b5afac3cb_icgraph.svg" width="320" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -913,7 +943,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a6ac5cb831a411289763eecc6f40e7722_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a6ac5cb831a411289763eecc6f40e7722_icgraph.svg" width="550" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -942,6 +972,19 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Generic helper function to check for blank data in <a class="el" href="classAtcf.html" title="Class that handles operations on Atcf format files.">Atcf</a> lines during read </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>variable type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>string of data </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>data as number or zero in appropriate type </dd></dl>
 
 </div>
 </div>
@@ -962,7 +1005,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_aed5531012579283c189c8bafe7738fc9_icgraph.svg" width="556" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_aed5531012579283c189c8bafe7738fc9_icgraph.svg" width="418" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1028,7 +1071,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a10cf0c5bc3997b3342597aa7ebee21b9_icgraph.svg" width="500" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a10cf0c5bc3997b3342597aa7ebee21b9_icgraph.svg" width="362" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1058,7 +1101,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ae955293026a90f5e5288b507deebdcac_icgraph.svg" width="562" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ae955293026a90f5e5288b507deebdcac_icgraph.svg" width="423" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1088,7 +1131,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0bad5c6c920656697893a8ddc09076de_icgraph.svg" width="520" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0bad5c6c920656697893a8ddc09076de_icgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1181,6 +1224,12 @@ Here is the call graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Set the current object null status </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">isNull</td><td>null status of object </td></tr>
+  </table>
+  </dd>
+</dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -1214,7 +1263,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ae6665099efc25d2f067359712c403a28_icgraph.svg" width="486" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ae6665099efc25d2f067359712c403a28_icgraph.svg" width="347" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1244,7 +1293,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a820d2d4a882e977cc3e1a4e543067428_icgraph.svg" width="488" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a820d2d4a882e977cc3e1a4e543067428_icgraph.svg" width="350" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1322,7 +1371,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a70386cf97cc13ad4eccb2556d0339f0a_icgraph.svg" width="495" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a70386cf97cc13ad4eccb2556d0339f0a_icgraph.svg" width="356" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1352,7 +1401,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ae091671d04a10571b3788f0e2877ee32_icgraph.svg" width="506" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ae091671d04a10571b3788f0e2877ee32_icgraph.svg" width="367" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1377,12 +1426,6 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_cgraph.svg" width="320" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_icgraph.svg" width="570" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1412,7 +1455,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a34c654291dd08cde0d1de4fb6d0a3704_icgraph.svg" width="546" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a34c654291dd08cde0d1de4fb6d0a3704_icgraph.svg" width="407" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1442,7 +1485,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0fc89ec97a25a3e2a23bbc3c2b4bda56_icgraph.svg" width="580" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0fc89ec97a25a3e2a23bbc3c2b4bda56_icgraph.svg" width="442" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1620,7 +1663,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ad57a2b2bb9a17190f60c202bcc91f7c1_icgraph.svg" width="488" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ad57a2b2bb9a17190f60c202bcc91f7c1_icgraph.svg" width="350" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1650,7 +1693,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a4fa34cd3a6f778e4403e176ea1f3541f_icgraph.svg" width="520" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a4fa34cd3a6f778e4403e176ea1f3541f_icgraph.svg" width="382" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1680,7 +1723,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_abdb3c2bffc3702fa3e4f9536d9f541f3_icgraph.svg" width="527" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_abdb3c2bffc3702fa3e4f9536d9f541f3_icgraph.svg" width="388" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1746,7 +1789,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a946c6bb3652bb5510a52cd7e7f22fac7_icgraph.svg" width="502" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a946c6bb3652bb5510a52cd7e7f22fac7_icgraph.svg" width="363" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1793,10 +1836,17 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Split a string by commas using Boost libraries. Note that token compression is turned off </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">line</td><td>string to split </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of split strings </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a86d591997eedb1660c07467b712d6bbc_icgraph.svg" width="507" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a86d591997eedb1660c07467b712d6bbc_icgraph.svg" width="368" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1945,7 +1995,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a70da9c9b2893017befb42f0692c0de03_icgraph.svg" width="576" height="63"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a70da9c9b2893017befb42f0692c0de03_icgraph.svg" width="438" height="63"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1968,7 +2018,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a04d3a69396be284937b47a975ea8e179_icgraph.svg" width="640" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a04d3a69396be284937b47a975ea8e179_icgraph.svg" width="502" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1991,7 +2041,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ac66e05fdb0a5d757bf0e7d34ecfe6b4b_icgraph.svg" width="654" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ac66e05fdb0a5d757bf0e7d34ecfe6b4b_icgraph.svg" width="515" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -2048,7 +2098,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0ab834110d8e43facd39af7df53c8c22_icgraph.svg" width="604" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0ab834110d8e43facd39af7df53c8c22_icgraph.svg" width="466" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -2139,6 +2189,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Basin where the cyclone occurs. </p>
+
 </div>
 </div>
 <a id="abe656ea7b0797b1b3997ba38d7cd0905"></a>
@@ -2160,6 +2212,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Cyclone number. </p>
 
 </div>
 </div>
@@ -2183,6 +2237,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Current date/time. </p>
+
 </div>
 </div>
 <a id="ab7831467e3e9a8d6399463f4fbb8f7d5"></a>
@@ -2204,6 +2260,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Diameter of the storm eye. </p>
 
 </div>
 </div>
@@ -2227,6 +2285,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Maximum gust wind speed. </p>
+
 </div>
 </div>
 <a id="a92242ba751186e85b63cc852e59a8655"></a>
@@ -2248,6 +2308,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Forecaster initials. </p>
 
 </div>
 </div>
@@ -2271,6 +2333,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Vector of storm isotachs. </p>
+
 </div>
 </div>
 <a id="a5d7de21e0be4d9b778dc9cc1fd6514f9"></a>
@@ -2292,6 +2356,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Storm center latitude. </p>
 
 </div>
 </div>
@@ -2315,6 +2381,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Storm center longitude. </p>
+
 </div>
 </div>
 <a id="a9df0fba1e2f50c17fa07101b9002b005"></a>
@@ -2336,6 +2404,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Maximum development level that the storm has achieved. </p>
 
 </div>
 </div>
@@ -2359,6 +2429,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Maximum wave heights. </p>
+
 </div>
 </div>
 <a id="a1ca9d44c6e999628e73c19952bc57cdb"></a>
@@ -2380,6 +2452,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Storm minimum sea level pressure. </p>
 
 </div>
 </div>
@@ -2403,6 +2477,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Is this record null. </p>
+
 </div>
 </div>
 <a id="af014827ed3618e28ef0a84e8281a7c35"></a>
@@ -2424,6 +2500,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Background pressure. </p>
 
 </div>
 </div>
@@ -2447,6 +2525,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Radius to maximum winds. </p>
+
 </div>
 </div>
 <a id="add4fd4445a829c2a31ee56ef20e6d3e6"></a>
@@ -2468,6 +2548,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Radius of last closed isobar. </p>
 
 </div>
 </div>
@@ -2491,6 +2573,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Reference date/time. </p>
+
 </div>
 </div>
 <a id="a5a464f54775802f2ddf0bb08a6a266a0"></a>
@@ -2512,6 +2596,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>"Isotachs" of wave heights </p>
 
 </div>
 </div>
@@ -2535,6 +2621,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Storm direction in degrees. </p>
+
 </div>
 </div>
 <a id="abac2d3e5fbdd3a7d537eedb60577a504"></a>
@@ -2556,6 +2644,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Storm name. </p>
 
 </div>
 </div>
@@ -2579,6 +2669,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Storm speed in m/s. </p>
+
 </div>
 </div>
 <a id="a11c47ef181e0a30ab5de19f507cbb502"></a>
@@ -2600,6 +2692,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Subregion where the storm occurs. </p>
 
 </div>
 </div>
@@ -2623,6 +2717,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>System depth. </p>
+
 </div>
 </div>
 <a id="a579b84fbdc7ee7f46ec184b9f43116ff"></a>
@@ -2644,6 +2740,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Forecast hour. </p>
 
 </div>
 </div>
@@ -2667,6 +2765,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Technique number. </p>
+
 </div>
 </div>
 <a id="a77ee804d25d78029f95b712b7c7c2a0f"></a>
@@ -2688,6 +2788,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Technique name. </p>
 
 </div>
 </div>
@@ -2711,6 +2813,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Translation velocity (u-direction) </p>
+
 </div>
 </div>
 <a id="a9f7fd7a503ac6c08d31d84e990bace12"></a>
@@ -2732,6 +2836,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Translation speed. </p>
 
 </div>
 </div>
@@ -2755,6 +2861,8 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>Translation velocity (v-direction) </p>
+
 </div>
 </div>
 <a id="ad1fcc1f3310fb1bc8b81afe20b4a0b30"></a>
@@ -2776,6 +2884,8 @@ Here is the caller graph for this function:</div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Storm maximum wind velocity. </p>
 
 </div>
 </div>
