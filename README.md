@@ -3,6 +3,7 @@
 A standalone version of the Generalized Asymmetric Holland Model, GAHM, which is used as NWS=20 in ADCIRC
 
 ## Repository Metrics
+[![CircleCI](https://circleci.com/gh/adcirc/gahm.svg?style=shield&circle-token=116e719e84c21191a8b39903273590bdbf016d48)](https://circleci.com/gh/adcirc/adcirc-cg)
 
 ## Under Construction
 
