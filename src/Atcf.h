@@ -74,6 +74,9 @@ class Atcf {
 
   StormParameters getStormParameters(const Date &d) const;
 
+  enum AtcfFileTypes { FormatAtcf, FormatNWS20 };
+  void write(const std::string &filename, AtcfFileTypes = FormatNWS20) const;
+
  private:
   /// Filename of the Atcf file to use
   std::string m_filename;
@@ -82,27 +85,27 @@ class Atcf {
   std::vector<AtcfLine> m_atcfData;
 
   /// Assumptions that are made within this code for diagnostic analysis later
-  Assumptions *m_assumptions{};
+  Assumptions *m_assumptions;
+
+  int computeParameters();
 
   int generateMissingPressureData(const HurricanePressure::PressureMethod
                                       &method = HurricanePressure::KNAFFZEHR);
 
-  void setAllRadiiToRmax(std::array<double, 4> &radii,
-                         std::array<int, 4> &quadFlag, double rmax,
+  void setAllRadiiToRmax(CircularArray<double, 4> *radii,
+                         CircularArray<bool, 4> *quadFlag, double rmax,
                          size_t record, size_t isotach);
-  void setMissingRadiiToHalfNonzeroRadii(std::array<double, 4> &radii,
+
+  void setMissingRadiiToHalfNonzeroRadii(CircularArray<double, 4> *radii,
                                          double radiisum, size_t record,
                                          size_t isotach);
 
   void setMissingRadiiToHalfOfAverageSpecifiedRadii(
-      std::array<double, 4> &radii, double radiisum, size_t record,
+      CircularArray<double, 4> *radii, double radiisum, size_t record,
       size_t isotach);
 
-  void setMissingRadiiToAverageOfAdjacentRadii(
-      std::array<double, 4> &radii, const std::array<double, 6> &lookup_radii,
-      size_t record, size_t isotach);
-
-  void setInitialHollandB();
+  void setMissingRadiiToAverageOfAdjacentRadii(CircularArray<double, 4> *radii,
+                                               size_t record, size_t isotach);
 
   static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                      double &vv, double &uuvv);

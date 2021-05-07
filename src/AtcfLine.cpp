@@ -53,16 +53,16 @@ AtcfLine::AtcfLine()
       m_eyeDiameter(0.0),
       m_gusts(0.0),
       m_subregion('N'),
-      m_maxSeas(0.0),
       m_initials("NA"),
       m_stormDirection(0.0),
       m_stormSpeed(0.0),
       m_stormName("NONE"),
       m_systemDepth("NA"),
-      m_null(true),
+      m_coriolis(0.0),
+      m_uv(0.0),
       m_u(0.0),
       m_v(0.0),
-      m_uv(0.0) {}
+      m_null(true) {}
 
 /**
  * Static function to parse an atcf line text using boost. Places data
@@ -115,7 +115,6 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
       AtcfLine::readValueCheckBlank<double>(split[11]) * Physical::kt2ms(), r1,
       r2, r3, r4);
   a.addIsotach(i);
-
   a.setPouter(AtcfLine::readValueCheckBlank<double>(split[17]));
   a.setRadiusPouter(AtcfLine::readValueCheckBlank<double>(split[18]) *
                     Physical::nmi2km());
@@ -126,12 +125,17 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) *
                    Physical::nmi2km());
   a.setSubregion(split[22][0]);
-  a.setMaxSeas(AtcfLine::readValueCheckBlank<double>(split[23]));
   a.setInitials(split[24]);
   a.setStormDirection(AtcfLine::readValueCheckBlank<double>(split[25]));
   a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) *
                   Physical::kt2ms());
   a.setStormName(split[27]);
+
+  std::fill(a.isotach(0)->hollandB()->begin(), a.isotach(0)->hollandB()->end(),
+            Physical::calcHollandB(a.vmax(), a.mslp(), a.pouter()));
+  std::fill(a.isotach(0)->phi()->begin(), a.isotach(0)->phi()->end(), 1.0);
+  a.setCoriolis(Physical::coriolis(a.lat()));
+
   a.setIsNull(false);
   return a;
 }
@@ -277,10 +281,6 @@ char AtcfLine::subregion() const { return m_subregion; }
 
 void AtcfLine::setSubregion(char subregion) { m_subregion = subregion; }
 
-double AtcfLine::maxSeas() const { return m_maxSeas; }
-
-void AtcfLine::setMaxSeas(double maxSeas) { m_maxSeas = maxSeas; }
-
 std::string AtcfLine::initials() const { return m_initials; }
 
 void AtcfLine::setInitials(const std::string &initials) {
@@ -329,14 +329,44 @@ void AtcfLine::removeIsotach(size_t pos) {
 
 size_t AtcfLine::nIsotach() const { return m_isotach.size(); }
 
-Isotach *AtcfLine::seas(size_t index) {
-  assert(index < m_seas.size());
-  return &m_seas[index];
+std::array<double, 4> AtcfLine::quadrantHollandB(size_t quadrant) const {
+  assert(quadrant < 4);
+  std::array<double, 4> arr;
+  std::fill(arr.begin(), arr.end(), 0.0);
+  for (size_t i = 0; i < m_isotach.size(); ++i) {
+    arr[i] = m_isotach[i].chollandB()->at(quadrant);
+  }
+  return arr;
 }
 
-const Isotach *AtcfLine::cseas(size_t index) const {
-  assert(index < m_seas.size());
-  return &m_seas[index];
+std::array<double, 4> AtcfLine::quadrantRmax(size_t quadrant) const {
+  assert(quadrant < 4);
+  std::array<double, 4> arr;
+  std::fill(arr.begin(), arr.end(), 0.0);
+  for (size_t i = 0; i < m_isotach.size(); ++i) {
+    arr[i] = m_isotach[i].crmax()->at(quadrant);
+  }
+  return arr;
+}
+
+std::array<double, 4> AtcfLine::quadrantRadii(size_t quadrant) const {
+  assert(quadrant < 4);
+  std::array<double, 4> arr;
+  std::fill(arr.begin(), arr.end(), 0.0);
+  for (size_t i = 0; i < m_isotach.size(); ++i) {
+    arr[i] = m_isotach[i].cisotachRadius()->at(quadrant);
+  }
+  return arr;
+}
+
+std::array<double, 4> AtcfLine::quadrantVmaxBL(size_t quadrant) const {
+  assert(quadrant < 4);
+  std::array<double, 4> arr;
+  std::fill(arr.begin(), arr.end(), 0.0);
+  for (size_t i = 0; i < m_isotach.size(); ++i) {
+    arr[i] = m_isotach[i].cvmaxBl()->at(quadrant);
+  }
+  return arr;
 }
 
 /**
@@ -428,3 +458,7 @@ void AtcfLine::setUTrans(double u) { m_u = u; }
 double AtcfLine::vTrans() const { return m_v; }
 
 void AtcfLine::setVTrans(double v) { m_v = v; }
+
+double AtcfLine::coriolis() const { return m_coriolis; }
+
+void AtcfLine::setCoriolis(double coriolis) { m_coriolis = coriolis; }

@@ -30,52 +30,38 @@ static constexpr std::array<const char *, 6> radiusString = {
     "AAA", "NEQ", "SEQ", "SWQ", "NWQ", "NONE"};
 
 Isotach::Isotach()
-    : m_windSpeed(0.0), m_radius{0.0, 0.0, 0.0, 0.0}, m_radiusCode(NONE) {}
+    : m_windSpeed(0.0),
+      m_isotachRadius({0.0, 0.0, 0.0, 0.0}),
+      m_rmax({0.0, 0.0, 0.0, 0.0}),
+      m_hollandB({1.0, 1.0, 1.0, 1.0}),
+      m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
+      m_quadFlag({false, false, false, false}),
+      m_radiusCode(NONE) {}
 
 Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
                  double r2, double r3, double r4)
-    : m_windSpeed(windSpeed), m_radius{r1, r2, r3, r4}, m_radiusCode(code) {}
+    : m_windSpeed(windSpeed),
+      m_isotachRadius({r1, r2, r3, r4}),
+      m_radiusCode(code) {}
 
 double Isotach::windSpeed() const { return m_windSpeed; }
 
 void Isotach::setWindSpeed(double windSpeed) { m_windSpeed = windSpeed; }
 
-double Isotach::radiusQ1() const { return m_radius[0]; }
-
-void Isotach::setRadiusQ1(double radiusQ1) { m_radius[0] = radiusQ1; }
-
-double Isotach::radiusQ2() const { return m_radius[1]; }
-
-void Isotach::setRadiusQ2(double radiusQ2) { m_radius[1] = radiusQ2; }
-
-double Isotach::radiusQ3() const { return m_radius[2]; }
-
-void Isotach::setRadiusQ3(double radiusQ3) { m_radius[2] = radiusQ3; }
-
-double Isotach::radiusQ4() const { return m_radius[3]; }
-
-void Isotach::setRadiusQ4(double radiusQ4) { m_radius[3] = radiusQ4; }
-
-std::array<double, 4> Isotach::radii() { return m_radius; }
-
-void Isotach::setRadii(std::array<double, 4> radii) { m_radius = radii; }
-
-void Isotach::setRadii(double r1, double r2, double r3, double r4) {
-  m_radius = {r1, r2, r3, r4};
-}
-
-void Isotach::setRadii(std::vector<double> radii) {
-  assert(radii.size() == 4);
-  m_radius = {radii[0], radii[1], radii[2], radii[3]};
-}
-
 Isotach::RadiusCode Isotach::code() const { return m_radiusCode; }
 void Isotach::setCode(RadiusCode code) { m_radiusCode = code; }
 
+void Isotach::generateQuadFlag() {
+  for (size_t i = 0; i < m_quadFlag.size(); ++i) {
+    m_quadFlag[i] = m_isotachRadius.at(i) > 0;
+  }
+}
+
 bool Isotach::isNull(const Isotach &iso) {
   if (iso.windSpeed() == 0.0) return true;
-  if (iso.radiusQ1() <= 0.0 && iso.radiusQ2() <= 0.0 && iso.radiusQ3() <= 0.0 &&
-      iso.radiusQ4() <= 0.0)
+  if (iso.cisotachRadius()->at(0) <= 0.0 &&
+      iso.cisotachRadius()->at(1) <= 0.0 &&
+      iso.cisotachRadius()->at(2) <= 0.0 && iso.cisotachRadius()->at(3) <= 0.0)
     return true;
   if (iso.code() == RadiusCode::NONE) return true;
   return false;
@@ -94,27 +80,44 @@ std::string Isotach::stringFromCode(Isotach::RadiusCode code) {
   return radiusString[code];
 }
 
-std::array<double, 6> Isotach::lookupRadii() const { return m_lookup_radii; }
-
-void Isotach::setLookupRadii(const std::array<double, 6> &lookup_radii) {
-  m_lookup_radii = lookup_radii;
-}
-
-std::array<int, 4> Isotach::quadflag() const { return m_quadflag; }
-
-void Isotach::setQuadflag(const std::array<int, 4> &quadflag) {
-  m_quadflag = quadflag;
-}
-
 Isotach::RadiusCode Isotach::radiusCode() const { return m_radiusCode; }
 
 void Isotach::setRadiusCode(const RadiusCode &radiusCode) {
   m_radiusCode = radiusCode;
 }
 
+CircularArray<bool, 4> *Isotach::quadFlag() { return &m_quadFlag; }
+
+CircularArray<double, 4> *Isotach::isotachRadius() { return &m_isotachRadius; }
+
+CircularArray<double, 4> *Isotach::rmax() { return &m_rmax; }
+
+CircularArray<double, 4> *Isotach::vmaxBl() { return &m_vmaxBL; }
+
+CircularArray<double, 4> *Isotach::hollandB() { return &m_hollandB; }
+
+CircularArray<double, 4> *Isotach::phi() { return &m_phi; }
+
+const CircularArray<bool, 4> *Isotach::cquadFlag() const { return &m_quadFlag; }
+
+const CircularArray<double, 4> *Isotach::cisotachRadius() const {
+  return &m_isotachRadius;
+}
+
+const CircularArray<double, 4> *Isotach::crmax() const { return &m_rmax; }
+
+const CircularArray<double, 4> *Isotach::cvmaxBl() const { return &m_vmaxBL; }
+
+const CircularArray<double, 4> *Isotach::chollandB() const {
+  return &m_hollandB;
+}
+
+const CircularArray<double, 4> *Isotach::cphi() const { return &m_phi; }
+
 std::ostream &operator<<(std::ostream &os, const Isotach &iso) {
   os << Isotach::stringFromCode(iso.code()) << ", " << iso.windSpeed()
-     << " m/s, [" << iso.radiusQ1() << ", " << iso.radiusQ2() << ", "
-     << iso.radiusQ3() << ", " << iso.radiusQ4() << "]";
+     << " m/s, [" << iso.cisotachRadius()->at(0) << ", "
+     << iso.cisotachRadius()->at(1) << ", " << iso.cisotachRadius()->at(2)
+     << ", " << iso.cisotachRadius()->at(3) << "]";
   return os;
 }

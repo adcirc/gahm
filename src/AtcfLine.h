@@ -34,6 +34,7 @@
 
 #include "Date.h"
 #include "Isotach.h"
+#include "Physical.h"
 
 class AtcfLine {
  public:
@@ -83,6 +84,11 @@ class AtcfLine {
   void removeIsotach(size_t pos);
   size_t nIsotach() const;
 
+  std::array<double, 4> quadrantHollandB(size_t quadrant) const;
+  std::array<double, 4> quadrantRmax(size_t quadrant) const;
+  std::array<double, 4> quadrantRadii(size_t quadrant) const;
+  std::array<double, 4> quadrantVmaxBL(size_t quadrant) const;
+
   double pouter() const;
   void setPouter(double pouter);
 
@@ -98,9 +104,6 @@ class AtcfLine {
   char subregion() const;
   void setSubregion(char subregion);
 
-  double maxSeas() const;
-  void setMaxSeas(double maxSeas);
-
   std::string initials() const;
   void setInitials(const std::string &initials);
 
@@ -115,9 +118,6 @@ class AtcfLine {
 
   std::string systemDepth() const;
   void setSystemDepth(const std::string &systemDepth);
-
-  Isotach *seas(size_t index);
-  const Isotach *cseas(size_t index) const;
 
   friend std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);
 
@@ -142,6 +142,9 @@ class AtcfLine {
 
   double vTrans() const;
   void setVTrans(double v);
+
+  double coriolis() const;
+  void setCoriolis(double coriolis);
 
  private:
   /// Basin where the cyclone occurs
@@ -177,6 +180,9 @@ class AtcfLine {
   /// Storm minimum sea level pressure
   double m_mslp;
 
+  /// Coriolis Force
+  double m_coriolis;
+
   /// Maximum development level that the storm has achieved
   std::string m_maxDevelopmentLevel;
 
@@ -201,9 +207,6 @@ class AtcfLine {
   /// Subregion where the storm occurs
   char m_subregion;
 
-  /// Maximum wave heights
-  double m_maxSeas;
-
   /// Forecaster initials
   std::string m_initials;
 
@@ -218,9 +221,6 @@ class AtcfLine {
 
   /// System depth
   std::string m_systemDepth;
-
-  /// "Isotachs" of wave heights
-  std::vector<Isotach> m_seas;
 
   /// Is this record null
   bool m_null;
@@ -239,7 +239,6 @@ class AtcfLine {
   template <typename T, typename = typename std::enable_if<
                             std::is_arithmetic<T>::value, T>::type>
   static T readValueCheckBlank(const std::string &line);
-
 };
 
 std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);

@@ -32,6 +32,7 @@
 
 #include "Logging.h"
 #include "Physical.h"
+#include "boost/format.hpp"
 
 /**
  * Constructor
@@ -87,7 +88,7 @@ int Atcf::read() {
   this->calculateOverlandTranslationVelocity();
   this->generateMissingPressureData();
   this->calculateRadii();
-  this->setInitialHollandB();
+  this->computeParameters();
   return 0;
 }
 
@@ -138,11 +139,18 @@ int Atcf::calculateOverlandTranslationVelocity() {
       it->setStormDirection((it - 1)->stormDirection());
     } else {
       double dir = std::atan2(u, v);
-      if (dir < 0.0) dir += 360.0;
-      it->setStormDirection(dir);
+      if (dir < 0.0) dir += Physical::twopi();
+      it->setStormDirection(dir * Physical::rad2deg());
     }
     it->setStormTranslationVelocities(u, v, uv);
+    it->setStormSpeed(uv);
   }
+  m_atcfData.begin()->setStormDirection(
+      (m_atcfData.begin() + 1)->stormDirection());
+  m_atcfData.begin()->setStormSpeed((m_atcfData.begin() + 1)->stormSpeed());
+  auto v = (m_atcfData.begin() + 1)->stormTranslationVelocities();
+  m_atcfData.begin()->setStormTranslationVelocities(
+      std::get<0>(v), std::get<1>(v), std::get<2>(v));
   return 0;
 }
 
@@ -154,11 +162,12 @@ int Atcf::calculateOverlandTranslationVelocity() {
  * @param[in] record record number
  * @param[in] isotach isotach number
  */
-void Atcf::setAllRadiiToRmax(std::array<double, 4> &radii,
-                             std::array<int, 4> &quadFlag, const double rmax,
-                             const size_t record, const size_t isotach) {
-  std::fill(quadFlag.begin(), quadFlag.end(), 1);
-  std::fill(radii.begin(), radii.end(), rmax);
+void Atcf::setAllRadiiToRmax(CircularArray<double, 4> *radii,
+                             CircularArray<bool, 4> *quadFlag,
+                             const double rmax, const size_t record,
+                             const size_t isotach) {
+  std::fill(quadFlag->begin(), quadFlag->end(), 1);
+  std::fill(radii->begin(), radii->end(), rmax);
   this->m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
       "No isotachs reported. Assuming a constant "
@@ -173,12 +182,12 @@ void Atcf::setAllRadiiToRmax(std::array<double, 4> &radii,
  * @param[in] record record number
  * @param[in] isotach isotach number
  */
-void Atcf::setMissingRadiiToHalfNonzeroRadii(std::array<double, 4> &radii,
+void Atcf::setMissingRadiiToHalfNonzeroRadii(CircularArray<double, 4> *radii,
                                              const double radiisum,
                                              const size_t record,
                                              const size_t isotach) {
-  for (auto &r : radii) {
-    if (r == 0.0) r = radiisum * 0.5;
+  for (size_t i = 0; i < radii->size(); ++i) {
+    if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.5);
   }
   this->m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
@@ -195,10 +204,10 @@ void Atcf::setMissingRadiiToHalfNonzeroRadii(std::array<double, 4> &radii,
  * @param isotach isotach number
  */
 void Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii(
-    std::array<double, 4> &radii, const double radiisum, size_t record,
+    CircularArray<double, 4> *radii, const double radiisum, size_t record,
     size_t isotach) {
-  for (auto &r : radii) {
-    if (r == 0.0) r = radiisum * 0.25;
+  for (size_t i = 0; i < radii->size(); ++i) {
+    if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.25);
   }
   this->m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
@@ -215,11 +224,10 @@ void Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii(
  * @param isotach isotach number
  */
 void Atcf::setMissingRadiiToAverageOfAdjacentRadii(
-    std::array<double, 4> &radii, const std::array<double, 6> &lookup_radii,
-    size_t record, size_t isotach) {
-  for (size_t j = 0; j < radii.size(); ++j) {
-    if (radii[j] == 0.0) {
-      radii[j] = (lookup_radii[j - 1] + lookup_radii[j + 1]) * 0.5;
+    CircularArray<double, 4> *radii, size_t record, size_t isotach) {
+  for (size_t j = 0; j < radii->size(); ++j) {
+    if (radii->at(j) == 0.0) {
+      radii->set(j, (radii->at(j - 1) + radii->at(j + 1)) * 0.5);
     }
   }
   this->m_assumptions->add(generate_assumption(
@@ -237,34 +245,33 @@ void Atcf::setMissingRadiiToAverageOfAdjacentRadii(
 int Atcf::calculateRadii() {
   for (auto ait = m_atcfData.begin(); ait != m_atcfData.end(); ++ait) {
     for (size_t i = 0; i < ait->nIsotach(); ++i) {
-      const std::array<double, 6> lookup_radii = {
-          ait->cisotach(i)->radiusQ4(), ait->cisotach(i)->radiusQ1(),
-          ait->cisotach(i)->radiusQ2(), ait->cisotach(i)->radiusQ3(),
-          ait->cisotach(i)->radiusQ4(), ait->cisotach(i)->radiusQ1()};
-      const double radiisum = std::accumulate(lookup_radii.begin() + 1,
-                                              lookup_radii.end() - 1, 0.0);
-      std::array<int, 4> quadflag = {
-          lookup_radii[1] > 0 ? 1 : 0, lookup_radii[2] > 0 ? 1 : 0,
-          lookup_radii[3] > 0 ? 1 : 0, lookup_radii[4] > 0 ? 1 : 0};
-      std::array<double, 4> radii = {lookup_radii[1], lookup_radii[2],
-                                     lookup_radii[3], lookup_radii[4]};
+      const auto radii = ait->cisotach(i)->crmax()->data();
+      const double radiisum =
+          std::accumulate(radii.cbegin(), radii.cend(), 0.0);
+      ait->isotach(i)->generateQuadFlag();
       const int numNonzero =
-          std::accumulate(quadflag.begin(), quadflag.end(), 0);
+          std::accumulate(ait->cisotach(i)->cquadFlag()->cbegin(),
+                          ait->cisotach(i)->cquadFlag()->cend(), 0);
       const size_t record = ait - m_atcfData.begin();
+
+      std::cout << record << " " << numNonzero << " " << radiisum << std::endl;
+
       switch (numNonzero) {
         case 0:
-          this->setAllRadiiToRmax(radii, quadflag, ait->radiusMaxWinds(),
-                                  record, i);
+          this->setAllRadiiToRmax(ait->isotach(i)->rmax(),
+                                  ait->isotach(i)->quadFlag(),
+                                  ait->radiusMaxWinds(), record, i);
           break;
         case 1:
-          this->setMissingRadiiToHalfNonzeroRadii(radii, radiisum, record, i);
+          this->setMissingRadiiToHalfNonzeroRadii(ait->isotach(i)->rmax(),
+                                                  radiisum, record, i);
           break;
         case 2:
-          this->setMissingRadiiToHalfOfAverageSpecifiedRadii(radii, radiisum,
-                                                             record, i);
+          this->setMissingRadiiToHalfOfAverageSpecifiedRadii(
+              ait->isotach(i)->rmax(), radiisum, record, i);
           break;
         case 3:
-          this->setMissingRadiiToAverageOfAdjacentRadii(radii, lookup_radii,
+          this->setMissingRadiiToAverageOfAdjacentRadii(ait->isotach(i)->rmax(),
                                                         record, i);
           break;
         case 4:
@@ -274,9 +281,6 @@ int Atcf::calculateRadii() {
           gahm_throw_exception("Number of radii specified is not applicable");
           break;
       }
-      ait->isotach(i)->setRadii(radii);
-      ait->isotach(i)->setQuadflag(quadflag);
-      ait->isotach(i)->setLookupRadii(lookup_radii);
     }
   }
 
@@ -405,6 +409,133 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
   return s;
 }
 
+void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
+  std::ofstream f(filename);
+  size_t cycleNumber = 0;
+  for (const auto &a : m_atcfData) {
+    const std::string lat = boost::str(boost::format("%3i") %
+                                       (std::floor(std::abs(a.lat() * 10.0)))) +
+                            (a.lat() > 0 ? "N" : "S");
+    const std::string lon = boost::str(boost::format("%3i") %
+                                       (std::floor(std::abs(a.lon() * 10.0)))) +
+                            (a.lon() > 0 ? "E" : "W");
+    const std::string vmax = boost::str(
+        boost::format("%3i") % (std::round(a.vmax() * Physical::ms2kt())));
+    const std::string mslp =
+        boost::str(boost::format("%4i") % (std::round(a.mslp())));
+    const std::string backgroundPressure =
+        boost::str(boost::format("%4i") % std::round(a.pouter()));
+    const std::string rmax =
+        boost::str(boost::format("%4i") %
+                   (std::round(a.radiusMaxWinds() * Physical::km2nmi())));
+
+    std::string heading =
+        boost::str(boost::format("%3i") % (std::round(a.stormDirection())));
+    if (heading == " -0") heading = "  0";  //...Check for signed zero
+
+    const std::string forwardSpeed =
+        boost::str(boost::format("%3i") %
+                   (std::round(a.stormSpeed() * Physical::ms2kt())));
+    const std::string forecastHour =
+        boost::str(boost::format("%4i") %
+                   std::round((a.datetime().toSeconds() -
+                               m_atcfData.begin()->datetime().toSeconds()) /
+                              3600));
+    cycleNumber++;
+    for (size_t i = 0; i < a.nIsotach(); ++i) {
+      const std::string isoWindSpeed = boost::str(
+          boost::format("%4i") %
+          (std::round(a.cisotach(i)->windSpeed() * Physical::ms2kt())));
+      const std::string isospd = boost::str(
+          boost::format("%4i") %
+          (std::round(a.cisotach(i)->windSpeed() * Physical::ms2kt())));
+      const std::string ir1 =
+          boost::str(boost::format("%4i") %
+                     (std::round(a.cisotach(i)->cisotachRadius()->at(0) *
+                                 Physical::km2nmi())));
+      const std::string ir2 =
+          boost::str(boost::format("%4i") %
+                     (std::round(a.cisotach(i)->cisotachRadius()->at(1) *
+                                 Physical::km2nmi())));
+      const std::string ir3 =
+          boost::str(boost::format("%4i") %
+                     (std::round(a.cisotach(i)->cisotachRadius()->at(2) *
+                                 Physical::km2nmi())));
+      const std::string ir4 =
+          boost::str(boost::format("%4i") %
+                     (std::round(a.cisotach(i)->cisotachRadius()->at(4) *
+                                 Physical::km2nmi())));
+      const std::string rmx1 =
+          boost::str(boost::format("%9.1f") %
+                     (a.cisotach(i)->crmax()->at(0) * Physical::km2nmi()));
+      const std::string rmx2 =
+          boost::str(boost::format("%9.1f") %
+                     (a.cisotach(i)->crmax()->at(1) * Physical::km2nmi()));
+      const std::string rmx3 =
+          boost::str(boost::format("%9.1f") %
+                     (a.cisotach(i)->crmax()->at(2) * Physical::km2nmi()));
+      const std::string rmx4 =
+          boost::str(boost::format("%9.1f") %
+                     (a.cisotach(i)->crmax()->at(3) * Physical::km2nmi()));
+
+      f << boost::str(
+          boost::format(
+              "%3s, %02i, %04i%02i%02i%02i,   "
+              ",%5s,%4s,%5s,%5s,%4s,%5s,   "
+              ",%5s,%5s,%5s,%5s,%4s,%4s,%5s,     ,%4s,     ,    , "
+              "   ,    ,    "
+              ",%3s,%4s,%12s,%4i,%5i,%2i,%2i,%2i,%2i,%9s,%9s,%9s,%9s\n") %
+          a.basin() % a.cycloneNumber() % a.datetime().year() %
+          a.datetime().month() % a.datetime().day() % a.datetime().hour() %
+          a.techstring() % forecastHour % lat % lon % vmax % mslp %
+          isoWindSpeed % Isotach::stringFromCode(Isotach::RadiusCode::NEQ) %
+          ir1 % ir2 % ir3 % ir4 % backgroundPressure % rmax % heading %
+          forwardSpeed % a.stormName() % cycleNumber % a.nIsotach() %
+          a.cisotach(i)->cquadFlag()->at(0) %
+          a.cisotach(i)->cquadFlag()->at(1) %
+          a.cisotach(i)->cquadFlag()->at(2) %
+          a.cisotach(i)->cquadFlag()->at(3) % rmx1 % rmx2 % rmx3 % rmx4);
+    }
+  }
+  f.close();
+}
+
+int Atcf::computeParameters() {
+  for (auto &a : m_atcfData) {
+    for (size_t i = 0; i < a.nIsotach(); ++i) {
+      //...Check if the isotach is zero
+      const double vr = a.isotach(i)->windSpeed() == 0.0
+                            ? a.vmax()
+                            : a.isotach(i)->windSpeed();
+
+      //...Compute the friction angle
+      double nquadrotat = 300.0;
+      std::array<double, 4> quadRotateAngle({25.0, 25.0, 25.0, 25.0});
+      if (i > 0) {
+        nquadrotat = 1;
+        for (size_t j = 0; j < 4; ++j) {
+          quadRotateAngle[j] = Physical::frictionAngle(
+              a.isotach(i)->isotachRadius()->at(j), a.radiusMaxWinds());
+        }
+      }
+
+      //...Converge inward rotation angle
+      for (size_t j = 0; j < nquadrotat; ++j) {
+        for (size_t k = 0; k < 4; ++k) {
+          const double quadrantVectorAngles =
+              (Physical::quadrantAngle(k) + (90.0 + quadRotateAngle[k])) *
+              Physical::deg2rad();
+
+          //          if(j==0||vmwBLflag[j]==0){
+          //            const double epsilonAngle = 360.0 + std::atan2();
+          //          }
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 /**
  * Computes any missing pressure values in the specified Atcf data using the
  * specified method
@@ -444,8 +575,4 @@ int Atcf::generateMissingPressureData(
     }
   }
   return 0;
-}
-void Atcf::setInitialHollandB() {
-  for (auto it : m_atcfData) {
-  }
 }

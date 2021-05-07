@@ -49,6 +49,7 @@ class Gahm {
     double u;
     double v;
     double p;
+    uvp(double u = 0.0, double v = 0.0, double p = 1013.0) : u(u), v(v), p(p) {}
   };
 
   template <bool geofactor>
@@ -61,7 +62,6 @@ class Gahm {
   const std::string m_filename;
   Assumptions m_assumptions;
   std::unique_ptr<Atcf> m_atcf;
-
 };
 
 template <>

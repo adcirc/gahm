@@ -66,12 +66,13 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h)
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(
   gahm
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
           ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
-          ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_75_0)
+          ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_76_0)
 

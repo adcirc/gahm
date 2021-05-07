@@ -26,6 +26,7 @@
 #ifndef PHYSICAL_H
 #define PHYSICAL_H
 
+#include <cassert>
 #include <cmath>
 #include <limits>
 #include <tuple>
@@ -58,8 +59,8 @@ class Physical {
   static constexpr double rhoWat0() { return 1000.0; }
   static constexpr double one2ten() { return 0.8928; }
 
-  static constexpr double deg2rad() { return pi() / 180.0; }
-  static constexpr double rad2deg() { return 180.0 / pi(); }
+  static constexpr double deg2rad() { return m_deg2rad; }
+  static constexpr double rad2deg() { return m_rad2deg; }
 
   static constexpr double equatorialRadius() { return 6378137.0; }
   static constexpr double polarRadius() { return 6356752.3; }
@@ -121,6 +122,35 @@ class Physical {
     return azi > 360.0 ? azi - 360.0 : azi;
   }
 
+  static constexpr double coriolis(double lat) noexcept {
+    return Physical::omega() * Physical::deg2rad() * lat;
+  }
+
+  static constexpr double calcHollandB(double vmax, double p0,
+                                       double pinf) noexcept {
+    assert(p0 != pinf);
+    return std::max(std::min(vmax * vmax * Physical::rhoAir() * Physical::e() /
+                                 Physical::mb2pa() * (p0 - pinf),
+                             2.50),
+                    1.0);
+  }
+
+  static constexpr double frictionAngle(double r, double rmx) noexcept {
+    if (0.0 < r && r < rmx) {
+      return 10.0 * r / rmx;
+    } else if (rmx <= r && r < 1.2 * rmx) {
+      return 10.0 + 75.0 * (r / rmx - 1.0);
+    } else if (r >= 1.2 * rmx) {
+      return 25.0;
+    } else {
+      return 0.0;
+    }
+  }
+
+  static constexpr double quadrantAngle(size_t index) {
+    return m_quadrantAngles[index];
+  }
+
   template <typename T>
   static constexpr T fast_exp(const T x) noexcept {
     if (std::is_same<T, float>()) {
@@ -147,6 +177,13 @@ class Physical {
       return T(0);
     }
   }
+
+ private:
+  static constexpr double m_deg2rad = M_PI / 180.0;
+  static constexpr double m_rad2deg = 180.0 / M_PI;
+  static constexpr std::array<double, 4> m_quadrantAngles = {
+      45.0 * m_deg2rad, (45.0 - 90.0) * m_deg2rad, (45.0 - 180.0) * m_deg2rad,
+      (45.0 - 270.0) * m_deg2rad};
 };
 
 #endif  // PHYSICAL_H

@@ -26,47 +26,17 @@
 #include "Vortex.h"
 
 #include <cassert>
+#include <limits>
 #include <numeric>
-
+#include <utility>
 #include "Logging.h"
 #include "Physical.h"
+#include "boost/cstdint.hpp"
+#include "boost/math/tools/roots.hpp"
 
-Vortex::Vortex(double pinf, double p0, double lon, double lat, double vmax)
-    : m_pn(pinf),
-      m_pc(p0),
-      m_cLat(lat),
-      m_cLon(lon),
-      m_vMax(vmax),
-      m_corio(Vortex::coriolis(lat)),
-      m_vr(0.0),
-      m_rMaxes4(Vortex::makeWindArray(0.0)),
-      m_b(Vortex::makeWindArray(Vortex::calcHollandB(m_vMax, m_pc, m_pn))),
-      m_phi(Vortex::makeWindArray(1.0)),
-      m_vmBL4(Vortex::makeWindArray(0.0)),
-      m_quadFlag4(Vortex::makeWindArray(0)),
-      m_quadIr4(Vortex::makeWindArray(0.0)) {}
+Vortex::Vortex() : m_stormData(nullptr) {}
 
-void Vortex::setVortex(double pinf, double p0, double lon, double lat,
-                       double vmax) noexcept {
-  this->m_pn = pinf;
-  this->m_pc = p0;
-  this->m_cLat = lat;
-  this->m_cLon = lon;
-  this->m_vMax = vmax;
-  this->m_corio = Vortex::coriolis(lat);
-}
-
-double Vortex::frictionAngle(const double r, const double rmx) noexcept {
-  if (0.0 < r && r < rmx) {
-    return 10.0 * r / rmx;
-  } else if (rmx <= r && r < 1.2 * rmx) {
-    return 10.0 + 75.0 * (r / rmx - 1.0);
-  } else if (r >= 1.2 * rmx) {
-    return 25.0;
-  } else {
-    return 0.0;
-  }
-}
+void Vortex::setStormData(const AtcfLine *atcf) { m_stormData = atcf; }
 
 std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               const double angle,
@@ -77,6 +47,8 @@ std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
   const double sinA = std::sin(a);
   return {x * cosA - y * sinA, x * sinA + y * cosA};
 }
+
+void Vortex::setCurrentQuadrant(size_t quad) { m_currentQuadrant = quad; }
 
 std::pair<int, double> Vortex::getBaseQuadrant(const double angle) {
   assert(angle <= 360.0);
@@ -96,19 +68,18 @@ std::pair<int, double> Vortex::getBaseQuadrant(const double angle) {
   return std::make_pair(0, 0.0);
 }
 
-double Vortex::spInterp(const std::array<std::array<double, Vortex::nQuads>,
-                                         Vortex::nPoints> &array,
-                        const double angle, const double distance) const {
+template <Vortex::VortexParameterType type>
+double Vortex::spInterp(const double angle, const double distance) const {
   int base_quadrant = 0;
   double delta_angle = 0.0;
   std::tie(base_quadrant, delta_angle) = this->getBaseQuadrant(angle);
   if (delta_angle < 1.0) {
-    return this->interpR(array, base_quadrant - 1, distance);
+    return this->interpR<type>(base_quadrant - 1, distance);
   } else if (delta_angle > 89.0) {
-    return this->interpR(array, base_quadrant, distance);
+    return this->interpR<type>(base_quadrant, distance);
   } else {
-    const double t1 = this->interpR(array, base_quadrant - 1, distance);
-    const double t2 = this->interpR(array, base_quadrant, distance);
+    const double t1 = this->interpR<type>(base_quadrant - 1, distance);
+    const double t2 = this->interpR<type>(base_quadrant, distance);
     return (t1 / std::pow(delta_angle, 2.0) +
             t2 / std::pow(90.0 - delta_angle, 2.0)) /
            (1.0 / std::pow(delta_angle, 2.0) +
@@ -116,53 +87,256 @@ double Vortex::spInterp(const std::array<std::array<double, Vortex::nQuads>,
   }
 }
 
-double Vortex::interpR(const WindArray<double> &array, const int quad,
-                       const double r) const {
-  const auto total_isotachs =
-      std::accumulate(m_quadFlag4[quad].begin(), m_quadFlag4[quad].end(), 0);
-  if (r < m_quadIr4[quad].front()) return array[quad][0];
-  if (r > m_quadIr4[quad].back()) return array[quad].back();
-  for (auto i = 0; i < total_isotachs; ++i) {
-    if (r > m_quadIr4[quad][i]) {
-      const double fac = (r - m_quadIr4[quad][i]) /
-                         (m_quadIr4[quad][i - 1] - m_quadIr4[quad][i]);
-      return fac * array[quad][i - 1] + (1.0 - fac) * array[quad][i];
+template <Vortex::VortexParameterType type, bool edge>
+double Vortex::getParameterValue(const size_t isotach, const size_t quad) {
+  if (type == Vortex::VortexParameterType::B) {
+    if (edge)
+      return m_stormData->cisotach(isotach)->chollandB()->at(quad);
+    else
+      return m_stormData->cisotach(isotach)->chollandB()->at(quad);
+  } else if (type == Vortex::VortexParameterType::RMAX) {
+    if (edge)
+      return m_stormData->cisotach(isotach)->crmax()->at(quad);
+    else
+      return m_stormData->cisotach(isotach)->crmax()->at(quad);
+  } else if (type == Vortex::VortexParameterType::VMBL) {
+    if (edge)
+      return m_stormData->cisotach(isotach)->cvmaxBl()->at(quad);
+    else
+      return m_stormData->cisotach(isotach)->cvmaxBl()->at(quad);
+  } else {
+    return 0.0;
+  }
+}
+
+template <Vortex::VortexParameterType type>
+double Vortex::interpR(const int quad, const double r) const {
+  size_t total_isotachs = 0;
+  size_t last_isotach = 0;
+  for (size_t i = 0; i < m_stormData->nIsotach(); ++i) {
+    if (m_stormData->cisotach(i)->cquadFlag()->at(quad)) {
+      total_isotachs++;
+      last_isotach = i;
     }
   }
-  return array[quad].back();
+
+  assert(total_isotachs > 0);
+
+  if (r < m_stormData->cisotach(0)->crmax()->at(quad)) {
+    return this->getParameterValue<type>(0, quad);
+  }
+
+  if (r > m_stormData->cisotach(last_isotach)->crmax()->at(quad)) {
+    return this->getParameterValue<type>(last_isotach, quad);
+  }
+
+  for (size_t i = 1; i < total_isotachs; ++i) {
+    if (r > m_stormData->cisotach(i)->crmax()->at(quad)) {
+      const double fac = (r - m_stormData->cisotach(i)->crmax()->at(quad)) /
+                         (m_stormData->cisotach(i - 1)->crmax()->at(quad) -
+                          m_stormData->cisotach(i)->crmax()->at(quad));
+      return fac * this->getParameterValue<type>(i - 1, quad) +
+             (1.0 - fac) * this->getParameterValue<type>(i, quad);
+    }
+  }
+  return this->getParameterValue<type>(last_isotach, quad);
 }
 
-constexpr double Vortex::coriolis(const double lat) noexcept {
-  return Physical::omega() * Physical::deg2rad() * lat;
+/**
+ * Computes the estimate of the Rossby number in a tropical cyclone
+ * @param vmaxBoundaryLayer max wind speed for stationary storm at top of
+ * boundary layer
+ * @param radiausToMaxWinds radius from storm center to vmaxBoundaryLayer
+ * @param coriolis Coriolis parameter
+ * @return estimate to Rossby number
+ */
+constexpr double Vortex::rossbyNumber(const double vmaxBoundaryLayer,
+                                      const double radiausToMaxWinds,
+                                      const double coriolis) noexcept {
+  assert(coriolis > 0.0);
+  assert(radiausToMaxWinds > 0.0);
+  return vmaxBoundaryLayer / (coriolis * radiausToMaxWinds);
 }
 
-constexpr double Vortex::calcHollandB(double vmax, double p0,
-                                      double pinf) noexcept {
-  return std::max(std::min(vmax * vmax * Physical::rhoAir() * Physical::e() /
-                               Physical::mb2pa() * (p0 - pinf),
-                           2.50),
-                  1.0);
+/**
+ * Compute the Phi parameter in the GAHM
+ * @param vmaxBoundaryLayer max wind speed for stationary storm at top of
+ * boundary layer
+ * @param radiausToMaxWinds radius from storm center to vmaxBoundaryLayer
+ * @param b GAHM b_g parameter, simliar to Holland's B parameter
+ * @param coriolis Coriolis parameter
+ * @return phi
+ */
+constexpr double Vortex::computePhi(const double vmaxBoundaryLayer,
+                                    const double radiusToMaxWinds,
+                                    const double b,
+                                    const double coriolis) noexcept {
+  const double rossby =
+      Vortex::rossbyNumber(vmaxBoundaryLayer, radiusToMaxWinds, coriolis);
+  return 1.0 + 1.0 / (rossby * b * (1.0 + 1.0 / rossby));
 }
 
-void Vortex::setRadii(size_t index, std::array<double, nQuads> quadFlag,
-                      std::array<double, nQuads> rmax,
-                      std::array<double, nQuads> quadIr,
-                      std::array<double, nQuads> b,
-                      std::array<double, nQuads> vmbl) {
-  for (size_t i = 0; i < nQuads; ++i) {
-    m_quadFlag4[index][i] = quadFlag[i];
-    m_rMaxes4[index][i] = rmax[i];
-    m_quadIr4[index][i] = quadIr[i];
-    m_b[index][i] = b[i];
-    m_vmBL4[index][i] = vmbl[i];
+/**
+ * Computes the GAHM b_g parameter
+ * @param vmaxBoundaryLayer max wind speed for stationary storm at top of
+ * boundary layer
+ * @param radiusToMaxWinds radius from storm center to vmaxBoundaryLayer
+ * @param phi Correction factor
+ * @param dp central pressure deficit
+ * @param coriolis Coriolis parameter
+ * @param rho density of air
+ * @return GAHM b_g parameter
+ */
+double Vortex::computeBg(const double vmaxBoundaryLayer,
+                         const double radiusToMaxWinds, const double phi,
+                         const double dp, const double coriolis,
+                         const double rho) noexcept {
+  return (std::pow(vmaxBoundaryLayer, 2.0) +
+          vmaxBoundaryLayer * radiusToMaxWinds * coriolis) *
+         rho * std::exp(phi) / (phi * dp);
+}
+
+template <Vortex::VhType vh>
+double Vortex::findRoot(const double x1, const double dx, double &aa,
+                        double &bb) const noexcept {
+#ifndef GAHM_USE_ASWIP_SOLVER
+  constexpr boost::uintmax_t itmax = 400;
+  constexpr double innerRadius = 1.0;
+  constexpr double outerRadius = 500.0;
+  boost::uintmax_t it = itmax;
+  constexpr int digits =
+      std::numeric_limits<double>::digits;  // Maximum possible binary digits
+                                            // accuracy for type double.
+  constexpr int get_digits = static_cast<int>(
+      digits * 0.6);  // Accuracy doubles with each step, so stop when we have
+                      // just over half the digits correct.
+  double result = boost::math::tools::newton_raphson_iterate(
+      Vortex::getVh<vh>(x1), aa, innerRadius, outerRadius, get_digits, it);
+
+  if (it < itmax) {
+    Logging::log("Newton-Raphson solver converged in " + std::to_string(it) +
+                 " iterations.");
+    return result;
+  } else {
+    Logging::log("Newton-Raphson solver failed to converge.");
+    return -std::numeric_limits<double>::max();
+  }
+#else
+  constexpr size_t itmax = 400;
+  aa = x1;
+  double fa = this->getVh<vh>(aa);
+
+  for (size_t it = 0; it < itmax; ++it) {
+    bb = x1 + it * dx;
+    double fb = this->getVh<vh>(bb);
+    if (fa * fb < 0.0 || std::abs(fb) > std::abs(fa)) {
+      if (std::abs(fb) > std::abs(fa)) {
+        return aa;
+      } else {
+        return bb;
+      }
+    }
+    aa = bb;
+    fa = fb;
+  }
+  Logging::log("Bracket solver failed to converge");
+  return -std::numeric_limits<double>::max();
+#endif
+}
+
+template <Vortex::VhType vh>
+std::pair<double, double> Vortex::getVh(double aa) const {
+  if (vh == Vortex::VhType::VhNoCori) {
+    return this->vhNoCori(aa);
+  } else if (vh == Vortex::VhType::VhWithCori) {
+    return this->vhWithCori(aa);
+  } else if (vh == Vortex::VhType::VhWithCoriFull) {
+    return this->vhWithCoriFull(aa);
   }
 }
 
-void Vortex::fillRadii() {
-  Vortex::fillEdges(m_quadFlag4);
-  Vortex::fillEdges(m_quadIr4);
-  Vortex::fillEdges(m_rMaxes4);
-  Vortex::fillEdges(m_b);
-  Vortex::fillEdges(m_phi);
-  Vortex::fillEdges(m_vmBL4);
+std::pair<double, double> Vortex::vhNoCori(double radius) const {
+  //...Input values
+  const double vr =
+      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
+  const double b = m_stormData->cisotach(m_currentIsotach)
+                       ->chollandB()
+                       ->at(m_currentQuadrant);
+  const double rq = m_stormData->cisotach(m_currentIsotach)
+                        ->cisotachRadius()
+                        ->at(m_currentQuadrant);
+  const double vmax = m_stormData->vmax();
+
+  //...Precompute factors used multiple times
+  const double vmaxsquared = vmax * vmax;
+  const double alpha = radius / rq;
+  const double alphab = std::pow(alpha, b);
+  const double expOneMinusAlphaB = std::exp(1.0 - alphab);
+
+  //...Compute value of function
+  const double f = std::sqrt(vmaxsquared * expOneMinusAlphaB * alphab) - vr;
+
+  //...Compute components of derivative
+  const double fprime_a =
+      b * radius * vmaxsquared * expOneMinusAlphaB / (rq * rq);
+  const double fprime_b = b * radius * vmaxsquared * expOneMinusAlphaB *
+                          alphab * std::pow(alpha, b - 1);
+  const double fprime_c =
+      2.0 * std::sqrt(vmaxsquared * expOneMinusAlphaB * alphab);
+
+  //...Compute derivative
+  const double fprime = -(fprime_a - fprime_b) / fprime_c;
+
+  return std::make_pair(f, fprime);
+}
+
+std::pair<double, double> Vortex::vhWithCori(double radius) const {}
+
+std::pair<double, double> Vortex::vhWithCoriFull(double radius) const {
+  //...Input values
+  const double vr =
+      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
+  const double b = m_stormData->cisotach(m_currentIsotach)
+                       ->chollandB()
+                       ->at(m_currentQuadrant);
+  const double rq = m_stormData->cisotach(m_currentIsotach)
+                        ->cisotachRadius()
+                        ->at(m_currentQuadrant);
+  const double vmax = m_stormData->vmax();
+  const double phi =
+      m_stormData->cisotach(m_currentIsotach)->cphi()->at(m_currentQuadrant);
+  const double coriolis = m_stormData->coriolis();
+
+  //...Precompute factors used multiple times
+  const double vmaxsquared = vmax * vmax;
+  const double alpha = radius / rq;
+  const double alphab = std::pow(alpha, b);
+  const double alphabminus1 = std::pow(alpha, b - 1.0);
+  const double beta = phi * (1.0 - alphab);
+  const double expbeta = std::exp(beta);
+  const double coriolissquared = coriolis * coriolis;
+
+  //...Compute value of the function
+  const double f = std::sqrt(vmaxsquared * expbeta * alphab *
+                                 std::pow((rq * coriolis) / 2.0, 2.0) -
+                             (rq - coriolis) / 2.0) -
+                   vr;
+
+  //...Compute value of derivative
+  const double fprime_a = coriolis / 2.0;
+  const double fprime_b =
+      (coriolissquared * rq * vmaxsquared * expbeta * alphab) / 2.0;
+  const double fprime_c =
+      (b * coriolissquared * radius * vmaxsquared * expbeta * alphabminus1) /
+      4.0;
+  const double fprime_d = (b * coriolissquared * phi * radius * vmaxsquared *
+                           expbeta * alphab * alphabminus1) /
+                          4.0;
+  const double fprime_e =
+      (coriolissquared * rq * rq * vmaxsquared * expbeta * alphab) / 4.0;
+  const double fprime_f = (coriolis * rq) / 2;
+  const double fprime = -(fprime_a - fprime_b + fprime_c - fprime_d) /
+                        (2.0 * std::sqrt(fprime_e - fprime_f));
+
+  return std::make_pair(f, fprime);
 }

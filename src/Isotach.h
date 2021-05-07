@@ -30,37 +30,24 @@
 #include <ostream>
 #include <string>
 #include <vector>
+#include "CircularArray.h"
 
 class Isotach {
  public:
   enum RadiusCode { AAA, NEQ, SEQ, SWQ, NWQ, NONE };
 
   Isotach();
+
   Isotach(RadiusCode code, double windSpeed, double r1, double r2, double r3,
           double r4);
 
   double windSpeed() const;
   void setWindSpeed(double windSpeed);
 
-  double radiusQ1() const;
-  void setRadiusQ1(double radiusQ1);
-
-  double radiusQ2() const;
-  void setRadiusQ2(double radiusQ2);
-
-  double radiusQ3() const;
-  void setRadiusQ3(double radiusQ3);
-
-  double radiusQ4() const;
-  void setRadiusQ4(double radiusQ4);
-
-  std::array<double, 4> radii();
-  void setRadii(std::array<double, 4> radii);
-  void setRadii(double r1, double r2, double r3, double r4);
-  void setRadii(std::vector<double> radii);
-
   RadiusCode code() const;
   void setCode(Isotach::RadiusCode code);
+
+  void generateQuadFlag();
 
   static bool isNull(const Isotach &iso);
 
@@ -69,20 +56,31 @@ class Isotach {
 
   friend std::ostream &operator<<(std::ostream &os, const Isotach &iso);
 
-  std::array<double, 6> lookupRadii() const;
-  void setLookupRadii(const std::array<double, 6> &lookupRadii);
-
-  std::array<int, 4> quadflag() const;
-  void setQuadflag(const std::array<int, 4> &quadflag);
-
   RadiusCode radiusCode() const;
   void setRadiusCode(const RadiusCode &radiusCode);
 
-private:
+  CircularArray<bool, 4> *quadFlag();
+  CircularArray<double, 4> *isotachRadius();
+  CircularArray<double, 4> *rmax();
+  CircularArray<double, 4> *vmaxBl();
+  CircularArray<double, 4> *hollandB();
+  CircularArray<double, 4> *phi();
+
+  const CircularArray<bool, 4> *cquadFlag() const;
+  const CircularArray<double, 4> *cisotachRadius() const;
+  const CircularArray<double, 4> *crmax() const;
+  const CircularArray<double, 4> *cvmaxBl() const;
+  const CircularArray<double, 4> *chollandB() const;
+  const CircularArray<double, 4> *cphi() const;
+
+ private:
   double m_windSpeed;
-  std::array<double, 4> m_radius;
-  std::array<double, 6> m_lookup_radii;
-  std::array<int, 4> m_quadflag;
+  CircularArray<double, 4> m_isotachRadius;
+  CircularArray<double, 4> m_rmax;
+  CircularArray<double, 4> m_hollandB;
+  CircularArray<double, 4> m_vmaxBL;
+  CircularArray<bool, 4> m_quadFlag;
+  CircularArray<double, 4> m_phi;
   RadiusCode m_radiusCode;
 };
 

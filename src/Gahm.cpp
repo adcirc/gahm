@@ -74,14 +74,33 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
   const double stormMotionU = std::sin(directionNow) * stormMotion;
   const double stormMotionV = std::cos(directionNow) * stormMotion;
 
-  Vortex vortex(sp.central_pressure, sp.background_pressure, sp.longitude,
-                sp.latitude, sp.vmax);
+  double vmaxbl = (sp.vmax - stormMotion) / Physical::windReduction();
 
+  //...Quadrant angles in the radial direction. We need the tangential
+  // direction since that is the direction of Vr
+  std::array<double, 4> quadrantVr = {0.0, 0.0, 0.0, 0.0};
+  for (auto i = 0; i < 4; ++i) {
+    const double uvr =
+        std::cos(Physical::quadrantAngle(i) + Physical::deg2rad() * 90.0);
+    const double vvr =
+        std::sin(Physical::quadrantAngle(i) + Physical::deg2rad() * 90.0);
+    quadrantVr[i] = std::sqrt(std::pow(uvr - stormMotionU, 2.0) +
+                              std::pow(vvr - stormMotionV, 2.0));
+  }
+
+  //...Check if any of the isotach wind speeds are greater than vmax
+  auto maxQuadrantVr = *(std::max(quadrantVr.begin(), quadrantVr.end()));
+  if (maxQuadrantVr > vmaxbl) {
+    for (auto i = 0; i < 4; ++i) {
+      quadrantVr[i] /= Physical::windReduction();
+    }
+    vmaxbl /= Physical::windReduction();
+  }
+
+  Vortex vortex;
   if (sp.cycle < 0) {
     for (size_t i = 0; i < m_atcf->crecord(0)->nIsotach(); ++i) {
-      //      vortex.setRadii(i, m_atcf.record(sp.cycle),
-      //                      m_atcf.record(sp.cycle).isotach(i)->radii(),
-      //                      m_atcf.record(sp.cycle).isotach(i)->quadflag(), )
+      vortex.setStormData(m_atcf->record(sp.cycle));
     }
   }
 
@@ -97,7 +116,7 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
                         const double coriolis, const double vtrans,
                         const double clat) {
   if (distance < 1.0 * Physical::nmi2km()) {
-    return {0.0, 0.0, pmin};
+    return uvp(0.0, 0.0, pmin);
   }
 
   const double percentCoriolis = 1.0;
@@ -124,7 +143,7 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
 
   double uf, vf;
   std::tie(uf, vf) = Vortex::rotateWinds(
-      u, v, Vortex::frictionAngle(distance, rmax_true), clat);
+      u, v, Physical::frictionAngle(distance, rmax_true), clat);
 
   uf = (uf + tsx) * Physical::one2ten();
   vf = (vf + tsy) * Physical::one2ten();
@@ -133,5 +152,5 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
                        ? p_c + (p_background - p_c) * gahm_exp(-phi * rmaxdisb)
                        : p_c + (p_background - p_c) * gahm_exp(-rmaxdisb);
 
-  return {uf, vf, p};
+  return uvp(uf, vf, p);
 }
