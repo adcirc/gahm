@@ -1,7 +1,7 @@
     file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cxx_testcases)
 
     set(TEST_LIST
-            cxx_test01.cpp
+            cxx_atcf.cpp
             cxx_physical.cpp
             )
 
