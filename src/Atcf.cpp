@@ -225,7 +225,7 @@ void Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii(
  */
 void Atcf::setMissingRadiiToAverageOfAdjacentRadii(
     CircularArray<double, 4> *radii, size_t record, size_t isotach) {
-  for (size_t j = 0; j < radii->size(); ++j) {
+  for (long j = 0; j < radii->size(); ++j) {
     if (radii->at(j) == 0.0) {
       radii->set(j, (radii->at(j - 1) + radii->at(j + 1)) * 0.5);
     }
@@ -574,7 +574,7 @@ Atcf::StormMotion Atcf::computeStormMotion(const double speed,
       std::sin(direction * Physical::deg2rad()) * stormMotion;
   const double stormMotionV =
       std::cos(direction * Physical::deg2rad()) * stormMotion;
-  return StormMotion(stormMotion, stormMotionU, stormMotionV);
+  return {stormMotion, stormMotionU, stormMotionV};
 }
 
 double Atcf::computeVMaxBL(const double vmax, const double stormMotion) {
@@ -639,9 +639,9 @@ void Atcf::recomputeQuadrantVr(const size_t quadrant,
         const double vvr = vr * std::sin(stormDirection);
         const double gamma =
             Atcf::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
-        const double qvr =
+        const double qvr2 =
             vr - gamma * stormMotion.uv / Physical::windReduction();
-        isotach->quadrantVr()->set(k, qvr);
+        isotach->quadrantVr()->set(k, qvr2);
       }
     } else {
       isotach->vmaxBl()->set(k, vmaxBL);
@@ -660,8 +660,9 @@ int Atcf::computeParameters() {
                             ? a.vmax()
                             : a.isotach(i)->windSpeed();
 
+      size_t nquadrotat = 300;
+
       //...Compute the friction angle
-      double nquadrotat = 300.0;
       std::array<double, 4> quadRotateAngle(
           {25.0 * Physical::deg2rad(), 25.0 * Physical::deg2rad(),
            25.0 * Physical::deg2rad(), 25.0 * Physical::deg2rad()});

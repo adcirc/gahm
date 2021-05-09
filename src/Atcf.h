@@ -123,7 +123,7 @@ class Atcf {
     StormMotion(double ui, double vi, double uvi) : u(ui), v(vi), uv(uvi) {}
   };
 
-  StormMotion computeStormMotion(double speed, double direction);
+  static StormMotion computeStormMotion(double speed, double direction);
 
   static double computeGamma(double uvr, double vvr, double vr,
                              const StormMotion &stormMotion, double vmaxBL);

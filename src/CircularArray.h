@@ -7,7 +7,9 @@ template <typename T, size_t array_size>
 class CircularArray {
  public:
   CircularArray() = default;
-  CircularArray(std::array<T, array_size> arr) : m_data(std::move(arr)) {}
+
+  explicit CircularArray(std::array<T, array_size> arr)
+      : m_data(std::move(arr)) {}
 
   constexpr size_t size() noexcept { return array_size; }
 

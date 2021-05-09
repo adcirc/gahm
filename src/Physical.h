@@ -107,8 +107,10 @@ static std::tuple<double, double, double> sphericalDx(const double x1,
                                                       const double y1,
                                                       const double x2,
                                                       const double y2) {
-  return std::make_tuple(geodesic_distance(x1, y1, x2, y1),
-                         geodesic_distance(x1, y1, x1, y2),
+  double meanx = (x1 + x2) / 2.0;
+  double meany = (y1 + y2) / 2.0;
+  return std::make_tuple(geodesic_distance(x1, meany, x2, meany),
+                         geodesic_distance(meanx, y1, meanx, y2),
                          geodesic_distance(x1, y1, x2, y2));
 }
 
@@ -120,11 +122,16 @@ static double distance(const double x1, const double y1, const double x2,
 
 static double azimuthEarth(const double x1, const double y1, const double x2,
                            const double y2) {
-  const double dx =
-      deg2rad() * radiusEarth(y1, y2) * (x1 - x2) * std::cos(deg2rad() * (y2));
-  const double dy = deg2rad() * radiusEarth(y1, y2) * (y1 - y2);
-  const double azi = 360.0 + rad2deg() * std::atan2(dy, dx);
-  return azi > 360.0 ? azi - 360.0 : azi;
+  const double lam0 = x1 * Physical::deg2rad();
+  const double phi0 = y1 * Physical::deg2rad();
+  const double lam1 = x2 * Physical::deg2rad();
+  const double phi1 = y2 * Physical::deg2rad();
+  const double dlam = lam1 - lam0;
+  const double a = std::sin(dlam) * std::cos(phi1);
+  const double b = std::cos(phi0) * std::sin(phi1);
+  const double c = std::sin(phi0) * std::cos(phi1) * std::cos(dlam);
+  const double azi = std::atan2(a, b - c);
+  return azi * Physical::rad2deg();
 }
 
 static constexpr double coriolis(double lat) noexcept {
