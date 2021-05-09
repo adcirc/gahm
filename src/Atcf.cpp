@@ -499,19 +499,18 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
 }
 
 double Atcf::computeGamma(const double uvr, const double vvr, const double vr,
-                          const double stormMotion, const double stormMotionU,
-                          const double stormMotionV, const double vmaxBL) {
+                          const StormMotion &stormMotion, const double vmaxBL) {
   const double g0 =
-      (2.0 * uvr * Physical::ms2kt() * stormMotionU * Physical::ms2kt() +
-       2.0 * vvr * Physical::ms2kt() * stormMotionV * Physical::ms2kt());
+      (2.0 * uvr * Physical::ms2kt() * stormMotion.u * Physical::ms2kt() +
+       2.0 * vvr * Physical::ms2kt() * stormMotion.v * Physical::ms2kt());
   const double g1 = std::pow(g0, 2.0);
   const double g2 =
-      4.0 * (std::pow(stormMotion * Physical::ms2kt(), 2.0) -
+      4.0 * (std::pow(stormMotion.uv * Physical::ms2kt(), 2.0) -
              std::pow(vmaxBL * Physical::ms2kt(), 2.0) *
                  Physical::windReduction() * Physical::windReduction());
   const double g3 = std::pow(vr * Physical::ms2kt(), 2.0);
   const double g4 =
-      2.0 * (std::pow(stormMotion * Physical::ms2kt(), 2.0) -
+      2.0 * (std::pow(stormMotion.uv * Physical::ms2kt(), 2.0) -
              std::pow(vmaxBL * Physical::ms2kt(), 2.0) *
                  Physical::windReduction() * Physical::windReduction());
 
@@ -522,66 +521,60 @@ double Atcf::computeGamma(const double uvr, const double vvr, const double vr,
 
 double Atcf::computeEpsilonAngle(const double velocity,
                                  const double quadrantVectorAngle,
-                                 const double stormMotionU,
-                                 const double stormMotionV) {
+                                 const StormMotion &stormMotion) {
   double e =
       Physical::twopi() +
-      std::atan2(velocity * std::sin(quadrantVectorAngle) + stormMotionV,
-                 velocity * std::cos(quadrantVectorAngle) + stormMotionU);
+      std::atan2(velocity * std::sin(quadrantVectorAngle) + stormMotion.v,
+                 velocity * std::cos(quadrantVectorAngle) + stormMotion.u);
   if (e > Physical::twopi()) e -= Physical::twopi();
   return e;
 }
 
 double Atcf::computeQuadrantVrWithGamma(const double vmaxBL,
                                         const double quadrantVectorAngles,
-                                        const double stormMotion,
-                                        const double stormMotionU,
-                                        const double stormMotionV,
+                                        const StormMotion &stormMotion,
                                         const double vr) {
-  const double epsilonAngle = Atcf::computeEpsilonAngle(
-      vmaxBL, quadrantVectorAngles, stormMotionU, stormMotionV);
+  const double epsilonAngle =
+      Atcf::computeEpsilonAngle(vmaxBL, quadrantVectorAngles, stormMotion);
 
   const double uvr = vr * std::cos(epsilonAngle);
   const double vvr = vr * std::sin(epsilonAngle);
 
-  const double gamma = Atcf::computeGamma(uvr, vvr, vr, stormMotion,
-                                          stormMotionU, stormMotionV, vmaxBL);
+  const double gamma = Atcf::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
 
   const double qvr =
       std::sqrt(std::pow(uvr * Physical::ms2kt() -
-                             gamma * stormMotionU * Physical::ms2kt(),
+                             gamma * stormMotion.u * Physical::ms2kt(),
                          2.0) +
                 std::pow(vvr * Physical::ms2kt() -
-                             gamma * stormMotionV * Physical::ms2kt(),
+                             gamma * stormMotion.v * Physical::ms2kt(),
                          2.0)) /
       Physical::windReduction();
   return qvr;
 }
 
 double Atcf::computeQuadrantVrWithoutGamma(const double quadrantVectorAngle,
-                                           const double stormMotion,
-                                           const double stormMotionU,
-                                           const double stormMotionV,
+                                           const StormMotion &stormMotion,
                                            const double vr) {
-  const double qvr_1 = (stormMotionU * std::cos(quadrantVectorAngle) +
-                        stormMotionV * std::sin(quadrantVectorAngle));
+  const double qvr_1 = (stormMotion.u * std::cos(quadrantVectorAngle) +
+                        stormMotion.v * std::sin(quadrantVectorAngle));
   const double qvr =
       (-2.0 * qvr_1 +
        std::sqrt(4.0 * std::pow(qvr_1, 2.0) -
-                 4.0 * (std::pow(stormMotion, 2.0) - std::pow(vr, 2.0)))) /
+                 4.0 * (std::pow(stormMotion.uv, 2.0) - std::pow(vr, 2.0)))) /
       2.0;
   return qvr;
 }
 
-std::tuple<double, double, double> Atcf::computeStormMotion(
-    const double speed, const double direction) {
+Atcf::StormMotion Atcf::computeStormMotion(const double speed,
+                                           const double direction) {
   const double stormMotion =
       1.5 * std::pow(speed * Physical::ms2kt(), 0.63) * Physical::kt2ms();
   const double stormMotionU =
       std::sin(direction * Physical::deg2rad()) * stormMotion;
   const double stormMotionV =
       std::cos(direction * Physical::deg2rad()) * stormMotion;
-  return std::make_tuple(stormMotion, stormMotionU, stormMotionV);
+  return StormMotion(stormMotion, stormMotionU, stormMotionV);
 }
 
 double Atcf::computeVMaxBL(const double vmax, const double stormMotion) {
@@ -599,17 +592,14 @@ void Atcf::computeQuadrantVr(const size_t quadrant,
                              const std::array<double, 4> &quadRotateAngle,
                              const std::array<bool, 4> &vmwBLflag,
                              const double vmaxBL, const double vr,
-                             const double stormMotion,
-                             const double stormMotionU,
-                             const double stormMotionV, Isotach *isotach) {
+                             const StormMotion &stormMotion, Isotach *isotach) {
   for (size_t k = 0; k < 4; ++k) {
     const double quadrantVectorAngle =
         Atcf::computeQuadrantVectorAngle(k, quadRotateAngle);
 
     if (quadrant == 0 || !vmwBLflag[quadrant]) {
       const double qvr = Atcf::computeQuadrantVrWithGamma(
-          vmaxBL, quadrantVectorAngle, stormMotion, stormMotionU, stormMotionV,
-          vr);
+          vmaxBL, quadrantVectorAngle, stormMotion, vr);
       isotach->quadrantVr()->set(k, qvr);
     } else {
       isotach->quadrantVr()->set(k, vmaxBL);
@@ -617,11 +607,13 @@ void Atcf::computeQuadrantVr(const size_t quadrant,
   }
 }
 
-void Atcf::recomputeQuadrantVr(
-    const size_t quadrant, const std::array<double, 4> &quadRotateAngle,
-    std::array<bool, 4> &vmwBLflag, const double vmaxBL, const double vr,
-    const double vmax, const double stormDirection, const double stormMotion,
-    const double stormMotionU, const double stormMotionV, Isotach *isotach) {
+void Atcf::recomputeQuadrantVr(const size_t quadrant,
+                               const std::array<double, 4> &quadRotateAngle,
+                               std::array<bool, 4> &vmwBLflag,
+                               const double vmaxBL, const double vr,
+                               const double vmax, const double stormDirection,
+                               const StormMotion &stormMotion,
+                               Isotach *isotach) {
   for (size_t k = 0; k < 4; ++k) {
     if (isotach->cquadrantVr()->at(k) > vmax || quadrant == 1) {
       if (quadrant == 1) vmwBLflag[k] = true;
@@ -629,12 +621,12 @@ void Atcf::recomputeQuadrantVr(
       const double quadrantVectorAngle =
           Atcf::computeQuadrantVectorAngle(k, quadRotateAngle);
 
-      double qvr = Atcf::computeQuadrantVrWithoutGamma(
-          quadrantVectorAngle, stormMotion, stormMotionU, stormMotionV, vr);
+      double qvr = Atcf::computeQuadrantVrWithoutGamma(quadrantVectorAngle,
+                                                       stormMotion, vr);
 
       if (isotach->cisotachRadius()->at(k) > 0) {
-        const double epsilonAngle = Atcf::computeEpsilonAngle(
-            qvr, quadrantVectorAngle, stormMotionU, stormMotionV);
+        const double epsilonAngle =
+            Atcf::computeEpsilonAngle(qvr, quadrantVectorAngle, stormMotion);
 
         qvr /= Physical::windReduction();
 
@@ -645,9 +637,10 @@ void Atcf::recomputeQuadrantVr(
         isotach->vmaxBl()->set(k, vmaxBL);
         const double uvr = vr * std::cos(stormDirection);
         const double vvr = vr * std::sin(stormDirection);
-        const double gamma = Atcf::computeGamma(
-            uvr, vvr, vr, stormMotion, stormMotionU, stormMotionV, vmaxBL);
-        const double qvr = vr - gamma * stormMotion / Physical::windReduction();
+        const double gamma =
+            Atcf::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
+        const double qvr =
+            vr - gamma * stormMotion.uv / Physical::windReduction();
         isotach->quadrantVr()->set(k, qvr);
       }
     } else {
@@ -678,32 +671,23 @@ int Atcf::computeParameters() {
           quadRotateAngle[j] =
               Physical::frictionAngle(a.isotach(i)->isotachRadius()->at(j),
                                       a.isotach(0)->rmax()->at(j));
-          //          std::cout << "calling fang: record: " << rec_counter
-          //                    << ", isotach: " << i << ", quad: " << j
-          //                    << ", radius=" <<
-          //                    a.isotach(i)->isotachRadius()->at(j)*Physical::km2nmi()
-          //                    << ", rmaxHighIso: "
-          //                    << a.radiusMaxWinds() * Physical::km2nmi() <<
-          //                    std::endl;
         }
       }
 
-      double stormMotion, stormMotionU, stormMotionV;
-      std::tie(stormMotion, stormMotionU, stormMotionV) =
+      const auto stormMotion =
           Atcf::computeStormMotion(a.stormSpeed(), a.stormDirection());
 
-      const double vmaxBL = Atcf::computeVMaxBL(a.vmax(), stormMotion);
+      const double vmaxBL = Atcf::computeVMaxBL(a.vmax(), stormMotion.uv);
 
       std::array<bool, 4> vmwBLflag = {false, false, false, false};
 
       //...Converge inward rotation angle
       for (size_t j = 0; j < nquadrotat; ++j) {
         this->computeQuadrantVr(j, quadRotateAngle, vmwBLflag, vmaxBL, vr,
-                                stormMotion, stormMotionU, stormMotionV,
-                                a.isotach(i));
+                                stormMotion, a.isotach(i));
         this->recomputeQuadrantVr(j, quadRotateAngle, vmwBLflag, vmaxBL, vr,
                                   a.vmax(), a.stormDirection(), stormMotion,
-                                  stormMotionU, stormMotionV, a.isotach(i));
+                                  a.isotach(i));
       }
     }
   }

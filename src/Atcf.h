@@ -109,32 +109,36 @@ class Atcf {
 
   static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                      double &vv, double &uuvv);
+
   static inline double linearInterp(double weight, double v1, double v2);
 
   int calculateOverlandTranslationVelocity();
+
   std::pair<int, double> getCycleNumber(const Date &d) const;
 
+  struct StormMotion {
+    double u;
+    double v;
+    double uv;
+    StormMotion(double ui, double vi, double uvi) : u(ui), v(vi), uv(uvi) {}
+  };
+
+  StormMotion computeStormMotion(double speed, double direction);
+
   static double computeGamma(double uvr, double vvr, double vr,
-                             double stormMotion, double stormMotionU,
-                             double stormMotionV, double vmaxBL);
+                             const StormMotion &stormMotion, double vmaxBL);
 
   static double computeEpsilonAngle(double velocity, double quadrantVectorAngle,
-                                    double stormMotionU, double stormMotionV);
+                                    const StormMotion &stormMotion);
 
   static double computeQuadrantVrWithGamma(double vmaxBL,
                                            double quadrantVectorAngles,
-                                           double stormMotion,
-                                           double stormMotionU,
-                                           double stormMotionV, double vr);
+                                           const StormMotion &stormMotion,
+                                           double vr);
 
   double computeQuadrantVrWithoutGamma(const double quadrantVectorAngle,
-                                       const double stormMotion,
-                                       const double stormMotionU,
-                                       const double stormMotionV,
+                                       const StormMotion &stormMotion,
                                        const double vr);
-
-  static std::tuple<double, double, double> computeStormMotion(
-      double speed, double direction);
 
   static double computeVMaxBL(double vmax, double stormMotion);
 
@@ -144,16 +148,15 @@ class Atcf {
   void computeQuadrantVr(size_t quadrant,
                          const std::array<double, 4> &quadRotateAngle,
                          const std::array<bool, 4> &vmwBLflag, double vmaxBL,
-                         double vr, double stormMotion, double stormMotionU,
-                         double stormMotionV, Isotach *isotach);
+                         double vr, const StormMotion &stormMotion,
+                         Isotach *isotach);
 
   void recomputeQuadrantVr(const size_t quadrant,
                            const std::array<double, 4> &quadRotateAngle,
                            std::array<bool, 4> &vmwBLflag, const double vmaxBL,
                            const double vr, const double vmax,
                            const double stormDirection,
-                           const double stormMotion, const double stormMotionU,
-                           const double stormMotionV, Isotach *isotach);
+                           const StormMotion &stormMotion, Isotach *isotach);
 };
 
 #endif  // ATCF_H
