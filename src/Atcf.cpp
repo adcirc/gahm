@@ -683,9 +683,9 @@ int Atcf::computeParameters() {
 
       //...Converge inward rotation angle
       for (size_t j = 0; j < nquadrotat; ++j) {
-        this->computeQuadrantVr(j, quadRotateAngle, vmwBLflag, vmaxBL, vr,
+        Atcf::computeQuadrantVr(j, quadRotateAngle, vmwBLflag, vmaxBL, vr,
                                 stormMotion, a.isotach(i));
-        this->recomputeQuadrantVr(j, quadRotateAngle, vmwBLflag, vmaxBL, vr,
+        Atcf::recomputeQuadrantVr(j, quadRotateAngle, vmwBLflag, vmaxBL, vr,
                                   a.vmax(), a.stormDirection(), stormMotion,
                                   a.isotach(i));
       }

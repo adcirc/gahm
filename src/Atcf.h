@@ -136,27 +136,27 @@ class Atcf {
                                            const StormMotion &stormMotion,
                                            double vr);
 
-  double computeQuadrantVrWithoutGamma(const double quadrantVectorAngle,
-                                       const StormMotion &stormMotion,
-                                       const double vr);
+  static double computeQuadrantVrWithoutGamma(const double quadrantVectorAngle,
+                                              const StormMotion &stormMotion,
+                                              const double vr);
 
   static double computeVMaxBL(double vmax, double stormMotion);
 
   static double computeQuadrantVectorAngle(
       size_t index, const std::array<double, 4> quadRotateAngle);
 
-  void computeQuadrantVr(size_t quadrant,
-                         const std::array<double, 4> &quadRotateAngle,
-                         const std::array<bool, 4> &vmwBLflag, double vmaxBL,
-                         double vr, const StormMotion &stormMotion,
-                         Isotach *isotach);
+  static void computeQuadrantVr(size_t quadrant,
+                                const std::array<double, 4> &quadRotateAngle,
+                                const std::array<bool, 4> &vmwBLflag,
+                                double vmaxBL, double vr,
+                                const StormMotion &stormMotion,
+                                Isotach *isotach);
 
-  void recomputeQuadrantVr(const size_t quadrant,
-                           const std::array<double, 4> &quadRotateAngle,
-                           std::array<bool, 4> &vmwBLflag, const double vmaxBL,
-                           const double vr, const double vmax,
-                           const double stormDirection,
-                           const StormMotion &stormMotion, Isotach *isotach);
+  static void recomputeQuadrantVr(
+      const size_t quadrant, const std::array<double, 4> &quadRotateAngle,
+      std::array<bool, 4> &vmwBLflag, const double vmaxBL, const double vr,
+      const double vmax, const double stormDirection,
+      const StormMotion &stormMotion, Isotach *isotach);
 };
 
 #endif  // ATCF_H
