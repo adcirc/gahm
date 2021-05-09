@@ -36,12 +36,18 @@ Isotach::Isotach()
       m_hollandB({1.0, 1.0, 1.0, 1.0}),
       m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
       m_quadFlag({false, false, false, false}),
+      m_quadrantVr({0.0, 0.0, 0.0, 0.0}),
       m_radiusCode(NONE) {}
 
 Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
                  double r2, double r3, double r4)
     : m_windSpeed(windSpeed),
       m_isotachRadius({r1, r2, r3, r4}),
+      m_rmax({0.0, 0.0, 0.0, 0.0}),
+      m_hollandB({1.0, 1.0, 1.0, 1.0}),
+      m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
+      m_quadFlag({false, false, false, false}),
+      m_quadrantVr({0.0, 0.0, 0.0, 0.0}),
       m_radiusCode(code) {}
 
 double Isotach::windSpeed() const { return m_windSpeed; }
@@ -98,6 +104,8 @@ CircularArray<double, 4> *Isotach::hollandB() { return &m_hollandB; }
 
 CircularArray<double, 4> *Isotach::phi() { return &m_phi; }
 
+CircularArray<double, 4> *Isotach::quadrantVr() { return &m_quadrantVr; }
+
 const CircularArray<bool, 4> *Isotach::cquadFlag() const { return &m_quadFlag; }
 
 const CircularArray<double, 4> *Isotach::cisotachRadius() const {
@@ -113,6 +121,10 @@ const CircularArray<double, 4> *Isotach::chollandB() const {
 }
 
 const CircularArray<double, 4> *Isotach::cphi() const { return &m_phi; }
+
+const CircularArray<double, 4> *Isotach::cquadrantVr() const {
+  return &m_quadrantVr;
+}
 
 std::ostream &operator<<(std::ostream &os, const Isotach &iso) {
   os << Isotach::stringFromCode(iso.code()) << ", " << iso.windSpeed()

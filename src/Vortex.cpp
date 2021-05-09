@@ -249,13 +249,14 @@ std::pair<double, double> Vortex::getVh(double aa) const {
   if (vh == Vortex::VhType::VhNoCori) {
     return this->vhNoCori(aa);
   } else if (vh == Vortex::VhType::VhWithCori) {
-    return this->vhWithCori(aa);
+    // return this->vhWithCori(aa);
+    return {0, 0};
   } else if (vh == Vortex::VhType::VhWithCoriFull) {
-    return this->vhWithCoriFull(aa);
+    return this->vgWithCoriFull(aa);
   }
 }
 
-std::pair<double, double> Vortex::vhNoCori(double radius) const {
+std::pair<double, double> Vortex::vhNoCori(double r) const {
   //...Input values
   const double vr =
       m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
@@ -269,7 +270,7 @@ std::pair<double, double> Vortex::vhNoCori(double radius) const {
 
   //...Precompute factors used multiple times
   const double vmaxsquared = vmax * vmax;
-  const double alpha = radius / rq;
+  const double alpha = r / rq;
   const double alphab = std::pow(alpha, b);
   const double expOneMinusAlphaB = std::exp(1.0 - alphab);
 
@@ -277,10 +278,9 @@ std::pair<double, double> Vortex::vhNoCori(double radius) const {
   const double f = std::sqrt(vmaxsquared * expOneMinusAlphaB * alphab) - vr;
 
   //...Compute components of derivative
-  const double fprime_a =
-      b * radius * vmaxsquared * expOneMinusAlphaB / (rq * rq);
-  const double fprime_b = b * radius * vmaxsquared * expOneMinusAlphaB *
-                          alphab * std::pow(alpha, b - 1);
+  const double fprime_a = b * r * vmaxsquared * expOneMinusAlphaB / (rq * rq);
+  const double fprime_b =
+      b * r * vmaxsquared * expOneMinusAlphaB * alphab * std::pow(alpha, b - 1);
   const double fprime_c =
       2.0 * std::sqrt(vmaxsquared * expOneMinusAlphaB * alphab);
 
@@ -290,53 +290,42 @@ std::pair<double, double> Vortex::vhNoCori(double radius) const {
   return std::make_pair(f, fprime);
 }
 
-std::pair<double, double> Vortex::vhWithCori(double radius) const {}
+std::pair<double, double> Vortex::vgWithCoriFull(double r) const {
+  //...Input parameters
 
-std::pair<double, double> Vortex::vhWithCoriFull(double radius) const {
-  //...Input values
-  const double vr =
-      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
-  const double b = m_stormData->cisotach(m_currentIsotach)
-                       ->chollandB()
-                       ->at(m_currentQuadrant);
-  const double rq = m_stormData->cisotach(m_currentIsotach)
-                        ->cisotachRadius()
-                        ->at(m_currentQuadrant);
-  const double vmax = m_stormData->vmax();
-  const double phi =
-      m_stormData->cisotach(m_currentIsotach)->cphi()->at(m_currentQuadrant);
-  const double coriolis = m_stormData->coriolis();
+  // clang-format off
+  const double rmax = m_stormData->radiusMaxWinds();
+  const double vmax = m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
+  const double bg = m_stormData->cisotach(m_currentIsotach)->chollandB()->at(m_currentQuadrant);
+  const double phi = m_stormData->cisotach(m_currentIsotach)->cphi()->at(m_currentQuadrant);
+  const double fc = m_stormData->coriolis();
+  // clang-format on
 
-  //...Precompute factors used multiple times
-  const double vmaxsquared = vmax * vmax;
-  const double alpha = radius / rq;
-  const double alphab = std::pow(alpha, b);
-  const double alphabminus1 = std::pow(alpha, b - 1.0);
-  const double beta = phi * (1.0 - alphab);
+  //...Intermediate values
+  const double alpha = rmax / r;
+  const double beta = phi * (1.0 - std::pow(alpha, bg));
+  const double r0 = vmax / (rmax * fc);
+  const double kappa = (1.0 / r0) + 1.0;
+
+  //...Reused values
+  const double vmaxsq = vmax * vmax;
+  const double rmaxsq = rmax * rmax;
   const double expbeta = std::exp(beta);
-  const double coriolissquared = coriolis * coriolis;
 
-  //...Compute value of the function
-  const double f = std::sqrt(vmaxsquared * expbeta * alphab *
-                                 std::pow((rq * coriolis) / 2.0, 2.0) -
-                             (rq - coriolis) / 2.0) -
-                   vr;
+  //...f(r)
+  const double f =
+      std::sqrt(vmaxsq * kappa * expbeta * alpha + (r * fc) / 2.0) -
+      (r * fc) / 2.0;
 
-  //...Compute value of derivative
-  const double fprime_a = coriolis / 2.0;
-  const double fprime_b =
-      (coriolissquared * rq * vmaxsquared * expbeta * alphab) / 2.0;
-  const double fprime_c =
-      (b * coriolissquared * radius * vmaxsquared * expbeta * alphabminus1) /
-      4.0;
-  const double fprime_d = (b * coriolissquared * phi * radius * vmaxsquared *
-                           expbeta * alphab * alphabminus1) /
-                          4.0;
-  const double fprime_e =
-      (coriolissquared * rq * rq * vmaxsquared * expbeta * alphab) / 4.0;
-  const double fprime_f = (coriolis * rq) / 2;
-  const double fprime = -(fprime_a - fprime_b + fprime_c - fprime_d) /
-                        (2.0 * std::sqrt(fprime_e - fprime_f));
+  //...f'(r)
+  const double fprime_a = (fc / 2.0);
+  const double fprime_b = (r * vmaxsq * expbeta * kappa) / (r * r);
+  const double fprime_c = bg * rmaxsq * vmaxsq * phi * expbeta *
+                          std::pow(alpha, bg - 1.0) / (r * r * r);
+  const double fprime_d =
+      2.0 * std::sqrt((fc * r) / 2.0 + (rmax * vmaxsq * expbeta * kappa) / r);
+
+  const double fprime = (fprime_a - fprime_b + fprime_c) / fprime_d - fprime_a;
 
   return std::make_pair(f, fprime);
 }

@@ -65,6 +65,7 @@ class Isotach {
   CircularArray<double, 4> *vmaxBl();
   CircularArray<double, 4> *hollandB();
   CircularArray<double, 4> *phi();
+  CircularArray<double, 4> *quadrantVr();
 
   const CircularArray<bool, 4> *cquadFlag() const;
   const CircularArray<double, 4> *cisotachRadius() const;
@@ -72,6 +73,7 @@ class Isotach {
   const CircularArray<double, 4> *cvmaxBl() const;
   const CircularArray<double, 4> *chollandB() const;
   const CircularArray<double, 4> *cphi() const;
+  const CircularArray<double, 4> *cquadrantVr() const;
 
  private:
   double m_windSpeed;
@@ -80,6 +82,7 @@ class Isotach {
   CircularArray<double, 4> m_hollandB;
   CircularArray<double, 4> m_vmaxBL;
   CircularArray<bool, 4> m_quadFlag;
+  CircularArray<double, 4> m_quadrantVr;
   CircularArray<double, 4> m_phi;
   RadiusCode m_radiusCode;
 };

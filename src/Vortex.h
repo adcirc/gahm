@@ -114,9 +114,9 @@ class Vortex {
   template <Vortex::VhType vh>
   double findRoot(double x1, double dx, double &aa, double &bb) const noexcept;
 
-  std::pair<double, double> vhNoCori(double radius) const;
-  std::pair<double, double> vhWithCori(double radius) const;
-  std::pair<double, double> vhWithCoriFull(double radius) const;
+  std::pair<double, double> vhNoCori(double r) const;
+  std::pair<double, double> vhWithCori(double r) const;
+  std::pair<double, double> vgWithCoriFull(double r) const;
 };
 
 #endif  // VORTEX_H
