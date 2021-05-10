@@ -25,6 +25,14 @@
 var NAVTREE =
 [
   [ "Generalized Asymmetric Holland Model", "index.html", [
+    [ "Namespaces", "namespaces.html", [
+      [ "Namespace List", "namespaces.html", "namespaces_dup" ],
+      [ "Namespace Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Functions", "namespacemembers_func.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ]
+      ] ]
+    ] ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
@@ -53,8 +61,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "Assumption_8cpp.html",
-"classDate.html#a709cd7a22af6f5f6794b7de37f9e7521",
-"functions_s.html"
+"classAtcfLine.html#acc738a7f1329678309e649d09156d29c",
+"functions_func_g.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

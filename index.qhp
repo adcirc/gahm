@@ -6,6 +6,57 @@
     <filterAttribute>doxygen</filterAttribute>
     <toc>
       <section title="Generalized Asymmetric Holland Model" ref="index.html">
+        <section title="Namespaces" ref="namespaces.html">
+          <section title="Namespace List" ref="namespaces.html">
+            <section title="Physical" ref="namespacePhysical.html">
+              <section title="azimuthEarth" ref="namespacePhysical.html#a7f87008c12e72e828995270caafd6963" />
+              <section title="backgroundPressure" ref="namespacePhysical.html#aef0a2db6b310233825b6791ff8e67050" />
+              <section title="calcHollandB" ref="namespacePhysical.html#a76f21fb2f0b378bdba2db0c13d3f3a84" />
+              <section title="cartesian_distance" ref="namespacePhysical.html#a5cd90415008c6f2196b425d2a524062b" />
+              <section title="coriolis" ref="namespacePhysical.html#aa6f9f6768fb27a3751a74b7e43b4a45a" />
+              <section title="deg2rad" ref="namespacePhysical.html#aedb77f347557f2942e99437f55e976a8" />
+              <section title="distance" ref="namespacePhysical.html#a91dad53e6fb51e27776a895703d6c17a" />
+              <section title="e" ref="namespacePhysical.html#a5753cd084d1e96b108e96f8694b4a8a1" />
+              <section title="equatorialRadius" ref="namespacePhysical.html#a6c13e82a46905cdfbf1647591d8935ed" />
+              <section title="fast_exp" ref="namespacePhysical.html#ad871b8b35e0800c1e970a9ae4c145d1c" />
+              <section title="frictionAngle" ref="namespacePhysical.html#aa169b36a001af3b6ea0590bc0ffd6fa8" />
+              <section title="g" ref="namespacePhysical.html#a60d38d3c6b34c99aa2bc57a78149a3e1" />
+              <section title="geodesic_distance" ref="namespacePhysical.html#aa9f4487d4613a1f2b0a6f4c12d564e2c" />
+              <section title="halfpi" ref="namespacePhysical.html#a92b1fc7520d88e5945e2e7e8c8bc006e" />
+              <section title="km2nmi" ref="namespacePhysical.html#a4a42ec86e2054ee5fdcfbef26042513b" />
+              <section title="kt2mph" ref="namespacePhysical.html#aaf653ff5dbc4033e19ed92b240ba59bd" />
+              <section title="kt2ms" ref="namespacePhysical.html#a05752af9ecabce50d071f64c9918f5f6" />
+              <section title="mb2pa" ref="namespacePhysical.html#a5aefedba3dc84731aad379d9538c0ca3" />
+              <section title="mph2kt" ref="namespacePhysical.html#a1d46d202c65d16b1c2947453bf9a670f" />
+              <section title="mph2ms" ref="namespacePhysical.html#a23a75dd45a0e192eaf9735d0cf33397d" />
+              <section title="ms2kt" ref="namespacePhysical.html#ac3ebcf4f7617c5c5a57bc9bd2b95e0db" />
+              <section title="ms2mph" ref="namespacePhysical.html#ac20745c1f02cedd98d677e6c5522bc62" />
+              <section title="nmi2km" ref="namespacePhysical.html#a8f26784ba5fa860689f1dcaf50e062bb" />
+              <section title="omega" ref="namespacePhysical.html#a70d4ca8d5ef6f3097277170502431f7b" />
+              <section title="one2ten" ref="namespacePhysical.html#a10686d4103de8f9b2a043962d3725802" />
+              <section title="pi" ref="namespacePhysical.html#aceeafe6dfcafc1ccd35aee635c075f09" />
+              <section title="polarRadius" ref="namespacePhysical.html#acbba7b727274b2f016499f85b0b3d2f7" />
+              <section title="quadrantAngle" ref="namespacePhysical.html#a8b95a30e294bd7aa1169d0a92c65a009" />
+              <section title="rad2deg" ref="namespacePhysical.html#aecbe91b78e94e2bc1479dec570a69f99" />
+              <section title="radiusEarth" ref="namespacePhysical.html#a54d120caf204e2c8e9b5c646442f0aaf" />
+              <section title="radiusEarth" ref="namespacePhysical.html#a4d8d9f1fe46c4f162e20e2cfcad0f0cd" />
+              <section title="rhoAir" ref="namespacePhysical.html#a0eeda58b967a4051dbcc34ce7c3b3bf2" />
+              <section title="rhoWat0" ref="namespacePhysical.html#a99b62e1262ab73e25bda7575c9d7d8d0" />
+              <section title="rotation_earth" ref="namespacePhysical.html#a8d532eee5e09a7ad9c2d17c924bb3f5c" />
+              <section title="sphericalDx" ref="namespacePhysical.html#a2efe94842cf85bad805d2e444bab45d0" />
+              <section title="twopi" ref="namespacePhysical.html#a3fccff272b0fae8ead3c2c05f62b3620" />
+              <section title="windReduction" ref="namespacePhysical.html#a7a0e10124e38dbffecaa523c97b21e4a" />
+              <section title="m_deg2rad" ref="namespacePhysical.html#aa5117328a96ce4af56528effe81e8e48" />
+              <section title="m_quadrantAngles" ref="namespacePhysical.html#a14be44d530fcfcb44caec152f4e1cd34" />
+              <section title="m_rad2deg" ref="namespacePhysical.html#a1e671867ec1e6b83a98952c2f90f5bc4" />
+            </section>
+          </section>
+          <section title="Namespace Members" ref="namespacemembers.html">
+            <section title="All" ref="namespacemembers.html" />
+            <section title="Functions" ref="namespacemembers_func.html" />
+            <section title="Variables" ref="namespacemembers_vars.html" />
+          </section>
+        </section>
         <section title="Classes" ref="annotated.html">
           <section title="Class List" ref="annotated.html">
             <section title="Assumption" ref="classAssumption.html">
@@ -36,6 +87,12 @@
               <section title="m_assumptions" ref="classAssumptions.html#a0611305287fb6c16f14501a26b81d59e" />
             </section>
             <section title="Atcf" ref="classAtcf.html">
+              <section title="StormMotion" ref="structAtcf_1_1StormMotion.html">
+                <section title="StormMotion" ref="structAtcf_1_1StormMotion.html#a7d10b2b94f6ac56649e31aa865bf911c" />
+                <section title="u" ref="structAtcf_1_1StormMotion.html#aed08c8478a62910aab06ba708a0e5b5f" />
+                <section title="uv" ref="structAtcf_1_1StormMotion.html#a5ca6736aad3e217e5dd96f0d2c7fff15" />
+                <section title="v" ref="structAtcf_1_1StormMotion.html#a3b90d5a73541ab9402511d87bed076ef" />
+              </section>
               <section title="StormParameters" ref="classAtcf.html#structAtcf_1_1StormParameters">
                 <section title="background_pressure" ref="classAtcf.html#ac40d20fe04abf86a408ff0f6227198f0" />
                 <section title="central_pressure" ref="classAtcf.html#a5c692b6abf4232a8877bafa9e96bb524" />
@@ -48,9 +105,22 @@
                 <section title="vtrans" ref="classAtcf.html#a81b04b09a099cce6223604329033ca67" />
                 <section title="wtratio" ref="classAtcf.html#ae0ce0b36798bdd89dc1e65cbcf5bbf89" />
               </section>
+              <section title="AtcfFileTypes" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f">
+                <section title="FormatAtcf" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c" />
+                <section title="FormatNWS20" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a" />
+              </section>
               <section title="Atcf" ref="classAtcf.html#a0a1892d2727c8073609a246bdf2157e7" />
               <section title="calculateOverlandTranslationVelocity" ref="classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" />
               <section title="calculateRadii" ref="classAtcf.html#a4392a7255cda22dc330a996257216c31" />
+              <section title="computeEpsilonAngle" ref="classAtcf.html#a8feed32ff84fb9f6e1bba8526b05d00b" />
+              <section title="computeGamma" ref="classAtcf.html#a2742efd0b6b28a51a11a0d74e713f222" />
+              <section title="computeParameters" ref="classAtcf.html#ada693ebe0f0ee4be52b01fd3fe83963a" />
+              <section title="computeQuadrantVectorAngle" ref="classAtcf.html#adccea6c4ad7108a14f86b833f3f94f6d" />
+              <section title="computeQuadrantVr" ref="classAtcf.html#a80d9683a370e561492db8a0f6d795c5d" />
+              <section title="computeQuadrantVrWithGamma" ref="classAtcf.html#a12d26ed5e74ce562bd78a28662bceb75" />
+              <section title="computeQuadrantVrWithoutGamma" ref="classAtcf.html#a82e46480c966292c69401c0fe85b2a3b" />
+              <section title="computeStormMotion" ref="classAtcf.html#adc746c4433140219ebaf449c6f8d21f3" />
+              <section title="computeVMaxBL" ref="classAtcf.html#a7b96dc4af0c484eecb6adc87cb604431" />
               <section title="crecord" ref="classAtcf.html#a0f40f03f570bebb240bd99f8560c0147" />
               <section title="filename" ref="classAtcf.html#a94c732bb0f167eab349228237a8fbe3c" />
               <section title="generateMissingPressureData" ref="classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" />
@@ -59,14 +129,15 @@
               <section title="linearInterp" ref="classAtcf.html#ac775141fc311e59db12fdba1a913f8e2" />
               <section title="nRecords" ref="classAtcf.html#ad4b417bc07d6eaf90884ef415347e3cb" />
               <section title="read" ref="classAtcf.html#aaab5dab5b969a87f538242e524431637" />
+              <section title="recomputeQuadrantVr" ref="classAtcf.html#adfe6ef35c351380ba863090d4fec04bb" />
               <section title="record" ref="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" />
-              <section title="setAllRadiiToRmax" ref="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" />
+              <section title="setAllRadiiToRmax" ref="classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f" />
               <section title="setFilename" ref="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e" />
-              <section title="setInitialHollandB" ref="classAtcf.html#a841866c9625b20c5fb1f452110668f66" />
-              <section title="setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" />
-              <section title="setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a21717052904854109237917697bd4e73" />
-              <section title="setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" />
+              <section title="setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1" />
+              <section title="setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79" />
+              <section title="setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#aed2ec117307b05eb72dc3e8e06965923" />
               <section title="uvTrans" ref="classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e" />
+              <section title="write" ref="classAtcf.html#aec35454de676b1f68288d59612b572ee" />
               <section title="m_assumptions" ref="classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd" />
               <section title="m_atcfData" ref="classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944" />
               <section title="m_filename" ref="classAtcf.html#abeab36922e15d948509bdf36c5a46cd9" />
@@ -76,7 +147,7 @@
               <section title="addIsotach" ref="classAtcfLine.html#acc738a7f1329678309e649d09156d29c" />
               <section title="basin" ref="classAtcfLine.html#a757a667960cf8420a7d565899ba74dd5" />
               <section title="cisotach" ref="classAtcfLine.html#af02cbe832e0a7a708e691fff2b48ebc4" />
-              <section title="cseas" ref="classAtcfLine.html#a155d716f2e5b5527298c79837c2c0d9b" />
+              <section title="coriolis" ref="classAtcfLine.html#a6a0221bd70847e13f9b7ea9c339438e7" />
               <section title="cycloneNumber" ref="classAtcfLine.html#afcbce102d14966134f6a19e60597c61c" />
               <section title="datetime" ref="classAtcfLine.html#a31f99dd6bb56e7b2cb4ebbc3a850a8f5" />
               <section title="eyeDiameter" ref="classAtcfLine.html#acc01ba6a80743d3c6dcfd1f1fbce0daf" />
@@ -88,19 +159,22 @@
               <section title="lat" ref="classAtcfLine.html#af473414f523913837f7ee7520fa9e63d" />
               <section title="lon" ref="classAtcfLine.html#abf1373f021c76c8df3ab03e92eddc42f" />
               <section title="maxDevelopmentLevel" ref="classAtcfLine.html#ac1f527bc7faf6136fa1a33dbada875ad" />
-              <section title="maxSeas" ref="classAtcfLine.html#a180f9bd2b2e8b1ba2f47d6b73311c3f9" />
               <section title="mslp" ref="classAtcfLine.html#a3edde0bc6afb6f2de5faed719ca41b52" />
               <section title="nIsotach" ref="classAtcfLine.html#a5ddd67c4d868875c52ed1396c58dd6a7" />
               <section title="operator&lt;" ref="classAtcfLine.html#a724049144ca597838876a0068ff224de" />
               <section title="parseAtcfLine" ref="classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" />
               <section title="pouter" ref="classAtcfLine.html#a666b44934c6c535221a830365097c42d" />
+              <section title="quadrantHollandB" ref="classAtcfLine.html#a232f868ec849c75a24a3340f030a946c" />
+              <section title="quadrantRadii" ref="classAtcfLine.html#a067f2de05c1898e6654f46006c551d27" />
+              <section title="quadrantRmax" ref="classAtcfLine.html#afb32cda982df86dea84fc9ffe3fd5079" />
+              <section title="quadrantVmaxBL" ref="classAtcfLine.html#a127ef68d31930670c7f2c661042f9894" />
               <section title="radiusMaxWinds" ref="classAtcfLine.html#ad2910e96b46c135de328985b5afac3cb" />
               <section title="radiusPouter" ref="classAtcfLine.html#a6ac5cb831a411289763eecc6f40e7722" />
               <section title="readValueCheckBlank" ref="classAtcfLine.html#a18a0b117205f2a9d95ac31825524d116" />
               <section title="referenceDatetime" ref="classAtcfLine.html#aed5531012579283c189c8bafe7738fc9" />
               <section title="removeIsotach" ref="classAtcfLine.html#a468e808c476ec5f4fd24e8ea38b304d6" />
-              <section title="seas" ref="classAtcfLine.html#a6cf53a22fe45dfc93ceb5a178c34c99e" />
               <section title="setBasin" ref="classAtcfLine.html#a10cf0c5bc3997b3342597aa7ebee21b9" />
+              <section title="setCoriolis" ref="classAtcfLine.html#a68dd1833d8a63774235c9c6297752a4f" />
               <section title="setCycloneNumber" ref="classAtcfLine.html#ae955293026a90f5e5288b507deebdcac" />
               <section title="setDatetime" ref="classAtcfLine.html#a0bad5c6c920656697893a8ddc09076de" />
               <section title="setEyeDiameter" ref="classAtcfLine.html#a982aa4172b139ca8df26e8c6b148c6bf" />
@@ -110,7 +184,6 @@
               <section title="setLat" ref="classAtcfLine.html#ae6665099efc25d2f067359712c403a28" />
               <section title="setLon" ref="classAtcfLine.html#a820d2d4a882e977cc3e1a4e543067428" />
               <section title="setMaxDevelopmentLevel" ref="classAtcfLine.html#a3662bfdc458559dafcd8d5bac47d2e24" />
-              <section title="setMaxSeas" ref="classAtcfLine.html#af940eb2838c526ef633e7bd050e1f582" />
               <section title="setMslp" ref="classAtcfLine.html#a70386cf97cc13ad4eccb2556d0339f0a" />
               <section title="setPouter" ref="classAtcfLine.html#ae091671d04a10571b3788f0e2877ee32" />
               <section title="setRadiusMaxWinds" ref="classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" />
@@ -145,6 +218,7 @@
               <section title="vTrans" ref="classAtcfLine.html#a3bf99331e568267e2ba0ea6c090e52ec" />
               <section title="operator&lt;&lt;" ref="classAtcfLine.html#a3b63d05758993da06e47969ec80737df" />
               <section title="m_basin" ref="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f" />
+              <section title="m_coriolis" ref="classAtcfLine.html#a5096ab769d4f8b96fa0a97673eb12f69" />
               <section title="m_cycloneNumber" ref="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905" />
               <section title="m_datetime" ref="classAtcfLine.html#a941d6e2d0bd983eb49250ea3dd09873b" />
               <section title="m_eyeDiameter" ref="classAtcfLine.html#ab7831467e3e9a8d6399463f4fbb8f7d5" />
@@ -154,14 +228,12 @@
               <section title="m_lat" ref="classAtcfLine.html#a5d7de21e0be4d9b778dc9cc1fd6514f9" />
               <section title="m_lon" ref="classAtcfLine.html#a74b9738eda250dd70bb7adab81ccd75c" />
               <section title="m_maxDevelopmentLevel" ref="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005" />
-              <section title="m_maxSeas" ref="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4" />
               <section title="m_mslp" ref="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb" />
               <section title="m_null" ref="classAtcfLine.html#ae16b3f134144a9464fb913b8ea0a622a" />
               <section title="m_pouter" ref="classAtcfLine.html#af014827ed3618e28ef0a84e8281a7c35" />
               <section title="m_radiusMaxWinds" ref="classAtcfLine.html#a77757315546135bd8342f83562d35609" />
               <section title="m_radiusPouter" ref="classAtcfLine.html#add4fd4445a829c2a31ee56ef20e6d3e6" />
               <section title="m_refDatetime" ref="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d" />
-              <section title="m_seas" ref="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0" />
               <section title="m_stormDirection" ref="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f" />
               <section title="m_stormName" ref="classAtcfLine.html#abac2d3e5fbdd3a7d537eedb60577a504" />
               <section title="m_stormSpeed" ref="classAtcfLine.html#a0b184944fb10e8dbc82c35f497b0fcaa" />
@@ -174,6 +246,24 @@
               <section title="m_uv" ref="classAtcfLine.html#a9f7fd7a503ac6c08d31d84e990bace12" />
               <section title="m_v" ref="classAtcfLine.html#a6322dc94f9b442feaf909050195e0f41" />
               <section title="m_vmax" ref="classAtcfLine.html#ad1fcc1f3310fb1bc8b81afe20b4a0b30" />
+            </section>
+            <section title="CircularArray" ref="classCircularArray.html">
+              <section title="CircularArray" ref="classCircularArray.html#a24c6558d59c7ed18502cfe15bfefb023" />
+              <section title="CircularArray" ref="classCircularArray.html#a5cf004f1f25d523792e3f5587c177ab4" />
+              <section title="at" ref="classCircularArray.html#a0642b8def16b83c1fff8f93326d2c842" />
+              <section title="begin" ref="classCircularArray.html#a58421475bd4cf60dfd7af8d01448c6d8" />
+              <section title="cbegin" ref="classCircularArray.html#afb75bcc8f41747e1203acde9bb10c655" />
+              <section title="cdata" ref="classCircularArray.html#a71caaa24622f3b7f72708f937f357c33" />
+              <section title="cend" ref="classCircularArray.html#a4e9d92bb659820718c9deb97b022c7ba" />
+              <section title="data" ref="classCircularArray.html#abe59a0128bdeeccfdc609e50ce95e327" />
+              <section title="end" ref="classCircularArray.html#aae80d7cf5cd85b47834fb8752d7b1712" />
+              <section title="mod_floor" ref="classCircularArray.html#ae9ee07d89dc4196acefc5b290b9275b8" />
+              <section title="operator=" ref="classCircularArray.html#a59b685173dc3da8e3da8c2439b4bc5a3" />
+              <section title="operator[]" ref="classCircularArray.html#af747f06957eb32410e0dab7697cbb7aa" />
+              <section title="operator[]" ref="classCircularArray.html#a4a126eafbd74157a9e7cebe893af7d27" />
+              <section title="set" ref="classCircularArray.html#a43241fcadbf56b0a7c3f7242acf46eed" />
+              <section title="size" ref="classCircularArray.html#af837dccb72214bb010abc276fb618c36" />
+              <section title="m_data" ref="classCircularArray.html#acfb8c68ff5955ff6fac1331a3400eab2" />
             </section>
             <section title="Date" ref="classDate.html">
               <section title="days" ref="classDate.html#a13d009e7dff615666a4454f34caf6b16" />
@@ -245,10 +335,11 @@
               <section title="m_datetime" ref="classDate.html#a0da4566ec8527ef7bd255d90e046f120" />
             </section>
             <section title="Gahm" ref="classGahm.html">
-              <section title="uvp" ref="classGahm.html#structGahm_1_1uvp">
-                <section title="p" ref="classGahm.html#aace2d484b0e3651abd108f04803d316c" />
-                <section title="u" ref="classGahm.html#aed08c8478a62910aab06ba708a0e5b5f" />
-                <section title="v" ref="classGahm.html#a3b90d5a73541ab9402511d87bed076ef" />
+              <section title="uvp" ref="structGahm_1_1uvp.html">
+                <section title="uvp" ref="structGahm_1_1uvp.html#a2ca5efa0a38de6c861994b1c56650159" />
+                <section title="p" ref="structGahm_1_1uvp.html#aace2d484b0e3651abd108f04803d316c" />
+                <section title="u" ref="structGahm_1_1uvp.html#aed08c8478a62910aab06ba708a0e5b5f" />
+                <section title="v" ref="structGahm_1_1uvp.html#a3b90d5a73541ab9402511d87bed076ef" />
               </section>
               <section title="Gahm" ref="classGahm.html#a7bd572fd4eaf8adc3c7ea88d7bcb8e47" />
               <section title="filename" ref="classGahm.html#a94c732bb0f167eab349228237a8fbe3c" />
@@ -299,36 +390,39 @@
               </section>
               <section title="Isotach" ref="classIsotach.html#a3b2c810ad890ac53d885b95f5520a7a3" />
               <section title="Isotach" ref="classIsotach.html#a2b7d19a61edb5e22acb4507d7b65327a" />
+              <section title="chollandB" ref="classIsotach.html#a6d338c7499d8278c978770bd67c1a736" />
+              <section title="cisotachRadius" ref="classIsotach.html#af93a6e1bb9f15faae4793d8205637e40" />
               <section title="code" ref="classIsotach.html#a60ce77aeb249510471495cc63a7793da" />
               <section title="codeFromString" ref="classIsotach.html#ad8db29d5da4482e0ac19ece84e108947" />
+              <section title="cphi" ref="classIsotach.html#ae59095832d860bee9658a1d41dddd19b" />
+              <section title="cquadFlag" ref="classIsotach.html#acf34a941f1b3124bf891deeb634f5120" />
+              <section title="cquadrantVr" ref="classIsotach.html#a1bb39878429a6f040f8e6c99102d9eba" />
+              <section title="crmax" ref="classIsotach.html#a74b6f4ea56932aa328ae0292db11a2e6" />
+              <section title="cvmaxBl" ref="classIsotach.html#ae34699ed432e270b9857a4968684a14e" />
+              <section title="generateQuadFlag" ref="classIsotach.html#a4ae76972e9b895592c48a9063a34196e" />
+              <section title="hollandB" ref="classIsotach.html#af25ad0c3ce04a06553ed99aff6cdcd86" />
               <section title="isNull" ref="classIsotach.html#a64352a7d018b8161e34e42ae0aad2e32" />
-              <section title="lookupRadii" ref="classIsotach.html#af56a97ce00091481a9315d9fec00dec9" />
-              <section title="quadflag" ref="classIsotach.html#ae8b3f5db09620ad846183f0d3b81e1d0" />
-              <section title="radii" ref="classIsotach.html#a2126175890ff8e19cf6458368f8da22b" />
+              <section title="isotachRadius" ref="classIsotach.html#aa2e13e8a29b18e50500e6ec0e02e5443" />
+              <section title="phi" ref="classIsotach.html#af2b6a2c0fa9a6d39abaac9558591476b" />
+              <section title="quadFlag" ref="classIsotach.html#ad36a7cd3c58ae877144d02426d8e8de6" />
+              <section title="quadrantVr" ref="classIsotach.html#a32d11b9542f172cb4e06b65950c704bf" />
               <section title="radiusCode" ref="classIsotach.html#ad375a4cd087bac574ffa5589b56ad81f" />
-              <section title="radiusQ1" ref="classIsotach.html#af2e3f0146879ed0b3931babbce2f52aa" />
-              <section title="radiusQ2" ref="classIsotach.html#aae2d287c0bbcdadf4d575d3dcb56262b" />
-              <section title="radiusQ3" ref="classIsotach.html#a7e99456757e19f77165951570530ffd3" />
-              <section title="radiusQ4" ref="classIsotach.html#a0300c2e50b1e7dc86805acea5c32f472" />
+              <section title="rmax" ref="classIsotach.html#afb127f3de4c67daefab89b3fb54d484d" />
               <section title="setCode" ref="classIsotach.html#a9eccf0a80d868dc67d497f40a98227ce" />
-              <section title="setLookupRadii" ref="classIsotach.html#a1d31142766c3f82181f66b505c59e02e" />
-              <section title="setQuadflag" ref="classIsotach.html#a4b2d4944ac1371f8ced91b80aedc6871" />
-              <section title="setRadii" ref="classIsotach.html#a6622d9fbbb708549c32c890a16bbb51c" />
-              <section title="setRadii" ref="classIsotach.html#a50a5da149af0620100449fd5e6614189" />
-              <section title="setRadii" ref="classIsotach.html#a78bc10143e0766bce5cb38e99ea921bc" />
               <section title="setRadiusCode" ref="classIsotach.html#a56004c6fae91123337f553af3d7bf3b8" />
-              <section title="setRadiusQ1" ref="classIsotach.html#a139938a540a1d9db6a536728740bcb73" />
-              <section title="setRadiusQ2" ref="classIsotach.html#adf8bfef001a8ccf3a39e023ba4d870a2" />
-              <section title="setRadiusQ3" ref="classIsotach.html#a530dd330da6d6dc6409daf221f549b3b" />
-              <section title="setRadiusQ4" ref="classIsotach.html#a931acb7f1115f717ca981032534d66ad" />
               <section title="setWindSpeed" ref="classIsotach.html#a5b4ca0a37fa5d07800ef26f35899ae50" />
               <section title="stringFromCode" ref="classIsotach.html#a107f943d740f337a47238f2265924174" />
+              <section title="vmaxBl" ref="classIsotach.html#a2d06b791604441d536b3f6c578fca40f" />
               <section title="windSpeed" ref="classIsotach.html#a90b55241f6d0ff34cfb78229a7ffacf7" />
               <section title="operator&lt;&lt;" ref="classIsotach.html#a5eb7c2163c27324b8245880c72bc0869" />
-              <section title="m_lookup_radii" ref="classIsotach.html#a96a4bc4b457a96956d8ed26c328580ad" />
-              <section title="m_quadflag" ref="classIsotach.html#a5e3ed968ee6777b2d371f49cabc157d3" />
-              <section title="m_radius" ref="classIsotach.html#a39c66cd59c1590ef926e7405cb97c080" />
+              <section title="m_hollandB" ref="classIsotach.html#a727f1f80d1c32a654f798106a0430db1" />
+              <section title="m_isotachRadius" ref="classIsotach.html#a698d84a498fe6a67204d68d4941d8f64" />
+              <section title="m_phi" ref="classIsotach.html#a3e76f25e71b7b06a431909cf668b74fb" />
+              <section title="m_quadFlag" ref="classIsotach.html#a18e9db278da9d43f349a87dab5c28ca1" />
+              <section title="m_quadrantVr" ref="classIsotach.html#a6994d42e050b979bf2b188e792b65656" />
               <section title="m_radiusCode" ref="classIsotach.html#a47432311752c9dd8013ade5b353497e1" />
+              <section title="m_rmax" ref="classIsotach.html#af1cd4160f8d9cfe9eadb3fdae5a3a986" />
+              <section title="m_vmaxBL" ref="classIsotach.html#aef0820ad976a1169e0a5a8acc70cf31f" />
               <section title="m_windSpeed" ref="classIsotach.html#a8cd4494e1d1260fba3e37d5a3681809c" />
             </section>
             <section title="Logging" ref="classLogging.html">
@@ -340,41 +434,6 @@
               <section title="throwError" ref="classLogging.html#a69e65063c7dfaeb4330d31801a987a8e" />
               <section title="throwError" ref="classLogging.html#a8f67ffb5e7fa2c85e6cfbc52d176d1dd" />
               <section title="warning" ref="classLogging.html#aa991e722150df4187e473be0044f21ea" />
-            </section>
-            <section title="Physical" ref="classPhysical.html">
-              <section title="azimuthEarth" ref="classPhysical.html#afbb6375214fefd00a0489b5373f480b8" />
-              <section title="backgroundPressure" ref="classPhysical.html#a7b2bdb5bac38806ed013f30fca70fb29" />
-              <section title="cartesian_distance" ref="classPhysical.html#a5bc8393ec60b3f12466496285f45e737" />
-              <section title="deg2rad" ref="classPhysical.html#ae43063ac7bf556cb933a0206301b9748" />
-              <section title="distance" ref="classPhysical.html#a0d5a798f989b297250dec7184c34840a" />
-              <section title="e" ref="classPhysical.html#a8256b0ba2078e4f506268b7a9d18c8bc" />
-              <section title="equatorialRadius" ref="classPhysical.html#af1acc32bfbde7fb61a53d9e5d33c4699" />
-              <section title="fast_exp" ref="classPhysical.html#a1699ca6bf3eae05eadbc185d7bddb8df" />
-              <section title="g" ref="classPhysical.html#a8475eaf4bc87bfa8958122727014a72c" />
-              <section title="geodesic_distance" ref="classPhysical.html#a46933b0960a506f3532ab42d02b84030" />
-              <section title="halfpi" ref="classPhysical.html#aa9a4bde1564a48cc4121ea5fd39d1e21" />
-              <section title="km2nmi" ref="classPhysical.html#a27fa412be519621c7f7d32bea2be825a" />
-              <section title="kt2mph" ref="classPhysical.html#ab0516b3854217b0679cf8811dd9f07f2" />
-              <section title="kt2ms" ref="classPhysical.html#a446b34a690f7a1f10433e477ad0ac973" />
-              <section title="mb2pa" ref="classPhysical.html#a1e3cc31cbd44a009c32a1888ebc600c2" />
-              <section title="mph2kt" ref="classPhysical.html#ad0e09fe0f0dccfa9b33a44a0e8344de4" />
-              <section title="mph2ms" ref="classPhysical.html#a62734c633aae0ce60c1a948bf570d475" />
-              <section title="ms2kt" ref="classPhysical.html#aec8d798f5701bd9c2e131410022ec8f7" />
-              <section title="ms2mph" ref="classPhysical.html#a7755210204bf895038f132c7c6ecfdfe" />
-              <section title="nmi2km" ref="classPhysical.html#a758801eb99ef705bace966b7133d0621" />
-              <section title="omega" ref="classPhysical.html#aa716b3fd2b3622d3711f11ad6777ce5b" />
-              <section title="one2ten" ref="classPhysical.html#a86c55a29601269553ae1e4908f13431b" />
-              <section title="pi" ref="classPhysical.html#a8916e00cc71692658a0a355b2f142274" />
-              <section title="polarRadius" ref="classPhysical.html#a1b684ff37a85f7e328c6b027ee95bc10" />
-              <section title="rad2deg" ref="classPhysical.html#aa8f2ca4ad36dc6b5f53e25e9e746d008" />
-              <section title="radiusEarth" ref="classPhysical.html#a0af6386ea46179fb49f33ea168613246" />
-              <section title="radiusEarth" ref="classPhysical.html#a9ebd20411025eccc634afb460a75df72" />
-              <section title="rhoAir" ref="classPhysical.html#aad2b9f195b6512f3156a21eacc1c726b" />
-              <section title="rhoWat0" ref="classPhysical.html#a3f3ad27c60c663938315137d8118f7e2" />
-              <section title="rotation_earth" ref="classPhysical.html#acbf23a54b4a872a5c1a3ca9f9423d882" />
-              <section title="sphericalDx" ref="classPhysical.html#ac6d713f1908e7e0538db20f88b34f639" />
-              <section title="twopi" ref="classPhysical.html#ac89cc8801efd15fe96e25cd4a357b47a" />
-              <section title="windReduction" ref="classPhysical.html#aa611aac3f44816aeddb5ffc722f33c35" />
             </section>
             <section title="s_date" ref="structs__date.html">
               <section title="s_date" ref="structs__date.html#a6c5ea10cc0ad6e101ad4dfc9b1622aa6" />
@@ -398,42 +457,38 @@
               <section title="tt" ref="structs__datetime.html#a1465e0c2431f2f4bd26f7635d833fad0" />
             </section>
             <section title="Vortex" ref="classVortex.html">
-              <section title="WindArray" ref="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9" />
+              <section title="VhType" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094">
+                <section title="VhNoCori" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad6eb450541808d322f27033b59e5be52" />
+                <section title="VhWithCori" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094abf648661a68ca00fe371c3fdcfdab820" />
+                <section title="VhWithCoriFull" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad3672ba481a101e64261f9d1bb1d4273" />
+              </section>
               <section title="VortexParameterType" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0">
                 <section title="RMAX" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a2f4fc02e2c869a68404689ecadff748f" />
                 <section title="B" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a3f2a77ecd272aa6d6b5902faa5e5fc68" />
                 <section title="VMBL" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f" />
               </section>
-              <section title="Vortex" ref="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732" />
-              <section title="calcHollandB" ref="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815" />
-              <section title="coriolis" ref="classVortex.html#a06a2befc5762ac390217ded44041d055" />
-              <section title="fillEdges" ref="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f" />
-              <section title="fillRadii" ref="classVortex.html#a7029c117dd3645958a27ef3ea5acf801" />
-              <section title="fillWindArray" ref="classVortex.html#a93c9a3d66cc02127f99d1857a320e409" />
-              <section title="frictionAngle" ref="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" />
+              <section title="Vortex" ref="classVortex.html#a6ce1ce001e797232a1ce780486f3e6b4" />
+              <section title="computeBg" ref="classVortex.html#a31f8393268fb0ce958148e0bd2fcb482" />
+              <section title="computePhi" ref="classVortex.html#aa96c2354f3470dfbabf6f61dbbba25c6" />
+              <section title="findRoot" ref="classVortex.html#a61b14dabae9da1036d2072df058076af" />
               <section title="getBaseQuadrant" ref="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464" />
+              <section title="getParameterValue" ref="classVortex.html#ada5ebd5311d214fba078d1b3285a4032" />
+              <section title="getVh" ref="classVortex.html#add1b3d68a6adac1887b0175193b6d79e" />
               <section title="interpolateParameter" ref="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65" />
-              <section title="interpR" ref="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816" />
-              <section title="makeWindArray" ref="classVortex.html#ac533446af0e461d68d9c3839b8406f7c" />
+              <section title="interpR" ref="classVortex.html#af45bed77f864fe7cd18e96bcad902c16" />
+              <section title="rossbyNumber" ref="classVortex.html#ad0dcc0642f9977e7d333d943744ccf77" />
               <section title="rotateWinds" ref="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" />
-              <section title="setRadii" ref="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0" />
-              <section title="setVortex" ref="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152" />
-              <section title="spInterp" ref="classVortex.html#ad32c573698fbb788efee81699e65e624" />
-              <section title="m_b" ref="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140" />
-              <section title="m_cLat" ref="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c" />
-              <section title="m_cLon" ref="classVortex.html#a914455e27bc940b1d4a384c59b1da820" />
-              <section title="m_corio" ref="classVortex.html#aef02befeab438216402dd5864b4482dc" />
-              <section title="m_pc" ref="classVortex.html#a128153b7d117c2717185dab5c48f322e" />
-              <section title="m_phi" ref="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712" />
-              <section title="m_pn" ref="classVortex.html#a066fc99714adb677ef89ba04249182ec" />
-              <section title="m_quadFlag4" ref="classVortex.html#a9fc81595545f0e7e5f042139cc80f583" />
-              <section title="m_quadIr4" ref="classVortex.html#a2abe6c7109052db50f11317bbe818c1e" />
-              <section title="m_rMaxes4" ref="classVortex.html#a5a0b3c1244a129a15e46c64b41e0f522" />
-              <section title="m_vMax" ref="classVortex.html#af509da395ff96c0318bbda561856f2f4" />
-              <section title="m_vmBL4" ref="classVortex.html#a92ed3ec2573be34aa01ca0db33cba9b8" />
-              <section title="m_vr" ref="classVortex.html#a6a191ae4612ab8b2434202f96ba63192" />
-              <section title="nPoints" ref="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1" />
-              <section title="nQuads" ref="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931" />
+              <section title="setCurrentQuadrant" ref="classVortex.html#a5bd8e337d3aec4fd97392cfda1eff9cb" />
+              <section title="setStormData" ref="classVortex.html#ae388b86da66acaa92e09cdf7167b8bc0" />
+              <section title="spInterp" ref="classVortex.html#a46c545695b0a66248dc9e47d3a2f2b43" />
+              <section title="vgWithCoriFull" ref="classVortex.html#a36b321e4164c600950ffe1cc7021146f" />
+              <section title="vhNoCori" ref="classVortex.html#ae476777bb80581d4af28e4c2ce3a0b99" />
+              <section title="vhWithCori" ref="classVortex.html#ab722ca768cdd318618182826be9ac239" />
+              <section title="m_currentIsotach" ref="classVortex.html#acccde3bd7953d0da6107946dc80c2806" />
+              <section title="m_currentQuadrant" ref="classVortex.html#a71fbb063685c0272ad3ca834a883a9ca" />
+              <section title="m_stormData" ref="classVortex.html#a2a129871078a9bdddb4ef69ca2e484ca" />
+              <section title="maxIsotachs" ref="classVortex.html#aa797f766ca3e047a0011aa85d7ca135e" />
+              <section title="nQuads" ref="classVortex.html#a07dce79f0a1960c50c76b633d17db7f0" />
             </section>
           </section>
           <section title="Class Index" ref="classes.html" />
@@ -534,6 +589,12 @@
             <section title="Atcf.cpp" ref="Atcf_8cpp.html" />
             <section title="Atcf.h" ref="Atcf_8h.html">
               <section title="Atcf" ref="classAtcf.html">
+                <section title="StormMotion" ref="structAtcf_1_1StormMotion.html">
+                  <section title="StormMotion" ref="structAtcf_1_1StormMotion.html#a7d10b2b94f6ac56649e31aa865bf911c" />
+                  <section title="u" ref="structAtcf_1_1StormMotion.html#aed08c8478a62910aab06ba708a0e5b5f" />
+                  <section title="uv" ref="structAtcf_1_1StormMotion.html#a5ca6736aad3e217e5dd96f0d2c7fff15" />
+                  <section title="v" ref="structAtcf_1_1StormMotion.html#a3b90d5a73541ab9402511d87bed076ef" />
+                </section>
                 <section title="StormParameters" ref="classAtcf.html#structAtcf_1_1StormParameters">
                   <section title="background_pressure" ref="classAtcf.html#ac40d20fe04abf86a408ff0f6227198f0" />
                   <section title="central_pressure" ref="classAtcf.html#a5c692b6abf4232a8877bafa9e96bb524" />
@@ -546,9 +607,22 @@
                   <section title="vtrans" ref="classAtcf.html#a81b04b09a099cce6223604329033ca67" />
                   <section title="wtratio" ref="classAtcf.html#ae0ce0b36798bdd89dc1e65cbcf5bbf89" />
                 </section>
+                <section title="AtcfFileTypes" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f">
+                  <section title="FormatAtcf" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c" />
+                  <section title="FormatNWS20" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a" />
+                </section>
                 <section title="Atcf" ref="classAtcf.html#a0a1892d2727c8073609a246bdf2157e7" />
                 <section title="calculateOverlandTranslationVelocity" ref="classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" />
                 <section title="calculateRadii" ref="classAtcf.html#a4392a7255cda22dc330a996257216c31" />
+                <section title="computeEpsilonAngle" ref="classAtcf.html#a8feed32ff84fb9f6e1bba8526b05d00b" />
+                <section title="computeGamma" ref="classAtcf.html#a2742efd0b6b28a51a11a0d74e713f222" />
+                <section title="computeParameters" ref="classAtcf.html#ada693ebe0f0ee4be52b01fd3fe83963a" />
+                <section title="computeQuadrantVectorAngle" ref="classAtcf.html#adccea6c4ad7108a14f86b833f3f94f6d" />
+                <section title="computeQuadrantVr" ref="classAtcf.html#a80d9683a370e561492db8a0f6d795c5d" />
+                <section title="computeQuadrantVrWithGamma" ref="classAtcf.html#a12d26ed5e74ce562bd78a28662bceb75" />
+                <section title="computeQuadrantVrWithoutGamma" ref="classAtcf.html#a82e46480c966292c69401c0fe85b2a3b" />
+                <section title="computeStormMotion" ref="classAtcf.html#adc746c4433140219ebaf449c6f8d21f3" />
+                <section title="computeVMaxBL" ref="classAtcf.html#a7b96dc4af0c484eecb6adc87cb604431" />
                 <section title="crecord" ref="classAtcf.html#a0f40f03f570bebb240bd99f8560c0147" />
                 <section title="filename" ref="classAtcf.html#a94c732bb0f167eab349228237a8fbe3c" />
                 <section title="generateMissingPressureData" ref="classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" />
@@ -557,17 +631,24 @@
                 <section title="linearInterp" ref="classAtcf.html#ac775141fc311e59db12fdba1a913f8e2" />
                 <section title="nRecords" ref="classAtcf.html#ad4b417bc07d6eaf90884ef415347e3cb" />
                 <section title="read" ref="classAtcf.html#aaab5dab5b969a87f538242e524431637" />
+                <section title="recomputeQuadrantVr" ref="classAtcf.html#adfe6ef35c351380ba863090d4fec04bb" />
                 <section title="record" ref="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" />
-                <section title="setAllRadiiToRmax" ref="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" />
+                <section title="setAllRadiiToRmax" ref="classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f" />
                 <section title="setFilename" ref="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e" />
-                <section title="setInitialHollandB" ref="classAtcf.html#a841866c9625b20c5fb1f452110668f66" />
-                <section title="setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" />
-                <section title="setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a21717052904854109237917697bd4e73" />
-                <section title="setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" />
+                <section title="setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1" />
+                <section title="setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79" />
+                <section title="setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#aed2ec117307b05eb72dc3e8e06965923" />
                 <section title="uvTrans" ref="classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e" />
+                <section title="write" ref="classAtcf.html#aec35454de676b1f68288d59612b572ee" />
                 <section title="m_assumptions" ref="classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd" />
                 <section title="m_atcfData" ref="classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944" />
                 <section title="m_filename" ref="classAtcf.html#abeab36922e15d948509bdf36c5a46cd9" />
+              </section>
+              <section title="StormMotion" ref="structAtcf_1_1StormMotion.html">
+                <section title="StormMotion" ref="structAtcf_1_1StormMotion.html#a7d10b2b94f6ac56649e31aa865bf911c" />
+                <section title="u" ref="structAtcf_1_1StormMotion.html#aed08c8478a62910aab06ba708a0e5b5f" />
+                <section title="uv" ref="structAtcf_1_1StormMotion.html#a5ca6736aad3e217e5dd96f0d2c7fff15" />
+                <section title="v" ref="structAtcf_1_1StormMotion.html#a3b90d5a73541ab9402511d87bed076ef" />
               </section>
               <section title="StormParameters" ref="classAtcf.html#structAtcf_1_1StormParameters">
                 <section title="background_pressure" ref="classAtcf.html#ac40d20fe04abf86a408ff0f6227198f0" />
@@ -591,7 +672,7 @@
                 <section title="addIsotach" ref="classAtcfLine.html#acc738a7f1329678309e649d09156d29c" />
                 <section title="basin" ref="classAtcfLine.html#a757a667960cf8420a7d565899ba74dd5" />
                 <section title="cisotach" ref="classAtcfLine.html#af02cbe832e0a7a708e691fff2b48ebc4" />
-                <section title="cseas" ref="classAtcfLine.html#a155d716f2e5b5527298c79837c2c0d9b" />
+                <section title="coriolis" ref="classAtcfLine.html#a6a0221bd70847e13f9b7ea9c339438e7" />
                 <section title="cycloneNumber" ref="classAtcfLine.html#afcbce102d14966134f6a19e60597c61c" />
                 <section title="datetime" ref="classAtcfLine.html#a31f99dd6bb56e7b2cb4ebbc3a850a8f5" />
                 <section title="eyeDiameter" ref="classAtcfLine.html#acc01ba6a80743d3c6dcfd1f1fbce0daf" />
@@ -603,19 +684,22 @@
                 <section title="lat" ref="classAtcfLine.html#af473414f523913837f7ee7520fa9e63d" />
                 <section title="lon" ref="classAtcfLine.html#abf1373f021c76c8df3ab03e92eddc42f" />
                 <section title="maxDevelopmentLevel" ref="classAtcfLine.html#ac1f527bc7faf6136fa1a33dbada875ad" />
-                <section title="maxSeas" ref="classAtcfLine.html#a180f9bd2b2e8b1ba2f47d6b73311c3f9" />
                 <section title="mslp" ref="classAtcfLine.html#a3edde0bc6afb6f2de5faed719ca41b52" />
                 <section title="nIsotach" ref="classAtcfLine.html#a5ddd67c4d868875c52ed1396c58dd6a7" />
                 <section title="operator&lt;" ref="classAtcfLine.html#a724049144ca597838876a0068ff224de" />
                 <section title="parseAtcfLine" ref="classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" />
                 <section title="pouter" ref="classAtcfLine.html#a666b44934c6c535221a830365097c42d" />
+                <section title="quadrantHollandB" ref="classAtcfLine.html#a232f868ec849c75a24a3340f030a946c" />
+                <section title="quadrantRadii" ref="classAtcfLine.html#a067f2de05c1898e6654f46006c551d27" />
+                <section title="quadrantRmax" ref="classAtcfLine.html#afb32cda982df86dea84fc9ffe3fd5079" />
+                <section title="quadrantVmaxBL" ref="classAtcfLine.html#a127ef68d31930670c7f2c661042f9894" />
                 <section title="radiusMaxWinds" ref="classAtcfLine.html#ad2910e96b46c135de328985b5afac3cb" />
                 <section title="radiusPouter" ref="classAtcfLine.html#a6ac5cb831a411289763eecc6f40e7722" />
                 <section title="readValueCheckBlank" ref="classAtcfLine.html#a18a0b117205f2a9d95ac31825524d116" />
                 <section title="referenceDatetime" ref="classAtcfLine.html#aed5531012579283c189c8bafe7738fc9" />
                 <section title="removeIsotach" ref="classAtcfLine.html#a468e808c476ec5f4fd24e8ea38b304d6" />
-                <section title="seas" ref="classAtcfLine.html#a6cf53a22fe45dfc93ceb5a178c34c99e" />
                 <section title="setBasin" ref="classAtcfLine.html#a10cf0c5bc3997b3342597aa7ebee21b9" />
+                <section title="setCoriolis" ref="classAtcfLine.html#a68dd1833d8a63774235c9c6297752a4f" />
                 <section title="setCycloneNumber" ref="classAtcfLine.html#ae955293026a90f5e5288b507deebdcac" />
                 <section title="setDatetime" ref="classAtcfLine.html#a0bad5c6c920656697893a8ddc09076de" />
                 <section title="setEyeDiameter" ref="classAtcfLine.html#a982aa4172b139ca8df26e8c6b148c6bf" />
@@ -625,7 +709,6 @@
                 <section title="setLat" ref="classAtcfLine.html#ae6665099efc25d2f067359712c403a28" />
                 <section title="setLon" ref="classAtcfLine.html#a820d2d4a882e977cc3e1a4e543067428" />
                 <section title="setMaxDevelopmentLevel" ref="classAtcfLine.html#a3662bfdc458559dafcd8d5bac47d2e24" />
-                <section title="setMaxSeas" ref="classAtcfLine.html#af940eb2838c526ef633e7bd050e1f582" />
                 <section title="setMslp" ref="classAtcfLine.html#a70386cf97cc13ad4eccb2556d0339f0a" />
                 <section title="setPouter" ref="classAtcfLine.html#ae091671d04a10571b3788f0e2877ee32" />
                 <section title="setRadiusMaxWinds" ref="classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" />
@@ -660,6 +743,7 @@
                 <section title="vTrans" ref="classAtcfLine.html#a3bf99331e568267e2ba0ea6c090e52ec" />
                 <section title="operator&lt;&lt;" ref="classAtcfLine.html#a3b63d05758993da06e47969ec80737df" />
                 <section title="m_basin" ref="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f" />
+                <section title="m_coriolis" ref="classAtcfLine.html#a5096ab769d4f8b96fa0a97673eb12f69" />
                 <section title="m_cycloneNumber" ref="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905" />
                 <section title="m_datetime" ref="classAtcfLine.html#a941d6e2d0bd983eb49250ea3dd09873b" />
                 <section title="m_eyeDiameter" ref="classAtcfLine.html#ab7831467e3e9a8d6399463f4fbb8f7d5" />
@@ -669,14 +753,12 @@
                 <section title="m_lat" ref="classAtcfLine.html#a5d7de21e0be4d9b778dc9cc1fd6514f9" />
                 <section title="m_lon" ref="classAtcfLine.html#a74b9738eda250dd70bb7adab81ccd75c" />
                 <section title="m_maxDevelopmentLevel" ref="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005" />
-                <section title="m_maxSeas" ref="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4" />
                 <section title="m_mslp" ref="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb" />
                 <section title="m_null" ref="classAtcfLine.html#ae16b3f134144a9464fb913b8ea0a622a" />
                 <section title="m_pouter" ref="classAtcfLine.html#af014827ed3618e28ef0a84e8281a7c35" />
                 <section title="m_radiusMaxWinds" ref="classAtcfLine.html#a77757315546135bd8342f83562d35609" />
                 <section title="m_radiusPouter" ref="classAtcfLine.html#add4fd4445a829c2a31ee56ef20e6d3e6" />
                 <section title="m_refDatetime" ref="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d" />
-                <section title="m_seas" ref="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0" />
                 <section title="m_stormDirection" ref="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f" />
                 <section title="m_stormName" ref="classAtcfLine.html#abac2d3e5fbdd3a7d537eedb60577a504" />
                 <section title="m_stormSpeed" ref="classAtcfLine.html#a0b184944fb10e8dbc82c35f497b0fcaa" />
@@ -691,6 +773,26 @@
                 <section title="m_vmax" ref="classAtcfLine.html#ad1fcc1f3310fb1bc8b81afe20b4a0b30" />
               </section>
               <section title="operator&lt;&lt;" ref="AtcfLine_8h.html#a3b63d05758993da06e47969ec80737df" />
+            </section>
+            <section title="CircularArray.h" ref="CircularArray_8h.html">
+              <section title="CircularArray" ref="classCircularArray.html">
+                <section title="CircularArray" ref="classCircularArray.html#a24c6558d59c7ed18502cfe15bfefb023" />
+                <section title="CircularArray" ref="classCircularArray.html#a5cf004f1f25d523792e3f5587c177ab4" />
+                <section title="at" ref="classCircularArray.html#a0642b8def16b83c1fff8f93326d2c842" />
+                <section title="begin" ref="classCircularArray.html#a58421475bd4cf60dfd7af8d01448c6d8" />
+                <section title="cbegin" ref="classCircularArray.html#afb75bcc8f41747e1203acde9bb10c655" />
+                <section title="cdata" ref="classCircularArray.html#a71caaa24622f3b7f72708f937f357c33" />
+                <section title="cend" ref="classCircularArray.html#a4e9d92bb659820718c9deb97b022c7ba" />
+                <section title="data" ref="classCircularArray.html#abe59a0128bdeeccfdc609e50ce95e327" />
+                <section title="end" ref="classCircularArray.html#aae80d7cf5cd85b47834fb8752d7b1712" />
+                <section title="mod_floor" ref="classCircularArray.html#ae9ee07d89dc4196acefc5b290b9275b8" />
+                <section title="operator=" ref="classCircularArray.html#a59b685173dc3da8e3da8c2439b4bc5a3" />
+                <section title="operator[]" ref="classCircularArray.html#af747f06957eb32410e0dab7697cbb7aa" />
+                <section title="operator[]" ref="classCircularArray.html#a4a126eafbd74157a9e7cebe893af7d27" />
+                <section title="set" ref="classCircularArray.html#a43241fcadbf56b0a7c3f7242acf46eed" />
+                <section title="size" ref="classCircularArray.html#af837dccb72214bb010abc276fb618c36" />
+                <section title="m_data" ref="classCircularArray.html#acfb8c68ff5955ff6fac1331a3400eab2" />
+              </section>
             </section>
             <section title="Date.cpp" ref="Date_8cpp.html">
               <section title="s_date" ref="structs__date.html">
@@ -796,10 +898,11 @@
             </section>
             <section title="Gahm.h" ref="Gahm_8h.html">
               <section title="Gahm" ref="classGahm.html">
-                <section title="uvp" ref="classGahm.html#structGahm_1_1uvp">
-                  <section title="p" ref="classGahm.html#aace2d484b0e3651abd108f04803d316c" />
-                  <section title="u" ref="classGahm.html#aed08c8478a62910aab06ba708a0e5b5f" />
-                  <section title="v" ref="classGahm.html#a3b90d5a73541ab9402511d87bed076ef" />
+                <section title="uvp" ref="structGahm_1_1uvp.html">
+                  <section title="uvp" ref="structGahm_1_1uvp.html#a2ca5efa0a38de6c861994b1c56650159" />
+                  <section title="p" ref="structGahm_1_1uvp.html#aace2d484b0e3651abd108f04803d316c" />
+                  <section title="u" ref="structGahm_1_1uvp.html#aed08c8478a62910aab06ba708a0e5b5f" />
+                  <section title="v" ref="structGahm_1_1uvp.html#a3b90d5a73541ab9402511d87bed076ef" />
                 </section>
                 <section title="Gahm" ref="classGahm.html#a7bd572fd4eaf8adc3c7ea88d7bcb8e47" />
                 <section title="filename" ref="classGahm.html#a94c732bb0f167eab349228237a8fbe3c" />
@@ -812,10 +915,11 @@
                 <section title="m_atcf" ref="classGahm.html#a6a0b5506c8f291e20c8f2bbff1304936" />
                 <section title="m_filename" ref="classGahm.html#a294fc0ffd4511d48fad3989ee33219eb" />
               </section>
-              <section title="uvp" ref="classGahm.html#structGahm_1_1uvp">
-                <section title="p" ref="classGahm.html#aace2d484b0e3651abd108f04803d316c" />
-                <section title="u" ref="classGahm.html#aed08c8478a62910aab06ba708a0e5b5f" />
-                <section title="v" ref="classGahm.html#a3b90d5a73541ab9402511d87bed076ef" />
+              <section title="uvp" ref="structGahm_1_1uvp.html">
+                <section title="uvp" ref="structGahm_1_1uvp.html#a2ca5efa0a38de6c861994b1c56650159" />
+                <section title="p" ref="structGahm_1_1uvp.html#aace2d484b0e3651abd108f04803d316c" />
+                <section title="u" ref="structGahm_1_1uvp.html#aed08c8478a62910aab06ba708a0e5b5f" />
+                <section title="v" ref="structGahm_1_1uvp.html#a3b90d5a73541ab9402511d87bed076ef" />
               </section>
             </section>
             <section title="HurricanePressure.cpp" ref="HurricanePressure_8cpp.html" />
@@ -864,36 +968,39 @@
                 </section>
                 <section title="Isotach" ref="classIsotach.html#a3b2c810ad890ac53d885b95f5520a7a3" />
                 <section title="Isotach" ref="classIsotach.html#a2b7d19a61edb5e22acb4507d7b65327a" />
+                <section title="chollandB" ref="classIsotach.html#a6d338c7499d8278c978770bd67c1a736" />
+                <section title="cisotachRadius" ref="classIsotach.html#af93a6e1bb9f15faae4793d8205637e40" />
                 <section title="code" ref="classIsotach.html#a60ce77aeb249510471495cc63a7793da" />
                 <section title="codeFromString" ref="classIsotach.html#ad8db29d5da4482e0ac19ece84e108947" />
+                <section title="cphi" ref="classIsotach.html#ae59095832d860bee9658a1d41dddd19b" />
+                <section title="cquadFlag" ref="classIsotach.html#acf34a941f1b3124bf891deeb634f5120" />
+                <section title="cquadrantVr" ref="classIsotach.html#a1bb39878429a6f040f8e6c99102d9eba" />
+                <section title="crmax" ref="classIsotach.html#a74b6f4ea56932aa328ae0292db11a2e6" />
+                <section title="cvmaxBl" ref="classIsotach.html#ae34699ed432e270b9857a4968684a14e" />
+                <section title="generateQuadFlag" ref="classIsotach.html#a4ae76972e9b895592c48a9063a34196e" />
+                <section title="hollandB" ref="classIsotach.html#af25ad0c3ce04a06553ed99aff6cdcd86" />
                 <section title="isNull" ref="classIsotach.html#a64352a7d018b8161e34e42ae0aad2e32" />
-                <section title="lookupRadii" ref="classIsotach.html#af56a97ce00091481a9315d9fec00dec9" />
-                <section title="quadflag" ref="classIsotach.html#ae8b3f5db09620ad846183f0d3b81e1d0" />
-                <section title="radii" ref="classIsotach.html#a2126175890ff8e19cf6458368f8da22b" />
+                <section title="isotachRadius" ref="classIsotach.html#aa2e13e8a29b18e50500e6ec0e02e5443" />
+                <section title="phi" ref="classIsotach.html#af2b6a2c0fa9a6d39abaac9558591476b" />
+                <section title="quadFlag" ref="classIsotach.html#ad36a7cd3c58ae877144d02426d8e8de6" />
+                <section title="quadrantVr" ref="classIsotach.html#a32d11b9542f172cb4e06b65950c704bf" />
                 <section title="radiusCode" ref="classIsotach.html#ad375a4cd087bac574ffa5589b56ad81f" />
-                <section title="radiusQ1" ref="classIsotach.html#af2e3f0146879ed0b3931babbce2f52aa" />
-                <section title="radiusQ2" ref="classIsotach.html#aae2d287c0bbcdadf4d575d3dcb56262b" />
-                <section title="radiusQ3" ref="classIsotach.html#a7e99456757e19f77165951570530ffd3" />
-                <section title="radiusQ4" ref="classIsotach.html#a0300c2e50b1e7dc86805acea5c32f472" />
+                <section title="rmax" ref="classIsotach.html#afb127f3de4c67daefab89b3fb54d484d" />
                 <section title="setCode" ref="classIsotach.html#a9eccf0a80d868dc67d497f40a98227ce" />
-                <section title="setLookupRadii" ref="classIsotach.html#a1d31142766c3f82181f66b505c59e02e" />
-                <section title="setQuadflag" ref="classIsotach.html#a4b2d4944ac1371f8ced91b80aedc6871" />
-                <section title="setRadii" ref="classIsotach.html#a6622d9fbbb708549c32c890a16bbb51c" />
-                <section title="setRadii" ref="classIsotach.html#a50a5da149af0620100449fd5e6614189" />
-                <section title="setRadii" ref="classIsotach.html#a78bc10143e0766bce5cb38e99ea921bc" />
                 <section title="setRadiusCode" ref="classIsotach.html#a56004c6fae91123337f553af3d7bf3b8" />
-                <section title="setRadiusQ1" ref="classIsotach.html#a139938a540a1d9db6a536728740bcb73" />
-                <section title="setRadiusQ2" ref="classIsotach.html#adf8bfef001a8ccf3a39e023ba4d870a2" />
-                <section title="setRadiusQ3" ref="classIsotach.html#a530dd330da6d6dc6409daf221f549b3b" />
-                <section title="setRadiusQ4" ref="classIsotach.html#a931acb7f1115f717ca981032534d66ad" />
                 <section title="setWindSpeed" ref="classIsotach.html#a5b4ca0a37fa5d07800ef26f35899ae50" />
                 <section title="stringFromCode" ref="classIsotach.html#a107f943d740f337a47238f2265924174" />
+                <section title="vmaxBl" ref="classIsotach.html#a2d06b791604441d536b3f6c578fca40f" />
                 <section title="windSpeed" ref="classIsotach.html#a90b55241f6d0ff34cfb78229a7ffacf7" />
                 <section title="operator&lt;&lt;" ref="classIsotach.html#a5eb7c2163c27324b8245880c72bc0869" />
-                <section title="m_lookup_radii" ref="classIsotach.html#a96a4bc4b457a96956d8ed26c328580ad" />
-                <section title="m_quadflag" ref="classIsotach.html#a5e3ed968ee6777b2d371f49cabc157d3" />
-                <section title="m_radius" ref="classIsotach.html#a39c66cd59c1590ef926e7405cb97c080" />
+                <section title="m_hollandB" ref="classIsotach.html#a727f1f80d1c32a654f798106a0430db1" />
+                <section title="m_isotachRadius" ref="classIsotach.html#a698d84a498fe6a67204d68d4941d8f64" />
+                <section title="m_phi" ref="classIsotach.html#a3e76f25e71b7b06a431909cf668b74fb" />
+                <section title="m_quadFlag" ref="classIsotach.html#a18e9db278da9d43f349a87dab5c28ca1" />
+                <section title="m_quadrantVr" ref="classIsotach.html#a6994d42e050b979bf2b188e792b65656" />
                 <section title="m_radiusCode" ref="classIsotach.html#a47432311752c9dd8013ade5b353497e1" />
+                <section title="m_rmax" ref="classIsotach.html#af1cd4160f8d9cfe9eadb3fdae5a3a986" />
+                <section title="m_vmaxBL" ref="classIsotach.html#aef0820ad976a1169e0a5a8acc70cf31f" />
                 <section title="m_windSpeed" ref="classIsotach.html#a8cd4494e1d1260fba3e37d5a3681809c" />
               </section>
               <section title="operator&lt;&lt;" ref="Isotach_8h.html#a5eb7c2163c27324b8245880c72bc0869" />
@@ -917,81 +1024,82 @@
               <section title="gahm_throw_exception" ref="Logging_8h.html#a8d44b78f828350e062eb8862f20a5f65" />
             </section>
             <section title="Physical.h" ref="Physical_8h.html">
-              <section title="Physical" ref="classPhysical.html">
-                <section title="azimuthEarth" ref="classPhysical.html#afbb6375214fefd00a0489b5373f480b8" />
-                <section title="backgroundPressure" ref="classPhysical.html#a7b2bdb5bac38806ed013f30fca70fb29" />
-                <section title="cartesian_distance" ref="classPhysical.html#a5bc8393ec60b3f12466496285f45e737" />
-                <section title="deg2rad" ref="classPhysical.html#ae43063ac7bf556cb933a0206301b9748" />
-                <section title="distance" ref="classPhysical.html#a0d5a798f989b297250dec7184c34840a" />
-                <section title="e" ref="classPhysical.html#a8256b0ba2078e4f506268b7a9d18c8bc" />
-                <section title="equatorialRadius" ref="classPhysical.html#af1acc32bfbde7fb61a53d9e5d33c4699" />
-                <section title="fast_exp" ref="classPhysical.html#a1699ca6bf3eae05eadbc185d7bddb8df" />
-                <section title="g" ref="classPhysical.html#a8475eaf4bc87bfa8958122727014a72c" />
-                <section title="geodesic_distance" ref="classPhysical.html#a46933b0960a506f3532ab42d02b84030" />
-                <section title="halfpi" ref="classPhysical.html#aa9a4bde1564a48cc4121ea5fd39d1e21" />
-                <section title="km2nmi" ref="classPhysical.html#a27fa412be519621c7f7d32bea2be825a" />
-                <section title="kt2mph" ref="classPhysical.html#ab0516b3854217b0679cf8811dd9f07f2" />
-                <section title="kt2ms" ref="classPhysical.html#a446b34a690f7a1f10433e477ad0ac973" />
-                <section title="mb2pa" ref="classPhysical.html#a1e3cc31cbd44a009c32a1888ebc600c2" />
-                <section title="mph2kt" ref="classPhysical.html#ad0e09fe0f0dccfa9b33a44a0e8344de4" />
-                <section title="mph2ms" ref="classPhysical.html#a62734c633aae0ce60c1a948bf570d475" />
-                <section title="ms2kt" ref="classPhysical.html#aec8d798f5701bd9c2e131410022ec8f7" />
-                <section title="ms2mph" ref="classPhysical.html#a7755210204bf895038f132c7c6ecfdfe" />
-                <section title="nmi2km" ref="classPhysical.html#a758801eb99ef705bace966b7133d0621" />
-                <section title="omega" ref="classPhysical.html#aa716b3fd2b3622d3711f11ad6777ce5b" />
-                <section title="one2ten" ref="classPhysical.html#a86c55a29601269553ae1e4908f13431b" />
-                <section title="pi" ref="classPhysical.html#a8916e00cc71692658a0a355b2f142274" />
-                <section title="polarRadius" ref="classPhysical.html#a1b684ff37a85f7e328c6b027ee95bc10" />
-                <section title="rad2deg" ref="classPhysical.html#aa8f2ca4ad36dc6b5f53e25e9e746d008" />
-                <section title="radiusEarth" ref="classPhysical.html#a0af6386ea46179fb49f33ea168613246" />
-                <section title="radiusEarth" ref="classPhysical.html#a9ebd20411025eccc634afb460a75df72" />
-                <section title="rhoAir" ref="classPhysical.html#aad2b9f195b6512f3156a21eacc1c726b" />
-                <section title="rhoWat0" ref="classPhysical.html#a3f3ad27c60c663938315137d8118f7e2" />
-                <section title="rotation_earth" ref="classPhysical.html#acbf23a54b4a872a5c1a3ca9f9423d882" />
-                <section title="sphericalDx" ref="classPhysical.html#ac6d713f1908e7e0538db20f88b34f639" />
-                <section title="twopi" ref="classPhysical.html#ac89cc8801efd15fe96e25cd4a357b47a" />
-                <section title="windReduction" ref="classPhysical.html#aa611aac3f44816aeddb5ffc722f33c35" />
-              </section>
+              <section title="azimuthEarth" ref="Physical_8h.html#a7f87008c12e72e828995270caafd6963" />
+              <section title="backgroundPressure" ref="Physical_8h.html#aef0a2db6b310233825b6791ff8e67050" />
+              <section title="calcHollandB" ref="Physical_8h.html#a76f21fb2f0b378bdba2db0c13d3f3a84" />
+              <section title="cartesian_distance" ref="Physical_8h.html#a5cd90415008c6f2196b425d2a524062b" />
+              <section title="coriolis" ref="Physical_8h.html#aa6f9f6768fb27a3751a74b7e43b4a45a" />
+              <section title="deg2rad" ref="Physical_8h.html#aedb77f347557f2942e99437f55e976a8" />
+              <section title="distance" ref="Physical_8h.html#a91dad53e6fb51e27776a895703d6c17a" />
+              <section title="e" ref="Physical_8h.html#a5753cd084d1e96b108e96f8694b4a8a1" />
+              <section title="equatorialRadius" ref="Physical_8h.html#a6c13e82a46905cdfbf1647591d8935ed" />
+              <section title="fast_exp" ref="Physical_8h.html#ad871b8b35e0800c1e970a9ae4c145d1c" />
+              <section title="frictionAngle" ref="Physical_8h.html#aa169b36a001af3b6ea0590bc0ffd6fa8" />
+              <section title="g" ref="Physical_8h.html#a60d38d3c6b34c99aa2bc57a78149a3e1" />
+              <section title="geodesic_distance" ref="Physical_8h.html#aa9f4487d4613a1f2b0a6f4c12d564e2c" />
+              <section title="halfpi" ref="Physical_8h.html#a92b1fc7520d88e5945e2e7e8c8bc006e" />
+              <section title="km2nmi" ref="Physical_8h.html#a4a42ec86e2054ee5fdcfbef26042513b" />
+              <section title="kt2mph" ref="Physical_8h.html#aaf653ff5dbc4033e19ed92b240ba59bd" />
+              <section title="kt2ms" ref="Physical_8h.html#a05752af9ecabce50d071f64c9918f5f6" />
+              <section title="mb2pa" ref="Physical_8h.html#a5aefedba3dc84731aad379d9538c0ca3" />
+              <section title="mph2kt" ref="Physical_8h.html#a1d46d202c65d16b1c2947453bf9a670f" />
+              <section title="mph2ms" ref="Physical_8h.html#a23a75dd45a0e192eaf9735d0cf33397d" />
+              <section title="ms2kt" ref="Physical_8h.html#ac3ebcf4f7617c5c5a57bc9bd2b95e0db" />
+              <section title="ms2mph" ref="Physical_8h.html#ac20745c1f02cedd98d677e6c5522bc62" />
+              <section title="nmi2km" ref="Physical_8h.html#a8f26784ba5fa860689f1dcaf50e062bb" />
+              <section title="omega" ref="Physical_8h.html#a70d4ca8d5ef6f3097277170502431f7b" />
+              <section title="one2ten" ref="Physical_8h.html#a10686d4103de8f9b2a043962d3725802" />
+              <section title="pi" ref="Physical_8h.html#aceeafe6dfcafc1ccd35aee635c075f09" />
+              <section title="polarRadius" ref="Physical_8h.html#acbba7b727274b2f016499f85b0b3d2f7" />
+              <section title="quadrantAngle" ref="Physical_8h.html#a8b95a30e294bd7aa1169d0a92c65a009" />
+              <section title="rad2deg" ref="Physical_8h.html#aecbe91b78e94e2bc1479dec570a69f99" />
+              <section title="radiusEarth" ref="Physical_8h.html#a54d120caf204e2c8e9b5c646442f0aaf" />
+              <section title="radiusEarth" ref="Physical_8h.html#a4d8d9f1fe46c4f162e20e2cfcad0f0cd" />
+              <section title="rhoAir" ref="Physical_8h.html#a0eeda58b967a4051dbcc34ce7c3b3bf2" />
+              <section title="rhoWat0" ref="Physical_8h.html#a99b62e1262ab73e25bda7575c9d7d8d0" />
+              <section title="rotation_earth" ref="Physical_8h.html#a8d532eee5e09a7ad9c2d17c924bb3f5c" />
+              <section title="sphericalDx" ref="Physical_8h.html#a2efe94842cf85bad805d2e444bab45d0" />
+              <section title="twopi" ref="Physical_8h.html#a3fccff272b0fae8ead3c2c05f62b3620" />
+              <section title="windReduction" ref="Physical_8h.html#a7a0e10124e38dbffecaa523c97b21e4a" />
+              <section title="m_deg2rad" ref="Physical_8h.html#aa5117328a96ce4af56528effe81e8e48" />
+              <section title="m_quadrantAngles" ref="Physical_8h.html#a14be44d530fcfcb44caec152f4e1cd34" />
+              <section title="m_rad2deg" ref="Physical_8h.html#a1e671867ec1e6b83a98952c2f90f5bc4" />
             </section>
             <section title="Vortex.cpp" ref="Vortex_8cpp.html" />
             <section title="Vortex.h" ref="Vortex_8h.html">
               <section title="Vortex" ref="classVortex.html">
-                <section title="WindArray" ref="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9" />
+                <section title="VhType" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094">
+                  <section title="VhNoCori" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad6eb450541808d322f27033b59e5be52" />
+                  <section title="VhWithCori" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094abf648661a68ca00fe371c3fdcfdab820" />
+                  <section title="VhWithCoriFull" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad3672ba481a101e64261f9d1bb1d4273" />
+                </section>
                 <section title="VortexParameterType" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0">
                   <section title="RMAX" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a2f4fc02e2c869a68404689ecadff748f" />
                   <section title="B" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a3f2a77ecd272aa6d6b5902faa5e5fc68" />
                   <section title="VMBL" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f" />
                 </section>
-                <section title="Vortex" ref="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732" />
-                <section title="calcHollandB" ref="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815" />
-                <section title="coriolis" ref="classVortex.html#a06a2befc5762ac390217ded44041d055" />
-                <section title="fillEdges" ref="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f" />
-                <section title="fillRadii" ref="classVortex.html#a7029c117dd3645958a27ef3ea5acf801" />
-                <section title="fillWindArray" ref="classVortex.html#a93c9a3d66cc02127f99d1857a320e409" />
-                <section title="frictionAngle" ref="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" />
+                <section title="Vortex" ref="classVortex.html#a6ce1ce001e797232a1ce780486f3e6b4" />
+                <section title="computeBg" ref="classVortex.html#a31f8393268fb0ce958148e0bd2fcb482" />
+                <section title="computePhi" ref="classVortex.html#aa96c2354f3470dfbabf6f61dbbba25c6" />
+                <section title="findRoot" ref="classVortex.html#a61b14dabae9da1036d2072df058076af" />
                 <section title="getBaseQuadrant" ref="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464" />
+                <section title="getParameterValue" ref="classVortex.html#ada5ebd5311d214fba078d1b3285a4032" />
+                <section title="getVh" ref="classVortex.html#add1b3d68a6adac1887b0175193b6d79e" />
                 <section title="interpolateParameter" ref="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65" />
-                <section title="interpR" ref="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816" />
-                <section title="makeWindArray" ref="classVortex.html#ac533446af0e461d68d9c3839b8406f7c" />
+                <section title="interpR" ref="classVortex.html#af45bed77f864fe7cd18e96bcad902c16" />
+                <section title="rossbyNumber" ref="classVortex.html#ad0dcc0642f9977e7d333d943744ccf77" />
                 <section title="rotateWinds" ref="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" />
-                <section title="setRadii" ref="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0" />
-                <section title="setVortex" ref="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152" />
-                <section title="spInterp" ref="classVortex.html#ad32c573698fbb788efee81699e65e624" />
-                <section title="m_b" ref="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140" />
-                <section title="m_cLat" ref="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c" />
-                <section title="m_cLon" ref="classVortex.html#a914455e27bc940b1d4a384c59b1da820" />
-                <section title="m_corio" ref="classVortex.html#aef02befeab438216402dd5864b4482dc" />
-                <section title="m_pc" ref="classVortex.html#a128153b7d117c2717185dab5c48f322e" />
-                <section title="m_phi" ref="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712" />
-                <section title="m_pn" ref="classVortex.html#a066fc99714adb677ef89ba04249182ec" />
-                <section title="m_quadFlag4" ref="classVortex.html#a9fc81595545f0e7e5f042139cc80f583" />
-                <section title="m_quadIr4" ref="classVortex.html#a2abe6c7109052db50f11317bbe818c1e" />
-                <section title="m_rMaxes4" ref="classVortex.html#a5a0b3c1244a129a15e46c64b41e0f522" />
-                <section title="m_vMax" ref="classVortex.html#af509da395ff96c0318bbda561856f2f4" />
-                <section title="m_vmBL4" ref="classVortex.html#a92ed3ec2573be34aa01ca0db33cba9b8" />
-                <section title="m_vr" ref="classVortex.html#a6a191ae4612ab8b2434202f96ba63192" />
-                <section title="nPoints" ref="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1" />
-                <section title="nQuads" ref="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931" />
+                <section title="setCurrentQuadrant" ref="classVortex.html#a5bd8e337d3aec4fd97392cfda1eff9cb" />
+                <section title="setStormData" ref="classVortex.html#ae388b86da66acaa92e09cdf7167b8bc0" />
+                <section title="spInterp" ref="classVortex.html#a46c545695b0a66248dc9e47d3a2f2b43" />
+                <section title="vgWithCoriFull" ref="classVortex.html#a36b321e4164c600950ffe1cc7021146f" />
+                <section title="vhNoCori" ref="classVortex.html#ae476777bb80581d4af28e4c2ce3a0b99" />
+                <section title="vhWithCori" ref="classVortex.html#ab722ca768cdd318618182826be9ac239" />
+                <section title="m_currentIsotach" ref="classVortex.html#acccde3bd7953d0da6107946dc80c2806" />
+                <section title="m_currentQuadrant" ref="classVortex.html#a71fbb063685c0272ad3ca834a883a9ca" />
+                <section title="m_stormData" ref="classVortex.html#a2a129871078a9bdddb4ef69ca2e484ca" />
+                <section title="maxIsotachs" ref="classVortex.html#aa797f766ca3e047a0011aa85d7ca135e" />
+                <section title="nQuads" ref="classVortex.html#a07dce79f0a1960c50c76b633d17db7f0" />
               </section>
             </section>
           </section>
@@ -1021,6 +1129,46 @@
       <keyword name="c_logHeading" id="Logging.cpp::c_logHeading" ref="Logging_8cpp.html#ada828559b474567398f0fd58ce7690c8" />
       <keyword name="c_warningHeading" id="Logging.cpp::c_warningHeading" ref="Logging_8cpp.html#a17db8e63390eccaf0aceb3b2cb909b63" />
       <keyword name="gahm_throw_exception" id="Logging.h::gahm_throw_exception" ref="Logging_8h.html#a8d44b78f828350e062eb8862f20a5f65" />
+      <keyword name="azimuthEarth" id="Physical.h::azimuthEarth" ref="Physical_8h.html#a7f87008c12e72e828995270caafd6963" />
+      <keyword name="backgroundPressure" id="Physical.h::backgroundPressure" ref="Physical_8h.html#aef0a2db6b310233825b6791ff8e67050" />
+      <keyword name="calcHollandB" id="Physical.h::calcHollandB" ref="Physical_8h.html#a76f21fb2f0b378bdba2db0c13d3f3a84" />
+      <keyword name="cartesian_distance" id="Physical.h::cartesian_distance" ref="Physical_8h.html#a5cd90415008c6f2196b425d2a524062b" />
+      <keyword name="coriolis" id="Physical.h::coriolis" ref="Physical_8h.html#aa6f9f6768fb27a3751a74b7e43b4a45a" />
+      <keyword name="deg2rad" id="Physical.h::deg2rad" ref="Physical_8h.html#aedb77f347557f2942e99437f55e976a8" />
+      <keyword name="distance" id="Physical.h::distance" ref="Physical_8h.html#a91dad53e6fb51e27776a895703d6c17a" />
+      <keyword name="e" id="Physical.h::e" ref="Physical_8h.html#a5753cd084d1e96b108e96f8694b4a8a1" />
+      <keyword name="equatorialRadius" id="Physical.h::equatorialRadius" ref="Physical_8h.html#a6c13e82a46905cdfbf1647591d8935ed" />
+      <keyword name="fast_exp" id="Physical.h::fast_exp" ref="Physical_8h.html#ad871b8b35e0800c1e970a9ae4c145d1c" />
+      <keyword name="frictionAngle" id="Physical.h::frictionAngle" ref="Physical_8h.html#aa169b36a001af3b6ea0590bc0ffd6fa8" />
+      <keyword name="g" id="Physical.h::g" ref="Physical_8h.html#a60d38d3c6b34c99aa2bc57a78149a3e1" />
+      <keyword name="geodesic_distance" id="Physical.h::geodesic_distance" ref="Physical_8h.html#aa9f4487d4613a1f2b0a6f4c12d564e2c" />
+      <keyword name="halfpi" id="Physical.h::halfpi" ref="Physical_8h.html#a92b1fc7520d88e5945e2e7e8c8bc006e" />
+      <keyword name="km2nmi" id="Physical.h::km2nmi" ref="Physical_8h.html#a4a42ec86e2054ee5fdcfbef26042513b" />
+      <keyword name="kt2mph" id="Physical.h::kt2mph" ref="Physical_8h.html#aaf653ff5dbc4033e19ed92b240ba59bd" />
+      <keyword name="kt2ms" id="Physical.h::kt2ms" ref="Physical_8h.html#a05752af9ecabce50d071f64c9918f5f6" />
+      <keyword name="mb2pa" id="Physical.h::mb2pa" ref="Physical_8h.html#a5aefedba3dc84731aad379d9538c0ca3" />
+      <keyword name="mph2kt" id="Physical.h::mph2kt" ref="Physical_8h.html#a1d46d202c65d16b1c2947453bf9a670f" />
+      <keyword name="mph2ms" id="Physical.h::mph2ms" ref="Physical_8h.html#a23a75dd45a0e192eaf9735d0cf33397d" />
+      <keyword name="ms2kt" id="Physical.h::ms2kt" ref="Physical_8h.html#ac3ebcf4f7617c5c5a57bc9bd2b95e0db" />
+      <keyword name="ms2mph" id="Physical.h::ms2mph" ref="Physical_8h.html#ac20745c1f02cedd98d677e6c5522bc62" />
+      <keyword name="nmi2km" id="Physical.h::nmi2km" ref="Physical_8h.html#a8f26784ba5fa860689f1dcaf50e062bb" />
+      <keyword name="omega" id="Physical.h::omega" ref="Physical_8h.html#a70d4ca8d5ef6f3097277170502431f7b" />
+      <keyword name="one2ten" id="Physical.h::one2ten" ref="Physical_8h.html#a10686d4103de8f9b2a043962d3725802" />
+      <keyword name="pi" id="Physical.h::pi" ref="Physical_8h.html#aceeafe6dfcafc1ccd35aee635c075f09" />
+      <keyword name="polarRadius" id="Physical.h::polarRadius" ref="Physical_8h.html#acbba7b727274b2f016499f85b0b3d2f7" />
+      <keyword name="quadrantAngle" id="Physical.h::quadrantAngle" ref="Physical_8h.html#a8b95a30e294bd7aa1169d0a92c65a009" />
+      <keyword name="rad2deg" id="Physical.h::rad2deg" ref="Physical_8h.html#aecbe91b78e94e2bc1479dec570a69f99" />
+      <keyword name="radiusEarth" id="Physical.h::radiusEarth" ref="Physical_8h.html#a54d120caf204e2c8e9b5c646442f0aaf" />
+      <keyword name="radiusEarth" id="Physical.h::radiusEarth" ref="Physical_8h.html#a4d8d9f1fe46c4f162e20e2cfcad0f0cd" />
+      <keyword name="rhoAir" id="Physical.h::rhoAir" ref="Physical_8h.html#a0eeda58b967a4051dbcc34ce7c3b3bf2" />
+      <keyword name="rhoWat0" id="Physical.h::rhoWat0" ref="Physical_8h.html#a99b62e1262ab73e25bda7575c9d7d8d0" />
+      <keyword name="rotation_earth" id="Physical.h::rotation_earth" ref="Physical_8h.html#a8d532eee5e09a7ad9c2d17c924bb3f5c" />
+      <keyword name="sphericalDx" id="Physical.h::sphericalDx" ref="Physical_8h.html#a2efe94842cf85bad805d2e444bab45d0" />
+      <keyword name="twopi" id="Physical.h::twopi" ref="Physical_8h.html#a3fccff272b0fae8ead3c2c05f62b3620" />
+      <keyword name="windReduction" id="Physical.h::windReduction" ref="Physical_8h.html#a7a0e10124e38dbffecaa523c97b21e4a" />
+      <keyword name="m_deg2rad" id="Physical.h::m_deg2rad" ref="Physical_8h.html#aa5117328a96ce4af56528effe81e8e48" />
+      <keyword name="m_quadrantAngles" id="Physical.h::m_quadrantAngles" ref="Physical_8h.html#a14be44d530fcfcb44caec152f4e1cd34" />
+      <keyword name="m_rad2deg" id="Physical.h::m_rad2deg" ref="Physical_8h.html#a1e671867ec1e6b83a98952c2f90f5bc4" />
       <keyword name="Assumption" id="Assumption" ref="classAssumption.html" />
       <keyword name="Assumption" id="Assumption::Assumption" ref="classAssumption.html#a1ce8a90fdc957798edef7ed89647e8c4" />
       <keyword name="filename" id="Assumption::filename" ref="classAssumption.html#a94c732bb0f167eab349228237a8fbe3c" />
@@ -1054,25 +1202,42 @@
       <keyword name="read" id="Atcf::read" ref="classAtcf.html#aaab5dab5b969a87f538242e524431637" />
       <keyword name="record" id="Atcf::record" ref="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d" />
       <keyword name="setFilename" id="Atcf::setFilename" ref="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e" />
+      <keyword name="write" id="Atcf::write" ref="classAtcf.html#aec35454de676b1f68288d59612b572ee" />
       <keyword name="calculateOverlandTranslationVelocity" id="Atcf::calculateOverlandTranslationVelocity" ref="classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1" />
+      <keyword name="computeParameters" id="Atcf::computeParameters" ref="classAtcf.html#ada693ebe0f0ee4be52b01fd3fe83963a" />
       <keyword name="generateMissingPressureData" id="Atcf::generateMissingPressureData" ref="classAtcf.html#a2c8fb312c911c7d35cc921e303cac875" />
       <keyword name="getCycleNumber" id="Atcf::getCycleNumber" ref="classAtcf.html#a288aec5ac021ac483da71812a26dc9c3" />
-      <keyword name="setAllRadiiToRmax" id="Atcf::setAllRadiiToRmax" ref="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" />
-      <keyword name="setInitialHollandB" id="Atcf::setInitialHollandB" ref="classAtcf.html#a841866c9625b20c5fb1f452110668f66" />
-      <keyword name="setMissingRadiiToAverageOfAdjacentRadii" id="Atcf::setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" />
-      <keyword name="setMissingRadiiToHalfNonzeroRadii" id="Atcf::setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a21717052904854109237917697bd4e73" />
-      <keyword name="setMissingRadiiToHalfOfAverageSpecifiedRadii" id="Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" />
+      <keyword name="setAllRadiiToRmax" id="Atcf::setAllRadiiToRmax" ref="classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f" />
+      <keyword name="setMissingRadiiToAverageOfAdjacentRadii" id="Atcf::setMissingRadiiToAverageOfAdjacentRadii" ref="classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1" />
+      <keyword name="setMissingRadiiToHalfNonzeroRadii" id="Atcf::setMissingRadiiToHalfNonzeroRadii" ref="classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79" />
+      <keyword name="setMissingRadiiToHalfOfAverageSpecifiedRadii" id="Atcf::setMissingRadiiToHalfOfAverageSpecifiedRadii" ref="classAtcf.html#aed2ec117307b05eb72dc3e8e06965923" />
+      <keyword name="computeEpsilonAngle" id="Atcf::computeEpsilonAngle" ref="classAtcf.html#a8feed32ff84fb9f6e1bba8526b05d00b" />
+      <keyword name="computeGamma" id="Atcf::computeGamma" ref="classAtcf.html#a2742efd0b6b28a51a11a0d74e713f222" />
+      <keyword name="computeQuadrantVectorAngle" id="Atcf::computeQuadrantVectorAngle" ref="classAtcf.html#adccea6c4ad7108a14f86b833f3f94f6d" />
+      <keyword name="computeQuadrantVr" id="Atcf::computeQuadrantVr" ref="classAtcf.html#a80d9683a370e561492db8a0f6d795c5d" />
+      <keyword name="computeQuadrantVrWithGamma" id="Atcf::computeQuadrantVrWithGamma" ref="classAtcf.html#a12d26ed5e74ce562bd78a28662bceb75" />
+      <keyword name="computeQuadrantVrWithoutGamma" id="Atcf::computeQuadrantVrWithoutGamma" ref="classAtcf.html#a82e46480c966292c69401c0fe85b2a3b" />
+      <keyword name="computeStormMotion" id="Atcf::computeStormMotion" ref="classAtcf.html#adc746c4433140219ebaf449c6f8d21f3" />
+      <keyword name="computeVMaxBL" id="Atcf::computeVMaxBL" ref="classAtcf.html#a7b96dc4af0c484eecb6adc87cb604431" />
       <keyword name="linearInterp" id="Atcf::linearInterp" ref="classAtcf.html#ac775141fc311e59db12fdba1a913f8e2" />
+      <keyword name="recomputeQuadrantVr" id="Atcf::recomputeQuadrantVr" ref="classAtcf.html#adfe6ef35c351380ba863090d4fec04bb" />
       <keyword name="uvTrans" id="Atcf::uvTrans" ref="classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e" />
       <keyword name="m_assumptions" id="Atcf::m_assumptions" ref="classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd" />
       <keyword name="m_atcfData" id="Atcf::m_atcfData" ref="classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944" />
       <keyword name="m_filename" id="Atcf::m_filename" ref="classAtcf.html#abeab36922e15d948509bdf36c5a46cd9" />
+      <keyword name="FormatAtcf" id="Atcf::FormatAtcf" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c" />
+      <keyword name="FormatNWS20" id="Atcf::FormatNWS20" ref="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a" />
+      <keyword name="Atcf::StormMotion" id="Atcf::StormMotion" ref="structAtcf_1_1StormMotion.html" />
+      <keyword name="StormMotion" id="Atcf::StormMotion::StormMotion" ref="structAtcf_1_1StormMotion.html#a7d10b2b94f6ac56649e31aa865bf911c" />
+      <keyword name="u" id="Atcf::StormMotion::u" ref="structAtcf_1_1StormMotion.html#aed08c8478a62910aab06ba708a0e5b5f" />
+      <keyword name="uv" id="Atcf::StormMotion::uv" ref="structAtcf_1_1StormMotion.html#a5ca6736aad3e217e5dd96f0d2c7fff15" />
+      <keyword name="v" id="Atcf::StormMotion::v" ref="structAtcf_1_1StormMotion.html#a3b90d5a73541ab9402511d87bed076ef" />
       <keyword name="AtcfLine" id="AtcfLine" ref="classAtcfLine.html" />
       <keyword name="AtcfLine" id="AtcfLine::AtcfLine" ref="classAtcfLine.html#a35c13e37b2ea718539aa5f54b88eb55b" />
       <keyword name="addIsotach" id="AtcfLine::addIsotach" ref="classAtcfLine.html#acc738a7f1329678309e649d09156d29c" />
       <keyword name="basin" id="AtcfLine::basin" ref="classAtcfLine.html#a757a667960cf8420a7d565899ba74dd5" />
       <keyword name="cisotach" id="AtcfLine::cisotach" ref="classAtcfLine.html#af02cbe832e0a7a708e691fff2b48ebc4" />
-      <keyword name="cseas" id="AtcfLine::cseas" ref="classAtcfLine.html#a155d716f2e5b5527298c79837c2c0d9b" />
+      <keyword name="coriolis" id="AtcfLine::coriolis" ref="classAtcfLine.html#a6a0221bd70847e13f9b7ea9c339438e7" />
       <keyword name="cycloneNumber" id="AtcfLine::cycloneNumber" ref="classAtcfLine.html#afcbce102d14966134f6a19e60597c61c" />
       <keyword name="datetime" id="AtcfLine::datetime" ref="classAtcfLine.html#a31f99dd6bb56e7b2cb4ebbc3a850a8f5" />
       <keyword name="eyeDiameter" id="AtcfLine::eyeDiameter" ref="classAtcfLine.html#acc01ba6a80743d3c6dcfd1f1fbce0daf" />
@@ -1083,17 +1248,20 @@
       <keyword name="lat" id="AtcfLine::lat" ref="classAtcfLine.html#af473414f523913837f7ee7520fa9e63d" />
       <keyword name="lon" id="AtcfLine::lon" ref="classAtcfLine.html#abf1373f021c76c8df3ab03e92eddc42f" />
       <keyword name="maxDevelopmentLevel" id="AtcfLine::maxDevelopmentLevel" ref="classAtcfLine.html#ac1f527bc7faf6136fa1a33dbada875ad" />
-      <keyword name="maxSeas" id="AtcfLine::maxSeas" ref="classAtcfLine.html#a180f9bd2b2e8b1ba2f47d6b73311c3f9" />
       <keyword name="mslp" id="AtcfLine::mslp" ref="classAtcfLine.html#a3edde0bc6afb6f2de5faed719ca41b52" />
       <keyword name="nIsotach" id="AtcfLine::nIsotach" ref="classAtcfLine.html#a5ddd67c4d868875c52ed1396c58dd6a7" />
       <keyword name="operator&lt;" id="AtcfLine::operator&lt;" ref="classAtcfLine.html#a724049144ca597838876a0068ff224de" />
       <keyword name="pouter" id="AtcfLine::pouter" ref="classAtcfLine.html#a666b44934c6c535221a830365097c42d" />
+      <keyword name="quadrantHollandB" id="AtcfLine::quadrantHollandB" ref="classAtcfLine.html#a232f868ec849c75a24a3340f030a946c" />
+      <keyword name="quadrantRadii" id="AtcfLine::quadrantRadii" ref="classAtcfLine.html#a067f2de05c1898e6654f46006c551d27" />
+      <keyword name="quadrantRmax" id="AtcfLine::quadrantRmax" ref="classAtcfLine.html#afb32cda982df86dea84fc9ffe3fd5079" />
+      <keyword name="quadrantVmaxBL" id="AtcfLine::quadrantVmaxBL" ref="classAtcfLine.html#a127ef68d31930670c7f2c661042f9894" />
       <keyword name="radiusMaxWinds" id="AtcfLine::radiusMaxWinds" ref="classAtcfLine.html#ad2910e96b46c135de328985b5afac3cb" />
       <keyword name="radiusPouter" id="AtcfLine::radiusPouter" ref="classAtcfLine.html#a6ac5cb831a411289763eecc6f40e7722" />
       <keyword name="referenceDatetime" id="AtcfLine::referenceDatetime" ref="classAtcfLine.html#aed5531012579283c189c8bafe7738fc9" />
       <keyword name="removeIsotach" id="AtcfLine::removeIsotach" ref="classAtcfLine.html#a468e808c476ec5f4fd24e8ea38b304d6" />
-      <keyword name="seas" id="AtcfLine::seas" ref="classAtcfLine.html#a6cf53a22fe45dfc93ceb5a178c34c99e" />
       <keyword name="setBasin" id="AtcfLine::setBasin" ref="classAtcfLine.html#a10cf0c5bc3997b3342597aa7ebee21b9" />
+      <keyword name="setCoriolis" id="AtcfLine::setCoriolis" ref="classAtcfLine.html#a68dd1833d8a63774235c9c6297752a4f" />
       <keyword name="setCycloneNumber" id="AtcfLine::setCycloneNumber" ref="classAtcfLine.html#ae955293026a90f5e5288b507deebdcac" />
       <keyword name="setDatetime" id="AtcfLine::setDatetime" ref="classAtcfLine.html#a0bad5c6c920656697893a8ddc09076de" />
       <keyword name="setEyeDiameter" id="AtcfLine::setEyeDiameter" ref="classAtcfLine.html#a982aa4172b139ca8df26e8c6b148c6bf" />
@@ -1103,7 +1271,6 @@
       <keyword name="setLat" id="AtcfLine::setLat" ref="classAtcfLine.html#ae6665099efc25d2f067359712c403a28" />
       <keyword name="setLon" id="AtcfLine::setLon" ref="classAtcfLine.html#a820d2d4a882e977cc3e1a4e543067428" />
       <keyword name="setMaxDevelopmentLevel" id="AtcfLine::setMaxDevelopmentLevel" ref="classAtcfLine.html#a3662bfdc458559dafcd8d5bac47d2e24" />
-      <keyword name="setMaxSeas" id="AtcfLine::setMaxSeas" ref="classAtcfLine.html#af940eb2838c526ef633e7bd050e1f582" />
       <keyword name="setMslp" id="AtcfLine::setMslp" ref="classAtcfLine.html#a70386cf97cc13ad4eccb2556d0339f0a" />
       <keyword name="setPouter" id="AtcfLine::setPouter" ref="classAtcfLine.html#ae091671d04a10571b3788f0e2877ee32" />
       <keyword name="setRadiusMaxWinds" id="AtcfLine::setRadiusMaxWinds" ref="classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" />
@@ -1140,6 +1307,7 @@
       <keyword name="readValueCheckBlank" id="AtcfLine::readValueCheckBlank" ref="classAtcfLine.html#a18a0b117205f2a9d95ac31825524d116" />
       <keyword name="splitString" id="AtcfLine::splitString" ref="classAtcfLine.html#a86d591997eedb1660c07467b712d6bbc" />
       <keyword name="m_basin" id="AtcfLine::m_basin" ref="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f" />
+      <keyword name="m_coriolis" id="AtcfLine::m_coriolis" ref="classAtcfLine.html#a5096ab769d4f8b96fa0a97673eb12f69" />
       <keyword name="m_cycloneNumber" id="AtcfLine::m_cycloneNumber" ref="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905" />
       <keyword name="m_datetime" id="AtcfLine::m_datetime" ref="classAtcfLine.html#a941d6e2d0bd983eb49250ea3dd09873b" />
       <keyword name="m_eyeDiameter" id="AtcfLine::m_eyeDiameter" ref="classAtcfLine.html#ab7831467e3e9a8d6399463f4fbb8f7d5" />
@@ -1149,14 +1317,12 @@
       <keyword name="m_lat" id="AtcfLine::m_lat" ref="classAtcfLine.html#a5d7de21e0be4d9b778dc9cc1fd6514f9" />
       <keyword name="m_lon" id="AtcfLine::m_lon" ref="classAtcfLine.html#a74b9738eda250dd70bb7adab81ccd75c" />
       <keyword name="m_maxDevelopmentLevel" id="AtcfLine::m_maxDevelopmentLevel" ref="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005" />
-      <keyword name="m_maxSeas" id="AtcfLine::m_maxSeas" ref="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4" />
       <keyword name="m_mslp" id="AtcfLine::m_mslp" ref="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb" />
       <keyword name="m_null" id="AtcfLine::m_null" ref="classAtcfLine.html#ae16b3f134144a9464fb913b8ea0a622a" />
       <keyword name="m_pouter" id="AtcfLine::m_pouter" ref="classAtcfLine.html#af014827ed3618e28ef0a84e8281a7c35" />
       <keyword name="m_radiusMaxWinds" id="AtcfLine::m_radiusMaxWinds" ref="classAtcfLine.html#a77757315546135bd8342f83562d35609" />
       <keyword name="m_radiusPouter" id="AtcfLine::m_radiusPouter" ref="classAtcfLine.html#add4fd4445a829c2a31ee56ef20e6d3e6" />
       <keyword name="m_refDatetime" id="AtcfLine::m_refDatetime" ref="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d" />
-      <keyword name="m_seas" id="AtcfLine::m_seas" ref="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0" />
       <keyword name="m_stormDirection" id="AtcfLine::m_stormDirection" ref="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f" />
       <keyword name="m_stormName" id="AtcfLine::m_stormName" ref="classAtcfLine.html#abac2d3e5fbdd3a7d537eedb60577a504" />
       <keyword name="m_stormSpeed" id="AtcfLine::m_stormSpeed" ref="classAtcfLine.html#a0b184944fb10e8dbc82c35f497b0fcaa" />
@@ -1170,6 +1336,23 @@
       <keyword name="m_v" id="AtcfLine::m_v" ref="classAtcfLine.html#a6322dc94f9b442feaf909050195e0f41" />
       <keyword name="m_vmax" id="AtcfLine::m_vmax" ref="classAtcfLine.html#ad1fcc1f3310fb1bc8b81afe20b4a0b30" />
       <keyword name="operator&lt;&lt;" id="AtcfLine::operator&lt;&lt;" ref="classAtcfLine.html#a3b63d05758993da06e47969ec80737df" />
+      <keyword name="CircularArray" id="CircularArray" ref="classCircularArray.html" />
+      <keyword name="CircularArray" id="CircularArray::CircularArray" ref="classCircularArray.html#a24c6558d59c7ed18502cfe15bfefb023" />
+      <keyword name="CircularArray" id="CircularArray::CircularArray" ref="classCircularArray.html#a5cf004f1f25d523792e3f5587c177ab4" />
+      <keyword name="at" id="CircularArray::at" ref="classCircularArray.html#a0642b8def16b83c1fff8f93326d2c842" />
+      <keyword name="begin" id="CircularArray::begin" ref="classCircularArray.html#a58421475bd4cf60dfd7af8d01448c6d8" />
+      <keyword name="cbegin" id="CircularArray::cbegin" ref="classCircularArray.html#afb75bcc8f41747e1203acde9bb10c655" />
+      <keyword name="cdata" id="CircularArray::cdata" ref="classCircularArray.html#a71caaa24622f3b7f72708f937f357c33" />
+      <keyword name="cend" id="CircularArray::cend" ref="classCircularArray.html#a4e9d92bb659820718c9deb97b022c7ba" />
+      <keyword name="data" id="CircularArray::data" ref="classCircularArray.html#abe59a0128bdeeccfdc609e50ce95e327" />
+      <keyword name="end" id="CircularArray::end" ref="classCircularArray.html#aae80d7cf5cd85b47834fb8752d7b1712" />
+      <keyword name="operator=" id="CircularArray::operator=" ref="classCircularArray.html#a59b685173dc3da8e3da8c2439b4bc5a3" />
+      <keyword name="operator[]" id="CircularArray::operator[]" ref="classCircularArray.html#af747f06957eb32410e0dab7697cbb7aa" />
+      <keyword name="operator[]" id="CircularArray::operator[]" ref="classCircularArray.html#a4a126eafbd74157a9e7cebe893af7d27" />
+      <keyword name="set" id="CircularArray::set" ref="classCircularArray.html#a43241fcadbf56b0a7c3f7242acf46eed" />
+      <keyword name="size" id="CircularArray::size" ref="classCircularArray.html#af837dccb72214bb010abc276fb618c36" />
+      <keyword name="mod_floor" id="CircularArray::mod_floor" ref="classCircularArray.html#ae9ee07d89dc4196acefc5b290b9275b8" />
+      <keyword name="m_data" id="CircularArray::m_data" ref="classCircularArray.html#acfb8c68ff5955ff6fac1331a3400eab2" />
       <keyword name="Date" id="Date" ref="classDate.html" />
       <keyword name="days" id="Date::days" ref="classDate.html#a13d009e7dff615666a4454f34caf6b16" />
       <keyword name="hours" id="Date::hours" ref="classDate.html#aff189fdbc7d15e000d56813d3a507fc3" />
@@ -1249,6 +1432,11 @@
       <keyword name="m_assumptions" id="Gahm::m_assumptions" ref="classGahm.html#a7a1e4367fdbf60eb1b2271a581ce7d7c" />
       <keyword name="m_atcf" id="Gahm::m_atcf" ref="classGahm.html#a6a0b5506c8f291e20c8f2bbff1304936" />
       <keyword name="m_filename" id="Gahm::m_filename" ref="classGahm.html#a294fc0ffd4511d48fad3989ee33219eb" />
+      <keyword name="Gahm::uvp" id="Gahm::uvp" ref="structGahm_1_1uvp.html" />
+      <keyword name="uvp" id="Gahm::uvp::uvp" ref="structGahm_1_1uvp.html#a2ca5efa0a38de6c861994b1c56650159" />
+      <keyword name="p" id="Gahm::uvp::p" ref="structGahm_1_1uvp.html#aace2d484b0e3651abd108f04803d316c" />
+      <keyword name="u" id="Gahm::uvp::u" ref="structGahm_1_1uvp.html#aed08c8478a62910aab06ba708a0e5b5f" />
+      <keyword name="v" id="Gahm::uvp::v" ref="structGahm_1_1uvp.html#a3b90d5a73541ab9402511d87bed076ef" />
       <keyword name="HurricanePressure" id="HurricanePressure" ref="classHurricanePressure.html" />
       <keyword name="HurricanePressure" id="HurricanePressure::HurricanePressure" ref="classHurricanePressure.html#a5db7cf88d797c1cb82d6b0b26d4d76be" />
       <keyword name="computePressure" id="HurricanePressure::computePressure" ref="classHurricanePressure.html#ab7f4b85c45ecbd2fdc5b5757f3eb37e6" />
@@ -1276,35 +1464,38 @@
       <keyword name="Isotach" id="Isotach" ref="classIsotach.html" />
       <keyword name="Isotach" id="Isotach::Isotach" ref="classIsotach.html#a3b2c810ad890ac53d885b95f5520a7a3" />
       <keyword name="Isotach" id="Isotach::Isotach" ref="classIsotach.html#a2b7d19a61edb5e22acb4507d7b65327a" />
+      <keyword name="chollandB" id="Isotach::chollandB" ref="classIsotach.html#a6d338c7499d8278c978770bd67c1a736" />
+      <keyword name="cisotachRadius" id="Isotach::cisotachRadius" ref="classIsotach.html#af93a6e1bb9f15faae4793d8205637e40" />
       <keyword name="code" id="Isotach::code" ref="classIsotach.html#a60ce77aeb249510471495cc63a7793da" />
-      <keyword name="lookupRadii" id="Isotach::lookupRadii" ref="classIsotach.html#af56a97ce00091481a9315d9fec00dec9" />
-      <keyword name="quadflag" id="Isotach::quadflag" ref="classIsotach.html#ae8b3f5db09620ad846183f0d3b81e1d0" />
-      <keyword name="radii" id="Isotach::radii" ref="classIsotach.html#a2126175890ff8e19cf6458368f8da22b" />
+      <keyword name="cphi" id="Isotach::cphi" ref="classIsotach.html#ae59095832d860bee9658a1d41dddd19b" />
+      <keyword name="cquadFlag" id="Isotach::cquadFlag" ref="classIsotach.html#acf34a941f1b3124bf891deeb634f5120" />
+      <keyword name="cquadrantVr" id="Isotach::cquadrantVr" ref="classIsotach.html#a1bb39878429a6f040f8e6c99102d9eba" />
+      <keyword name="crmax" id="Isotach::crmax" ref="classIsotach.html#a74b6f4ea56932aa328ae0292db11a2e6" />
+      <keyword name="cvmaxBl" id="Isotach::cvmaxBl" ref="classIsotach.html#ae34699ed432e270b9857a4968684a14e" />
+      <keyword name="generateQuadFlag" id="Isotach::generateQuadFlag" ref="classIsotach.html#a4ae76972e9b895592c48a9063a34196e" />
+      <keyword name="hollandB" id="Isotach::hollandB" ref="classIsotach.html#af25ad0c3ce04a06553ed99aff6cdcd86" />
+      <keyword name="isotachRadius" id="Isotach::isotachRadius" ref="classIsotach.html#aa2e13e8a29b18e50500e6ec0e02e5443" />
+      <keyword name="phi" id="Isotach::phi" ref="classIsotach.html#af2b6a2c0fa9a6d39abaac9558591476b" />
+      <keyword name="quadFlag" id="Isotach::quadFlag" ref="classIsotach.html#ad36a7cd3c58ae877144d02426d8e8de6" />
+      <keyword name="quadrantVr" id="Isotach::quadrantVr" ref="classIsotach.html#a32d11b9542f172cb4e06b65950c704bf" />
       <keyword name="radiusCode" id="Isotach::radiusCode" ref="classIsotach.html#ad375a4cd087bac574ffa5589b56ad81f" />
-      <keyword name="radiusQ1" id="Isotach::radiusQ1" ref="classIsotach.html#af2e3f0146879ed0b3931babbce2f52aa" />
-      <keyword name="radiusQ2" id="Isotach::radiusQ2" ref="classIsotach.html#aae2d287c0bbcdadf4d575d3dcb56262b" />
-      <keyword name="radiusQ3" id="Isotach::radiusQ3" ref="classIsotach.html#a7e99456757e19f77165951570530ffd3" />
-      <keyword name="radiusQ4" id="Isotach::radiusQ4" ref="classIsotach.html#a0300c2e50b1e7dc86805acea5c32f472" />
+      <keyword name="rmax" id="Isotach::rmax" ref="classIsotach.html#afb127f3de4c67daefab89b3fb54d484d" />
       <keyword name="setCode" id="Isotach::setCode" ref="classIsotach.html#a9eccf0a80d868dc67d497f40a98227ce" />
-      <keyword name="setLookupRadii" id="Isotach::setLookupRadii" ref="classIsotach.html#a1d31142766c3f82181f66b505c59e02e" />
-      <keyword name="setQuadflag" id="Isotach::setQuadflag" ref="classIsotach.html#a4b2d4944ac1371f8ced91b80aedc6871" />
-      <keyword name="setRadii" id="Isotach::setRadii" ref="classIsotach.html#a6622d9fbbb708549c32c890a16bbb51c" />
-      <keyword name="setRadii" id="Isotach::setRadii" ref="classIsotach.html#a50a5da149af0620100449fd5e6614189" />
-      <keyword name="setRadii" id="Isotach::setRadii" ref="classIsotach.html#a78bc10143e0766bce5cb38e99ea921bc" />
       <keyword name="setRadiusCode" id="Isotach::setRadiusCode" ref="classIsotach.html#a56004c6fae91123337f553af3d7bf3b8" />
-      <keyword name="setRadiusQ1" id="Isotach::setRadiusQ1" ref="classIsotach.html#a139938a540a1d9db6a536728740bcb73" />
-      <keyword name="setRadiusQ2" id="Isotach::setRadiusQ2" ref="classIsotach.html#adf8bfef001a8ccf3a39e023ba4d870a2" />
-      <keyword name="setRadiusQ3" id="Isotach::setRadiusQ3" ref="classIsotach.html#a530dd330da6d6dc6409daf221f549b3b" />
-      <keyword name="setRadiusQ4" id="Isotach::setRadiusQ4" ref="classIsotach.html#a931acb7f1115f717ca981032534d66ad" />
       <keyword name="setWindSpeed" id="Isotach::setWindSpeed" ref="classIsotach.html#a5b4ca0a37fa5d07800ef26f35899ae50" />
+      <keyword name="vmaxBl" id="Isotach::vmaxBl" ref="classIsotach.html#a2d06b791604441d536b3f6c578fca40f" />
       <keyword name="windSpeed" id="Isotach::windSpeed" ref="classIsotach.html#a90b55241f6d0ff34cfb78229a7ffacf7" />
       <keyword name="codeFromString" id="Isotach::codeFromString" ref="classIsotach.html#ad8db29d5da4482e0ac19ece84e108947" />
       <keyword name="isNull" id="Isotach::isNull" ref="classIsotach.html#a64352a7d018b8161e34e42ae0aad2e32" />
       <keyword name="stringFromCode" id="Isotach::stringFromCode" ref="classIsotach.html#a107f943d740f337a47238f2265924174" />
-      <keyword name="m_lookup_radii" id="Isotach::m_lookup_radii" ref="classIsotach.html#a96a4bc4b457a96956d8ed26c328580ad" />
-      <keyword name="m_quadflag" id="Isotach::m_quadflag" ref="classIsotach.html#a5e3ed968ee6777b2d371f49cabc157d3" />
-      <keyword name="m_radius" id="Isotach::m_radius" ref="classIsotach.html#a39c66cd59c1590ef926e7405cb97c080" />
+      <keyword name="m_hollandB" id="Isotach::m_hollandB" ref="classIsotach.html#a727f1f80d1c32a654f798106a0430db1" />
+      <keyword name="m_isotachRadius" id="Isotach::m_isotachRadius" ref="classIsotach.html#a698d84a498fe6a67204d68d4941d8f64" />
+      <keyword name="m_phi" id="Isotach::m_phi" ref="classIsotach.html#a3e76f25e71b7b06a431909cf668b74fb" />
+      <keyword name="m_quadFlag" id="Isotach::m_quadFlag" ref="classIsotach.html#a18e9db278da9d43f349a87dab5c28ca1" />
+      <keyword name="m_quadrantVr" id="Isotach::m_quadrantVr" ref="classIsotach.html#a6994d42e050b979bf2b188e792b65656" />
       <keyword name="m_radiusCode" id="Isotach::m_radiusCode" ref="classIsotach.html#a47432311752c9dd8013ade5b353497e1" />
+      <keyword name="m_rmax" id="Isotach::m_rmax" ref="classIsotach.html#af1cd4160f8d9cfe9eadb3fdae5a3a986" />
+      <keyword name="m_vmaxBL" id="Isotach::m_vmaxBL" ref="classIsotach.html#aef0820ad976a1169e0a5a8acc70cf31f" />
       <keyword name="m_windSpeed" id="Isotach::m_windSpeed" ref="classIsotach.html#a8cd4494e1d1260fba3e37d5a3681809c" />
       <keyword name="operator&lt;&lt;" id="Isotach::operator&lt;&lt;" ref="classIsotach.html#a5eb7c2163c27324b8245880c72bc0869" />
       <keyword name="AAA" id="Isotach::AAA" ref="classIsotach.html#a3664264733a00224fa3738b94428023ba77920302078c2cb558573ec9d25a8de4" />
@@ -1322,40 +1513,6 @@
       <keyword name="warning" id="Logging::warning" ref="classLogging.html#aa991e722150df4187e473be0044f21ea" />
       <keyword name="printErrorMessage" id="Logging::printErrorMessage" ref="classLogging.html#a8fe0a117f00cdaeba1eb0055019b93ac" />
       <keyword name="printMessage" id="Logging::printMessage" ref="classLogging.html#a46423d1b66f1695ca6221aec6188630e" />
-      <keyword name="Physical" id="Physical" ref="classPhysical.html" />
-      <keyword name="azimuthEarth" id="Physical::azimuthEarth" ref="classPhysical.html#afbb6375214fefd00a0489b5373f480b8" />
-      <keyword name="backgroundPressure" id="Physical::backgroundPressure" ref="classPhysical.html#a7b2bdb5bac38806ed013f30fca70fb29" />
-      <keyword name="cartesian_distance" id="Physical::cartesian_distance" ref="classPhysical.html#a5bc8393ec60b3f12466496285f45e737" />
-      <keyword name="deg2rad" id="Physical::deg2rad" ref="classPhysical.html#ae43063ac7bf556cb933a0206301b9748" />
-      <keyword name="distance" id="Physical::distance" ref="classPhysical.html#a0d5a798f989b297250dec7184c34840a" />
-      <keyword name="e" id="Physical::e" ref="classPhysical.html#a8256b0ba2078e4f506268b7a9d18c8bc" />
-      <keyword name="equatorialRadius" id="Physical::equatorialRadius" ref="classPhysical.html#af1acc32bfbde7fb61a53d9e5d33c4699" />
-      <keyword name="fast_exp" id="Physical::fast_exp" ref="classPhysical.html#a1699ca6bf3eae05eadbc185d7bddb8df" />
-      <keyword name="g" id="Physical::g" ref="classPhysical.html#a8475eaf4bc87bfa8958122727014a72c" />
-      <keyword name="geodesic_distance" id="Physical::geodesic_distance" ref="classPhysical.html#a46933b0960a506f3532ab42d02b84030" />
-      <keyword name="halfpi" id="Physical::halfpi" ref="classPhysical.html#aa9a4bde1564a48cc4121ea5fd39d1e21" />
-      <keyword name="km2nmi" id="Physical::km2nmi" ref="classPhysical.html#a27fa412be519621c7f7d32bea2be825a" />
-      <keyword name="kt2mph" id="Physical::kt2mph" ref="classPhysical.html#ab0516b3854217b0679cf8811dd9f07f2" />
-      <keyword name="kt2ms" id="Physical::kt2ms" ref="classPhysical.html#a446b34a690f7a1f10433e477ad0ac973" />
-      <keyword name="mb2pa" id="Physical::mb2pa" ref="classPhysical.html#a1e3cc31cbd44a009c32a1888ebc600c2" />
-      <keyword name="mph2kt" id="Physical::mph2kt" ref="classPhysical.html#ad0e09fe0f0dccfa9b33a44a0e8344de4" />
-      <keyword name="mph2ms" id="Physical::mph2ms" ref="classPhysical.html#a62734c633aae0ce60c1a948bf570d475" />
-      <keyword name="ms2kt" id="Physical::ms2kt" ref="classPhysical.html#aec8d798f5701bd9c2e131410022ec8f7" />
-      <keyword name="ms2mph" id="Physical::ms2mph" ref="classPhysical.html#a7755210204bf895038f132c7c6ecfdfe" />
-      <keyword name="nmi2km" id="Physical::nmi2km" ref="classPhysical.html#a758801eb99ef705bace966b7133d0621" />
-      <keyword name="omega" id="Physical::omega" ref="classPhysical.html#aa716b3fd2b3622d3711f11ad6777ce5b" />
-      <keyword name="one2ten" id="Physical::one2ten" ref="classPhysical.html#a86c55a29601269553ae1e4908f13431b" />
-      <keyword name="pi" id="Physical::pi" ref="classPhysical.html#a8916e00cc71692658a0a355b2f142274" />
-      <keyword name="polarRadius" id="Physical::polarRadius" ref="classPhysical.html#a1b684ff37a85f7e328c6b027ee95bc10" />
-      <keyword name="rad2deg" id="Physical::rad2deg" ref="classPhysical.html#aa8f2ca4ad36dc6b5f53e25e9e746d008" />
-      <keyword name="radiusEarth" id="Physical::radiusEarth" ref="classPhysical.html#a0af6386ea46179fb49f33ea168613246" />
-      <keyword name="radiusEarth" id="Physical::radiusEarth" ref="classPhysical.html#a9ebd20411025eccc634afb460a75df72" />
-      <keyword name="rhoAir" id="Physical::rhoAir" ref="classPhysical.html#aad2b9f195b6512f3156a21eacc1c726b" />
-      <keyword name="rhoWat0" id="Physical::rhoWat0" ref="classPhysical.html#a3f3ad27c60c663938315137d8118f7e2" />
-      <keyword name="rotation_earth" id="Physical::rotation_earth" ref="classPhysical.html#acbf23a54b4a872a5c1a3ca9f9423d882" />
-      <keyword name="sphericalDx" id="Physical::sphericalDx" ref="classPhysical.html#ac6d713f1908e7e0538db20f88b34f639" />
-      <keyword name="twopi" id="Physical::twopi" ref="classPhysical.html#ac89cc8801efd15fe96e25cd4a357b47a" />
-      <keyword name="windReduction" id="Physical::windReduction" ref="classPhysical.html#aa611aac3f44816aeddb5ffc722f33c35" />
       <keyword name="s_date" id="s_date" ref="structs__date.html" />
       <keyword name="s_date" id="s_date::s_date" ref="structs__date.html#a6c5ea10cc0ad6e101ad4dfc9b1622aa6" />
       <keyword name="day" id="s_date::day" ref="structs__date.html#a5a496ea2e6017fd4b43081f4317f96ce" />
@@ -1376,40 +1533,75 @@
       <keyword name="t" id="s_datetime::t" ref="structs__datetime.html#a935a95aee86f6713c06c53e4b15404ea" />
       <keyword name="tt" id="s_datetime::tt" ref="structs__datetime.html#a1465e0c2431f2f4bd26f7635d833fad0" />
       <keyword name="Vortex" id="Vortex" ref="classVortex.html" />
-      <keyword name="WindArray" id="Vortex::WindArray" ref="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9" />
-      <keyword name="Vortex" id="Vortex::Vortex" ref="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732" />
-      <keyword name="fillRadii" id="Vortex::fillRadii" ref="classVortex.html#a7029c117dd3645958a27ef3ea5acf801" />
+      <keyword name="Vortex" id="Vortex::Vortex" ref="classVortex.html#a6ce1ce001e797232a1ce780486f3e6b4" />
       <keyword name="interpolateParameter" id="Vortex::interpolateParameter" ref="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65" />
-      <keyword name="setRadii" id="Vortex::setRadii" ref="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0" />
-      <keyword name="setVortex" id="Vortex::setVortex" ref="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152" />
-      <keyword name="frictionAngle" id="Vortex::frictionAngle" ref="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194" />
+      <keyword name="setStormData" id="Vortex::setStormData" ref="classVortex.html#ae388b86da66acaa92e09cdf7167b8bc0" />
       <keyword name="rotateWinds" id="Vortex::rotateWinds" ref="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13" />
-      <keyword name="nPoints" id="Vortex::nPoints" ref="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1" />
-      <keyword name="nQuads" id="Vortex::nQuads" ref="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931" />
-      <keyword name="interpR" id="Vortex::interpR" ref="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816" />
-      <keyword name="spInterp" id="Vortex::spInterp" ref="classVortex.html#ad32c573698fbb788efee81699e65e624" />
-      <keyword name="calcHollandB" id="Vortex::calcHollandB" ref="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815" />
-      <keyword name="coriolis" id="Vortex::coriolis" ref="classVortex.html#a06a2befc5762ac390217ded44041d055" />
-      <keyword name="fillEdges" id="Vortex::fillEdges" ref="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f" />
-      <keyword name="fillWindArray" id="Vortex::fillWindArray" ref="classVortex.html#a93c9a3d66cc02127f99d1857a320e409" />
+      <keyword name="maxIsotachs" id="Vortex::maxIsotachs" ref="classVortex.html#aa797f766ca3e047a0011aa85d7ca135e" />
+      <keyword name="nQuads" id="Vortex::nQuads" ref="classVortex.html#a07dce79f0a1960c50c76b633d17db7f0" />
+      <keyword name="findRoot" id="Vortex::findRoot" ref="classVortex.html#a61b14dabae9da1036d2072df058076af" />
+      <keyword name="getParameterValue" id="Vortex::getParameterValue" ref="classVortex.html#ada5ebd5311d214fba078d1b3285a4032" />
+      <keyword name="getVh" id="Vortex::getVh" ref="classVortex.html#add1b3d68a6adac1887b0175193b6d79e" />
+      <keyword name="interpR" id="Vortex::interpR" ref="classVortex.html#af45bed77f864fe7cd18e96bcad902c16" />
+      <keyword name="setCurrentQuadrant" id="Vortex::setCurrentQuadrant" ref="classVortex.html#a5bd8e337d3aec4fd97392cfda1eff9cb" />
+      <keyword name="spInterp" id="Vortex::spInterp" ref="classVortex.html#a46c545695b0a66248dc9e47d3a2f2b43" />
+      <keyword name="vgWithCoriFull" id="Vortex::vgWithCoriFull" ref="classVortex.html#a36b321e4164c600950ffe1cc7021146f" />
+      <keyword name="vhNoCori" id="Vortex::vhNoCori" ref="classVortex.html#ae476777bb80581d4af28e4c2ce3a0b99" />
+      <keyword name="vhWithCori" id="Vortex::vhWithCori" ref="classVortex.html#ab722ca768cdd318618182826be9ac239" />
+      <keyword name="computeBg" id="Vortex::computeBg" ref="classVortex.html#a31f8393268fb0ce958148e0bd2fcb482" />
+      <keyword name="computePhi" id="Vortex::computePhi" ref="classVortex.html#aa96c2354f3470dfbabf6f61dbbba25c6" />
       <keyword name="getBaseQuadrant" id="Vortex::getBaseQuadrant" ref="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464" />
-      <keyword name="makeWindArray" id="Vortex::makeWindArray" ref="classVortex.html#ac533446af0e461d68d9c3839b8406f7c" />
-      <keyword name="m_b" id="Vortex::m_b" ref="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140" />
-      <keyword name="m_cLat" id="Vortex::m_cLat" ref="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c" />
-      <keyword name="m_cLon" id="Vortex::m_cLon" ref="classVortex.html#a914455e27bc940b1d4a384c59b1da820" />
-      <keyword name="m_corio" id="Vortex::m_corio" ref="classVortex.html#aef02befeab438216402dd5864b4482dc" />
-      <keyword name="m_pc" id="Vortex::m_pc" ref="classVortex.html#a128153b7d117c2717185dab5c48f322e" />
-      <keyword name="m_phi" id="Vortex::m_phi" ref="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712" />
-      <keyword name="m_pn" id="Vortex::m_pn" ref="classVortex.html#a066fc99714adb677ef89ba04249182ec" />
-      <keyword name="m_quadFlag4" id="Vortex::m_quadFlag4" ref="classVortex.html#a9fc81595545f0e7e5f042139cc80f583" />
-      <keyword name="m_quadIr4" id="Vortex::m_quadIr4" ref="classVortex.html#a2abe6c7109052db50f11317bbe818c1e" />
-      <keyword name="m_rMaxes4" id="Vortex::m_rMaxes4" ref="classVortex.html#a5a0b3c1244a129a15e46c64b41e0f522" />
-      <keyword name="m_vMax" id="Vortex::m_vMax" ref="classVortex.html#af509da395ff96c0318bbda561856f2f4" />
-      <keyword name="m_vmBL4" id="Vortex::m_vmBL4" ref="classVortex.html#a92ed3ec2573be34aa01ca0db33cba9b8" />
-      <keyword name="m_vr" id="Vortex::m_vr" ref="classVortex.html#a6a191ae4612ab8b2434202f96ba63192" />
+      <keyword name="rossbyNumber" id="Vortex::rossbyNumber" ref="classVortex.html#ad0dcc0642f9977e7d333d943744ccf77" />
+      <keyword name="m_currentIsotach" id="Vortex::m_currentIsotach" ref="classVortex.html#acccde3bd7953d0da6107946dc80c2806" />
+      <keyword name="m_currentQuadrant" id="Vortex::m_currentQuadrant" ref="classVortex.html#a71fbb063685c0272ad3ca834a883a9ca" />
+      <keyword name="m_stormData" id="Vortex::m_stormData" ref="classVortex.html#a2a129871078a9bdddb4ef69ca2e484ca" />
+      <keyword name="VhNoCori" id="Vortex::VhNoCori" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad6eb450541808d322f27033b59e5be52" />
+      <keyword name="VhWithCori" id="Vortex::VhWithCori" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094abf648661a68ca00fe371c3fdcfdab820" />
+      <keyword name="VhWithCoriFull" id="Vortex::VhWithCoriFull" ref="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad3672ba481a101e64261f9d1bb1d4273" />
       <keyword name="RMAX" id="Vortex::RMAX" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a2f4fc02e2c869a68404689ecadff748f" />
       <keyword name="B" id="Vortex::B" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a3f2a77ecd272aa6d6b5902faa5e5fc68" />
       <keyword name="VMBL" id="Vortex::VMBL" ref="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f" />
+      <keyword name="Physical" id="Physical" ref="namespacePhysical.html" />
+      <keyword name="azimuthEarth" id="Physical::azimuthEarth" ref="namespacePhysical.html#a7f87008c12e72e828995270caafd6963" />
+      <keyword name="backgroundPressure" id="Physical::backgroundPressure" ref="namespacePhysical.html#aef0a2db6b310233825b6791ff8e67050" />
+      <keyword name="calcHollandB" id="Physical::calcHollandB" ref="namespacePhysical.html#a76f21fb2f0b378bdba2db0c13d3f3a84" />
+      <keyword name="cartesian_distance" id="Physical::cartesian_distance" ref="namespacePhysical.html#a5cd90415008c6f2196b425d2a524062b" />
+      <keyword name="coriolis" id="Physical::coriolis" ref="namespacePhysical.html#aa6f9f6768fb27a3751a74b7e43b4a45a" />
+      <keyword name="deg2rad" id="Physical::deg2rad" ref="namespacePhysical.html#aedb77f347557f2942e99437f55e976a8" />
+      <keyword name="distance" id="Physical::distance" ref="namespacePhysical.html#a91dad53e6fb51e27776a895703d6c17a" />
+      <keyword name="e" id="Physical::e" ref="namespacePhysical.html#a5753cd084d1e96b108e96f8694b4a8a1" />
+      <keyword name="equatorialRadius" id="Physical::equatorialRadius" ref="namespacePhysical.html#a6c13e82a46905cdfbf1647591d8935ed" />
+      <keyword name="fast_exp" id="Physical::fast_exp" ref="namespacePhysical.html#ad871b8b35e0800c1e970a9ae4c145d1c" />
+      <keyword name="frictionAngle" id="Physical::frictionAngle" ref="namespacePhysical.html#aa169b36a001af3b6ea0590bc0ffd6fa8" />
+      <keyword name="g" id="Physical::g" ref="namespacePhysical.html#a60d38d3c6b34c99aa2bc57a78149a3e1" />
+      <keyword name="geodesic_distance" id="Physical::geodesic_distance" ref="namespacePhysical.html#aa9f4487d4613a1f2b0a6f4c12d564e2c" />
+      <keyword name="halfpi" id="Physical::halfpi" ref="namespacePhysical.html#a92b1fc7520d88e5945e2e7e8c8bc006e" />
+      <keyword name="km2nmi" id="Physical::km2nmi" ref="namespacePhysical.html#a4a42ec86e2054ee5fdcfbef26042513b" />
+      <keyword name="kt2mph" id="Physical::kt2mph" ref="namespacePhysical.html#aaf653ff5dbc4033e19ed92b240ba59bd" />
+      <keyword name="kt2ms" id="Physical::kt2ms" ref="namespacePhysical.html#a05752af9ecabce50d071f64c9918f5f6" />
+      <keyword name="mb2pa" id="Physical::mb2pa" ref="namespacePhysical.html#a5aefedba3dc84731aad379d9538c0ca3" />
+      <keyword name="mph2kt" id="Physical::mph2kt" ref="namespacePhysical.html#a1d46d202c65d16b1c2947453bf9a670f" />
+      <keyword name="mph2ms" id="Physical::mph2ms" ref="namespacePhysical.html#a23a75dd45a0e192eaf9735d0cf33397d" />
+      <keyword name="ms2kt" id="Physical::ms2kt" ref="namespacePhysical.html#ac3ebcf4f7617c5c5a57bc9bd2b95e0db" />
+      <keyword name="ms2mph" id="Physical::ms2mph" ref="namespacePhysical.html#ac20745c1f02cedd98d677e6c5522bc62" />
+      <keyword name="nmi2km" id="Physical::nmi2km" ref="namespacePhysical.html#a8f26784ba5fa860689f1dcaf50e062bb" />
+      <keyword name="omega" id="Physical::omega" ref="namespacePhysical.html#a70d4ca8d5ef6f3097277170502431f7b" />
+      <keyword name="one2ten" id="Physical::one2ten" ref="namespacePhysical.html#a10686d4103de8f9b2a043962d3725802" />
+      <keyword name="pi" id="Physical::pi" ref="namespacePhysical.html#aceeafe6dfcafc1ccd35aee635c075f09" />
+      <keyword name="polarRadius" id="Physical::polarRadius" ref="namespacePhysical.html#acbba7b727274b2f016499f85b0b3d2f7" />
+      <keyword name="quadrantAngle" id="Physical::quadrantAngle" ref="namespacePhysical.html#a8b95a30e294bd7aa1169d0a92c65a009" />
+      <keyword name="rad2deg" id="Physical::rad2deg" ref="namespacePhysical.html#aecbe91b78e94e2bc1479dec570a69f99" />
+      <keyword name="radiusEarth" id="Physical::radiusEarth" ref="namespacePhysical.html#a54d120caf204e2c8e9b5c646442f0aaf" />
+      <keyword name="radiusEarth" id="Physical::radiusEarth" ref="namespacePhysical.html#a4d8d9f1fe46c4f162e20e2cfcad0f0cd" />
+      <keyword name="rhoAir" id="Physical::rhoAir" ref="namespacePhysical.html#a0eeda58b967a4051dbcc34ce7c3b3bf2" />
+      <keyword name="rhoWat0" id="Physical::rhoWat0" ref="namespacePhysical.html#a99b62e1262ab73e25bda7575c9d7d8d0" />
+      <keyword name="rotation_earth" id="Physical::rotation_earth" ref="namespacePhysical.html#a8d532eee5e09a7ad9c2d17c924bb3f5c" />
+      <keyword name="sphericalDx" id="Physical::sphericalDx" ref="namespacePhysical.html#a2efe94842cf85bad805d2e444bab45d0" />
+      <keyword name="twopi" id="Physical::twopi" ref="namespacePhysical.html#a3fccff272b0fae8ead3c2c05f62b3620" />
+      <keyword name="windReduction" id="Physical::windReduction" ref="namespacePhysical.html#a7a0e10124e38dbffecaa523c97b21e4a" />
+      <keyword name="m_deg2rad" id="Physical::m_deg2rad" ref="namespacePhysical.html#aa5117328a96ce4af56528effe81e8e48" />
+      <keyword name="m_quadrantAngles" id="Physical::m_quadrantAngles" ref="namespacePhysical.html#a14be44d530fcfcb44caec152f4e1cd34" />
+      <keyword name="m_rad2deg" id="Physical::m_rad2deg" ref="namespacePhysical.html#a1e671867ec1e6b83a98952c2f90f5bc4" />
     </keywords>
     <files>
       <file>tabs.css</file>
@@ -1440,6 +1632,7 @@
       <file>Assumptions_8h_source.html</file>
       <file>Atcf_8h_source.html</file>
       <file>AtcfLine_8h_source.html</file>
+      <file>CircularArray_8h_source.html</file>
       <file>Date_8h_source.html</file>
       <file>Gahm_8h_source.html</file>
       <file>HurricanePressure_8h_source.html</file>
@@ -1468,6 +1661,9 @@
       <file>AtcfLine_8h.html</file>
       <file>AtcfLine_8h__incl.svg</file>
       <file>AtcfLine_8h__dep__incl.svg</file>
+      <file>CircularArray_8h.html</file>
+      <file>CircularArray_8h__incl.svg</file>
+      <file>CircularArray_8h__dep__incl.svg</file>
       <file>Date_8cpp.html</file>
       <file>Date_8cpp__incl.svg</file>
       <file>Date_8cpp_a45ca5db09a1ee8d14a196628d506d4bf_icgraph.svg</file>
@@ -1480,7 +1676,6 @@
       <file>Gahm_8h.html</file>
       <file>Gahm_8h__incl.svg</file>
       <file>Gahm_8h__dep__incl.svg</file>
-      <file>structGahm_1_1uvp__coll__graph.svg</file>
       <file>HurricanePressure_8cpp.html</file>
       <file>HurricanePressure_8cpp__incl.svg</file>
       <file>HurricanePressure_8h.html</file>
@@ -1524,6 +1719,23 @@
       <file>classAtcf_a4bec7c75f41a2643be3bccf63921dfa1_icgraph.svg</file>
       <file>classAtcf_a4392a7255cda22dc330a996257216c31_cgraph.svg</file>
       <file>classAtcf_a4392a7255cda22dc330a996257216c31_icgraph.svg</file>
+      <file>classAtcf_a8feed32ff84fb9f6e1bba8526b05d00b_cgraph.svg</file>
+      <file>classAtcf_a8feed32ff84fb9f6e1bba8526b05d00b_icgraph.svg</file>
+      <file>classAtcf_a2742efd0b6b28a51a11a0d74e713f222_cgraph.svg</file>
+      <file>classAtcf_a2742efd0b6b28a51a11a0d74e713f222_icgraph.svg</file>
+      <file>classAtcf_ada693ebe0f0ee4be52b01fd3fe83963a_cgraph.svg</file>
+      <file>classAtcf_ada693ebe0f0ee4be52b01fd3fe83963a_icgraph.svg</file>
+      <file>classAtcf_adccea6c4ad7108a14f86b833f3f94f6d_cgraph.svg</file>
+      <file>classAtcf_adccea6c4ad7108a14f86b833f3f94f6d_icgraph.svg</file>
+      <file>classAtcf_a80d9683a370e561492db8a0f6d795c5d_cgraph.svg</file>
+      <file>classAtcf_a80d9683a370e561492db8a0f6d795c5d_icgraph.svg</file>
+      <file>classAtcf_a12d26ed5e74ce562bd78a28662bceb75_cgraph.svg</file>
+      <file>classAtcf_a12d26ed5e74ce562bd78a28662bceb75_icgraph.svg</file>
+      <file>classAtcf_a82e46480c966292c69401c0fe85b2a3b_icgraph.svg</file>
+      <file>classAtcf_adc746c4433140219ebaf449c6f8d21f3_cgraph.svg</file>
+      <file>classAtcf_adc746c4433140219ebaf449c6f8d21f3_icgraph.svg</file>
+      <file>classAtcf_a7b96dc4af0c484eecb6adc87cb604431_cgraph.svg</file>
+      <file>classAtcf_a7b96dc4af0c484eecb6adc87cb604431_icgraph.svg</file>
       <file>classAtcf_a94c732bb0f167eab349228237a8fbe3c_icgraph.svg</file>
       <file>classAtcf_a2c8fb312c911c7d35cc921e303cac875_cgraph.svg</file>
       <file>classAtcf_a2c8fb312c911c7d35cc921e303cac875_icgraph.svg</file>
@@ -1532,26 +1744,32 @@
       <file>classAtcf_af2619be19171e8e1e2f6b110d18c755a_cgraph.svg</file>
       <file>classAtcf_ac775141fc311e59db12fdba1a913f8e2_icgraph.svg</file>
       <file>classAtcf_aaab5dab5b969a87f538242e524431637_cgraph.svg</file>
+      <file>classAtcf_adfe6ef35c351380ba863090d4fec04bb_cgraph.svg</file>
+      <file>classAtcf_adfe6ef35c351380ba863090d4fec04bb_icgraph.svg</file>
       <file>classAtcf_a2c3a3d17067e7d0d53018ec96531bd3d_icgraph.svg</file>
-      <file>classAtcf_a4b3387ddd1546cf6bad5444c70ec5cc5_cgraph.svg</file>
-      <file>classAtcf_a4b3387ddd1546cf6bad5444c70ec5cc5_icgraph.svg</file>
+      <file>classAtcf_a72001443de9ce0ebd8e0c668fe5caf9f_cgraph.svg</file>
+      <file>classAtcf_a72001443de9ce0ebd8e0c668fe5caf9f_icgraph.svg</file>
       <file>classAtcf_a56171296cefcc0d92118f33a5b41e01e_cgraph.svg</file>
-      <file>classAtcf_a841866c9625b20c5fb1f452110668f66_icgraph.svg</file>
-      <file>classAtcf_a71fa11a421dc675f7b8190758fa0b2e6_cgraph.svg</file>
-      <file>classAtcf_a71fa11a421dc675f7b8190758fa0b2e6_icgraph.svg</file>
-      <file>classAtcf_a21717052904854109237917697bd4e73_cgraph.svg</file>
-      <file>classAtcf_a21717052904854109237917697bd4e73_icgraph.svg</file>
-      <file>classAtcf_abfd44c7ce56d9e93b1f3edfb67918ef5_cgraph.svg</file>
-      <file>classAtcf_abfd44c7ce56d9e93b1f3edfb67918ef5_icgraph.svg</file>
+      <file>classAtcf_ab2c3d48d4cd01aa2aef9e02f2a199bb1_cgraph.svg</file>
+      <file>classAtcf_ab2c3d48d4cd01aa2aef9e02f2a199bb1_icgraph.svg</file>
+      <file>classAtcf_a0f3511e6d9066da7d7af0fe1aab03f79_cgraph.svg</file>
+      <file>classAtcf_a0f3511e6d9066da7d7af0fe1aab03f79_icgraph.svg</file>
+      <file>classAtcf_aed2ec117307b05eb72dc3e8e06965923_cgraph.svg</file>
+      <file>classAtcf_aed2ec117307b05eb72dc3e8e06965923_icgraph.svg</file>
       <file>classAtcf_a4fce87a97b674a5bbb54f01a8dd5c55e_cgraph.svg</file>
       <file>classAtcf_a4fce87a97b674a5bbb54f01a8dd5c55e_icgraph.svg</file>
+      <file>classAtcf_aec35454de676b1f68288d59612b572ee_cgraph.svg</file>
       <file>classAtcf-members.html</file>
+      <file>structAtcf_1_1StormMotion.html</file>
+      <file>structAtcf_1_1StormMotion__coll__graph.svg</file>
+      <file>structAtcf_1_1StormMotion-members.html</file>
       <file>classAtcfLine.html</file>
       <file>classAtcfLine__coll__graph.svg</file>
       <file>classAtcfLine_a35c13e37b2ea718539aa5f54b88eb55b_icgraph.svg</file>
       <file>classAtcfLine_acc738a7f1329678309e649d09156d29c_icgraph.svg</file>
       <file>classAtcfLine_a757a667960cf8420a7d565899ba74dd5_icgraph.svg</file>
       <file>classAtcfLine_af02cbe832e0a7a708e691fff2b48ebc4_icgraph.svg</file>
+      <file>classAtcfLine_a6a0221bd70847e13f9b7ea9c339438e7_icgraph.svg</file>
       <file>classAtcfLine_afcbce102d14966134f6a19e60597c61c_icgraph.svg</file>
       <file>classAtcfLine_a31f99dd6bb56e7b2cb4ebbc3a850a8f5_icgraph.svg</file>
       <file>classAtcfLine_acc01ba6a80743d3c6dcfd1f1fbce0daf_icgraph.svg</file>
@@ -1563,7 +1781,6 @@
       <file>classAtcfLine_af473414f523913837f7ee7520fa9e63d_icgraph.svg</file>
       <file>classAtcfLine_abf1373f021c76c8df3ab03e92eddc42f_icgraph.svg</file>
       <file>classAtcfLine_ac1f527bc7faf6136fa1a33dbada875ad_icgraph.svg</file>
-      <file>classAtcfLine_a180f9bd2b2e8b1ba2f47d6b73311c3f9_icgraph.svg</file>
       <file>classAtcfLine_a3edde0bc6afb6f2de5faed719ca41b52_icgraph.svg</file>
       <file>classAtcfLine_a5ddd67c4d868875c52ed1396c58dd6a7_icgraph.svg</file>
       <file>classAtcfLine_a724049144ca597838876a0068ff224de_cgraph.svg</file>
@@ -1575,6 +1792,7 @@
       <file>classAtcfLine_aed5531012579283c189c8bafe7738fc9_icgraph.svg</file>
       <file>classAtcfLine_a10cf0c5bc3997b3342597aa7ebee21b9_cgraph.svg</file>
       <file>classAtcfLine_a10cf0c5bc3997b3342597aa7ebee21b9_icgraph.svg</file>
+      <file>classAtcfLine_a68dd1833d8a63774235c9c6297752a4f_cgraph.svg</file>
       <file>classAtcfLine_ae955293026a90f5e5288b507deebdcac_cgraph.svg</file>
       <file>classAtcfLine_ae955293026a90f5e5288b507deebdcac_icgraph.svg</file>
       <file>classAtcfLine_a0bad5c6c920656697893a8ddc09076de_cgraph.svg</file>
@@ -1588,12 +1806,12 @@
       <file>classAtcfLine_a820d2d4a882e977cc3e1a4e543067428_cgraph.svg</file>
       <file>classAtcfLine_a820d2d4a882e977cc3e1a4e543067428_icgraph.svg</file>
       <file>classAtcfLine_a3662bfdc458559dafcd8d5bac47d2e24_cgraph.svg</file>
-      <file>classAtcfLine_af940eb2838c526ef633e7bd050e1f582_cgraph.svg</file>
       <file>classAtcfLine_a70386cf97cc13ad4eccb2556d0339f0a_cgraph.svg</file>
       <file>classAtcfLine_a70386cf97cc13ad4eccb2556d0339f0a_icgraph.svg</file>
       <file>classAtcfLine_ae091671d04a10571b3788f0e2877ee32_cgraph.svg</file>
       <file>classAtcfLine_ae091671d04a10571b3788f0e2877ee32_icgraph.svg</file>
       <file>classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_cgraph.svg</file>
+      <file>classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_icgraph.svg</file>
       <file>classAtcfLine_a34c654291dd08cde0d1de4fb6d0a3704_cgraph.svg</file>
       <file>classAtcfLine_a34c654291dd08cde0d1de4fb6d0a3704_icgraph.svg</file>
       <file>classAtcfLine_a0fc89ec97a25a3e2a23bbc3c2b4bda56_cgraph.svg</file>
@@ -1620,6 +1838,20 @@
       <file>classAtcfLine_ac66e05fdb0a5d757bf0e7d34ecfe6b4b_icgraph.svg</file>
       <file>classAtcfLine_a0ab834110d8e43facd39af7df53c8c22_icgraph.svg</file>
       <file>classAtcfLine-members.html</file>
+      <file>classCircularArray.html</file>
+      <file>classCircularArray__inherit__graph.svg</file>
+      <file>classCircularArray__coll__graph.svg</file>
+      <file>classCircularArray_a0642b8def16b83c1fff8f93326d2c842_cgraph.svg</file>
+      <file>classCircularArray_a0642b8def16b83c1fff8f93326d2c842_icgraph.svg</file>
+      <file>classCircularArray_a58421475bd4cf60dfd7af8d01448c6d8_icgraph.svg</file>
+      <file>classCircularArray_aae80d7cf5cd85b47834fb8752d7b1712_icgraph.svg</file>
+      <file>classCircularArray_ae9ee07d89dc4196acefc5b290b9275b8_icgraph.svg</file>
+      <file>classCircularArray_af747f06957eb32410e0dab7697cbb7aa_cgraph.svg</file>
+      <file>classCircularArray_a4a126eafbd74157a9e7cebe893af7d27_cgraph.svg</file>
+      <file>classCircularArray_a43241fcadbf56b0a7c3f7242acf46eed_cgraph.svg</file>
+      <file>classCircularArray_a43241fcadbf56b0a7c3f7242acf46eed_icgraph.svg</file>
+      <file>classCircularArray_af837dccb72214bb010abc276fb618c36_icgraph.svg</file>
+      <file>classCircularArray-members.html</file>
       <file>classDate.html</file>
       <file>classDate__coll__graph.svg</file>
       <file>classDate_aff49fc2cda4491ff4457ca481bb8edf9_cgraph.svg</file>
@@ -1677,11 +1909,13 @@
       <file>classDate-members.html</file>
       <file>classGahm.html</file>
       <file>classGahm__coll__graph.svg</file>
-      <file>structGahm_1_1uvp__coll__graph.svg</file>
       <file>classGahm_a6cacdf953e6387e58ca0dc1369e15c00_cgraph.svg</file>
       <file>classGahm_abd838ada495dbe369ae8b2cae185e063_cgraph.svg</file>
       <file>classGahm_aaab5dab5b969a87f538242e524431637_cgraph.svg</file>
       <file>classGahm-members.html</file>
+      <file>structGahm_1_1uvp.html</file>
+      <file>structGahm_1_1uvp__coll__graph.svg</file>
+      <file>structGahm_1_1uvp-members.html</file>
       <file>classHurricanePressure.html</file>
       <file>classHurricanePressure__coll__graph.svg</file>
       <file>classHurricanePressure_a8fe3b2f4c3f668dde9652e1bce29be6b_cgraph.svg</file>
@@ -1707,33 +1941,32 @@
       <file>classHurricanePressure-members.html</file>
       <file>classIsotach.html</file>
       <file>classIsotach__coll__graph.svg</file>
+      <file>classIsotach_a6d338c7499d8278c978770bd67c1a736_icgraph.svg</file>
+      <file>classIsotach_af93a6e1bb9f15faae4793d8205637e40_icgraph.svg</file>
       <file>classIsotach_a60ce77aeb249510471495cc63a7793da_icgraph.svg</file>
       <file>classIsotach_ad8db29d5da4482e0ac19ece84e108947_cgraph.svg</file>
       <file>classIsotach_ad8db29d5da4482e0ac19ece84e108947_icgraph.svg</file>
+      <file>classIsotach_ae59095832d860bee9658a1d41dddd19b_icgraph.svg</file>
+      <file>classIsotach_acf34a941f1b3124bf891deeb634f5120_icgraph.svg</file>
+      <file>classIsotach_a1bb39878429a6f040f8e6c99102d9eba_icgraph.svg</file>
+      <file>classIsotach_a74b6f4ea56932aa328ae0292db11a2e6_icgraph.svg</file>
+      <file>classIsotach_ae34699ed432e270b9857a4968684a14e_icgraph.svg</file>
+      <file>classIsotach_a4ae76972e9b895592c48a9063a34196e_cgraph.svg</file>
       <file>classIsotach_a64352a7d018b8161e34e42ae0aad2e32_cgraph.svg</file>
-      <file>classIsotach_ae8b3f5db09620ad846183f0d3b81e1d0_icgraph.svg</file>
-      <file>classIsotach_a2126175890ff8e19cf6458368f8da22b_icgraph.svg</file>
+      <file>classIsotach_a32d11b9542f172cb4e06b65950c704bf_icgraph.svg</file>
       <file>classIsotach_ad375a4cd087bac574ffa5589b56ad81f_icgraph.svg</file>
-      <file>classIsotach_af2e3f0146879ed0b3931babbce2f52aa_icgraph.svg</file>
-      <file>classIsotach_aae2d287c0bbcdadf4d575d3dcb56262b_icgraph.svg</file>
-      <file>classIsotach_a7e99456757e19f77165951570530ffd3_icgraph.svg</file>
-      <file>classIsotach_a0300c2e50b1e7dc86805acea5c32f472_icgraph.svg</file>
       <file>classIsotach_a9eccf0a80d868dc67d497f40a98227ce_cgraph.svg</file>
-      <file>classIsotach_a4b2d4944ac1371f8ced91b80aedc6871_cgraph.svg</file>
-      <file>classIsotach_a50a5da149af0620100449fd5e6614189_cgraph.svg</file>
-      <file>classIsotach_a78bc10143e0766bce5cb38e99ea921bc_cgraph.svg</file>
       <file>classIsotach_a56004c6fae91123337f553af3d7bf3b8_cgraph.svg</file>
-      <file>classIsotach_a139938a540a1d9db6a536728740bcb73_cgraph.svg</file>
-      <file>classIsotach_adf8bfef001a8ccf3a39e023ba4d870a2_cgraph.svg</file>
-      <file>classIsotach_a530dd330da6d6dc6409daf221f549b3b_cgraph.svg</file>
-      <file>classIsotach_a931acb7f1115f717ca981032534d66ad_cgraph.svg</file>
       <file>classIsotach_a5b4ca0a37fa5d07800ef26f35899ae50_cgraph.svg</file>
       <file>classIsotach_a107f943d740f337a47238f2265924174_cgraph.svg</file>
+      <file>classIsotach_a107f943d740f337a47238f2265924174_icgraph.svg</file>
+      <file>classIsotach_a2d06b791604441d536b3f6c578fca40f_icgraph.svg</file>
       <file>classIsotach_a90b55241f6d0ff34cfb78229a7ffacf7_icgraph.svg</file>
       <file>classIsotach-members.html</file>
       <file>classLogging.html</file>
       <file>classLogging__coll__graph.svg</file>
       <file>classLogging_a97ea357cd10f25fa95e27c63725be4f4_cgraph.svg</file>
+      <file>classLogging_a97ea357cd10f25fa95e27c63725be4f4_icgraph.svg</file>
       <file>classLogging_a3db8b5fbd105a1b5057ea3c77c906cee_cgraph.svg</file>
       <file>classLogging_a8fe0a117f00cdaeba1eb0055019b93ac_icgraph.svg</file>
       <file>classLogging_a46423d1b66f1695ca6221aec6188630e_icgraph.svg</file>
@@ -1741,47 +1974,6 @@
       <file>classLogging_a8f67ffb5e7fa2c85e6cfbc52d176d1dd_cgraph.svg</file>
       <file>classLogging_aa991e722150df4187e473be0044f21ea_cgraph.svg</file>
       <file>classLogging-members.html</file>
-      <file>classPhysical.html</file>
-      <file>classPhysical__coll__graph.svg</file>
-      <file>classPhysical_afbb6375214fefd00a0489b5373f480b8_cgraph.svg</file>
-      <file>classPhysical_a5bc8393ec60b3f12466496285f45e737_icgraph.svg</file>
-      <file>classPhysical_ae43063ac7bf556cb933a0206301b9748_cgraph.svg</file>
-      <file>classPhysical_ae43063ac7bf556cb933a0206301b9748_icgraph.svg</file>
-      <file>classPhysical_a0d5a798f989b297250dec7184c34840a_cgraph.svg</file>
-      <file>classPhysical_a8256b0ba2078e4f506268b7a9d18c8bc_icgraph.svg</file>
-      <file>classPhysical_af1acc32bfbde7fb61a53d9e5d33c4699_icgraph.svg</file>
-      <file>classPhysical_a46933b0960a506f3532ab42d02b84030_cgraph.svg</file>
-      <file>classPhysical_a46933b0960a506f3532ab42d02b84030_icgraph.svg</file>
-      <file>classPhysical_aa9a4bde1564a48cc4121ea5fd39d1e21_cgraph.svg</file>
-      <file>classPhysical_a27fa412be519621c7f7d32bea2be825a_icgraph.svg</file>
-      <file>classPhysical_ab0516b3854217b0679cf8811dd9f07f2_icgraph.svg</file>
-      <file>classPhysical_a446b34a690f7a1f10433e477ad0ac973_cgraph.svg</file>
-      <file>classPhysical_a446b34a690f7a1f10433e477ad0ac973_icgraph.svg</file>
-      <file>classPhysical_a1e3cc31cbd44a009c32a1888ebc600c2_icgraph.svg</file>
-      <file>classPhysical_ad0e09fe0f0dccfa9b33a44a0e8344de4_cgraph.svg</file>
-      <file>classPhysical_a62734c633aae0ce60c1a948bf570d475_cgraph.svg</file>
-      <file>classPhysical_aec8d798f5701bd9c2e131410022ec8f7_icgraph.svg</file>
-      <file>classPhysical_a7755210204bf895038f132c7c6ecfdfe_icgraph.svg</file>
-      <file>classPhysical_a758801eb99ef705bace966b7133d0621_cgraph.svg</file>
-      <file>classPhysical_a758801eb99ef705bace966b7133d0621_icgraph.svg</file>
-      <file>classPhysical_aa716b3fd2b3622d3711f11ad6777ce5b_cgraph.svg</file>
-      <file>classPhysical_aa716b3fd2b3622d3711f11ad6777ce5b_icgraph.svg</file>
-      <file>classPhysical_a86c55a29601269553ae1e4908f13431b_icgraph.svg</file>
-      <file>classPhysical_a8916e00cc71692658a0a355b2f142274_icgraph.svg</file>
-      <file>classPhysical_a1b684ff37a85f7e328c6b027ee95bc10_icgraph.svg</file>
-      <file>classPhysical_aa8f2ca4ad36dc6b5f53e25e9e746d008_cgraph.svg</file>
-      <file>classPhysical_aa8f2ca4ad36dc6b5f53e25e9e746d008_icgraph.svg</file>
-      <file>classPhysical_a0af6386ea46179fb49f33ea168613246_cgraph.svg</file>
-      <file>classPhysical_a0af6386ea46179fb49f33ea168613246_icgraph.svg</file>
-      <file>classPhysical_a9ebd20411025eccc634afb460a75df72_cgraph.svg</file>
-      <file>classPhysical_aad2b9f195b6512f3156a21eacc1c726b_icgraph.svg</file>
-      <file>classPhysical_acbf23a54b4a872a5c1a3ca9f9423d882_cgraph.svg</file>
-      <file>classPhysical_ac6d713f1908e7e0538db20f88b34f639_cgraph.svg</file>
-      <file>classPhysical_ac6d713f1908e7e0538db20f88b34f639_icgraph.svg</file>
-      <file>classPhysical_ac89cc8801efd15fe96e25cd4a357b47a_cgraph.svg</file>
-      <file>classPhysical_ac89cc8801efd15fe96e25cd4a357b47a_icgraph.svg</file>
-      <file>classPhysical_aa611aac3f44816aeddb5ffc722f33c35_icgraph.svg</file>
-      <file>classPhysical-members.html</file>
       <file>structs__date.html</file>
       <file>structs__date__coll__graph.svg</file>
       <file>structs__date_a5a496ea2e6017fd4b43081f4317f96ce_icgraph.svg</file>
@@ -1802,25 +1994,113 @@
       <file>structs__datetime-members.html</file>
       <file>classVortex.html</file>
       <file>classVortex__coll__graph.svg</file>
-      <file>classVortex_a3d3d41c13add60885c9ab06ba3ca6815_cgraph.svg</file>
-      <file>classVortex_a06a2befc5762ac390217ded44041d055_cgraph.svg</file>
-      <file>classVortex_a06a2befc5762ac390217ded44041d055_icgraph.svg</file>
-      <file>classVortex_ad2d034b91ee1d70ddd82ee743658898f_icgraph.svg</file>
-      <file>classVortex_a7029c117dd3645958a27ef3ea5acf801_cgraph.svg</file>
-      <file>classVortex_a0c44236b8df53da4d14e7fb76d40d194_icgraph.svg</file>
+      <file>classVortex_a31f8393268fb0ce958148e0bd2fcb482_cgraph.svg</file>
+      <file>classVortex_aa96c2354f3470dfbabf6f61dbbba25c6_cgraph.svg</file>
+      <file>classVortex_a61b14dabae9da1036d2072df058076af_cgraph.svg</file>
       <file>classVortex_ac6cc0dffbc1abd13fc6b212cf701a464_icgraph.svg</file>
+      <file>classVortex_ada5ebd5311d214fba078d1b3285a4032_cgraph.svg</file>
+      <file>classVortex_add1b3d68a6adac1887b0175193b6d79e_cgraph.svg</file>
       <file>classVortex_a77f9a5acf2467da0fc540737fcb1ba65_cgraph.svg</file>
-      <file>classVortex_a7dd6dceb1f90086d5b214607b79d7816_icgraph.svg</file>
+      <file>classVortex_af45bed77f864fe7cd18e96bcad902c16_cgraph.svg</file>
+      <file>classVortex_ad0dcc0642f9977e7d333d943744ccf77_cgraph.svg</file>
+      <file>classVortex_ad0dcc0642f9977e7d333d943744ccf77_icgraph.svg</file>
       <file>classVortex_ae8ae0a3d4ce49e437c521815b907ea13_cgraph.svg</file>
       <file>classVortex_ae8ae0a3d4ce49e437c521815b907ea13_icgraph.svg</file>
-      <file>classVortex_a0ac693bb2d65ec6cf3e5b632e6af4152_cgraph.svg</file>
-      <file>classVortex_ad32c573698fbb788efee81699e65e624_cgraph.svg</file>
-      <file>classVortex_ad32c573698fbb788efee81699e65e624_icgraph.svg</file>
+      <file>classVortex_ae388b86da66acaa92e09cdf7167b8bc0_icgraph.svg</file>
+      <file>classVortex_a46c545695b0a66248dc9e47d3a2f2b43_cgraph.svg</file>
+      <file>classVortex_a36b321e4164c600950ffe1cc7021146f_cgraph.svg</file>
+      <file>classVortex_a36b321e4164c600950ffe1cc7021146f_icgraph.svg</file>
+      <file>classVortex_ae476777bb80581d4af28e4c2ce3a0b99_cgraph.svg</file>
+      <file>classVortex_ae476777bb80581d4af28e4c2ce3a0b99_icgraph.svg</file>
       <file>classVortex-members.html</file>
+      <file>namespacePhysical.html</file>
+      <file>namespacePhysical_a7f87008c12e72e828995270caafd6963_cgraph.svg</file>
+      <file>namespacePhysical_aef0a2db6b310233825b6791ff8e67050_icgraph.svg</file>
+      <file>namespacePhysical_a76f21fb2f0b378bdba2db0c13d3f3a84_cgraph.svg</file>
+      <file>namespacePhysical_a5cd90415008c6f2196b425d2a524062b_icgraph.svg</file>
+      <file>namespacePhysical_aa6f9f6768fb27a3751a74b7e43b4a45a_cgraph.svg</file>
+      <file>namespacePhysical_aa6f9f6768fb27a3751a74b7e43b4a45a_icgraph.svg</file>
+      <file>namespacePhysical_aedb77f347557f2942e99437f55e976a8_icgraph.svg</file>
+      <file>namespacePhysical_a91dad53e6fb51e27776a895703d6c17a_cgraph.svg</file>
+      <file>namespacePhysical_a91dad53e6fb51e27776a895703d6c17a_icgraph.svg</file>
+      <file>namespacePhysical_a5753cd084d1e96b108e96f8694b4a8a1_icgraph.svg</file>
+      <file>namespacePhysical_a6c13e82a46905cdfbf1647591d8935ed_icgraph.svg</file>
+      <file>namespacePhysical_aa169b36a001af3b6ea0590bc0ffd6fa8_icgraph.svg</file>
+      <file>namespacePhysical_a60d38d3c6b34c99aa2bc57a78149a3e1_icgraph.svg</file>
+      <file>namespacePhysical_aa9f4487d4613a1f2b0a6f4c12d564e2c_cgraph.svg</file>
+      <file>namespacePhysical_aa9f4487d4613a1f2b0a6f4c12d564e2c_icgraph.svg</file>
+      <file>namespacePhysical_a92b1fc7520d88e5945e2e7e8c8bc006e_cgraph.svg</file>
+      <file>namespacePhysical_a92b1fc7520d88e5945e2e7e8c8bc006e_icgraph.svg</file>
+      <file>namespacePhysical_a4a42ec86e2054ee5fdcfbef26042513b_icgraph.svg</file>
+      <file>namespacePhysical_aaf653ff5dbc4033e19ed92b240ba59bd_icgraph.svg</file>
+      <file>namespacePhysical_a05752af9ecabce50d071f64c9918f5f6_cgraph.svg</file>
+      <file>namespacePhysical_a05752af9ecabce50d071f64c9918f5f6_icgraph.svg</file>
+      <file>namespacePhysical_a5aefedba3dc84731aad379d9538c0ca3_icgraph.svg</file>
+      <file>namespacePhysical_a1d46d202c65d16b1c2947453bf9a670f_cgraph.svg</file>
+      <file>namespacePhysical_a23a75dd45a0e192eaf9735d0cf33397d_cgraph.svg</file>
+      <file>namespacePhysical_ac3ebcf4f7617c5c5a57bc9bd2b95e0db_icgraph.svg</file>
+      <file>namespacePhysical_ac20745c1f02cedd98d677e6c5522bc62_icgraph.svg</file>
+      <file>namespacePhysical_a8f26784ba5fa860689f1dcaf50e062bb_cgraph.svg</file>
+      <file>namespacePhysical_a8f26784ba5fa860689f1dcaf50e062bb_icgraph.svg</file>
+      <file>namespacePhysical_a70d4ca8d5ef6f3097277170502431f7b_cgraph.svg</file>
+      <file>namespacePhysical_a70d4ca8d5ef6f3097277170502431f7b_icgraph.svg</file>
+      <file>namespacePhysical_a10686d4103de8f9b2a043962d3725802_icgraph.svg</file>
+      <file>namespacePhysical_aceeafe6dfcafc1ccd35aee635c075f09_icgraph.svg</file>
+      <file>namespacePhysical_acbba7b727274b2f016499f85b0b3d2f7_icgraph.svg</file>
+      <file>namespacePhysical_a8b95a30e294bd7aa1169d0a92c65a009_icgraph.svg</file>
+      <file>namespacePhysical_aecbe91b78e94e2bc1479dec570a69f99_icgraph.svg</file>
+      <file>namespacePhysical_a54d120caf204e2c8e9b5c646442f0aaf_cgraph.svg</file>
+      <file>namespacePhysical_a54d120caf204e2c8e9b5c646442f0aaf_icgraph.svg</file>
+      <file>namespacePhysical_a4d8d9f1fe46c4f162e20e2cfcad0f0cd_cgraph.svg</file>
+      <file>namespacePhysical_a0eeda58b967a4051dbcc34ce7c3b3bf2_icgraph.svg</file>
+      <file>namespacePhysical_a8d532eee5e09a7ad9c2d17c924bb3f5c_cgraph.svg</file>
+      <file>namespacePhysical_a2efe94842cf85bad805d2e444bab45d0_cgraph.svg</file>
+      <file>namespacePhysical_a2efe94842cf85bad805d2e444bab45d0_icgraph.svg</file>
+      <file>namespacePhysical_a3fccff272b0fae8ead3c2c05f62b3620_cgraph.svg</file>
+      <file>namespacePhysical_a3fccff272b0fae8ead3c2c05f62b3620_icgraph.svg</file>
+      <file>namespacePhysical_a7a0e10124e38dbffecaa523c97b21e4a_icgraph.svg</file>
       <file>graph_legend.svg</file>
       <file>graph_legend.html</file>
       <file>dir_68267d1309a1af8e8297ef4c3efbcdba.html</file>
       <file>index.html</file>
+      <file>namespaces.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_func.html</file>
+      <file>namespacemembers_vars.html</file>
       <file>annotated.html</file>
       <file>classes.html</file>
       <file>functions.html</file>
@@ -1890,6 +2170,8 @@
       <file>functions_enum.html</file>
       <file>functions_enum.html</file>
       <file>functions_enum.html</file>
+      <file>functions_enum.html</file>
+      <file>functions_eval.html</file>
       <file>functions_eval.html</file>
       <file>functions_eval.html</file>
       <file>functions_eval.html</file>

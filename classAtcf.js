@@ -1,5 +1,6 @@
 var classAtcf =
 [
+    [ "StormMotion", "structAtcf_1_1StormMotion.html", "structAtcf_1_1StormMotion" ],
     [ "StormParameters", "classAtcf.html#structAtcf_1_1StormParameters", [
       [ "background_pressure", "classAtcf.html#ac40d20fe04abf86a408ff0f6227198f0", null ],
       [ "central_pressure", "classAtcf.html#a5c692b6abf4232a8877bafa9e96bb524", null ],
@@ -12,9 +13,22 @@ var classAtcf =
       [ "vtrans", "classAtcf.html#a81b04b09a099cce6223604329033ca67", null ],
       [ "wtratio", "classAtcf.html#ae0ce0b36798bdd89dc1e65cbcf5bbf89", null ]
     ] ],
+    [ "AtcfFileTypes", "classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f", [
+      [ "FormatAtcf", "classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c", null ],
+      [ "FormatNWS20", "classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a", null ]
+    ] ],
     [ "Atcf", "classAtcf.html#a0a1892d2727c8073609a246bdf2157e7", null ],
     [ "calculateOverlandTranslationVelocity", "classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1", null ],
     [ "calculateRadii", "classAtcf.html#a4392a7255cda22dc330a996257216c31", null ],
+    [ "computeEpsilonAngle", "classAtcf.html#a8feed32ff84fb9f6e1bba8526b05d00b", null ],
+    [ "computeGamma", "classAtcf.html#a2742efd0b6b28a51a11a0d74e713f222", null ],
+    [ "computeParameters", "classAtcf.html#ada693ebe0f0ee4be52b01fd3fe83963a", null ],
+    [ "computeQuadrantVectorAngle", "classAtcf.html#adccea6c4ad7108a14f86b833f3f94f6d", null ],
+    [ "computeQuadrantVr", "classAtcf.html#a80d9683a370e561492db8a0f6d795c5d", null ],
+    [ "computeQuadrantVrWithGamma", "classAtcf.html#a12d26ed5e74ce562bd78a28662bceb75", null ],
+    [ "computeQuadrantVrWithoutGamma", "classAtcf.html#a82e46480c966292c69401c0fe85b2a3b", null ],
+    [ "computeStormMotion", "classAtcf.html#adc746c4433140219ebaf449c6f8d21f3", null ],
+    [ "computeVMaxBL", "classAtcf.html#a7b96dc4af0c484eecb6adc87cb604431", null ],
     [ "crecord", "classAtcf.html#a0f40f03f570bebb240bd99f8560c0147", null ],
     [ "filename", "classAtcf.html#a94c732bb0f167eab349228237a8fbe3c", null ],
     [ "generateMissingPressureData", "classAtcf.html#a2c8fb312c911c7d35cc921e303cac875", null ],
@@ -23,14 +37,15 @@ var classAtcf =
     [ "linearInterp", "classAtcf.html#ac775141fc311e59db12fdba1a913f8e2", null ],
     [ "nRecords", "classAtcf.html#ad4b417bc07d6eaf90884ef415347e3cb", null ],
     [ "read", "classAtcf.html#aaab5dab5b969a87f538242e524431637", null ],
+    [ "recomputeQuadrantVr", "classAtcf.html#adfe6ef35c351380ba863090d4fec04bb", null ],
     [ "record", "classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d", null ],
-    [ "setAllRadiiToRmax", "classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5", null ],
+    [ "setAllRadiiToRmax", "classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f", null ],
     [ "setFilename", "classAtcf.html#a56171296cefcc0d92118f33a5b41e01e", null ],
-    [ "setInitialHollandB", "classAtcf.html#a841866c9625b20c5fb1f452110668f66", null ],
-    [ "setMissingRadiiToAverageOfAdjacentRadii", "classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6", null ],
-    [ "setMissingRadiiToHalfNonzeroRadii", "classAtcf.html#a21717052904854109237917697bd4e73", null ],
-    [ "setMissingRadiiToHalfOfAverageSpecifiedRadii", "classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5", null ],
+    [ "setMissingRadiiToAverageOfAdjacentRadii", "classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1", null ],
+    [ "setMissingRadiiToHalfNonzeroRadii", "classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79", null ],
+    [ "setMissingRadiiToHalfOfAverageSpecifiedRadii", "classAtcf.html#aed2ec117307b05eb72dc3e8e06965923", null ],
     [ "uvTrans", "classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e", null ],
+    [ "write", "classAtcf.html#aec35454de676b1f68288d59612b572ee", null ],
     [ "m_assumptions", "classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd", null ],
     [ "m_atcfData", "classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944", null ],
     [ "m_filename", "classAtcf.html#abeab36922e15d948509bdf36c5a46cd9", null ]

@@ -1,4 +1,8 @@
 <map id="radiusMaxWinds" name="radiusMaxWinds">
-<area shape="rect" id="node1" title=" " alt="" coords="196,5,315,32"/>
-<area shape="rect" id="node2" href="$classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" title=" " alt="" coords="5,5,148,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="485,31,604,57"/>
+<area shape="rect" id="node2" href="$classAtcfLine.html#afa6b0d2f28cf66264d2be824addf35ad" title=" " alt="" coords="289,5,431,32"/>
+<area shape="rect" id="node5" href="$classVortex.html#a36b321e4164c600950ffe1cc7021146f" title=" " alt="" coords="283,56,437,83"/>
+<area shape="rect" id="node3" href="$classAtcfLine.html#a669437f8facd47f46097adc21d0d497b" title=" " alt="" coords="132,5,235,32"/>
+<area shape="rect" id="node4" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,84,32"/>
+<area shape="rect" id="node6" href="$classVortex.html#add1b3d68a6adac1887b0175193b6d79e" title=" " alt="" coords="132,56,235,83"/>
 </map>

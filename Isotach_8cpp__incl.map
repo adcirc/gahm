@@ -1,9 +1,10 @@
 <map id="Isotach.cpp" name="Isotach.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="159,5,249,32"/>
-<area shape="rect" id="node2" href="$Isotach_8h.html" title=" " alt="" coords="119,80,195,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="219,80,285,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,56,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="80,155,149,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="174,155,229,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="253,155,312,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="146,5,237,32"/>
+<area shape="rect" id="node2" href="$Isotach_8h.html" title=" " alt="" coords="107,80,183,107"/>
+<area shape="rect" id="node8" title=" " alt="" coords="207,80,272,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="134,229,185,256"/>
+<area shape="rect" id="node4" title=" " alt="" coords="24,155,93,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="118,155,172,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="197,155,256,181"/>
+<area shape="rect" id="node7" href="$CircularArray_8h.html" title=" " alt="" coords="280,155,386,181"/>
 </map>

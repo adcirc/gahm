@@ -4,12 +4,12 @@ var annotated_dup =
     [ "Assumptions", "classAssumptions.html", "classAssumptions" ],
     [ "Atcf", "classAtcf.html", "classAtcf" ],
     [ "AtcfLine", "classAtcfLine.html", "classAtcfLine" ],
+    [ "CircularArray", "classCircularArray.html", "classCircularArray" ],
     [ "Date", "classDate.html", "classDate" ],
     [ "Gahm", "classGahm.html", "classGahm" ],
     [ "HurricanePressure", "classHurricanePressure.html", "classHurricanePressure" ],
     [ "Isotach", "classIsotach.html", "classIsotach" ],
     [ "Logging", "classLogging.html", "classLogging" ],
-    [ "Physical", "classPhysical.html", "classPhysical" ],
     [ "s_date", "structs__date.html", "structs__date" ],
     [ "s_datetime", "structs__datetime.html", "structs__datetime" ],
     [ "Vortex", "classVortex.html", "classVortex" ]

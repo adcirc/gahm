@@ -97,7 +97,7 @@ var sectionId = 'dynsection-1';
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
-<g id="a_node6"><a xlink:href="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" target="_top" xlink:title=" ">
+<g id="a_node6"><a xlink:href="classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="319,-148 319,-167 444,-167 444,-148 319,-148"/>
 <text text-anchor="middle" x="381.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::setAllRadiiToRmax</text>
 </a>
@@ -112,7 +112,7 @@ var sectionId = 'dynsection-1';
 <!-- Node8 -->
 <g id="node8" class="node">
 <title>Node8</title>
-<g id="a_node8"><a xlink:href="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" target="_top" xlink:title=" ">
+<g id="a_node8"><a xlink:href="classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="303,-98.5 303,-128.5 460,-128.5 460,-98.5 303,-98.5"/>
 <text text-anchor="start" x="311" y="-116.5" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::setMissingRadiiToAverage</text>
 <text text-anchor="middle" x="381.5" y="-105.5" font-family="Helvetica,sans-Serif" font-size="10.00">OfAdjacentRadii</text>
@@ -128,7 +128,7 @@ var sectionId = 'dynsection-1';
 <!-- Node9 -->
 <g id="node9" class="node">
 <title>Node9</title>
-<g id="a_node9"><a xlink:href="classAtcf.html#a21717052904854109237917697bd4e73" target="_top" xlink:title=" ">
+<g id="a_node9"><a xlink:href="classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="312,-49.5 312,-79.5 451,-79.5 451,-49.5 312,-49.5"/>
 <text text-anchor="start" x="320" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::setMissingRadiiToHalf</text>
 <text text-anchor="middle" x="381.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">NonzeroRadii</text>
@@ -144,7 +144,7 @@ var sectionId = 'dynsection-1';
 <!-- Node10 -->
 <g id="node10" class="node">
 <title>Node10</title>
-<g id="a_node10"><a xlink:href="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" target="_top" xlink:title=" ">
+<g id="a_node10"><a xlink:href="classAtcf.html#aed2ec117307b05eb72dc3e8e06965923" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="312,-0.5 312,-30.5 451,-30.5 451,-0.5 312,-0.5"/>
 <text text-anchor="start" x="320" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">Atcf::setMissingRadiiToHalf</text>
 <text text-anchor="middle" x="381.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">OfAverageSpecifiedRadii</text>

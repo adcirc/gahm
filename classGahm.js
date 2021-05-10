@@ -1,10 +1,6 @@
 var classGahm =
 [
-    [ "uvp", "classGahm.html#structGahm_1_1uvp", [
-      [ "p", "classGahm.html#aace2d484b0e3651abd108f04803d316c", null ],
-      [ "u", "classGahm.html#aed08c8478a62910aab06ba708a0e5b5f", null ],
-      [ "v", "classGahm.html#a3b90d5a73541ab9402511d87bed076ef", null ]
-    ] ],
+    [ "uvp", "structGahm_1_1uvp.html", "structGahm_1_1uvp" ],
     [ "Gahm", "classGahm.html#a7bd572fd4eaf8adc3c7ea88d7bcb8e47", null ],
     [ "filename", "classGahm.html#a94c732bb0f167eab349228237a8fbe3c", null ],
     [ "get", "classGahm.html#a6cacdf953e6387e58ca0dc1369e15c00", null ],

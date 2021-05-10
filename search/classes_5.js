@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['logging_379',['Logging',['../classLogging.html',1,'']]]
+  ['isotach_421',['Isotach',['../classIsotach.html',1,'']]]
 ];

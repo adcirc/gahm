@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['twoslope_751',['TWOSLOPE',['../classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0a95034e9b27ded7c4082d4f8d7f2ac338',1,'HurricanePressure']]]
+  ['seq_828',['SEQ',['../classIsotach.html#a3664264733a00224fa3738b94428023ba9985ac4cb7cda855d785a610e6a866a7',1,'Isotach']]],
+  ['swq_829',['SWQ',['../classIsotach.html#a3664264733a00224fa3738b94428023ba7f52a1684e774e13ec1751d0c06e3e8b',1,'Isotach']]]
 ];

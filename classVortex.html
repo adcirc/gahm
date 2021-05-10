@@ -86,6 +86,7 @@ $(document).ready(function(){initNavTree('classVortex.html',''); initResizable()
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
@@ -99,7 +100,7 @@ $(document).ready(function(){initNavTree('classVortex.html',''); initResizable()
 <div class="dynheader">
 Collaboration diagram for Vortex:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex__coll__graph.svg" width="174" height="499"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classVortex__coll__graph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <table class="memberdecls">
@@ -110,119 +111,113 @@ Public Types</h2></td></tr>
 , <a class="el" href="classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f">VMBL</a>
  }</td></tr>
 <tr class="separator:a0e507cc920013fa6467b4279dd2417b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ade077af06a56f0a92f492a8cfdced9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a1ade077af06a56f0a92f492a8cfdced9"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a> = std::array&lt; std::array&lt; T, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt;, <a class="el" href="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1">nPoints</a> &gt;</td></tr>
-<tr class="separator:a1ade077af06a56f0a92f492a8cfdced9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab311b1447dcc1e6c57b82c7f35061732"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ab311b1447dcc1e6c57b82c7f35061732">Vortex</a> (double pinf, double p0, double lon, double lat, double vmax)</td></tr>
-<tr class="separator:ab311b1447dcc1e6c57b82c7f35061732"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7029c117dd3645958a27ef3ea5acf801"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a7029c117dd3645958a27ef3ea5acf801">fillRadii</a> ()</td></tr>
-<tr class="separator:a7029c117dd3645958a27ef3ea5acf801"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ce1ce001e797232a1ce780486f3e6b4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a6ce1ce001e797232a1ce780486f3e6b4">Vortex</a> ()</td></tr>
+<tr class="separator:a6ce1ce001e797232a1ce780486f3e6b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77f9a5acf2467da0fc540737fcb1ba65"><td class="memTemplParams" colspan="2">template&lt;VortexParameterType index&gt; </td></tr>
 <tr class="memitem:a77f9a5acf2467da0fc540737fcb1ba65"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#a77f9a5acf2467da0fc540737fcb1ba65">interpolateParameter</a> (const double angle, const double distance)</td></tr>
 <tr class="separator:a77f9a5acf2467da0fc540737fcb1ba65"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2aaac7a0481cb32f5bc2a608286107a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a2aaac7a0481cb32f5bc2a608286107a0">setRadii</a> (size_t index, std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt; quadFlag, std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt; rmax, std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt; quadIr, std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt; b, std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt; vmbl)</td></tr>
-<tr class="separator:a2aaac7a0481cb32f5bc2a608286107a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ac693bb2d65ec6cf3e5b632e6af4152"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a0ac693bb2d65ec6cf3e5b632e6af4152">setVortex</a> (double pinf, double p0, double lon, double lat, double vmax) noexcept</td></tr>
-<tr class="separator:a0ac693bb2d65ec6cf3e5b632e6af4152"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae388b86da66acaa92e09cdf7167b8bc0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ae388b86da66acaa92e09cdf7167b8bc0">setStormData</a> (const <a class="el" href="classAtcfLine.html">AtcfLine</a> *atcf)</td></tr>
+<tr class="separator:ae388b86da66acaa92e09cdf7167b8bc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0c44236b8df53da4d14e7fb76d40d194"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a0c44236b8df53da4d14e7fb76d40d194">frictionAngle</a> (double r, double rmx) noexcept</td></tr>
-<tr class="separator:a0c44236b8df53da4d14e7fb76d40d194"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8ae0a3d4ce49e437c521815b907ea13"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ae8ae0a3d4ce49e437c521815b907ea13">rotateWinds</a> (double x, double y, double angle, double whichWay) noexcept</td></tr>
 <tr class="separator:ae8ae0a3d4ce49e437c521815b907ea13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:a02d87e0bf4ef9d194d817a6ce2f93df1"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1">nPoints</a> = <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> + 2</td></tr>
-<tr class="memdesc:a02d87e0bf4ef9d194d817a6ce2f93df1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of points for curve fit.  <a href="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1">More...</a><br /></td></tr>
-<tr class="separator:a02d87e0bf4ef9d194d817a6ce2f93df1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae24912fbfd6ce9af002b3be0f3693931"><td class="memItemLeft" align="right" valign="top">static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> = 4</td></tr>
-<tr class="memdesc:ae24912fbfd6ce9af002b3be0f3693931"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of quadrants for which wind radii are provided.  <a href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">More...</a><br /></td></tr>
-<tr class="separator:ae24912fbfd6ce9af002b3be0f3693931"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa797f766ca3e047a0011aa85d7ca135e"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#aa797f766ca3e047a0011aa85d7ca135e">maxIsotachs</a> = 4</td></tr>
+<tr class="memdesc:aa797f766ca3e047a0011aa85d7ca135e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of isotachs for which wind speeds may be provided.  <a href="classVortex.html#aa797f766ca3e047a0011aa85d7ca135e">More...</a><br /></td></tr>
+<tr class="separator:aa797f766ca3e047a0011aa85d7ca135e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07dce79f0a1960c50c76b633d17db7f0"><td class="memItemLeft" align="right" valign="top">static const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a07dce79f0a1960c50c76b633d17db7f0">nQuads</a> = 4</td></tr>
+<tr class="memdesc:a07dce79f0a1960c50c76b633d17db7f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of quadrants for which wind radii are provided.  <a href="classVortex.html#a07dce79f0a1960c50c76b633d17db7f0">More...</a><br /></td></tr>
+<tr class="separator:a07dce79f0a1960c50c76b633d17db7f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:a268ac3637cd0d1e7f693b715b2b2b094"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094">VhType</a> { <a class="el" href="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad6eb450541808d322f27033b59e5be52">VhNoCori</a>
+, <a class="el" href="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094abf648661a68ca00fe371c3fdcfdab820">VhWithCori</a>
+, <a class="el" href="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094ad3672ba481a101e64261f9d1bb1d4273">VhWithCoriFull</a>
+ }</td></tr>
+<tr class="separator:a268ac3637cd0d1e7f693b715b2b2b094"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a7dd6dceb1f90086d5b214607b79d7816"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a7dd6dceb1f90086d5b214607b79d7816">interpR</a> (const <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt; &amp;array, int quad, double r) const</td></tr>
-<tr class="separator:a7dd6dceb1f90086d5b214607b79d7816"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad32c573698fbb788efee81699e65e624"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ad32c573698fbb788efee81699e65e624">spInterp</a> (const <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt; &amp;array, double angle, double distance) const</td></tr>
-<tr class="separator:ad32c573698fbb788efee81699e65e624"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61b14dabae9da1036d2072df058076af"><td class="memTemplParams" colspan="2">template&lt;Vortex::VhType vh&gt; </td></tr>
+<tr class="memitem:a61b14dabae9da1036d2072df058076af"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#a61b14dabae9da1036d2072df058076af">findRoot</a> (double x1, double dx, double &amp;aa, double &amp;bb) const noexcept</td></tr>
+<tr class="separator:a61b14dabae9da1036d2072df058076af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada5ebd5311d214fba078d1b3285a4032"><td class="memTemplParams" colspan="2">template&lt;Vortex::VortexParameterType type, bool edge&gt; </td></tr>
+<tr class="memitem:ada5ebd5311d214fba078d1b3285a4032"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#ada5ebd5311d214fba078d1b3285a4032">getParameterValue</a> (const size_t isotach, const size_t quad)</td></tr>
+<tr class="separator:ada5ebd5311d214fba078d1b3285a4032"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add1b3d68a6adac1887b0175193b6d79e"><td class="memTemplParams" colspan="2">template&lt;Vortex::VhType vh&gt; </td></tr>
+<tr class="memitem:add1b3d68a6adac1887b0175193b6d79e"><td class="memTemplItemLeft" align="right" valign="top">std::pair&lt; double, double &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#add1b3d68a6adac1887b0175193b6d79e">getVh</a> (double aa) const</td></tr>
+<tr class="separator:add1b3d68a6adac1887b0175193b6d79e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af45bed77f864fe7cd18e96bcad902c16"><td class="memTemplParams" colspan="2">template&lt;VortexParameterType type&gt; </td></tr>
+<tr class="memitem:af45bed77f864fe7cd18e96bcad902c16"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#af45bed77f864fe7cd18e96bcad902c16">interpR</a> (int quad, double r) const</td></tr>
+<tr class="separator:af45bed77f864fe7cd18e96bcad902c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5bd8e337d3aec4fd97392cfda1eff9cb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a5bd8e337d3aec4fd97392cfda1eff9cb">setCurrentQuadrant</a> (size_t quad)</td></tr>
+<tr class="separator:a5bd8e337d3aec4fd97392cfda1eff9cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46c545695b0a66248dc9e47d3a2f2b43"><td class="memTemplParams" colspan="2">template&lt;VortexParameterType type&gt; </td></tr>
+<tr class="memitem:a46c545695b0a66248dc9e47d3a2f2b43"><td class="memTemplItemLeft" align="right" valign="top">double&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#a46c545695b0a66248dc9e47d3a2f2b43">spInterp</a> (double angle, double distance) const</td></tr>
+<tr class="separator:a46c545695b0a66248dc9e47d3a2f2b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36b321e4164c600950ffe1cc7021146f"><td class="memItemLeft" align="right" valign="top">std::pair&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a36b321e4164c600950ffe1cc7021146f">vgWithCoriFull</a> (double r) const</td></tr>
+<tr class="separator:a36b321e4164c600950ffe1cc7021146f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae476777bb80581d4af28e4c2ce3a0b99"><td class="memItemLeft" align="right" valign="top">std::pair&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ae476777bb80581d4af28e4c2ce3a0b99">vhNoCori</a> (double r) const</td></tr>
+<tr class="separator:ae476777bb80581d4af28e4c2ce3a0b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab722ca768cdd318618182826be9ac239"><td class="memItemLeft" align="right" valign="top">std::pair&lt; double, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ab722ca768cdd318618182826be9ac239">vhWithCori</a> (double r) const</td></tr>
+<tr class="separator:ab722ca768cdd318618182826be9ac239"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a3d3d41c13add60885c9ab06ba3ca6815"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a3d3d41c13add60885c9ab06ba3ca6815">calcHollandB</a> (double vmax, double p0, double pinf) noexcept</td></tr>
-<tr class="separator:a3d3d41c13add60885c9ab06ba3ca6815"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06a2befc5762ac390217ded44041d055"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a06a2befc5762ac390217ded44041d055">coriolis</a> (double lat) noexcept</td></tr>
-<tr class="separator:a06a2befc5762ac390217ded44041d055"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2d034b91ee1d70ddd82ee743658898f"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad2d034b91ee1d70ddd82ee743658898f"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#ad2d034b91ee1d70ddd82ee743658898f">fillEdges</a> (<a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; T &gt; &amp;arr)</td></tr>
-<tr class="separator:ad2d034b91ee1d70ddd82ee743658898f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93c9a3d66cc02127f99d1857a320e409"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a93c9a3d66cc02127f99d1857a320e409"><td class="memTemplItemLeft" align="right" valign="top">static void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#a93c9a3d66cc02127f99d1857a320e409">fillWindArray</a> (<a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; T &gt; &amp;arr, T value)</td></tr>
-<tr class="separator:a93c9a3d66cc02127f99d1857a320e409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f8393268fb0ce958148e0bd2fcb482"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a31f8393268fb0ce958148e0bd2fcb482">computeBg</a> (const double vmaxBoundaryLayer, const double radiusToMaxWinds, const double phi, const double dp, const double coriolis, const double rho) noexcept</td></tr>
+<tr class="separator:a31f8393268fb0ce958148e0bd2fcb482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa96c2354f3470dfbabf6f61dbbba25c6"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#aa96c2354f3470dfbabf6f61dbbba25c6">computePhi</a> (double vmaxBoundaryLayer, double radiusToMaxWinds, double b, double coriolis) noexcept</td></tr>
+<tr class="separator:aa96c2354f3470dfbabf6f61dbbba25c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac6cc0dffbc1abd13fc6b212cf701a464"><td class="memItemLeft" align="right" valign="top">static std::pair&lt; int, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ac6cc0dffbc1abd13fc6b212cf701a464">getBaseQuadrant</a> (double angle)</td></tr>
 <tr class="separator:ac6cc0dffbc1abd13fc6b212cf701a464"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac533446af0e461d68d9c3839b8406f7c"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ac533446af0e461d68d9c3839b8406f7c"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classVortex.html#ac533446af0e461d68d9c3839b8406f7c">makeWindArray</a> (T value)</td></tr>
-<tr class="separator:ac533446af0e461d68d9c3839b8406f7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0dcc0642f9977e7d333d943744ccf77"><td class="memItemLeft" align="right" valign="top">static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ad0dcc0642f9977e7d333d943744ccf77">rossbyNumber</a> (double vmaxBoundaryLayer, double radiausToMaxWinds, double coriolis) noexcept</td></tr>
+<tr class="separator:ad0dcc0642f9977e7d333d943744ccf77"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:aef0d7c009a96b0d5c5fa33f5c5db8140"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140">m_b</a></td></tr>
-<tr class="separator:aef0d7c009a96b0d5c5fa33f5c5db8140"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9b855d5f1889a09ee9b24003e5c9a2c"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c">m_cLat</a></td></tr>
-<tr class="memdesc:ab9b855d5f1889a09ee9b24003e5c9a2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Latitude of storm center.  <a href="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c">More...</a><br /></td></tr>
-<tr class="separator:ab9b855d5f1889a09ee9b24003e5c9a2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a914455e27bc940b1d4a384c59b1da820"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a914455e27bc940b1d4a384c59b1da820">m_cLon</a></td></tr>
-<tr class="memdesc:a914455e27bc940b1d4a384c59b1da820"><td class="mdescLeft">&#160;</td><td class="mdescRight">Longitude of storm center.  <a href="classVortex.html#a914455e27bc940b1d4a384c59b1da820">More...</a><br /></td></tr>
-<tr class="separator:a914455e27bc940b1d4a384c59b1da820"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef02befeab438216402dd5864b4482dc"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#aef02befeab438216402dd5864b4482dc">m_corio</a></td></tr>
-<tr class="memdesc:aef02befeab438216402dd5864b4482dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coriolis force (1/s)  <a href="classVortex.html#aef02befeab438216402dd5864b4482dc">More...</a><br /></td></tr>
-<tr class="separator:aef02befeab438216402dd5864b4482dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a128153b7d117c2717185dab5c48f322e"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a128153b7d117c2717185dab5c48f322e">m_pc</a></td></tr>
-<tr class="memdesc:a128153b7d117c2717185dab5c48f322e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Central pressure of vortex (mb)  <a href="classVortex.html#a128153b7d117c2717185dab5c48f322e">More...</a><br /></td></tr>
-<tr class="separator:a128153b7d117c2717185dab5c48f322e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99e94bfb89796e0cc84c9ce0f97fd712"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712">m_phi</a></td></tr>
-<tr class="memdesc:a99e94bfb89796e0cc84c9ce0f97fd712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Correction factor to B and Vh.  <a href="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712">More...</a><br /></td></tr>
-<tr class="separator:a99e94bfb89796e0cc84c9ce0f97fd712"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a066fc99714adb677ef89ba04249182ec"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a066fc99714adb677ef89ba04249182ec">m_pn</a></td></tr>
-<tr class="memdesc:a066fc99714adb677ef89ba04249182ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ambient surface pressure (mb)  <a href="classVortex.html#a066fc99714adb677ef89ba04249182ec">More...</a><br /></td></tr>
-<tr class="separator:a066fc99714adb677ef89ba04249182ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fc81595545f0e7e5f042139cc80f583"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a9fc81595545f0e7e5f042139cc80f583">m_quadFlag4</a></td></tr>
-<tr class="separator:a9fc81595545f0e7e5f042139cc80f583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2abe6c7109052db50f11317bbe818c1e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a2abe6c7109052db50f11317bbe818c1e">m_quadIr4</a></td></tr>
-<tr class="separator:a2abe6c7109052db50f11317bbe818c1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a0b3c1244a129a15e46c64b41e0f522"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a5a0b3c1244a129a15e46c64b41e0f522">m_rMaxes4</a></td></tr>
-<tr class="memdesc:a5a0b3c1244a129a15e46c64b41e0f522"><td class="mdescLeft">&#160;</td><td class="mdescRight">Radius of maximum winds.  <a href="classVortex.html#a5a0b3c1244a129a15e46c64b41e0f522">More...</a><br /></td></tr>
-<tr class="separator:a5a0b3c1244a129a15e46c64b41e0f522"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af509da395ff96c0318bbda561856f2f4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#af509da395ff96c0318bbda561856f2f4">m_vMax</a></td></tr>
-<tr class="memdesc:af509da395ff96c0318bbda561856f2f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum sustained wind velocity.  <a href="classVortex.html#af509da395ff96c0318bbda561856f2f4">More...</a><br /></td></tr>
-<tr class="separator:af509da395ff96c0318bbda561856f2f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92ed3ec2573be34aa01ca0db33cba9b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a92ed3ec2573be34aa01ca0db33cba9b8">m_vmBL4</a></td></tr>
-<tr class="separator:a92ed3ec2573be34aa01ca0db33cba9b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a191ae4612ab8b2434202f96ba63192"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a6a191ae4612ab8b2434202f96ba63192">m_vr</a></td></tr>
-<tr class="memdesc:a6a191ae4612ab8b2434202f96ba63192"><td class="mdescLeft">&#160;</td><td class="mdescRight">Velocity @ wind radii.  <a href="classVortex.html#a6a191ae4612ab8b2434202f96ba63192">More...</a><br /></td></tr>
-<tr class="separator:a6a191ae4612ab8b2434202f96ba63192"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acccde3bd7953d0da6107946dc80c2806"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#acccde3bd7953d0da6107946dc80c2806">m_currentIsotach</a></td></tr>
+<tr class="separator:acccde3bd7953d0da6107946dc80c2806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71fbb063685c0272ad3ca834a883a9ca"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a71fbb063685c0272ad3ca834a883a9ca">m_currentQuadrant</a></td></tr>
+<tr class="separator:a71fbb063685c0272ad3ca834a883a9ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a129871078a9bdddb4ef69ca2e484ca"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classAtcfLine.html">AtcfLine</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classVortex.html#a2a129871078a9bdddb4ef69ca2e484ca">m_stormData</a></td></tr>
+<tr class="separator:a2a129871078a9bdddb4ef69ca2e484ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a1ade077af06a56f0a92f492a8cfdced9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ade077af06a56f0a92f492a8cfdced9">&#9670;&nbsp;</a></span>WindArray</h2>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a268ac3637cd0d1e7f693b715b2b2b094"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a268ac3637cd0d1e7f693b715b2b2b094">&#9670;&nbsp;</a></span>VhType</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a> =  std::array&lt;std::array&lt;T, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a>&gt;, <a class="el" href="classVortex.html#a02d87e0bf4ef9d194d817a6ce2f93df1">nPoints</a>&gt;</td>
+          <td class="memname">enum <a class="el" href="classVortex.html#a268ac3637cd0d1e7f693b715b2b2b094">VhType</a></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a268ac3637cd0d1e7f693b715b2b2b094ad6eb450541808d322f27033b59e5be52"></a>VhNoCori&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a268ac3637cd0d1e7f693b715b2b2b094abf648661a68ca00fe371c3fdcfdab820"></a>VhWithCori&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a268ac3637cd0d1e7f693b715b2b2b094ad3672ba481a101e64261f9d1bb1d4273"></a>VhWithCoriFull&#160;</td><td class="fielddoc"></td></tr>
+</table>
 
 </div>
 </div>
-<h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a0e507cc920013fa6467b4279dd2417b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e507cc920013fa6467b4279dd2417b0">&#9670;&nbsp;</a></span>VortexParameterType</h2>
 
@@ -243,8 +238,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab311b1447dcc1e6c57b82c7f35061732"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab311b1447dcc1e6c57b82c7f35061732">&#9670;&nbsp;</a></span>Vortex()</h2>
+<a id="a6ce1ce001e797232a1ce780486f3e6b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ce1ce001e797232a1ce780486f3e6b4">&#9670;&nbsp;</a></span>Vortex()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -252,37 +247,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname"><a class="el" href="classVortex.html">Vortex</a> </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pinf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>p0</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lon</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lat</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>vmax</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -290,8 +256,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a3d3d41c13add60885c9ab06ba3ca6815"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d3d41c13add60885c9ab06ba3ca6815">&#9670;&nbsp;</a></span>calcHollandB()</h2>
+<a id="a31f8393268fb0ce958148e0bd2fcb482"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f8393268fb0ce958148e0bd2fcb482">&#9670;&nbsp;</a></span>computeBg()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,22 +266,106 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr double calcHollandB </td>
+          <td class="memname">double computeBg </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>vmaxBoundaryLayer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>radiusToMaxWinds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>phi</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>dp</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>coriolis</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>rho</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Computes the GAHM b_g parameter </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vmaxBoundaryLayer</td><td>max wind speed for stationary storm at top of boundary layer </td></tr>
+    <tr><td class="paramname">radiusToMaxWinds</td><td>radius from storm center to vmaxBoundaryLayer </td></tr>
+    <tr><td class="paramname">phi</td><td>Correction factor </td></tr>
+    <tr><td class="paramname">dp</td><td>central pressure deficit </td></tr>
+    <tr><td class="paramname">coriolis</td><td>Coriolis parameter </td></tr>
+    <tr><td class="paramname">rho</td><td>density of air </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>GAHM b_g parameter </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a31f8393268fb0ce958148e0bd2fcb482_cgraph.svg" width="582" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="aa96c2354f3470dfbabf6f61dbbba25c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa96c2354f3470dfbabf6f61dbbba25c6">&#9670;&nbsp;</a></span>computePhi()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double computePhi </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>vmax</em>, </td>
+          <td class="paramname"><em>vmaxBoundaryLayer</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>p0</em>, </td>
+          <td class="paramname"><em>radiusToMaxWinds</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pinf</em>&#160;</td>
+          <td class="paramname"><em>b</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>coriolis</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -329,17 +379,27 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Compute the Phi parameter in the GAHM </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vmaxBoundaryLayer</td><td>max wind speed for stationary storm at top of boundary layer </td></tr>
+    <tr><td class="paramname">radiausToMaxWinds</td><td>radius from storm center to vmaxBoundaryLayer </td></tr>
+    <tr><td class="paramname">b</td><td>GAHM b_g parameter, simliar to Holland's B parameter </td></tr>
+    <tr><td class="paramname">coriolis</td><td>Coriolis parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>phi </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a3d3d41c13add60885c9ab06ba3ca6815_cgraph.svg" width="276" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classVortex_aa96c2354f3470dfbabf6f61dbbba25c6_cgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
 </div>
 </div>
-<a id="a06a2befc5762ac390217ded44041d055"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06a2befc5762ac390217ded44041d055">&#9670;&nbsp;</a></span>coriolis()</h2>
+<a id="a61b14dabae9da1036d2072df058076af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61b14dabae9da1036d2072df058076af">&#9670;&nbsp;</a></span>findRoot()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -348,162 +408,45 @@ Here is the call graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr double coriolis </td>
+          <td class="memname">double findRoot </td>
           <td>(</td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lat</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a06a2befc5762ac390217ded44041d055_cgraph.svg" width="387" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a06a2befc5762ac390217ded44041d055_icgraph.svg" width="200" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
-<a id="ad2d034b91ee1d70ddd82ee743658898f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2d034b91ee1d70ddd82ee743658898f">&#9670;&nbsp;</a></span>fillEdges()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void fillEdges </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>arr</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ad2d034b91ee1d70ddd82ee743658898f_icgraph.svg" width="196" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
-<a id="a7029c117dd3645958a27ef3ea5acf801"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7029c117dd3645958a27ef3ea5acf801">&#9670;&nbsp;</a></span>fillRadii()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void fillRadii </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a7029c117dd3645958a27ef3ea5acf801_cgraph.svg" width="196" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
-<a id="a93c9a3d66cc02127f99d1857a320e409"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93c9a3d66cc02127f99d1857a320e409">&#9670;&nbsp;</a></span>fillWindArray()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static void fillWindArray </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; T &gt; &amp;&#160;</td>
-          <td class="paramname"><em>arr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>value</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0c44236b8df53da4d14e7fb76d40d194"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c44236b8df53da4d14e7fb76d40d194">&#9670;&nbsp;</a></span>frictionAngle()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double frictionAngle </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>r</em>, </td>
+          <td class="paramname"><em>x1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>rmx</em>&#160;</td>
+          <td class="paramname"><em>dx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>aa</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>bb</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td></td>
+          <td></td><td> const</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <div class="dynheader">
-Here is the caller graph for this function:</div>
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a0c44236b8df53da4d14e7fb76d40d194_icgraph.svg" width="264" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a61b14dabae9da1036d2072df058076af_cgraph.svg" width="423" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -535,7 +478,81 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ac6cc0dffbc1abd13fc6b212cf701a464_icgraph.svg" width="442" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ac6cc0dffbc1abd13fc6b212cf701a464_icgraph.svg" width="251" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="ada5ebd5311d214fba078d1b3285a4032"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada5ebd5311d214fba078d1b3285a4032">&#9670;&nbsp;</a></span>getParameterValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double getParameterValue </td>
+          <td>(</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>isotach</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>quad</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ada5ebd5311d214fba078d1b3285a4032_cgraph.svg" width="500" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="add1b3d68a6adac1887b0175193b6d79e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add1b3d68a6adac1887b0175193b6d79e">&#9670;&nbsp;</a></span>getVh()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; double, double &gt; getVh </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>aa</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_add1b3d68a6adac1887b0175193b6d79e_cgraph.svg" width="624" height="443"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -577,14 +594,14 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a77f9a5acf2467da0fc540737fcb1ba65_cgraph.svg" width="442" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classVortex_a77f9a5acf2467da0fc540737fcb1ba65_cgraph.svg" width="100%" height="440"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 
 </div>
 </div>
-<a id="a7dd6dceb1f90086d5b214607b79d7816"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7dd6dceb1f90086d5b214607b79d7816">&#9670;&nbsp;</a></span>interpR()</h2>
+<a id="af45bed77f864fe7cd18e96bcad902c16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af45bed77f864fe7cd18e96bcad902c16">&#9670;&nbsp;</a></span>interpR()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -595,12 +612,6 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">double interpR </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>array</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>quad</em>, </td>
         </tr>
@@ -623,16 +634,16 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 <div class="dynheader">
-Here is the caller graph for this function:</div>
+Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a7dd6dceb1f90086d5b214607b79d7816_icgraph.svg" width="383" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_af45bed77f864fe7cd18e96bcad902c16_cgraph.svg" width="435" height="248"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a id="ac533446af0e461d68d9c3839b8406f7c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac533446af0e461d68d9c3839b8406f7c">&#9670;&nbsp;</a></span>makeWindArray()</h2>
+<a id="ad0dcc0642f9977e7d333d943744ccf77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0dcc0642f9977e7d333d943744ccf77">&#9670;&nbsp;</a></span>rossbyNumber()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -641,19 +652,56 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;T&gt; makeWindArray </td>
+          <td class="memname">constexpr double rossbyNumber </td>
           <td>(</td>
-          <td class="paramtype">T&#160;</td>
-          <td class="paramname"><em>value</em></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vmaxBoundaryLayer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>radiausToMaxWinds</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>coriolis</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>Computes the estimate of the Rossby number in a tropical cyclone </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vmaxBoundaryLayer</td><td>max wind speed for stationary storm at top of boundary layer </td></tr>
+    <tr><td class="paramname">radiausToMaxWinds</td><td>radius from storm center to vmaxBoundaryLayer </td></tr>
+    <tr><td class="paramname">coriolis</td><td>Coriolis parameter </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>estimate to Rossby number </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ad0dcc0642f9977e7d333d943744ccf77_cgraph.svg" width="600" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ad0dcc0642f9977e7d333d943744ccf77_icgraph.svg" width="256" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>
@@ -705,7 +753,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ae8ae0a3d4ce49e437c521815b907ea13_cgraph.svg" width="416" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ae8ae0a3d4ce49e437c521815b907ea13_cgraph.svg" width="278" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
@@ -717,60 +765,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2aaac7a0481cb32f5bc2a608286107a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2aaac7a0481cb32f5bc2a608286107a0">&#9670;&nbsp;</a></span>setRadii()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setRadii </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt;&#160;</td>
-          <td class="paramname"><em>quadFlag</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt;&#160;</td>
-          <td class="paramname"><em>rmax</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt;&#160;</td>
-          <td class="paramname"><em>quadIr</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt;&#160;</td>
-          <td class="paramname"><em>b</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::array&lt; double, <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> &gt;&#160;</td>
-          <td class="paramname"><em>vmbl</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0ac693bb2d65ec6cf3e5b632e6af4152"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ac693bb2d65ec6cf3e5b632e6af4152">&#9670;&nbsp;</a></span>setVortex()</h2>
+<a id="a5bd8e337d3aec4fd97392cfda1eff9cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bd8e337d3aec4fd97392cfda1eff9cb">&#9670;&nbsp;</a></span>setCurrentQuadrant()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -779,58 +775,48 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void setVortex </td>
+          <td class="memname">void setCurrentQuadrant </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>pinf</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>quad</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>p0</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lon</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>lat</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>vmax</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae388b86da66acaa92e09cdf7167b8bc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae388b86da66acaa92e09cdf7167b8bc0">&#9670;&nbsp;</a></span>setStormData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setStormData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classAtcfLine.html">AtcfLine</a> *&#160;</td>
+          <td class="paramname"><em>atcf</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 <div class="dynheader">
-Here is the call graph for this function:</div>
+Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a0ac693bb2d65ec6cf3e5b632e6af4152_cgraph.svg" width="514" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ae388b86da66acaa92e09cdf7167b8bc0_icgraph.svg" width="244" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a id="ad32c573698fbb788efee81699e65e624"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad32c573698fbb788efee81699e65e624">&#9670;&nbsp;</a></span>spInterp()</h2>
+<a id="a46c545695b0a66248dc9e47d3a2f2b43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46c545695b0a66248dc9e47d3a2f2b43">&#9670;&nbsp;</a></span>spInterp()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -841,12 +827,6 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname">double spInterp </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>array</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype">double&#160;</td>
           <td class="paramname"><em>angle</em>, </td>
         </tr>
@@ -871,21 +851,117 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ad32c573698fbb788efee81699e65e624_cgraph.svg" width="251" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classVortex_a46c545695b0a66248dc9e47d3a2f2b43_cgraph.svg" width="100%" height="440"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a36b321e4164c600950ffe1cc7021146f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36b321e4164c600950ffe1cc7021146f">&#9670;&nbsp;</a></span>vgWithCoriFull()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; double, double &gt; vgWithCoriFull </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a36b321e4164c600950ffe1cc7021146f_cgraph.svg" width="520" height="350"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ad32c573698fbb788efee81699e65e624_icgraph.svg" width="271" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_a36b321e4164c600950ffe1cc7021146f_icgraph.svg" width="223" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
+
+</div>
+</div>
+<a id="ae476777bb80581d4af28e4c2ce3a0b99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae476777bb80581d4af28e4c2ce3a0b99">&#9670;&nbsp;</a></span>vhNoCori()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; double, double &gt; vhNoCori </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ae476777bb80581d4af28e4c2ce3a0b99_cgraph.svg" width="478" height="299"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classVortex_ae476777bb80581d4af28e4c2ce3a0b99_icgraph.svg" width="192" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="ab722ca768cdd318618182826be9ac239"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab722ca768cdd318618182826be9ac239">&#9670;&nbsp;</a></span>vhWithCori()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt;double, double&gt; vhWithCori </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>r</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="aef0d7c009a96b0d5c5fa33f5c5db8140"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef0d7c009a96b0d5c5fa33f5c5db8140">&#9670;&nbsp;</a></span>m_b</h2>
+<a id="acccde3bd7953d0da6107946dc80c2806"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acccde3bd7953d0da6107946dc80c2806">&#9670;&nbsp;</a></span>m_currentIsotach</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -894,7 +970,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;double&gt; m_b</td>
+          <td class="memname">size_t m_currentIsotach</td>
         </tr>
       </table>
   </td>
@@ -906,8 +982,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab9b855d5f1889a09ee9b24003e5c9a2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9b855d5f1889a09ee9b24003e5c9a2c">&#9670;&nbsp;</a></span>m_cLat</h2>
+<a id="a71fbb063685c0272ad3ca834a883a9ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71fbb063685c0272ad3ca834a883a9ca">&#9670;&nbsp;</a></span>m_currentQuadrant</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -916,151 +992,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double m_cLat</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Latitude of storm center. </p>
-
-</div>
-</div>
-<a id="a914455e27bc940b1d4a384c59b1da820"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a914455e27bc940b1d4a384c59b1da820">&#9670;&nbsp;</a></span>m_cLon</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double m_cLon</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Longitude of storm center. </p>
-
-</div>
-</div>
-<a id="aef02befeab438216402dd5864b4482dc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aef02befeab438216402dd5864b4482dc">&#9670;&nbsp;</a></span>m_corio</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double m_corio</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Coriolis force (1/s) </p>
-
-</div>
-</div>
-<a id="a128153b7d117c2717185dab5c48f322e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a128153b7d117c2717185dab5c48f322e">&#9670;&nbsp;</a></span>m_pc</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double m_pc</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Central pressure of vortex (mb) </p>
-
-</div>
-</div>
-<a id="a99e94bfb89796e0cc84c9ce0f97fd712"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a99e94bfb89796e0cc84c9ce0f97fd712">&#9670;&nbsp;</a></span>m_phi</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;double&gt; m_phi</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Correction factor to B and Vh. </p>
-
-</div>
-</div>
-<a id="a066fc99714adb677ef89ba04249182ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a066fc99714adb677ef89ba04249182ec">&#9670;&nbsp;</a></span>m_pn</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double m_pn</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Ambient surface pressure (mb) </p>
-
-</div>
-</div>
-<a id="a9fc81595545f0e7e5f042139cc80f583"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fc81595545f0e7e5f042139cc80f583">&#9670;&nbsp;</a></span>m_quadFlag4</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;int&gt; m_quadFlag4</td>
+          <td class="memname">size_t m_currentQuadrant</td>
         </tr>
       </table>
   </td>
@@ -1072,8 +1004,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2abe6c7109052db50f11317bbe818c1e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2abe6c7109052db50f11317bbe818c1e">&#9670;&nbsp;</a></span>m_quadIr4</h2>
+<a id="a2a129871078a9bdddb4ef69ca2e484ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a129871078a9bdddb4ef69ca2e484ca">&#9670;&nbsp;</a></span>m_stormData</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1082,7 +1014,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;double&gt; m_quadIr4</td>
+          <td class="memname">const <a class="el" href="classAtcfLine.html">AtcfLine</a>* m_stormData</td>
         </tr>
       </table>
   </td>
@@ -1094,8 +1026,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5a0b3c1244a129a15e46c64b41e0f522"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a0b3c1244a129a15e46c64b41e0f522">&#9670;&nbsp;</a></span>m_rMaxes4</h2>
+<a id="aa797f766ca3e047a0011aa85d7ca135e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa797f766ca3e047a0011aa85d7ca135e">&#9670;&nbsp;</a></span>maxIsotachs</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1104,22 +1036,22 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;double&gt; m_rMaxes4</td>
+          <td class="memname">const size_t maxIsotachs = 4</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Radius of maximum winds. </p>
+<p>Number of isotachs for which wind speeds may be provided. </p>
 
 </div>
 </div>
-<a id="af509da395ff96c0318bbda561856f2f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af509da395ff96c0318bbda561856f2f4">&#9670;&nbsp;</a></span>m_vMax</h2>
+<a id="a07dce79f0a1960c50c76b633d17db7f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07dce79f0a1960c50c76b633d17db7f0">&#9670;&nbsp;</a></span>nQuads</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1128,106 +1060,12 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">double m_vMax</td>
+          <td class="memname">const size_t nQuads = 4</td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Maximum sustained wind velocity. </p>
-
-</div>
-</div>
-<a id="a92ed3ec2573be34aa01ca0db33cba9b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92ed3ec2573be34aa01ca0db33cba9b8">&#9670;&nbsp;</a></span>m_vmBL4</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classVortex.html#a1ade077af06a56f0a92f492a8cfdced9">WindArray</a>&lt;double&gt; m_vmBL4</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6a191ae4612ab8b2434202f96ba63192"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a191ae4612ab8b2434202f96ba63192">&#9670;&nbsp;</a></span>m_vr</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double m_vr</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Velocity @ wind radii. </p>
-
-</div>
-</div>
-<a id="a02d87e0bf4ef9d194d817a6ce2f93df1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a02d87e0bf4ef9d194d817a6ce2f93df1">&#9670;&nbsp;</a></span>nPoints</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr size_t nPoints = <a class="el" href="classVortex.html#ae24912fbfd6ce9af002b3be0f3693931">nQuads</a> + 2</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Number of points for curve fit. </p>
-
-</div>
-</div>
-<a id="ae24912fbfd6ce9af002b3be0f3693931"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae24912fbfd6ce9af002b3be0f3693931">&#9670;&nbsp;</a></span>nQuads</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr size_t nQuads = 4</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

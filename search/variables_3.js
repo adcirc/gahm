@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['latitude_650',['latitude',['../classAtcf.html#a76714bdbc5c536fa77dfb14533ff82a9',1,'Atcf::StormParameters']]],
-  ['longitude_651',['longitude',['../classAtcf.html#ac155e35fdeebafc89723a51520fb9fe6',1,'Atcf::StormParameters']]]
+  ['latitude_728',['latitude',['../classAtcf.html#a76714bdbc5c536fa77dfb14533ff82a9',1,'Atcf::StormParameters']]],
+  ['longitude_729',['longitude',['../classAtcf.html#ac155e35fdeebafc89723a51520fb9fe6',1,'Atcf::StormParameters']]]
 ];

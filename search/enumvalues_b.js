@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vmbl_752',['VMBL',['../classVortex.html#a0e507cc920013fa6467b4279dd2417b0a20736dfac709cf83905bb7e66625904f',1,'Vortex']]]
+  ['twoslope_830',['TWOSLOPE',['../classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0a95034e9b27ded7c4082d4f8d7f2ac338',1,'HurricanePressure']]]
 ];

@@ -1,6 +1,11 @@
 <map id="cisotach" name="cisotach">
-<area shape="rect" id="node1" title=" " alt="" coords="335,31,405,57"/>
-<area shape="rect" id="node2" href="$classAtcfLine.html#a3554190fe6a66d73743a6aa7407be529" title=" " alt="" coords="132,5,287,32"/>
-<area shape="rect" id="node4" href="$classAtcfLine.html#a724049144ca597838876a0068ff224de" title=" " alt="" coords="171,56,248,83"/>
-<area shape="rect" id="node3" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="5,5,84,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="383,132,453,159"/>
+<area shape="rect" id="node2" href="$classVortex.html#ada5ebd5311d214fba078d1b3285a4032" title=" " alt="" coords="156,5,335,32"/>
+<area shape="rect" id="node3" href="$classVortex.html#af45bed77f864fe7cd18e96bcad902c16" title=" " alt="" coords="190,56,301,83"/>
+<area shape="rect" id="node4" href="$classAtcfLine.html#a3554190fe6a66d73743a6aa7407be529" title=" " alt="" coords="168,107,323,133"/>
+<area shape="rect" id="node6" href="$classAtcfLine.html#a724049144ca597838876a0068ff224de" title=" " alt="" coords="207,157,284,184"/>
+<area shape="rect" id="node7" href="$classVortex.html#a36b321e4164c600950ffe1cc7021146f" title=" " alt="" coords="168,208,323,235"/>
+<area shape="rect" id="node9" href="$classVortex.html#ae476777bb80581d4af28e4c2ce3a0b99" title=" " alt="" coords="184,259,307,285"/>
+<area shape="rect" id="node5" href="$classAtcf.html#aaab5dab5b969a87f538242e524431637" title=" " alt="" coords="17,107,96,133"/>
+<area shape="rect" id="node8" href="$classVortex.html#add1b3d68a6adac1887b0175193b6d79e" title=" " alt="" coords="5,233,108,260"/>
 </map>

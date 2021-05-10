@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['major_743',['MAJOR',['../classAssumption.html#a11717da96dc4e4a5f79371318448f82ba80b7bb91c84f2d4901bcd9e20aa293ef',1,'Assumption']]],
-  ['minor_744',['MINOR',['../classAssumption.html#a11717da96dc4e4a5f79371318448f82ba70738aaa4c8f849a690a17a70bf785e8',1,'Assumption']]]
+  ['knaffzehr_821',['KNAFFZEHR',['../classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0ab92ae09ddad3ea219eb32ff539549b24',1,'HurricanePressure']]]
 ];

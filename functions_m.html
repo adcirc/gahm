@@ -96,23 +96,23 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_atcfData
 : <a class="el" href="classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944">Atcf</a>
 </li>
-<li>m_b
-: <a class="el" href="classVortex.html#aef0d7c009a96b0d5c5fa33f5c5db8140">Vortex</a>
-</li>
 <li>m_basin
 : <a class="el" href="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f">AtcfLine</a>
 </li>
-<li>m_cLat
-: <a class="el" href="classVortex.html#ab9b855d5f1889a09ee9b24003e5c9a2c">Vortex</a>
+<li>m_coriolis
+: <a class="el" href="classAtcfLine.html#a5096ab769d4f8b96fa0a97673eb12f69">AtcfLine</a>
 </li>
-<li>m_cLon
-: <a class="el" href="classVortex.html#a914455e27bc940b1d4a384c59b1da820">Vortex</a>
+<li>m_currentIsotach
+: <a class="el" href="classVortex.html#acccde3bd7953d0da6107946dc80c2806">Vortex</a>
 </li>
-<li>m_corio
-: <a class="el" href="classVortex.html#aef02befeab438216402dd5864b4482dc">Vortex</a>
+<li>m_currentQuadrant
+: <a class="el" href="classVortex.html#a71fbb063685c0272ad3ca834a883a9ca">Vortex</a>
 </li>
 <li>m_cycloneNumber
 : <a class="el" href="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905">AtcfLine</a>
+</li>
+<li>m_data
+: <a class="el" href="classCircularArray.html#acfb8c68ff5955ff6fac1331a3400eab2">CircularArray&lt; T, array_size &gt;</a>
 </li>
 <li>m_datetime
 : <a class="el" href="classAtcfLine.html#a941d6e2d0bd983eb49250ea3dd09873b">AtcfLine</a>
@@ -129,11 +129,17 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_gusts
 : <a class="el" href="classAtcfLine.html#a3385ac5e343a3929fdbe9f613beb044a">AtcfLine</a>
 </li>
+<li>m_hollandB
+: <a class="el" href="classIsotach.html#a727f1f80d1c32a654f798106a0430db1">Isotach</a>
+</li>
 <li>m_initials
 : <a class="el" href="classAtcfLine.html#a92242ba751186e85b63cc852e59a8655">AtcfLine</a>
 </li>
 <li>m_isotach
 : <a class="el" href="classAtcfLine.html#a2fa89015e7215efd76d30fd3ec09b0cf">AtcfLine</a>
+</li>
+<li>m_isotachRadius
+: <a class="el" href="classIsotach.html#a698d84a498fe6a67204d68d4941d8f64">Isotach</a>
 </li>
 <li>m_lat
 : <a class="el" href="classAtcfLine.html#a5d7de21e0be4d9b778dc9cc1fd6514f9">AtcfLine</a>
@@ -144,14 +150,8 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_lon
 : <a class="el" href="classAtcfLine.html#a74b9738eda250dd70bb7adab81ccd75c">AtcfLine</a>
 </li>
-<li>m_lookup_radii
-: <a class="el" href="classIsotach.html#a96a4bc4b457a96956d8ed26c328580ad">Isotach</a>
-</li>
 <li>m_maxDevelopmentLevel
 : <a class="el" href="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005">AtcfLine</a>
-</li>
-<li>m_maxSeas
-: <a class="el" href="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4">AtcfLine</a>
 </li>
 <li>m_message
 : <a class="el" href="classAssumption.html#a6c9011cbac0daa288d79fa29c2a5e679">Assumption</a>
@@ -162,14 +162,8 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_null
 : <a class="el" href="classAtcfLine.html#ae16b3f134144a9464fb913b8ea0a622a">AtcfLine</a>
 </li>
-<li>m_pc
-: <a class="el" href="classVortex.html#a128153b7d117c2717185dab5c48f322e">Vortex</a>
-</li>
 <li>m_phi
-: <a class="el" href="classVortex.html#a99e94bfb89796e0cc84c9ce0f97fd712">Vortex</a>
-</li>
-<li>m_pn
-: <a class="el" href="classVortex.html#a066fc99714adb677ef89ba04249182ec">Vortex</a>
+: <a class="el" href="classIsotach.html#a3e76f25e71b7b06a431909cf668b74fb">Isotach</a>
 </li>
 <li>m_pouter
 : <a class="el" href="classAtcfLine.html#af014827ed3618e28ef0a84e8281a7c35">AtcfLine</a>
@@ -177,17 +171,11 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_pressureMethod
 : <a class="el" href="classHurricanePressure.html#aea0f21f6cbac29e5b0289d8c3bdb365c">HurricanePressure</a>
 </li>
-<li>m_quadflag
-: <a class="el" href="classIsotach.html#a5e3ed968ee6777b2d371f49cabc157d3">Isotach</a>
+<li>m_quadFlag
+: <a class="el" href="classIsotach.html#a18e9db278da9d43f349a87dab5c28ca1">Isotach</a>
 </li>
-<li>m_quadFlag4
-: <a class="el" href="classVortex.html#a9fc81595545f0e7e5f042139cc80f583">Vortex</a>
-</li>
-<li>m_quadIr4
-: <a class="el" href="classVortex.html#a2abe6c7109052db50f11317bbe818c1e">Vortex</a>
-</li>
-<li>m_radius
-: <a class="el" href="classIsotach.html#a39c66cd59c1590ef926e7405cb97c080">Isotach</a>
+<li>m_quadrantVr
+: <a class="el" href="classIsotach.html#a6994d42e050b979bf2b188e792b65656">Isotach</a>
 </li>
 <li>m_radiusCode
 : <a class="el" href="classIsotach.html#a47432311752c9dd8013ade5b353497e1">Isotach</a>
@@ -201,14 +189,14 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_refDatetime
 : <a class="el" href="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d">AtcfLine</a>
 </li>
-<li>m_rMaxes4
-: <a class="el" href="classVortex.html#a5a0b3c1244a129a15e46c64b41e0f522">Vortex</a>
-</li>
-<li>m_seas
-: <a class="el" href="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0">AtcfLine</a>
+<li>m_rmax
+: <a class="el" href="classIsotach.html#af1cd4160f8d9cfe9eadb3fdae5a3a986">Isotach</a>
 </li>
 <li>m_severity
 : <a class="el" href="classAssumption.html#aa25bc37ab48a075cea8d36e9478a6628">Assumption</a>
+</li>
+<li>m_stormData
+: <a class="el" href="classVortex.html#a2a129871078a9bdddb4ef69ca2e484ca">Vortex</a>
 </li>
 <li>m_stormDirection
 : <a class="el" href="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f">AtcfLine</a>
@@ -246,14 +234,8 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>m_vmax
 : <a class="el" href="classAtcfLine.html#ad1fcc1f3310fb1bc8b81afe20b4a0b30">AtcfLine</a>
 </li>
-<li>m_vMax
-: <a class="el" href="classVortex.html#af509da395ff96c0318bbda561856f2f4">Vortex</a>
-</li>
-<li>m_vmBL4
-: <a class="el" href="classVortex.html#a92ed3ec2573be34aa01ca0db33cba9b8">Vortex</a>
-</li>
-<li>m_vr
-: <a class="el" href="classVortex.html#a6a191ae4612ab8b2434202f96ba63192">Vortex</a>
+<li>m_vmaxBL
+: <a class="el" href="classIsotach.html#aef0820ad976a1169e0a5a8acc70cf31f">Isotach</a>
 </li>
 <li>m_windSpeed
 : <a class="el" href="classIsotach.html#a8cd4494e1d1260fba3e37d5a3681809c">Isotach</a>
@@ -261,20 +243,14 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>MAJOR
 : <a class="el" href="classAssumption.html#a11717da96dc4e4a5f79371318448f82ba80b7bb91c84f2d4901bcd9e20aa293ef">Assumption</a>
 </li>
-<li>makeWindArray()
-: <a class="el" href="classVortex.html#ac533446af0e461d68d9c3839b8406f7c">Vortex</a>
-</li>
 <li>maxDate()
 : <a class="el" href="classDate.html#ab16674c4f64b17d89302cf0805f1fdbd">Date</a>
 </li>
 <li>maxDevelopmentLevel()
 : <a class="el" href="classAtcfLine.html#ac1f527bc7faf6136fa1a33dbada875ad">AtcfLine</a>
 </li>
-<li>maxSeas()
-: <a class="el" href="classAtcfLine.html#a180f9bd2b2e8b1ba2f47d6b73311c3f9">AtcfLine</a>
-</li>
-<li>mb2pa()
-: <a class="el" href="classPhysical.html#a1e3cc31cbd44a009c32a1888ebc600c2">Physical</a>
+<li>maxIsotachs
+: <a class="el" href="classVortex.html#aa797f766ca3e047a0011aa85d7ca135e">Vortex</a>
 </li>
 <li>message()
 : <a class="el" href="classAssumption.html#a9fc62bb96c3174d6d9945644308ecc8c">Assumption</a>
@@ -299,6 +275,9 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 <li>minutes
 : <a class="el" href="classDate.html#a44c195bd0d16054aedc5c3416d18c53f">Date</a>
 </li>
+<li>mod_floor()
+: <a class="el" href="classCircularArray.html#ae9ee07d89dc4196acefc5b290b9275b8">CircularArray&lt; T, array_size &gt;</a>
+</li>
 <li>month()
 : <a class="el" href="classDate.html#a1d85d7b09eedec3fb734532c164f2f27">Date</a>
 , <a class="el" href="structs__date.html#a1d85d7b09eedec3fb734532c164f2f27">s_date</a>
@@ -306,18 +285,6 @@ $(document).ready(function(){initNavTree('functions_m.html',''); initResizable()
 </li>
 <li>months
 : <a class="el" href="classDate.html#a709cd7a22af6f5f6794b7de37f9e7521">Date</a>
-</li>
-<li>mph2kt()
-: <a class="el" href="classPhysical.html#ad0e09fe0f0dccfa9b33a44a0e8344de4">Physical</a>
-</li>
-<li>mph2ms()
-: <a class="el" href="classPhysical.html#a62734c633aae0ce60c1a948bf570d475">Physical</a>
-</li>
-<li>ms2kt()
-: <a class="el" href="classPhysical.html#aec8d798f5701bd9c2e131410022ec8f7">Physical</a>
-</li>
-<li>ms2mph()
-: <a class="el" href="classPhysical.html#a7755210204bf895038f132c7c6ecfdfe">Physical</a>
 </li>
 <li>mslp()
 : <a class="el" href="classAtcfLine.html#a3edde0bc6afb6f2de5faed719ca41b52">AtcfLine</a>

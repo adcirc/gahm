@@ -83,6 +83,7 @@ $(document).ready(function(){initNavTree('classAtcf.html',''); initResizable(); 
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-static-methods">Static Private Member Functions</a> &#124;
@@ -106,8 +107,17 @@ Collaboration diagram for Atcf:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:structAtcf_1_1StormParameters"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#structAtcf_1_1StormParameters">StormParameters</a></td></tr>
 <tr class="separator:structAtcf_1_1StormParameters"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:afc1a480dc02dedb4a0d822dac7c5397f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f">AtcfFileTypes</a> { <a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c">FormatAtcf</a>
+, <a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a">FormatNWS20</a>
+ }</td></tr>
+<tr class="separator:afc1a480dc02dedb4a0d822dac7c5397f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -130,36 +140,56 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a56171296cefcc0d92118f33a5b41e01e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e">setFilename</a> (const std::string &amp;<a class="el" href="classAtcf.html#a94c732bb0f167eab349228237a8fbe3c">filename</a>)</td></tr>
 <tr class="memdesc:a56171296cefcc0d92118f33a5b41e01e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the <a class="el" href="classAtcf.html" title="Class that handles operations on Atcf format files.">Atcf</a> filename to use.  <a href="classAtcf.html#a56171296cefcc0d92118f33a5b41e01e">More...</a><br /></td></tr>
 <tr class="separator:a56171296cefcc0d92118f33a5b41e01e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec35454de676b1f68288d59612b572ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#aec35454de676b1f68288d59612b572ee">write</a> (const std::string &amp;<a class="el" href="classAtcf.html#a94c732bb0f167eab349228237a8fbe3c">filename</a>, <a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f">AtcfFileTypes</a>=<a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a">FormatNWS20</a>) const</td></tr>
+<tr class="separator:aec35454de676b1f68288d59612b572ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a4bec7c75f41a2643be3bccf63921dfa1"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a4bec7c75f41a2643be3bccf63921dfa1">calculateOverlandTranslationVelocity</a> ()</td></tr>
 <tr class="separator:a4bec7c75f41a2643be3bccf63921dfa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada693ebe0f0ee4be52b01fd3fe83963a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#ada693ebe0f0ee4be52b01fd3fe83963a">computeParameters</a> ()</td></tr>
+<tr class="separator:ada693ebe0f0ee4be52b01fd3fe83963a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c8fb312c911c7d35cc921e303cac875"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a2c8fb312c911c7d35cc921e303cac875">generateMissingPressureData</a> (const <a class="el" href="classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0">HurricanePressure::PressureMethod</a> &amp;method=<a class="el" href="classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0ab92ae09ddad3ea219eb32ff539549b24">HurricanePressure::KNAFFZEHR</a>)</td></tr>
 <tr class="separator:a2c8fb312c911c7d35cc921e303cac875"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a288aec5ac021ac483da71812a26dc9c3"><td class="memItemLeft" align="right" valign="top">std::pair&lt; int, double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a288aec5ac021ac483da71812a26dc9c3">getCycleNumber</a> (const <a class="el" href="classDate.html">Date</a> &amp;d) const</td></tr>
 <tr class="separator:a288aec5ac021ac483da71812a26dc9c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b3387ddd1546cf6bad5444c70ec5cc5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5">setAllRadiiToRmax</a> (std::array&lt; double, 4 &gt; &amp;radii, std::array&lt; int, 4 &gt; &amp;quadFlag, double rmax, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
-<tr class="separator:a4b3387ddd1546cf6bad5444c70ec5cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a841866c9625b20c5fb1f452110668f66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a841866c9625b20c5fb1f452110668f66">setInitialHollandB</a> ()</td></tr>
-<tr class="separator:a841866c9625b20c5fb1f452110668f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a71fa11a421dc675f7b8190758fa0b2e6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6">setMissingRadiiToAverageOfAdjacentRadii</a> (std::array&lt; double, 4 &gt; &amp;radii, const std::array&lt; double, 6 &gt; &amp;lookup_radii, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
-<tr class="separator:a71fa11a421dc675f7b8190758fa0b2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21717052904854109237917697bd4e73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a21717052904854109237917697bd4e73">setMissingRadiiToHalfNonzeroRadii</a> (std::array&lt; double, 4 &gt; &amp;radii, double radiisum, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
-<tr class="separator:a21717052904854109237917697bd4e73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfd44c7ce56d9e93b1f3edfb67918ef5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5">setMissingRadiiToHalfOfAverageSpecifiedRadii</a> (std::array&lt; double, 4 &gt; &amp;radii, double radiisum, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
-<tr class="separator:abfd44c7ce56d9e93b1f3edfb67918ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72001443de9ce0ebd8e0c668fe5caf9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f">setAllRadiiToRmax</a> (<a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *radii, <a class="el" href="classCircularArray.html">CircularArray</a>&lt; bool, 4 &gt; *quadFlag, double rmax, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
+<tr class="separator:a72001443de9ce0ebd8e0c668fe5caf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2c3d48d4cd01aa2aef9e02f2a199bb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1">setMissingRadiiToAverageOfAdjacentRadii</a> (<a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *radii, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
+<tr class="separator:ab2c3d48d4cd01aa2aef9e02f2a199bb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f3511e6d9066da7d7af0fe1aab03f79"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79">setMissingRadiiToHalfNonzeroRadii</a> (<a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *radii, double radiisum, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
+<tr class="separator:a0f3511e6d9066da7d7af0fe1aab03f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed2ec117307b05eb72dc3e8e06965923"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#aed2ec117307b05eb72dc3e8e06965923">setMissingRadiiToHalfOfAverageSpecifiedRadii</a> (<a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *radii, double radiisum, size_t <a class="el" href="classAtcf.html#a2c3a3d17067e7d0d53018ec96531bd3d">record</a>, size_t isotach)</td></tr>
+<tr class="separator:aed2ec117307b05eb72dc3e8e06965923"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
+<tr class="memitem:a8feed32ff84fb9f6e1bba8526b05d00b"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a8feed32ff84fb9f6e1bba8526b05d00b">computeEpsilonAngle</a> (double velocity, double quadrantVectorAngle, const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;stormMotion)</td></tr>
+<tr class="separator:a8feed32ff84fb9f6e1bba8526b05d00b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2742efd0b6b28a51a11a0d74e713f222"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a2742efd0b6b28a51a11a0d74e713f222">computeGamma</a> (double uvr, double vvr, double vr, const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;stormMotion, double vmaxBL)</td></tr>
+<tr class="separator:a2742efd0b6b28a51a11a0d74e713f222"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adccea6c4ad7108a14f86b833f3f94f6d"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#adccea6c4ad7108a14f86b833f3f94f6d">computeQuadrantVectorAngle</a> (size_t index, const std::array&lt; double, 4 &gt; quadRotateAngle)</td></tr>
+<tr class="separator:adccea6c4ad7108a14f86b833f3f94f6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80d9683a370e561492db8a0f6d795c5d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a80d9683a370e561492db8a0f6d795c5d">computeQuadrantVr</a> (size_t quadrant, const std::array&lt; double, 4 &gt; &amp;quadRotateAngle, const std::array&lt; bool, 4 &gt; &amp;vmwBLflag, double vmaxBL, double vr, const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;stormMotion, <a class="el" href="classIsotach.html">Isotach</a> *isotach)</td></tr>
+<tr class="separator:a80d9683a370e561492db8a0f6d795c5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12d26ed5e74ce562bd78a28662bceb75"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a12d26ed5e74ce562bd78a28662bceb75">computeQuadrantVrWithGamma</a> (double vmaxBL, double quadrantVectorAngles, const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;stormMotion, double vr)</td></tr>
+<tr class="separator:a12d26ed5e74ce562bd78a28662bceb75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82e46480c966292c69401c0fe85b2a3b"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a82e46480c966292c69401c0fe85b2a3b">computeQuadrantVrWithoutGamma</a> (const double quadrantVectorAngle, const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;stormMotion, const double vr)</td></tr>
+<tr class="separator:a82e46480c966292c69401c0fe85b2a3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc746c4433140219ebaf449c6f8d21f3"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#adc746c4433140219ebaf449c6f8d21f3">computeStormMotion</a> (double speed, double direction)</td></tr>
+<tr class="separator:adc746c4433140219ebaf449c6f8d21f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b96dc4af0c484eecb6adc87cb604431"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a7b96dc4af0c484eecb6adc87cb604431">computeVMaxBL</a> (double vmax, double stormMotion)</td></tr>
+<tr class="separator:a7b96dc4af0c484eecb6adc87cb604431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac775141fc311e59db12fdba1a913f8e2"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#ac775141fc311e59db12fdba1a913f8e2">linearInterp</a> (double weight, double v1, double v2)</td></tr>
 <tr class="separator:ac775141fc311e59db12fdba1a913f8e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe6ef35c351380ba863090d4fec04bb"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#adfe6ef35c351380ba863090d4fec04bb">recomputeQuadrantVr</a> (const size_t quadrant, const std::array&lt; double, 4 &gt; &amp;quadRotateAngle, std::array&lt; bool, 4 &gt; &amp;vmwBLflag, const double vmaxBL, const double vr, const double vmax, const double stormDirection, const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;stormMotion, <a class="el" href="classIsotach.html">Isotach</a> *isotach)</td></tr>
+<tr class="separator:adfe6ef35c351380ba863090d4fec04bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fce87a97b674a5bbb54f01a8dd5c55e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a4fce87a97b674a5bbb54f01a8dd5c55e">uvTrans</a> (const <a class="el" href="classAtcfLine.html">AtcfLine</a> &amp;d1, const <a class="el" href="classAtcfLine.html">AtcfLine</a> &amp;d2, double &amp;uv, double &amp;vv, double &amp;uuvv)</td></tr>
 <tr class="separator:a4fce87a97b674a5bbb54f01a8dd5c55e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:afb8d779cb3379a8cf4f4f7c6867a50dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAssumptions.html">Assumptions</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd">m_assumptions</a> {}</td></tr>
+<tr class="memitem:afb8d779cb3379a8cf4f4f7c6867a50dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classAssumptions.html">Assumptions</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd">m_assumptions</a></td></tr>
 <tr class="memdesc:afb8d779cb3379a8cf4f4f7c6867a50dd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classAssumptions.html">Assumptions</a> that are made within this code for diagnostic analysis later.  <a href="classAtcf.html#afb8d779cb3379a8cf4f4f7c6867a50dd">More...</a><br /></td></tr>
 <tr class="separator:afb8d779cb3379a8cf4f4f7c6867a50dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ab500ae5247b511d5a5d8148ea65944"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classAtcfLine.html">AtcfLine</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcf.html#a2ab500ae5247b511d5a5d8148ea65944">m_atcfData</a></td></tr>
@@ -258,6 +288,25 @@ wtratio</td>
 
 </div>
 </div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="afc1a480dc02dedb4a0d822dac7c5397f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc1a480dc02dedb4a0d822dac7c5397f">&#9670;&nbsp;</a></span>AtcfFileTypes</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f">AtcfFileTypes</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c"></a>FormatAtcf&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a"></a>FormatNWS20&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0a1892d2727c8073609a246bdf2157e7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0a1892d2727c8073609a246bdf2157e7">&#9670;&nbsp;</a></span>Atcf()</h2>
@@ -321,7 +370,7 @@ wtratio</td>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a4bec7c75f41a2643be3bccf63921dfa1_cgraph.svg" width="100%" height="535"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a4bec7c75f41a2643be3bccf63921dfa1_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <div class="dynheader">
@@ -351,13 +400,500 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a4392a7255cda22dc330a996257216c31_cgraph.svg" width="552" height="274"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a4392a7255cda22dc330a996257216c31_cgraph.svg" width="100%" height="558"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a4392a7255cda22dc330a996257216c31_icgraph.svg" width="210" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a8feed32ff84fb9f6e1bba8526b05d00b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8feed32ff84fb9f6e1bba8526b05d00b">&#9670;&nbsp;</a></span>computeEpsilonAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double computeEpsilonAngle </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>velocity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quadrantVectorAngle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;&#160;</td>
+          <td class="paramname"><em>stormMotion</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a8feed32ff84fb9f6e1bba8526b05d00b_cgraph.svg" width="456" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a8feed32ff84fb9f6e1bba8526b05d00b_icgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a2742efd0b6b28a51a11a0d74e713f222"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2742efd0b6b28a51a11a0d74e713f222">&#9670;&nbsp;</a></span>computeGamma()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double computeGamma </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>uvr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vvr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;&#160;</td>
+          <td class="paramname"><em>stormMotion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vmaxBL</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a2742efd0b6b28a51a11a0d74e713f222_cgraph.svg" width="344" height="139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a2742efd0b6b28a51a11a0d74e713f222_icgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="ada693ebe0f0ee4be52b01fd3fe83963a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada693ebe0f0ee4be52b01fd3fe83963a">&#9670;&nbsp;</a></span>computeParameters()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int computeParameters </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_ada693ebe0f0ee4be52b01fd3fe83963a_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_ada693ebe0f0ee4be52b01fd3fe83963a_icgraph.svg" width="244" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="adccea6c4ad7108a14f86b833f3f94f6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adccea6c4ad7108a14f86b833f3f94f6d">&#9670;&nbsp;</a></span>computeQuadrantVectorAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double computeQuadrantVectorAngle </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; double, 4 &gt;&#160;</td>
+          <td class="paramname"><em>quadRotateAngle</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_adccea6c4ad7108a14f86b833f3f94f6d_cgraph.svg" width="556" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_adccea6c4ad7108a14f86b833f3f94f6d_icgraph.svg" width="100%" height="366"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a80d9683a370e561492db8a0f6d795c5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80d9683a370e561492db8a0f6d795c5d">&#9670;&nbsp;</a></span>computeQuadrantVr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void computeQuadrantVr </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>quadrant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; double, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>quadRotateAngle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; bool, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vmwBLflag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vmaxBL</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;&#160;</td>
+          <td class="paramname"><em>stormMotion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classIsotach.html">Isotach</a> *&#160;</td>
+          <td class="paramname"><em>isotach</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a80d9683a370e561492db8a0f6d795c5d_cgraph.svg" width="100%" height="568"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a80d9683a370e561492db8a0f6d795c5d_icgraph.svg" width="431" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a12d26ed5e74ce562bd78a28662bceb75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12d26ed5e74ce562bd78a28662bceb75">&#9670;&nbsp;</a></span>computeQuadrantVrWithGamma()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double computeQuadrantVrWithGamma </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vmaxBL</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>quadrantVectorAngles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;&#160;</td>
+          <td class="paramname"><em>stormMotion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a12d26ed5e74ce562bd78a28662bceb75_cgraph.svg" width="100%" height="480"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a12d26ed5e74ce562bd78a28662bceb75_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a82e46480c966292c69401c0fe85b2a3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82e46480c966292c69401c0fe85b2a3b">&#9670;&nbsp;</a></span>computeQuadrantVrWithoutGamma()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double computeQuadrantVrWithoutGamma </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>quadrantVectorAngle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;&#160;</td>
+          <td class="paramname"><em>stormMotion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>vr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_a82e46480c966292c69401c0fe85b2a3b_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+
+</div>
+</div>
+<a id="adc746c4433140219ebaf449c6f8d21f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc746c4433140219ebaf449c6f8d21f3">&#9670;&nbsp;</a></span>computeStormMotion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structAtcf_1_1StormMotion.html">Atcf::StormMotion</a> computeStormMotion </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>speed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>direction</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_adc746c4433140219ebaf449c6f8d21f3_cgraph.svg" width="496" height="114"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_adc746c4433140219ebaf449c6f8d21f3_icgraph.svg" width="439" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a7b96dc4af0c484eecb6adc87cb604431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b96dc4af0c484eecb6adc87cb604431">&#9670;&nbsp;</a></span>computeVMaxBL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double computeVMaxBL </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>vmax</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>stormMotion</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a7b96dc4af0c484eecb6adc87cb604431_cgraph.svg" width="348" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a7b96dc4af0c484eecb6adc87cb604431_icgraph.svg" width="415" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -406,7 +942,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a94c732bb0f167eab349228237a8fbe3c_icgraph.svg" width="223" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a94c732bb0f167eab349228237a8fbe3c_icgraph.svg" width="223" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -632,6 +1168,96 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="adfe6ef35c351380ba863090d4fec04bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfe6ef35c351380ba863090d4fec04bb">&#9670;&nbsp;</a></span>recomputeQuadrantVr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void recomputeQuadrantVr </td>
+          <td>(</td>
+          <td class="paramtype">const size_t&#160;</td>
+          <td class="paramname"><em>quadrant</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::array&lt; double, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>quadRotateAngle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::array&lt; bool, 4 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>vmwBLflag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>vmaxBL</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>vr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>vmax</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>stormDirection</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structAtcf_1_1StormMotion.html">StormMotion</a> &amp;&#160;</td>
+          <td class="paramname"><em>stormMotion</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classIsotach.html">Isotach</a> *&#160;</td>
+          <td class="paramname"><em>isotach</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="classAtcf_adfe6ef35c351380ba863090d4fec04bb_cgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_adfe6ef35c351380ba863090d4fec04bb_icgraph.svg" width="442" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
 <a id="a2c3a3d17067e7d0d53018ec96531bd3d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2c3a3d17067e7d0d53018ec96531bd3d">&#9670;&nbsp;</a></span>record()</h2>
 
@@ -663,8 +1289,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a4b3387ddd1546cf6bad5444c70ec5cc5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b3387ddd1546cf6bad5444c70ec5cc5">&#9670;&nbsp;</a></span>setAllRadiiToRmax()</h2>
+<a id="a72001443de9ce0ebd8e0c668fe5caf9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72001443de9ce0ebd8e0c668fe5caf9f">&#9670;&nbsp;</a></span>setAllRadiiToRmax()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -675,13 +1301,13 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void setAllRadiiToRmax </td>
           <td>(</td>
-          <td class="paramtype">std::array&lt; double, 4 &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *&#160;</td>
           <td class="paramname"><em>radii</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::array&lt; int, 4 &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classCircularArray.html">CircularArray</a>&lt; bool, 4 &gt; *&#160;</td>
           <td class="paramname"><em>quadFlag</em>, </td>
         </tr>
         <tr>
@@ -727,13 +1353,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a4b3387ddd1546cf6bad5444c70ec5cc5_cgraph.svg" width="320" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a72001443de9ce0ebd8e0c668fe5caf9f_cgraph.svg" width="331" height="190"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a4b3387ddd1546cf6bad5444c70ec5cc5_icgraph.svg" width="392" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a72001443de9ce0ebd8e0c668fe5caf9f_icgraph.svg" width="392" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -771,39 +1397,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a841866c9625b20c5fb1f452110668f66"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a841866c9625b20c5fb1f452110668f66">&#9670;&nbsp;</a></span>setInitialHollandB()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setInitialHollandB </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a841866c9625b20c5fb1f452110668f66_icgraph.svg" width="230" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
-<a id="a71fa11a421dc675f7b8190758fa0b2e6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a71fa11a421dc675f7b8190758fa0b2e6">&#9670;&nbsp;</a></span>setMissingRadiiToAverageOfAdjacentRadii()</h2>
+<a id="ab2c3d48d4cd01aa2aef9e02f2a199bb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2c3d48d4cd01aa2aef9e02f2a199bb1">&#9670;&nbsp;</a></span>setMissingRadiiToAverageOfAdjacentRadii()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -814,14 +1409,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void setMissingRadiiToAverageOfAdjacentRadii </td>
           <td>(</td>
-          <td class="paramtype">std::array&lt; double, 4 &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *&#160;</td>
           <td class="paramname"><em>radii</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::array&lt; double, 6 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>lookup_radii</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -859,20 +1448,20 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a71fa11a421dc675f7b8190758fa0b2e6_cgraph.svg" width="363" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_ab2c3d48d4cd01aa2aef9e02f2a199bb1_cgraph.svg" width="546" height="240"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a71fa11a421dc675f7b8190758fa0b2e6_icgraph.svg" width="435" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_ab2c3d48d4cd01aa2aef9e02f2a199bb1_icgraph.svg" width="435" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a id="a21717052904854109237917697bd4e73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21717052904854109237917697bd4e73">&#9670;&nbsp;</a></span>setMissingRadiiToHalfNonzeroRadii()</h2>
+<a id="a0f3511e6d9066da7d7af0fe1aab03f79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f3511e6d9066da7d7af0fe1aab03f79">&#9670;&nbsp;</a></span>setMissingRadiiToHalfNonzeroRadii()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -883,7 +1472,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void setMissingRadiiToHalfNonzeroRadii </td>
           <td>(</td>
-          <td class="paramtype">std::array&lt; double, 4 &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *&#160;</td>
           <td class="paramname"><em>radii</em>, </td>
         </tr>
         <tr>
@@ -928,20 +1517,20 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a21717052904854109237917697bd4e73_cgraph.svg" width="388" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a0f3511e6d9066da7d7af0fe1aab03f79_cgraph.svg" width="571" height="240"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a21717052904854109237917697bd4e73_icgraph.svg" width="460" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_a0f3511e6d9066da7d7af0fe1aab03f79_icgraph.svg" width="460" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a id="abfd44c7ce56d9e93b1f3edfb67918ef5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfd44c7ce56d9e93b1f3edfb67918ef5">&#9670;&nbsp;</a></span>setMissingRadiiToHalfOfAverageSpecifiedRadii()</h2>
+<a id="aed2ec117307b05eb72dc3e8e06965923"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed2ec117307b05eb72dc3e8e06965923">&#9670;&nbsp;</a></span>setMissingRadiiToHalfOfAverageSpecifiedRadii()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -952,7 +1541,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void setMissingRadiiToHalfOfAverageSpecifiedRadii </td>
           <td>(</td>
-          <td class="paramtype">std::array&lt; double, 4 &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="classCircularArray.html">CircularArray</a>&lt; double, 4 &gt; *&#160;</td>
           <td class="paramname"><em>radii</em>, </td>
         </tr>
         <tr>
@@ -997,13 +1586,13 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_abfd44c7ce56d9e93b1f3edfb67918ef5_cgraph.svg" width="400" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_aed2ec117307b05eb72dc3e8e06965923_cgraph.svg" width="583" height="240"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_abfd44c7ce56d9e93b1f3edfb67918ef5_icgraph.svg" width="472" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_aed2ec117307b05eb72dc3e8e06965923_icgraph.svg" width="472" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1086,6 +1675,40 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="aec35454de676b1f68288d59612b572ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec35454de676b1f68288d59612b572ee">&#9670;&nbsp;</a></span>write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void write </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397f">Atcf::AtcfFileTypes</a>&#160;</td>
+          <td class="paramname"> = <code><a class="el" href="classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a">FormatNWS20</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcf_aec35454de676b1f68288d59612b572ee_cgraph.svg" width="458" height="240"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="afb8d779cb3379a8cf4f4f7c6867a50dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb8d779cb3379a8cf4f4f7c6867a50dd">&#9670;&nbsp;</a></span>m_assumptions</h2>
@@ -1097,7 +1720,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classAssumptions.html">Assumptions</a>* m_assumptions {}</td>
+          <td class="memname"><a class="el" href="classAssumptions.html">Assumptions</a>* m_assumptions</td>
         </tr>
       </table>
   </td>

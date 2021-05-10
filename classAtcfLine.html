@@ -111,8 +111,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a757a667960cf8420a7d565899ba74dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af02cbe832e0a7a708e691fff2b48ebc4"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classIsotach.html">Isotach</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#af02cbe832e0a7a708e691fff2b48ebc4">cisotach</a> (size_t index) const</td></tr>
 <tr class="separator:af02cbe832e0a7a708e691fff2b48ebc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a155d716f2e5b5527298c79837c2c0d9b"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classIsotach.html">Isotach</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a155d716f2e5b5527298c79837c2c0d9b">cseas</a> (size_t index) const</td></tr>
-<tr class="separator:a155d716f2e5b5527298c79837c2c0d9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a0221bd70847e13f9b7ea9c339438e7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a6a0221bd70847e13f9b7ea9c339438e7">coriolis</a> () const</td></tr>
+<tr class="separator:a6a0221bd70847e13f9b7ea9c339438e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcbce102d14966134f6a19e60597c61c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#afcbce102d14966134f6a19e60597c61c">cycloneNumber</a> () const</td></tr>
 <tr class="separator:afcbce102d14966134f6a19e60597c61c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31f99dd6bb56e7b2cb4ebbc3a850a8f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDate.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a31f99dd6bb56e7b2cb4ebbc3a850a8f5">datetime</a> () const</td></tr>
@@ -133,8 +133,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:abf1373f021c76c8df3ab03e92eddc42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac1f527bc7faf6136fa1a33dbada875ad"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ac1f527bc7faf6136fa1a33dbada875ad">maxDevelopmentLevel</a> () const</td></tr>
 <tr class="separator:ac1f527bc7faf6136fa1a33dbada875ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a180f9bd2b2e8b1ba2f47d6b73311c3f9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a180f9bd2b2e8b1ba2f47d6b73311c3f9">maxSeas</a> () const</td></tr>
-<tr class="separator:a180f9bd2b2e8b1ba2f47d6b73311c3f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3edde0bc6afb6f2de5faed719ca41b52"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a3edde0bc6afb6f2de5faed719ca41b52">mslp</a> () const</td></tr>
 <tr class="separator:a3edde0bc6afb6f2de5faed719ca41b52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ddd67c4d868875c52ed1396c58dd6a7"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5ddd67c4d868875c52ed1396c58dd6a7">nIsotach</a> () const</td></tr>
@@ -143,6 +141,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a724049144ca597838876a0068ff224de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a666b44934c6c535221a830365097c42d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a666b44934c6c535221a830365097c42d">pouter</a> () const</td></tr>
 <tr class="separator:a666b44934c6c535221a830365097c42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a232f868ec849c75a24a3340f030a946c"><td class="memItemLeft" align="right" valign="top">std::array&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a232f868ec849c75a24a3340f030a946c">quadrantHollandB</a> (size_t quadrant) const</td></tr>
+<tr class="separator:a232f868ec849c75a24a3340f030a946c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a067f2de05c1898e6654f46006c551d27"><td class="memItemLeft" align="right" valign="top">std::array&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a067f2de05c1898e6654f46006c551d27">quadrantRadii</a> (size_t quadrant) const</td></tr>
+<tr class="separator:a067f2de05c1898e6654f46006c551d27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb32cda982df86dea84fc9ffe3fd5079"><td class="memItemLeft" align="right" valign="top">std::array&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#afb32cda982df86dea84fc9ffe3fd5079">quadrantRmax</a> (size_t quadrant) const</td></tr>
+<tr class="separator:afb32cda982df86dea84fc9ffe3fd5079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a127ef68d31930670c7f2c661042f9894"><td class="memItemLeft" align="right" valign="top">std::array&lt; double, 4 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a127ef68d31930670c7f2c661042f9894">quadrantVmaxBL</a> (size_t quadrant) const</td></tr>
+<tr class="separator:a127ef68d31930670c7f2c661042f9894"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2910e96b46c135de328985b5afac3cb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ad2910e96b46c135de328985b5afac3cb">radiusMaxWinds</a> () const</td></tr>
 <tr class="separator:ad2910e96b46c135de328985b5afac3cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ac5cb831a411289763eecc6f40e7722"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a6ac5cb831a411289763eecc6f40e7722">radiusPouter</a> () const</td></tr>
@@ -151,10 +157,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aed5531012579283c189c8bafe7738fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a468e808c476ec5f4fd24e8ea38b304d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a468e808c476ec5f4fd24e8ea38b304d6">removeIsotach</a> (size_t pos)</td></tr>
 <tr class="separator:a468e808c476ec5f4fd24e8ea38b304d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6cf53a22fe45dfc93ceb5a178c34c99e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classIsotach.html">Isotach</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a6cf53a22fe45dfc93ceb5a178c34c99e">seas</a> (size_t index)</td></tr>
-<tr class="separator:a6cf53a22fe45dfc93ceb5a178c34c99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10cf0c5bc3997b3342597aa7ebee21b9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a10cf0c5bc3997b3342597aa7ebee21b9">setBasin</a> (const std::string &amp;<a class="el" href="classAtcfLine.html#a757a667960cf8420a7d565899ba74dd5">basin</a>)</td></tr>
 <tr class="separator:a10cf0c5bc3997b3342597aa7ebee21b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68dd1833d8a63774235c9c6297752a4f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a68dd1833d8a63774235c9c6297752a4f">setCoriolis</a> (double <a class="el" href="classAtcfLine.html#a6a0221bd70847e13f9b7ea9c339438e7">coriolis</a>)</td></tr>
+<tr class="separator:a68dd1833d8a63774235c9c6297752a4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae955293026a90f5e5288b507deebdcac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ae955293026a90f5e5288b507deebdcac">setCycloneNumber</a> (int <a class="el" href="classAtcfLine.html#afcbce102d14966134f6a19e60597c61c">cycloneNumber</a>)</td></tr>
 <tr class="separator:ae955293026a90f5e5288b507deebdcac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0bad5c6c920656697893a8ddc09076de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a0bad5c6c920656697893a8ddc09076de">setDatetime</a> (const <a class="el" href="classDate.html">Date</a> &amp;<a class="el" href="classAtcfLine.html#a31f99dd6bb56e7b2cb4ebbc3a850a8f5">datetime</a>)</td></tr>
@@ -173,8 +179,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a820d2d4a882e977cc3e1a4e543067428"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3662bfdc458559dafcd8d5bac47d2e24"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a3662bfdc458559dafcd8d5bac47d2e24">setMaxDevelopmentLevel</a> (const std::string &amp;<a class="el" href="classAtcfLine.html#ac1f527bc7faf6136fa1a33dbada875ad">maxDevelopmentLevel</a>)</td></tr>
 <tr class="separator:a3662bfdc458559dafcd8d5bac47d2e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af940eb2838c526ef633e7bd050e1f582"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#af940eb2838c526ef633e7bd050e1f582">setMaxSeas</a> (double <a class="el" href="classAtcfLine.html#a180f9bd2b2e8b1ba2f47d6b73311c3f9">maxSeas</a>)</td></tr>
-<tr class="separator:af940eb2838c526ef633e7bd050e1f582"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70386cf97cc13ad4eccb2556d0339f0a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a70386cf97cc13ad4eccb2556d0339f0a">setMslp</a> (double <a class="el" href="classAtcfLine.html#a3edde0bc6afb6f2de5faed719ca41b52">mslp</a>)</td></tr>
 <tr class="separator:a70386cf97cc13ad4eccb2556d0339f0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae091671d04a10571b3788f0e2877ee32"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ae091671d04a10571b3788f0e2877ee32">setPouter</a> (double <a class="el" href="classAtcfLine.html#a666b44934c6c535221a830365097c42d">pouter</a>)</td></tr>
@@ -258,6 +262,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a5fc3d3403d3a8973fd49b1cb8876bf2f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f">m_basin</a></td></tr>
 <tr class="memdesc:a5fc3d3403d3a8973fd49b1cb8876bf2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basin where the cyclone occurs.  <a href="classAtcfLine.html#a5fc3d3403d3a8973fd49b1cb8876bf2f">More...</a><br /></td></tr>
 <tr class="separator:a5fc3d3403d3a8973fd49b1cb8876bf2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5096ab769d4f8b96fa0a97673eb12f69"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5096ab769d4f8b96fa0a97673eb12f69">m_coriolis</a></td></tr>
+<tr class="memdesc:a5096ab769d4f8b96fa0a97673eb12f69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Coriolis Force.  <a href="classAtcfLine.html#a5096ab769d4f8b96fa0a97673eb12f69">More...</a><br /></td></tr>
+<tr class="separator:a5096ab769d4f8b96fa0a97673eb12f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe656ea7b0797b1b3997ba38d7cd0905"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905">m_cycloneNumber</a></td></tr>
 <tr class="memdesc:abe656ea7b0797b1b3997ba38d7cd0905"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cyclone number.  <a href="classAtcfLine.html#abe656ea7b0797b1b3997ba38d7cd0905">More...</a><br /></td></tr>
 <tr class="separator:abe656ea7b0797b1b3997ba38d7cd0905"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -285,9 +292,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a9df0fba1e2f50c17fa07101b9002b005"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005">m_maxDevelopmentLevel</a></td></tr>
 <tr class="memdesc:a9df0fba1e2f50c17fa07101b9002b005"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum development level that the storm has achieved.  <a href="classAtcfLine.html#a9df0fba1e2f50c17fa07101b9002b005">More...</a><br /></td></tr>
 <tr class="separator:a9df0fba1e2f50c17fa07101b9002b005"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48ea358b4846e9b1845b9fd0d293bec4"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4">m_maxSeas</a></td></tr>
-<tr class="memdesc:a48ea358b4846e9b1845b9fd0d293bec4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum wave heights.  <a href="classAtcfLine.html#a48ea358b4846e9b1845b9fd0d293bec4">More...</a><br /></td></tr>
-<tr class="separator:a48ea358b4846e9b1845b9fd0d293bec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ca9d44c6e999628e73c19952bc57cdb"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb">m_mslp</a></td></tr>
 <tr class="memdesc:a1ca9d44c6e999628e73c19952bc57cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm minimum sea level pressure.  <a href="classAtcfLine.html#a1ca9d44c6e999628e73c19952bc57cdb">More...</a><br /></td></tr>
 <tr class="separator:a1ca9d44c6e999628e73c19952bc57cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -306,9 +310,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ab2d5cbd28bd1dbad29214e5bf98c5a5d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDate.html">Date</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d">m_refDatetime</a></td></tr>
 <tr class="memdesc:ab2d5cbd28bd1dbad29214e5bf98c5a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reference date/time.  <a href="classAtcfLine.html#ab2d5cbd28bd1dbad29214e5bf98c5a5d">More...</a><br /></td></tr>
 <tr class="separator:ab2d5cbd28bd1dbad29214e5bf98c5a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a464f54775802f2ddf0bb08a6a266a0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classIsotach.html">Isotach</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0">m_seas</a></td></tr>
-<tr class="memdesc:a5a464f54775802f2ddf0bb08a6a266a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">"Isotachs" of wave heights  <a href="classAtcfLine.html#a5a464f54775802f2ddf0bb08a6a266a0">More...</a><br /></td></tr>
-<tr class="separator:a5a464f54775802f2ddf0bb08a6a266a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af67dfb2171b4be0f0111bd6d492b456f"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f">m_stormDirection</a></td></tr>
 <tr class="memdesc:af67dfb2171b4be0f0111bd6d492b456f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Storm direction in degrees.  <a href="classAtcfLine.html#af67dfb2171b4be0f0111bd6d492b456f">More...</a><br /></td></tr>
 <tr class="separator:af67dfb2171b4be0f0111bd6d492b456f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -443,27 +444,32 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af02cbe832e0a7a708e691fff2b48ebc4_icgraph.svg" width="411" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af02cbe832e0a7a708e691fff2b48ebc4_icgraph.svg" width="459" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a id="a155d716f2e5b5527298c79837c2c0d9b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a155d716f2e5b5527298c79837c2c0d9b">&#9670;&nbsp;</a></span>cseas()</h2>
+<a id="a6a0221bd70847e13f9b7ea9c339438e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a0221bd70847e13f9b7ea9c339438e7">&#9670;&nbsp;</a></span>coriolis()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="classIsotach.html">Isotach</a> * cseas </td>
+          <td class="memname">double coriolis </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a6a0221bd70847e13f9b7ea9c339438e7_icgraph.svg" width="427" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>
@@ -742,29 +748,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a180f9bd2b2e8b1ba2f47d6b73311c3f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a180f9bd2b2e8b1ba2f47d6b73311c3f9">&#9670;&nbsp;</a></span>maxSeas()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">double maxSeas </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a180f9bd2b2e8b1ba2f47d6b73311c3f9_icgraph.svg" width="231" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
 <a id="a3edde0bc6afb6f2de5faed719ca41b52"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3edde0bc6afb6f2de5faed719ca41b52">&#9670;&nbsp;</a></span>mslp()</h2>
 
@@ -805,7 +788,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a5ddd67c4d868875c52ed1396c58dd6a7_icgraph.svg" width="208" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a5ddd67c4d868875c52ed1396c58dd6a7_icgraph.svg" width="242" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -903,6 +886,78 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a232f868ec849c75a24a3340f030a946c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a232f868ec849c75a24a3340f030a946c">&#9670;&nbsp;</a></span>quadrantHollandB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; double, 4 &gt; quadrantHollandB </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>quadrant</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a067f2de05c1898e6654f46006c551d27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a067f2de05c1898e6654f46006c551d27">&#9670;&nbsp;</a></span>quadrantRadii()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; double, 4 &gt; quadrantRadii </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>quadrant</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afb32cda982df86dea84fc9ffe3fd5079"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb32cda982df86dea84fc9ffe3fd5079">&#9670;&nbsp;</a></span>quadrantRmax()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; double, 4 &gt; quadrantRmax </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>quadrant</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a127ef68d31930670c7f2c661042f9894"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a127ef68d31930670c7f2c661042f9894">&#9670;&nbsp;</a></span>quadrantVmaxBL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; double, 4 &gt; quadrantVmaxBL </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>quadrant</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad2910e96b46c135de328985b5afac3cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad2910e96b46c135de328985b5afac3cb">&#9670;&nbsp;</a></span>radiusMaxWinds()</h2>
 
@@ -920,7 +975,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ad2910e96b46c135de328985b5afac3cb_icgraph.svg" width="320" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_ad2910e96b46c135de328985b5afac3cb_icgraph.svg" width="610" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1029,24 +1084,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a6cf53a22fe45dfc93ceb5a178c34c99e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6cf53a22fe45dfc93ceb5a178c34c99e">&#9670;&nbsp;</a></span>seas()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classIsotach.html">Isotach</a> * seas </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a10cf0c5bc3997b3342597aa7ebee21b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10cf0c5bc3997b3342597aa7ebee21b9">&#9670;&nbsp;</a></span>setBasin()</h2>
 
@@ -1072,6 +1109,30 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a10cf0c5bc3997b3342597aa7ebee21b9_icgraph.svg" width="362" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a68dd1833d8a63774235c9c6297752a4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68dd1833d8a63774235c9c6297752a4f">&#9670;&nbsp;</a></span>setCoriolis()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void setCoriolis </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>coriolis</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a68dd1833d8a63774235c9c6297752a4f_cgraph.svg" width="206" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -1323,30 +1384,6 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="af940eb2838c526ef633e7bd050e1f582"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af940eb2838c526ef633e7bd050e1f582">&#9670;&nbsp;</a></span>setMaxSeas()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void setMaxSeas </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>maxSeas</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_af940eb2838c526ef633e7bd050e1f582_cgraph.svg" width="231" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
 <a id="a70386cf97cc13ad4eccb2556d0339f0a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a70386cf97cc13ad4eccb2556d0339f0a">&#9670;&nbsp;</a></span>setMslp()</h2>
 
@@ -1426,6 +1463,12 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_cgraph.svg" width="320" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_afa6b0d2f28cf66264d2be824addf35ad_icgraph.svg" width="431" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -2098,7 +2141,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0ab834110d8e43facd39af7df53c8c22_icgraph.svg" width="466" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="classAtcfLine_a0ab834110d8e43facd39af7df53c8c22_icgraph.svg" width="514" height="88"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -2190,6 +2233,30 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Basin where the cyclone occurs. </p>
+
+</div>
+</div>
+<a id="a5096ab769d4f8b96fa0a97673eb12f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5096ab769d4f8b96fa0a97673eb12f69">&#9670;&nbsp;</a></span>m_coriolis</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double m_coriolis</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Coriolis Force. </p>
 
 </div>
 </div>
@@ -2409,30 +2476,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a48ea358b4846e9b1845b9fd0d293bec4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48ea358b4846e9b1845b9fd0d293bec4">&#9670;&nbsp;</a></span>m_maxSeas</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">double m_maxSeas</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Maximum wave heights. </p>
-
-</div>
-</div>
 <a id="a1ca9d44c6e999628e73c19952bc57cdb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1ca9d44c6e999628e73c19952bc57cdb">&#9670;&nbsp;</a></span>m_mslp</h2>
 
@@ -2574,30 +2617,6 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Reference date/time. </p>
-
-</div>
-</div>
-<a id="a5a464f54775802f2ddf0bb08a6a266a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a464f54775802f2ddf0bb08a6a266a0">&#9670;&nbsp;</a></span>m_seas</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="classIsotach.html">Isotach</a>&gt; m_seas</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>"Isotachs" of wave heights </p>
 
 </div>
 </div>

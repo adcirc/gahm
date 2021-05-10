@@ -1,12 +1,10 @@
 var searchData=
 [
-  ['fast_5fexp_454',['fast_exp',['../classPhysical.html#a1699ca6bf3eae05eadbc185d7bddb8df',1,'Physical']]],
-  ['filename_455',['filename',['../classAssumption.html#a94c732bb0f167eab349228237a8fbe3c',1,'Assumption::filename()'],['../classAtcf.html#a94c732bb0f167eab349228237a8fbe3c',1,'Atcf::filename()'],['../classGahm.html#a94c732bb0f167eab349228237a8fbe3c',1,'Gahm::filename()']]],
-  ['filledges_456',['fillEdges',['../classVortex.html#ad2d034b91ee1d70ddd82ee743658898f',1,'Vortex']]],
-  ['fillradii_457',['fillRadii',['../classVortex.html#a7029c117dd3645958a27ef3ea5acf801',1,'Vortex']]],
-  ['fillwindarray_458',['fillWindArray',['../classVortex.html#a93c9a3d66cc02127f99d1857a320e409',1,'Vortex']]],
-  ['frictionangle_459',['frictionAngle',['../classVortex.html#a0c44236b8df53da4d14e7fb76d40d194',1,'Vortex']]],
-  ['frommseconds_460',['fromMSeconds',['../classDate.html#ab536fb81b2b7f8d60ac2e3d0745f9a41',1,'Date']]],
-  ['fromseconds_461',['fromSeconds',['../classDate.html#acedacbce6bf470a4bb5d1f7dd38e28b3',1,'Date']]],
-  ['fromstring_462',['fromString',['../classDate.html#a897be2c48bdcebf28003c1a0d88f78f4',1,'Date']]]
+  ['fast_5fexp_524',['fast_exp',['../namespacePhysical.html#ad871b8b35e0800c1e970a9ae4c145d1c',1,'Physical']]],
+  ['filename_525',['filename',['../classAssumption.html#a94c732bb0f167eab349228237a8fbe3c',1,'Assumption::filename()'],['../classAtcf.html#a94c732bb0f167eab349228237a8fbe3c',1,'Atcf::filename()'],['../classGahm.html#a94c732bb0f167eab349228237a8fbe3c',1,'Gahm::filename()']]],
+  ['findroot_526',['findRoot',['../classVortex.html#a61b14dabae9da1036d2072df058076af',1,'Vortex']]],
+  ['frictionangle_527',['frictionAngle',['../namespacePhysical.html#aa169b36a001af3b6ea0590bc0ffd6fa8',1,'Physical']]],
+  ['frommseconds_528',['fromMSeconds',['../classDate.html#ab536fb81b2b7f8d60ac2e3d0745f9a41',1,'Date']]],
+  ['fromseconds_529',['fromSeconds',['../classDate.html#acedacbce6bf470a4bb5d1f7dd38e28b3',1,'Date']]],
+  ['fromstring_530',['fromString',['../classDate.html#a897be2c48bdcebf28003c1a0d88f78f4',1,'Date']]]
 ];

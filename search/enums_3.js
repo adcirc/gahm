@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vortexparametertype_733',['VortexParameterType',['../classVortex.html#a0e507cc920013fa6467b4279dd2417b0',1,'Vortex']]]
+  ['severity_808',['Severity',['../classAssumption.html#a11717da96dc4e4a5f79371318448f82b',1,'Assumption']]]
 ];

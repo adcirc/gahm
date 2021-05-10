@@ -36,7 +36,7 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:href="classAtcf.html#a4b3387ddd1546cf6bad5444c70ec5cc5" target="_top" xlink:title=" ">
+<g id="a_node4"><a xlink:href="classAtcf.html#a72001443de9ce0ebd8e0c668fe5caf9f" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="215,-148 215,-167 316,-167 316,-148 215,-148"/>
 <text text-anchor="middle" x="265.5" y="-155" font-family="Helvetica,sans-Serif" font-size="10.00">setAllRadiiToRmax</text>
 </a>
@@ -51,7 +51,7 @@
 <!-- Node5 -->
 <g id="node5" class="node">
 <title>Node5</title>
-<g id="a_node5"><a xlink:href="classAtcf.html#a71fa11a421dc675f7b8190758fa0b2e6" target="_top" xlink:title=" ">
+<g id="a_node5"><a xlink:href="classAtcf.html#ab2c3d48d4cd01aa2aef9e02f2a199bb1" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="199,-98.5 199,-128.5 332,-128.5 332,-98.5 199,-98.5"/>
 <text text-anchor="start" x="207" y="-116.5" font-family="Helvetica,sans-Serif" font-size="10.00">setMissingRadiiToAverage</text>
 <text text-anchor="middle" x="265.5" y="-105.5" font-family="Helvetica,sans-Serif" font-size="10.00">OfAdjacentRadii</text>
@@ -67,7 +67,7 @@
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
-<g id="a_node6"><a xlink:href="classAtcf.html#a21717052904854109237917697bd4e73" target="_top" xlink:title=" ">
+<g id="a_node6"><a xlink:href="classAtcf.html#a0f3511e6d9066da7d7af0fe1aab03f79" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="189.5,-49.5 189.5,-79.5 341.5,-79.5 341.5,-49.5 189.5,-49.5"/>
 <text text-anchor="start" x="197.5" y="-67.5" font-family="Helvetica,sans-Serif" font-size="10.00">setMissingRadiiToHalfNonzero</text>
 <text text-anchor="middle" x="265.5" y="-56.5" font-family="Helvetica,sans-Serif" font-size="10.00">Radii</text>
@@ -83,7 +83,7 @@
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a xlink:href="classAtcf.html#abfd44c7ce56d9e93b1f3edfb67918ef5" target="_top" xlink:title=" ">
+<g id="a_node7"><a xlink:href="classAtcf.html#aed2ec117307b05eb72dc3e8e06965923" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="185,-0.5 185,-30.5 346,-30.5 346,-0.5 185,-0.5"/>
 <text text-anchor="start" x="193" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">setMissingRadiiToHalfOfAverage</text>
 <text text-anchor="middle" x="265.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">SpecifiedRadii</text>

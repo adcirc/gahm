@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['radiuscode_731',['RadiusCode',['../classIsotach.html#a3664264733a00224fa3738b94428023b',1,'Isotach']]]
+  ['pressuremethod_806',['PressureMethod',['../classHurricanePressure.html#ab224300ba20c2246d0f95d3bf07396d0',1,'HurricanePressure']]]
 ];

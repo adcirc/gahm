@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['info_741',['INFO',['../classAssumption.html#a11717da96dc4e4a5f79371318448f82ba748005382152808a72b1a9177d9dc806',1,'Assumption']]]
+  ['formatatcf_818',['FormatAtcf',['../classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397fadc533a87d589f65052b9371294a5b81c',1,'Atcf']]],
+  ['formatnws20_819',['FormatNWS20',['../classAtcf.html#afc1a480dc02dedb4a0d822dac7c5397faee96598ec2123d433cafce05b0372f4a',1,'Atcf']]]
 ];
