@@ -49,6 +49,9 @@ int Gahm::read() {
     gahm_throw_exception("Could not read the ATCF file");
   }
 
+  this->m_preprocessor =
+      std::make_unique<Preprocessor>(m_atcf->data(), &m_assumptions);
+
   this->m_assumptions.log(Assumption::MINOR);
 
   return 0;

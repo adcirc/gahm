@@ -31,10 +31,11 @@
 
 #include "Assumptions.h"
 #include "Atcf.h"
+#include "Preprocessor.h"
 
 class Gahm {
  public:
-  Gahm(std::string filename);
+  explicit Gahm(std::string filename);
 
   std::string filename() const;
 
@@ -62,6 +63,7 @@ class Gahm {
   const std::string m_filename;
   Assumptions m_assumptions;
   std::unique_ptr<Atcf> m_atcf;
+  std::unique_ptr<Preprocessor> m_preprocessor;
 };
 
 template <>

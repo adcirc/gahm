@@ -25,14 +25,22 @@
 //
 #define CATCH_CONFIG_MAIN
 #include "Atcf.h"
+#include "Preprocessor.h"
 #include "catch.hpp"
 
 TEST_CASE("Atcf - I/O GAHM", "[atcf-io]") {
   Assumptions assume;
   Atcf a("test_files/bal082018.dat", &assume);
   a.read();
+
+  Preprocessor p(a.data(), &assume);
+  int ierr = p.run();
+
   a.write("test_output.22");
 
   REQUIRE(a.nRecords() == 42);
 
+  REQUIRE(a.record(8)->mslp() == Approx(979.530231));
+
+  assume.log(Assumption::MINOR);
 }

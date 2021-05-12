@@ -11,12 +11,6 @@ class CircularArray {
   explicit CircularArray(std::array<T, array_size> arr)
       : m_data(std::move(arr)) {}
 
-  constexpr size_t size() noexcept { return array_size; }
-
-  auto &data() const noexcept { return m_data; }
-
-  const auto &cdata() const noexcept { return m_data; }
-
   T &operator[](long index) noexcept { return m_data[mod_floor(index)]; }
 
   const T &operator[](long index) const noexcept {
@@ -25,17 +19,66 @@ class CircularArray {
 
   CircularArray<T, array_size> &operator=(
       const CircularArray<T, array_size> &arr) noexcept {
-    m_data = arr.data();
+    m_data = arr.m_data;
+    return *this;
+  }
+
+  CircularArray<T, array_size> &operator=(
+      const std::array<T, array_size> &arr) noexcept {
+    m_data = arr;
     return *this;
   }
 
   auto at(long index) const noexcept { return m_data[mod_floor(index)]; }
   void set(long index, T value) noexcept { m_data[mod_floor(index)] = value; }
 
+  auto front() noexcept { return m_data.front(); }
+  auto back() noexcept { return m_data.back(); }
+
+  auto data() noexcept { return &m_data; }
+  auto data() const noexcept { return &m_data; }
+
+  auto empty() const noexcept { return m_data.empty(); }
+  auto max_size() const noexcept { return m_data.max_size(); }
+  constexpr auto size() const noexcept { return array_size; }
+
+  void fill(const T value) { m_data.fill(value); }
+
   auto begin() noexcept { return m_data.begin(); }
   auto end() noexcept { return m_data.end(); }
+
+  auto rbegin() noexcept { return m_data.rbegin(); }
+  auto rend() noexcept { return m_data.rend(); }
+
   auto cbegin() const noexcept { return m_data.cbegin(); }
   auto cend() const noexcept { return m_data.cend(); }
+
+  auto crbegin() const noexcept { return m_data.crbegin(); }
+  auto crend() const noexcept { return m_data.crend(); }
+
+  bool operator==(const CircularArray<T, array_size> &b) const {
+    return m_data == b.m_data;
+  }
+
+  bool operator!=(const CircularArray<T, array_size> &b) const {
+    return m_data != b.m_data;
+  }
+
+  bool operator<(const CircularArray<T, array_size> &b) const {
+    return m_data < b.m_data;
+  }
+
+  bool operator>(const CircularArray<T, array_size> &b) const {
+    return m_data > b.m_data;
+  }
+
+  bool operator<=(const CircularArray<T, array_size> &b) const {
+    return m_data <= b.m_data;
+  }
+
+  bool operator>=(const CircularArray<T, array_size> &b) const {
+    return m_data >= b.m_data;
+  }
 
  private:
   std::array<T, array_size> m_data;

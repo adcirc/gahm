@@ -67,7 +67,9 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp )
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(
