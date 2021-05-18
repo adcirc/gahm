@@ -130,12 +130,7 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) *
                   Physical::kt2ms());
   a.setStormName(split[27]);
-
-  std::fill(a.isotach(0)->hollandB()->begin(), a.isotach(0)->hollandB()->end(),
-            Physical::calcHollandB(a.vmax(), a.mslp(), a.pouter()));
-  std::fill(a.isotach(0)->phi()->begin(), a.isotach(0)->phi()->end(), 1.0);
   a.setCoriolis(Physical::coriolis(a.lat()));
-
   a.setIsNull(false);
   return a;
 }

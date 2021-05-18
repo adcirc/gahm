@@ -31,12 +31,51 @@
 #include <utility>
 #include "Logging.h"
 #include "Physical.h"
+#include "VortexSolver.h"
 #include "boost/cstdint.hpp"
 #include "boost/math/tools/roots.hpp"
 
-Vortex::Vortex() : m_stormData(nullptr) {}
+Vortex::Vortex()
+    : m_currentQuadrant(0), m_currentIsotach(0), m_stormData(nullptr) {}
 
-void Vortex::setStormData(const AtcfLine *atcf) { m_stormData = atcf; }
+Vortex::Vortex(AtcfLine *atcf, const size_t currentIsotach)
+    : m_currentQuadrant(0),
+      m_currentIsotach(currentIsotach),
+      m_stormData(atcf) {}
+
+void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
+
+int Vortex::computeRadiusToWind() {
+  const size_t max_it = 400;
+  const size_t max_root_it = 3;
+  const double zoom_size = 0.01;
+
+  for (size_t quad = 0; quad < 4; quad++) {
+    bool rootFailed = false;
+    double r1 = Vortex::default_inner_radius();
+    double r2 = Vortex::default_outer_radius();
+    for (size_t it = 0; it < max_it; ++it) {
+      rootFailed = false;
+
+      Root r(r1, r2, 0.0);
+      double dr = 1.0;
+      for (size_t rootit = 0; rootit < max_root_it; ++rootit) {
+        r = this->findRoot(r1, r2, dr);
+        r1 = r.left;
+        r2 = r.right;
+        dr *= zoom_size;
+      }
+      std::cout << r.root * Physical::km2nmi() << std::endl;
+      if (r.root < 0.0) {
+        r.root =
+            m_stormData->isotach(m_currentIsotach)->isotachRadius()->at(quad);
+        rootFailed = true;
+      }
+      m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, r.root);
+    }
+  }
+  return 0;
+}
 
 std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               const double angle,
@@ -45,8 +84,16 @@ std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
   if (whichWay >= 0.0) a *= -1.0;
   const double cosA = std::cos(a);
   const double sinA = std::sin(a);
-  return {x * cosA - y * sinA, x * sinA + y * cosA};
+  return std::make_pair(x * cosA - y * sinA, x * sinA + y * cosA);
 }
+
+size_t Vortex::currentIsotach() const { return m_currentIsotach; }
+
+void Vortex::setCurrentIsotach(const size_t &currentIsotach) {
+  m_currentIsotach = currentIsotach;
+}
+
+size_t Vortex::currentQuadrant() const { return m_currentQuadrant; }
 
 void Vortex::setCurrentQuadrant(size_t quad) { m_currentQuadrant = quad; }
 
@@ -196,51 +243,80 @@ double Vortex::computeBg(const double vmaxBoundaryLayer,
          rho * std::exp(phi) / (phi * dp);
 }
 
-template <Vortex::VhType vh>
-double Vortex::findRoot(const double x1, const double dx, double &aa,
-                        double &bb) const noexcept {
-#ifndef GAHM_USE_ASWIP_SOLVER
-  constexpr boost::uintmax_t itmax = 400;
-  constexpr double innerRadius = 1.0;
-  constexpr double outerRadius = 500.0;
-  boost::uintmax_t it = itmax;
+constexpr int generate_digits_accuracy() {
   constexpr int digits =
       std::numeric_limits<double>::digits;  // Maximum possible binary digits
                                             // accuracy for type double.
   constexpr int get_digits = static_cast<int>(
       digits * 0.6);  // Accuracy doubles with each step, so stop when we have
                       // just over half the digits correct.
+  return get_digits;
+}
+
+constexpr double generate_accuracy() {
+  double d = 1.0;
+  for (size_t i = 0; i < generate_digits_accuracy(); ++i) {
+    d *= 10.0;
+  }
+  return 1.0 / d;
+}
+
+Vortex::Root Vortex::findRoot(double aa, double bb,
+                              const double zoom_window) const {
+  auto vortex_function = VortexSolver(
+      m_stormData->radiusMaxWinds(),
+      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant),
+      m_stormData->cisotach(m_currentIsotach)
+          ->chollandB()
+          ->at(m_currentQuadrant),
+      m_stormData->cisotach(m_currentIsotach)->cphi()->at(m_currentQuadrant),
+      m_stormData->coriolis(),
+      m_stormData->isotach(m_currentIsotach)
+          ->quadrantVr()
+          ->at(m_currentQuadrant));
+
+#ifdef GAHM_USE_ASWIP_SOLVER
+  constexpr double accuracy = generate_accuracy();
+  constexpr boost::uintmax_t itmax = 400;
+  boost::uintmax_t it = itmax;
+
   double result = boost::math::tools::newton_raphson_iterate(
-      Vortex::getVh<vh>(x1), aa, innerRadius, outerRadius, get_digits, it);
+      vortex_function, m_stormData->radiusMaxWinds(),
+      Vortex::default_inner_radius(), Vortex::default_outer_radius(),
+      generate_digits_accuracy(), it);
 
   if (it < itmax) {
     Logging::log("Newton-Raphson solver converged in " + std::to_string(it) +
                  " iterations.");
-    return result;
+    std::cout << result << std::endl;
+    return {0, 0, result};
   } else {
     Logging::log("Newton-Raphson solver failed to converge.");
-    return -std::numeric_limits<double>::max();
+    return {0, 0, -std::numeric_limits<double>::max()};
   }
 #else
   constexpr size_t itmax = 400;
-  aa = x1;
-  double fa = this->getVh<vh>(aa);
+  double fa, fprimea;
+  std::tie(fa, fprimea) = vortex_function(aa);
 
   for (size_t it = 0; it < itmax; ++it) {
-    bb = x1 + it * dx;
-    double fb = this->getVh<vh>(bb);
-    if (fa * fb < 0.0 || std::abs(fb) > std::abs(fa)) {
+    bb = aa + (it + 1) * zoom_window;
+    double fb, fprimeb;
+    std::tie(fb, fprimeb) = vortex_function(bb);
+
+    if (fa * fb < 0.0 || (std::abs(fb) > std::abs(fa))) {
       if (std::abs(fb) > std::abs(fa)) {
-        return aa;
+        return Root(aa, bb, aa);
       } else {
-        return bb;
+        return Root(bb, aa, bb);
       }
     }
+
     aa = bb;
     fa = fb;
   }
   Logging::log("Bracket solver failed to converge");
-  return -std::numeric_limits<double>::max();
+  return Root(aa, bb, -1.0);
 #endif
 }
 
@@ -286,46 +362,6 @@ std::pair<double, double> Vortex::vhNoCori(double r) const {
 
   //...Compute derivative
   const double fprime = -(fprime_a - fprime_b) / fprime_c;
-
-  return std::make_pair(f, fprime);
-}
-
-std::pair<double, double> Vortex::vgWithCoriFull(double r) const {
-  //...Input parameters
-
-  // clang-format off
-  const double rmax = m_stormData->radiusMaxWinds();
-  const double vmax = m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
-  const double bg = m_stormData->cisotach(m_currentIsotach)->chollandB()->at(m_currentQuadrant);
-  const double phi = m_stormData->cisotach(m_currentIsotach)->cphi()->at(m_currentQuadrant);
-  const double fc = m_stormData->coriolis();
-  // clang-format on
-
-  //...Intermediate values
-  const double alpha = rmax / r;
-  const double beta = phi * (1.0 - std::pow(alpha, bg));
-  const double r0 = vmax / (rmax * fc);
-  const double kappa = (1.0 / r0) + 1.0;
-
-  //...Reused values
-  const double vmaxsq = vmax * vmax;
-  const double rmaxsq = rmax * rmax;
-  const double expbeta = std::exp(beta);
-
-  //...f(r)
-  const double f =
-      std::sqrt(vmaxsq * kappa * expbeta * alpha + (r * fc) / 2.0) -
-      (r * fc) / 2.0;
-
-  //...f'(r)
-  const double fprime_a = (fc / 2.0);
-  const double fprime_b = (r * vmaxsq * expbeta * kappa) / (r * r);
-  const double fprime_c = bg * rmaxsq * vmaxsq * phi * expbeta *
-                          std::pow(alpha, bg - 1.0) / (r * r * r);
-  const double fprime_d =
-      2.0 * std::sqrt((fc * r) / 2.0 + (rmax * vmaxsq * expbeta * kappa) / r);
-
-  const double fprime = (fprime_a - fprime_b + fprime_c) / fprime_d - fprime_a;
 
   return std::make_pair(f, fprime);
 }

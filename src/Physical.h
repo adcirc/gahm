@@ -59,7 +59,7 @@ static constexpr double e() { return M_E; }
 
 static constexpr double backgroundPressure() { return 1013.0; }
 static constexpr double windReduction() { return 0.9; }
-static constexpr double rhoAir() { return 1.15; }
+static constexpr double rhoAir() { return 1.293; }
 static constexpr double g() { return 9.80665; }
 static constexpr double omega() { return 2.0 * pi() / 86164.20; }
 static constexpr double rhoWat0() { return 1000.0; }
@@ -141,10 +141,8 @@ static constexpr double coriolis(double lat) noexcept {
 static constexpr double calcHollandB(double vmax, double p0,
                                      double pinf) noexcept {
   assert(p0 != pinf);
-  return std::max(std::min(vmax * vmax * Physical::rhoAir() * Physical::e() /
-                               Physical::mb2pa() * (p0 - pinf),
-                           2.50),
-                  1.0);
+  return (vmax * vmax * Physical::rhoAir() * Physical::e()) /
+         (Physical::mb2pa() * (pinf - p0));
 }
 
 static constexpr double frictionAngle(double r, double rmx) noexcept {

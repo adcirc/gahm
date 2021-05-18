@@ -1,6 +1,32 @@
+// MIT License
+//
+// Copyright (c) 2020 ADCIRC Development Group
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+// Author: Zach Cobell
+// Contact: zcobell@thewaterinstitute.org
+//
 #ifndef PREPROCESSOR_H
 #define PREPROCESSOR_H
 
+#include <iostream>
 #include <vector>
 #include "Assumption.h"
 #include "Atcf.h"
@@ -44,6 +70,11 @@ class Preprocessor {
     double v;
     double uv;
     StormMotion(double ui, double vi, double uvi) : u(ui), v(vi), uv(uvi) {}
+    void write(const double unitconversion = 1.0) const {
+      std::cout << "U-velocity: " << u * unitconversion
+                << ", V-Velocity: " << v * unitconversion
+                << ", Speed: " << uv * unitconversion << std::endl;
+    }
   };
 
   static StormMotion computeStormMotion(double speed, double direction);
@@ -54,32 +85,32 @@ class Preprocessor {
   static double computeEpsilonAngle(double velocity, double quadrantVectorAngle,
                                     const StormMotion &stormMotion);
 
-  static double computeQuadrantVrWithGamma(double vmaxBL,
-                                           double quadrantVectorAngles,
-                                           const StormMotion &stormMotion,
-                                           double vr);
+  static double computeQuadrantVr(double vmaxBL, double quadrantVectorAngles,
+                                  const StormMotion &stormMotion, double vr);
 
-  static double computeQuadrantVrWithoutGamma(const double quadrantVectorAngle,
-                                              const StormMotion &stormMotion,
-                                              const double vr);
+  static double computeQuadrantVr(const double quadrantVectorAngle,
+                                  const StormMotion &stormMotion,
+                                  const double vr);
 
   static double computeVMaxBL(double vmax, double stormMotion);
 
   static double computeQuadrantVectorAngle(
       size_t index, const std::array<double, 4> quadRotateAngle);
 
-  static void computeQuadrantVr(size_t quadrant,
+  static void computeQuadrantVr(size_t quadrotindex,
                                 const std::array<double, 4> &quadRotateAngle,
                                 const std::array<bool, 4> &vmwBLflag,
                                 double vmaxBL, double vr,
                                 const StormMotion &stormMotion,
                                 Isotach *isotach);
 
-  static void recomputeQuadrantVr(
-      const size_t quadrant, const std::array<double, 4> &quadRotateAngle,
-      std::array<bool, 4> &vmwBLflag, const double vmaxBL, const double vr,
-      const double vmax, const double stormDirection,
-      const StormMotion &stormMotion, Isotach *isotach);
+  static void recomputeQuadrantVr(const size_t quadrotindex,
+                                  const std::array<double, 4> &quadRotateAngle,
+                                  std::array<bool, 4> &vmwBLflag,
+                                  const double vmaxBL, const double vr,
+                                  const double stormDirection,
+                                  const StormMotion &stormMotion,
+                                  Isotach *isotach);
 
   Assumptions *m_assumptions;
   std::vector<AtcfLine> *m_data;

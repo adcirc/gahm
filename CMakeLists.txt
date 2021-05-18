@@ -69,7 +69,9 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp )
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp)
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(

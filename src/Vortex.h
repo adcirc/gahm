@@ -37,7 +37,9 @@ class Vortex {
  public:
   Vortex();
 
-  void setStormData(const AtcfLine *atcf);
+  Vortex(AtcfLine *atcf, size_t currentIsotach);
+
+  void setStormData(AtcfLine *atcf);
 
   enum VortexParameterType { RMAX, B, VMBL };
 
@@ -59,28 +61,25 @@ class Vortex {
     }
   }
 
+  int computeRadiusToWind();
 
+  size_t currentQuadrant() const;
+  void setCurrentQuadrant(size_t quad);
 
+  size_t currentIsotach() const;
+  void setCurrentIsotach(const size_t &currentIsotach);
 
   static std::pair<double, double> rotateWinds(double x, double y, double angle,
                                                double whichWay) noexcept;
 
+  constexpr static double default_inner_radius() { return 1.0; }
+
+  constexpr static double default_outer_radius() { return 400.0; }
+
  private:
   size_t m_currentQuadrant;
   size_t m_currentIsotach;
-  const AtcfLine *m_stormData;
-
-  //  struct __stormState {
-  //    WindArray<double> quadrantRadiusToMaxWind;
-  //    WindArray<double> hollandB;
-  //    WindArray<double> phi;
-  //    WindArray<int> quadrantFlag;
-  //    WindArray<double> quadrantIsotachRadius;
-  //    WindArray<double> velocityAtRadius;
-  //    WindArray<double> vmaxBoundaryLayer;
-  //    size_t current_quadrant;
-  //  } m_stormState;
-  void setCurrentQuadrant(size_t quad);
+  AtcfLine *m_stormData;
 
   static std::pair<int, double> getBaseQuadrant(double angle);
 
@@ -111,8 +110,16 @@ class Vortex {
   template <Vortex::VhType vh>
   std::pair<double, double> getVh(double aa) const;
 
-  template <Vortex::VhType vh>
-  double findRoot(double x1, double dx, double &aa, double &bb) const noexcept;
+  struct Root {
+    double root;
+    double left;
+    double right;
+    Root() = default;
+    Root(double left, double right, double root)
+        : left(left), right(right), root(root){};
+  };
+
+  Root findRoot(double aa, double bb, double zoom_window) const;
 
   std::pair<double, double> vhNoCori(double r) const;
   std::pair<double, double> vhWithCori(double r) const;
