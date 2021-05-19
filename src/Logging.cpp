@@ -28,6 +28,7 @@
 static const std::string c_errorHeading("[GAHM ERROR]: ");
 static const std::string c_warningHeading("[GAHM WARNING]: ");
 static const std::string c_logHeading("[GAHM INFO]: ");
+static const std::string c_debugHeading("[GAHM DEBUG]: ");
 
 /**
  * @brief Throws a runtime error
@@ -82,6 +83,16 @@ void Logging::log(const std::string &s, const std::string &heading) {
     header = heading;
   }
   Logging::printMessage(header, s);
+}
+
+void Logging::debug(const std::string &s, const std::string &heading) {
+#ifdef EBUG
+  std::string header = c_debugHeading;
+  if (heading != std::string()) {
+    header = heading;
+  }
+  Logging::printMessage(header, s);
+#endif
 }
 
 /**

@@ -35,43 +35,97 @@
 #include "boost/cstdint.hpp"
 #include "boost/math/tools/roots.hpp"
 
-Vortex::Vortex()
-    : m_currentQuadrant(0), m_currentIsotach(0), m_stormData(nullptr) {}
+Vortex::Vortex(Assumptions *assumptions)
+    : m_currentQuadrant(0),
+      m_currentIsotach(0),
+      m_currentRecord(0),
+      m_stormData(nullptr),
+      m_assumptions(assumptions) {}
 
-Vortex::Vortex(AtcfLine *atcf, const size_t currentIsotach)
+Vortex::Vortex(AtcfLine *atcf, const size_t currentRecord,
+               const size_t currentIsotach, Assumptions *assumptions)
     : m_currentQuadrant(0),
       m_currentIsotach(currentIsotach),
-      m_stormData(atcf) {}
+      m_currentRecord(currentRecord),
+      m_stormData(atcf),
+      m_assumptions(assumptions) {}
 
 void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
 
+std::tuple<double, double, bool> Vortex::iterateShapeTerms(
+    const double root) const {
+  constexpr double accuracy = 0.01;
+  double phi_new = Vortex::computePhi(m_stormData->vmax(), root,
+                                      m_stormData->cisotach(m_currentIsotach)
+                                          ->chollandB()
+                                          ->at(m_currentQuadrant),
+                                      m_stormData->coriolis());
+  double b_new = Vortex::computeBg(
+      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant),
+      m_stormData->radiusMaxWinds(), phi_new, m_stormData->centralPressure(),
+      m_stormData->coriolis(), Physical::rhoAir());
+  for (size_t i = 0; i < m_max_it; ++i) {
+    double b_new1 = b_new;
+    phi_new = Vortex::computePhi(m_stormData->vmax(), root, b_new,
+                                 m_stormData->coriolis());
+    b_new = Vortex::computeBg(m_stormData->cisotach(m_currentIsotach)
+                                  ->cvmaxBl()
+                                  ->at(m_currentQuadrant),
+                              m_stormData->radiusMaxWinds(), phi_new,
+                              m_stormData->centralPressure(),
+                              m_stormData->coriolis(), Physical::rhoAir());
+    if (std::abs(b_new1 - b_new) < accuracy) {
+      Logging::debug("Shape iteration converged in " + std::to_string(i + 1) +
+                     " iterations.");
+      return std::make_tuple(b_new, phi_new, true);
+    }
+  }
+  return std::make_tuple(b_new, phi_new, false);
+}
+
+double Vortex::iterateRadius() const {
+  constexpr size_t max_root_it = 3;
+  constexpr double zoom_size = 0.01;
+  double r1 = Vortex::default_inner_radius();
+  double r2 = Vortex::default_outer_radius();
+  Root r(r1, r2, 0.0);
+  double dr = 1.0;
+  for (size_t rootit = 0; rootit < max_root_it; ++rootit) {
+    r = this->findRoot(r1, r2, dr);
+    r1 = r.left;
+    r2 = r.right;
+    dr *= zoom_size;
+  }
+  return r.root;
+}
+
 int Vortex::computeRadiusToWind() {
-  const size_t max_it = 400;
-  const size_t max_root_it = 3;
-  const double zoom_size = 0.01;
-
   for (size_t quad = 0; quad < 4; quad++) {
-    bool rootFailed = false;
-    double r1 = Vortex::default_inner_radius();
-    double r2 = Vortex::default_outer_radius();
-    for (size_t it = 0; it < max_it; ++it) {
-      rootFailed = false;
+    this->setCurrentQuadrant(quad);
 
-      Root r(r1, r2, 0.0);
-      double dr = 1.0;
-      for (size_t rootit = 0; rootit < max_root_it; ++rootit) {
-        r = this->findRoot(r1, r2, dr);
-        r1 = r.left;
-        r2 = r.right;
-        dr *= zoom_size;
-      }
-      std::cout << r.root * Physical::km2nmi() << std::endl;
-      if (r.root < 0.0) {
-        r.root =
+    for (size_t it = 0; it < m_max_it; ++it) {
+      double root = this->iterateRadius();
+      if (root < 0.0) {
+        root =
             m_stormData->isotach(m_currentIsotach)->isotachRadius()->at(quad);
-        rootFailed = true;
+        m_assumptions->add(generate_assumption(
+            Assumption::MAJOR,
+            "Root could not be found for record " +
+                std::to_string(m_currentRecord) +
+                ", Isotach: " + std::to_string(m_currentIsotach) +
+                ", Quadrant: " + std::to_string(m_currentQuadrant)));
+      } else {
+        m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, root);
       }
-      m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, r.root);
+
+      double b_new, phi_new;
+      bool converged;
+      std::tie(b_new, phi_new, converged) = this->iterateShapeTerms(root);
+      if (converged) {
+        Logging::debug("Radius iteration converged in " +
+                       std::to_string(it + 1) + " iterations.");
+        break;
+      }
     }
   }
   return 0;
@@ -85,6 +139,12 @@ std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
   const double cosA = std::cos(a);
   const double sinA = std::sin(a);
   return std::make_pair(x * cosA - y * sinA, x * sinA + y * cosA);
+}
+
+size_t Vortex::currentRecord() const { return m_currentRecord; }
+
+void Vortex::setCurrentRecord(const size_t &currentRecord) {
+  m_currentRecord = currentRecord;
 }
 
 size_t Vortex::currentIsotach() const { return m_currentIsotach; }
@@ -243,125 +303,30 @@ double Vortex::computeBg(const double vmaxBoundaryLayer,
          rho * std::exp(phi) / (phi * dp);
 }
 
-constexpr int generate_digits_accuracy() {
-  constexpr int digits =
-      std::numeric_limits<double>::digits;  // Maximum possible binary digits
-                                            // accuracy for type double.
-  constexpr int get_digits = static_cast<int>(
-      digits * 0.6);  // Accuracy doubles with each step, so stop when we have
-                      // just over half the digits correct.
-  return get_digits;
-}
-
-constexpr double generate_accuracy() {
-  double d = 1.0;
-  for (size_t i = 0; i < generate_digits_accuracy(); ++i) {
-    d *= 10.0;
-  }
-  return 1.0 / d;
-}
-
 Vortex::Root Vortex::findRoot(double aa, double bb,
                               const double zoom_window) const {
-  auto vortex_function = VortexSolver(
-      m_stormData->radiusMaxWinds(),
-      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant),
-      m_stormData->cisotach(m_currentIsotach)
-          ->chollandB()
-          ->at(m_currentQuadrant),
-      m_stormData->cisotach(m_currentIsotach)->cphi()->at(m_currentQuadrant),
-      m_stormData->coriolis(),
-      m_stormData->isotach(m_currentIsotach)
-          ->quadrantVr()
-          ->at(m_currentQuadrant));
-
-#ifdef GAHM_USE_ASWIP_SOLVER
-  constexpr double accuracy = generate_accuracy();
-  constexpr boost::uintmax_t itmax = 400;
-  boost::uintmax_t it = itmax;
-
-  double result = boost::math::tools::newton_raphson_iterate(
-      vortex_function, m_stormData->radiusMaxWinds(),
-      Vortex::default_inner_radius(), Vortex::default_outer_radius(),
-      generate_digits_accuracy(), it);
-
-  if (it < itmax) {
-    Logging::log("Newton-Raphson solver converged in " + std::to_string(it) +
-                 " iterations.");
-    std::cout << result << std::endl;
-    return {0, 0, result};
-  } else {
-    Logging::log("Newton-Raphson solver failed to converge.");
-    return {0, 0, -std::numeric_limits<double>::max()};
-  }
-#else
   constexpr size_t itmax = 400;
-  double fa, fprimea;
-  std::tie(fa, fprimea) = vortex_function(aa);
+  auto vortex_function = VortexSolver<VortexSolverType::NoDerivative>(
+      m_stormData, m_currentQuadrant, m_currentIsotach);
+  double fa = vortex_function(aa);
 
   for (size_t it = 0; it < itmax; ++it) {
     bb = aa + (it + 1) * zoom_window;
-    double fb, fprimeb;
-    std::tie(fb, fprimeb) = vortex_function(bb);
+    double fb = vortex_function(bb);
 
     if (fa * fb < 0.0 || (std::abs(fb) > std::abs(fa))) {
+      Logging::debug("Bracket solver converged in " + std::to_string(it + 1) +
+                     " iterations.");
       if (std::abs(fb) > std::abs(fa)) {
         return Root(aa, bb, aa);
       } else {
         return Root(bb, aa, bb);
       }
     }
-
     aa = bb;
     fa = fb;
   }
-  Logging::log("Bracket solver failed to converge");
+  Logging::debug("Bracket solver failed to converge in" +
+                 std::to_string(itmax));
   return Root(aa, bb, -1.0);
-#endif
-}
-
-template <Vortex::VhType vh>
-std::pair<double, double> Vortex::getVh(double aa) const {
-  if (vh == Vortex::VhType::VhNoCori) {
-    return this->vhNoCori(aa);
-  } else if (vh == Vortex::VhType::VhWithCori) {
-    // return this->vhWithCori(aa);
-    return {0, 0};
-  } else if (vh == Vortex::VhType::VhWithCoriFull) {
-    return this->vgWithCoriFull(aa);
-  }
-}
-
-std::pair<double, double> Vortex::vhNoCori(double r) const {
-  //...Input values
-  const double vr =
-      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
-  const double b = m_stormData->cisotach(m_currentIsotach)
-                       ->chollandB()
-                       ->at(m_currentQuadrant);
-  const double rq = m_stormData->cisotach(m_currentIsotach)
-                        ->cisotachRadius()
-                        ->at(m_currentQuadrant);
-  const double vmax = m_stormData->vmax();
-
-  //...Precompute factors used multiple times
-  const double vmaxsquared = vmax * vmax;
-  const double alpha = r / rq;
-  const double alphab = std::pow(alpha, b);
-  const double expOneMinusAlphaB = std::exp(1.0 - alphab);
-
-  //...Compute value of function
-  const double f = std::sqrt(vmaxsquared * expOneMinusAlphaB * alphab) - vr;
-
-  //...Compute components of derivative
-  const double fprime_a = b * r * vmaxsquared * expOneMinusAlphaB / (rq * rq);
-  const double fprime_b =
-      b * r * vmaxsquared * expOneMinusAlphaB * alphab * std::pow(alpha, b - 1);
-  const double fprime_c =
-      2.0 * std::sqrt(vmaxsquared * expOneMinusAlphaB * alphab);
-
-  //...Compute derivative
-  const double fprime = -(fprime_a - fprime_b) / fprime_c;
-
-  return std::make_pair(f, fprime);
 }

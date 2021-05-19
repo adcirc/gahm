@@ -45,10 +45,10 @@ AtcfLine::AtcfLine()
       m_lat(0.0),
       m_lon(0.0),
       m_vmax(0.0),
-      m_mslp(1013.0),
+      m_centralPressure(1013.0),
       m_maxDevelopmentLevel("NA"),
-      m_pouter(1013.0),
-      m_radiusPouter(0.0),
+      m_lastClosedIsobar(1013.0),
+      m_radiusLastClosedIsobar(0.0),
       m_radiusMaxWinds(0.0),
       m_eyeDiameter(0.0),
       m_gusts(0.0),
@@ -99,7 +99,7 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   a.setLon(lon);
   a.setVmax(AtcfLine::readValueCheckBlank<double>(split[8]) *
             Physical::kt2ms());
-  a.setMslp(AtcfLine::readValueCheckBlank<double>(split[9]));
+  a.setCentralPressure(AtcfLine::readValueCheckBlank<double>(split[9]));
 
   auto r1 =
       AtcfLine::readValueCheckBlank<double>(split[13]) * Physical::nmi2km();
@@ -115,9 +115,9 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
       AtcfLine::readValueCheckBlank<double>(split[11]) * Physical::kt2ms(), r1,
       r2, r3, r4);
   a.addIsotach(i);
-  a.setPouter(AtcfLine::readValueCheckBlank<double>(split[17]));
-  a.setRadiusPouter(AtcfLine::readValueCheckBlank<double>(split[18]) *
-                    Physical::nmi2km());
+  a.setLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[17]));
+  a.setRadiusLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[18]) *
+                              Physical::nmi2km());
   a.setRadiusMaxWinds(AtcfLine::readValueCheckBlank<double>(split[19]) *
                       Physical::nmi2km());
   a.setGusts(AtcfLine::readValueCheckBlank<double>(split[20]) *
@@ -238,9 +238,9 @@ double AtcfLine::vmax() const { return m_vmax; }
 
 void AtcfLine::setVmax(double vmax) { m_vmax = vmax; }
 
-double AtcfLine::mslp() const { return m_mslp; }
+double AtcfLine::centralPressure() const { return m_centralPressure; }
 
-void AtcfLine::setMslp(double mslp) { m_mslp = mslp; }
+void AtcfLine::setCentralPressure(double mslp) { m_centralPressure = mslp; }
 
 std::string AtcfLine::maxDevelopmentLevel() const {
   return m_maxDevelopmentLevel;
@@ -250,14 +250,18 @@ void AtcfLine::setMaxDevelopmentLevel(const std::string &maxDevelopmentLevel) {
   m_maxDevelopmentLevel = maxDevelopmentLevel;
 }
 
-double AtcfLine::pouter() const { return m_pouter; }
+double AtcfLine::lastClosedIsobar() const { return m_lastClosedIsobar; }
 
-void AtcfLine::setPouter(double pouter) { m_pouter = pouter; }
+void AtcfLine::setLastClosedIsobar(double pouter) {
+  m_lastClosedIsobar = pouter;
+}
 
-double AtcfLine::radiusPouter() const { return m_radiusPouter; }
+double AtcfLine::radiusLastClosedIsobar() const {
+  return m_radiusLastClosedIsobar;
+}
 
-void AtcfLine::setRadiusPouter(double radiusPouter) {
-  m_radiusPouter = radiusPouter;
+void AtcfLine::setRadiusLastClosedIsobar(double radiusPouter) {
+  m_radiusLastClosedIsobar = radiusPouter;
 }
 
 double AtcfLine::radiusMaxWinds() const { return m_radiusMaxWinds; }
@@ -387,7 +391,7 @@ std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf) {
   os << "                      Latitude: " << atcf.lat() << " degrees north\n";
   os << "                      Max Wind: " << atcf.vmax() << " m/s\n";
   os << "                     Max Gusts: " << atcf.gusts() << " m/s\n";
-  os << "                  Min Pressure: " << atcf.mslp() << " mb\n";
+  os << "                  Min Pressure: " << atcf.centralPressure() << " mb\n";
   os << "  Number of specified isotachs: " << atcf.m_isotach.size() << "\n";
   size_t n = 0;
   for (const auto iso : atcf.m_isotach) {
@@ -398,8 +402,10 @@ std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf) {
     os << "\n";
     ++n;
   }
-  os << "            Last Closed Isobar: " << atcf.pouter() << " mb\n";
-  os << "     Radius Last Closed Isobar: " << atcf.radiusPouter() << " km\n";
+  os << "            Last Closed Isobar: " << atcf.lastClosedIsobar()
+     << " mb\n";
+  os << "     Radius Last Closed Isobar: " << atcf.radiusLastClosedIsobar()
+     << " km\n";
   os << "       Radius to Maximum Winds: " << atcf.radiusMaxWinds() << " km\n";
   os << "                  Eye Diameter: " << atcf.eyeDiameter() << " km\n";
   os << "               Storm Direction: " << atcf.stormDirection() << " deg\n";

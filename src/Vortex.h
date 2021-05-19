@@ -28,16 +28,19 @@
 
 #include <array>
 #include <cassert>
+#include <tuple>
 #include <utility>
 #include <vector>
+#include "Assumptions.h"
 #include "AtcfLine.h"
 #include "Physical.h"
 
 class Vortex {
  public:
-  Vortex();
+  Vortex(Assumptions *assumptions);
 
-  Vortex(AtcfLine *atcf, size_t currentIsotach);
+  Vortex(AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
+         Assumptions *assumptions);
 
   void setStormData(AtcfLine *atcf);
 
@@ -76,10 +79,17 @@ class Vortex {
 
   constexpr static double default_outer_radius() { return 400.0; }
 
- private:
+  size_t currentRecord() const;
+  void setCurrentRecord(const size_t &currentRecord);
+
+private:
   size_t m_currentQuadrant;
   size_t m_currentIsotach;
+  size_t m_currentRecord;
   AtcfLine *m_stormData;
+  Assumptions *m_assumptions;
+
+  static constexpr size_t m_max_it = 400;
 
   static std::pair<int, double> getBaseQuadrant(double angle);
 
@@ -105,10 +115,8 @@ class Vortex {
                           const double dp, const double coriolis,
                           const double rho) noexcept;
 
-  enum VhType { VhNoCori, VhWithCori, VhWithCoriFull };
-
-  template <Vortex::VhType vh>
-  std::pair<double, double> getVh(double aa) const;
+  double iterateRadius() const;
+  std::tuple<double, double, bool> iterateShapeTerms(double root) const;
 
   struct Root {
     double root;
@@ -120,10 +128,6 @@ class Vortex {
   };
 
   Root findRoot(double aa, double bb, double zoom_window) const;
-
-  std::pair<double, double> vhNoCori(double r) const;
-  std::pair<double, double> vhWithCori(double r) const;
-  std::pair<double, double> vgWithCoriFull(double r) const;
 };
 
 #endif  // VORTEX_H

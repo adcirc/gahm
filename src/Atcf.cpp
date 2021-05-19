@@ -171,8 +171,8 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
   s.cycle = w.first;
   s.wtratio = w.second;
   if (s.cycle < 1) {
-    s.central_pressure = m_atcfData.front().mslp();
-    s.background_pressure = m_atcfData.front().pouter();
+    s.central_pressure = m_atcfData.front().centralPressure();
+    s.background_pressure = m_atcfData.front().lastClosedIsobar();
     s.vmax = m_atcfData.front().vmax();
     s.latitude = m_atcfData.front().lat();
     s.longitude = m_atcfData.front().lon();
@@ -180,8 +180,8 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
     s.vtrans = m_atcfData.front().vTrans();
     s.uvtrans = m_atcfData.front().uvTrans();
   } else if (s.cycle >= m_atcfData.size()) {
-    s.central_pressure = m_atcfData.back().mslp();
-    s.background_pressure = m_atcfData.back().pouter();
+    s.central_pressure = m_atcfData.back().centralPressure();
+    s.background_pressure = m_atcfData.back().lastClosedIsobar();
     s.vmax = m_atcfData.back().vmax();
     s.latitude = m_atcfData.back().lat();
     s.longitude = m_atcfData.back().lon();
@@ -190,10 +190,10 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
     s.uvtrans = m_atcfData.back().uvTrans();
   } else {
     s.central_pressure = Atcf::linearInterp(
-        s.wtratio, m_atcfData[s.cycle].mslp(), m_atcfData[s.cycle + 1].mslp());
+        s.wtratio, m_atcfData[s.cycle].centralPressure(), m_atcfData[s.cycle + 1].centralPressure());
     s.background_pressure =
-        Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].pouter(),
-                           m_atcfData[s.cycle + 1].pouter());
+        Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].lastClosedIsobar(),
+                           m_atcfData[s.cycle + 1].lastClosedIsobar());
     s.vmax = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].vmax(),
                                 m_atcfData[s.cycle + 1].vmax());
     s.latitude = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].lat(),
@@ -224,9 +224,9 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
     const std::string vmax = boost::str(
         boost::format("%3i") % (std::round(a.vmax() * Physical::ms2kt())));
     const std::string mslp =
-        boost::str(boost::format("%4i") % (std::round(a.mslp())));
+        boost::str(boost::format("%4i") % (std::round(a.centralPressure())));
     const std::string backgroundPressure =
-        boost::str(boost::format("%4i") % std::round(a.pouter()));
+        boost::str(boost::format("%4i") % std::round(a.lastClosedIsobar()));
     const std::string rmax =
         boost::str(boost::format("%4i") %
                    (std::round(a.radiusMaxWinds() * Physical::km2nmi())));

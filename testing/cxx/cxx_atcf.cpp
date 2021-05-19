@@ -40,7 +40,7 @@ TEST_CASE("Atcf - I/O GAHM", "[atcf-io]") {
 
   REQUIRE(a.nRecords() == 42);
 
-  REQUIRE(a.record(8)->mslp() == Approx(979.530231));
+  REQUIRE(a.record(8)->centralPressure() == Approx(979.530231));
 
   assume.log(Assumption::MINOR);
 }

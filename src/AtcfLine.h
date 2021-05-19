@@ -72,8 +72,8 @@ class AtcfLine {
   double vmax() const;
   void setVmax(double vmax);
 
-  double mslp() const;
-  void setMslp(double mslp);
+  double centralPressure() const;
+  void setCentralPressure(double centralPressure);
 
   std::string maxDevelopmentLevel() const;
   void setMaxDevelopmentLevel(const std::string &maxDevelopmentLevel);
@@ -89,11 +89,11 @@ class AtcfLine {
   std::array<double, 4> quadrantRadii(size_t quadrant) const;
   std::array<double, 4> quadrantVmaxBL(size_t quadrant) const;
 
-  double pouter() const;
-  void setPouter(double pouter);
+  double lastClosedIsobar() const;
+  void setLastClosedIsobar(double lastClosedIsobar);
 
-  double radiusPouter() const;
-  void setRadiusPouter(double radiusPouter);
+  double radiusLastClosedIsobar() const;
+  void setRadiusLastClosedIsobar(double radiusLastClosedIsobar);
 
   double radiusMaxWinds() const;
   void setRadiusMaxWinds(double radiusMaxWinds);
@@ -178,7 +178,7 @@ class AtcfLine {
   double m_vmax;
 
   /// Storm minimum sea level pressure
-  double m_mslp;
+  double m_centralPressure;
 
   /// Coriolis Force
   double m_coriolis;
@@ -190,10 +190,10 @@ class AtcfLine {
   std::vector<Isotach> m_isotach;
 
   /// Background pressure
-  double m_pouter;
+  double m_lastClosedIsobar;
 
   /// Radius of last closed isobar
-  double m_radiusPouter;
+  double m_radiusLastClosedIsobar;
 
   /// Radius to maximum winds
   double m_radiusMaxWinds;

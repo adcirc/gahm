@@ -42,6 +42,8 @@ class Logging {
                       const std::string &heading = std::string());
   static void log(const std::string &s,
                   const std::string &heading = std::string());
+  static void debug(const std::string &s,
+                    const std::string &heading = std::string());
 
  private:
   static void printMessage(const std::string &header,

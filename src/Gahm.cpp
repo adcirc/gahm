@@ -100,10 +100,9 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
     vmaxbl /= Physical::windReduction();
   }
 
-  Vortex vortex;
   if (sp.cycle < 0) {
     for (size_t i = 0; i < m_atcf->crecord(0)->nIsotach(); ++i) {
-      vortex.setStormData(m_atcf->record(sp.cycle));
+      //vortex.setStormData(m_atcf->record(sp.cycle));
     }
   }
 

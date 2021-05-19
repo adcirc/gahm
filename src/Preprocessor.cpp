@@ -245,9 +245,9 @@ int Preprocessor::generateMissingPressureData(
   double vmax_global = 0.0;
   for (auto it = m_data->begin(); it != m_data->end(); ++it) {
     vmax_global = std::max(vmax_global, it->vmax());
-    if (it->mslp() <= 0.0) {
+    if (it->centralPressure() <= 0.0) {
       if (it == m_data->begin()) {
-        it->setMslp(
+        it->setCentralPressure(
             HurricanePressure::computeInitialPressureEstimate(it->vmax()));
         m_assumptions->add(
             generate_assumption(Assumption::MINOR,
@@ -255,15 +255,17 @@ int Preprocessor::generateMissingPressureData(
                                 "pressure estimate method. Record " +
                                     std::to_string(it - m_data->begin())));
       } else {
-        it->setMslp(hp.computePressure(it->vmax(), vmax_global,
-                                       (it - 1)->vmax(), (it - 1)->mslp(),
-                                       it->lat(), it->uvTrans()));
+        it->setCentralPressure(hp.computePressure(
+            it->vmax(), vmax_global, (it - 1)->vmax(),
+            (it - 1)->centralPressure(), it->lat(), it->uvTrans()));
         m_assumptions->add(generate_assumption(
             Assumption::MINOR,
-            "Pressure was computed as " + std::to_string(it->mslp()) +
+            "Pressure was computed as " +
+                std::to_string(it->centralPressure()) +
                 "mb using vmax=" + std::to_string(it->vmax()) +
                 "m/s, vmax_global=" + std::to_string(vmax_global) +
-                "m/s, previous_pressure=" + std::to_string((it - 1)->mslp()) +
+                "m/s, previous_pressure=" +
+                std::to_string((it - 1)->centralPressure()) +
                 "mb, lat=" + std::to_string(it->lat()) + ", speed=" +
                 std::to_string(it->uvTrans()) + "m/s, with method=" +
                 HurricanePressure::pressureMethodString(hp.pressureMethod()) +
@@ -319,33 +321,29 @@ int Preprocessor::computeParameters() {
         for (size_t k = 0; k < 4; ++k) {
           //...I think this should be used (use specified p_outer)
           // a.isotach(0)->hollandB()->set(
-          //    k, Physical::calcHollandB(a.cisotach(i)->cvmaxBl()->at(0),
-          //    a.mslp(), a.pouter()));
+          //    k, Physical::calcHollandB(a.cisotach(i)->cvmaxBl()->at(k),
+          //    a.centralPressure(), a.lastClosedIsobar()));
 
           //...ASWIP does this (uses 1013)
           a.isotach(0)->hollandB()->set(
-              k, Physical::calcHollandB(a.cisotach(i)->cvmaxBl()->at(0),
-                                        a.mslp(), 1013.0));
+              k, Physical::calcHollandB(a.cisotach(i)->cvmaxBl()->at(k),
+                                        a.centralPressure(),
+                                        Physical::backgroundPressure()));
         }
         std::fill(a.isotach(0)->phi()->begin(), a.isotach(0)->phi()->end(),
                   1.0);
 
-        std::cout << "VR/B: "
-                  << a.cisotach(i)->cvmaxBl()->at(0) * Physical::ms2kt() << " "
-                  << a.isotach(0)->hollandB()->front() << " " << a.mslp() << " "
-                  << a.pouter() << std::endl;
-
-        Vortex v(&a, i);
+        Vortex v(&a, rec_counter, i, m_assumptions);
         v.computeRadiusToWind();
 
         if (j > 1) break;
       }
 
-      std::cout << rec_counter << " ";
-      for (const auto &b : *a.isotach(i)->quadrantVr()) {
-        std::cout << b * Physical::ms2kt() << " ";
-      }
-      std::cout << std::endl;
+      //      std::cout << rec_counter << " ";
+      //      for (const auto &b : *a.isotach(i)->quadrantVr()) {
+      //        std::cout << b * Physical::ms2kt() << " ";
+      //      }
+      //      std::cout << std::endl;
     }
   }
   return 0;

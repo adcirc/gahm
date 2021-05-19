@@ -43,6 +43,8 @@ static constexpr double rotation_earth() { return 3600.0 * 7.2921 * 10e-5; }
 
 static constexpr double km2nmi() { return 1.852; }
 static constexpr double nmi2km() { return 1.0 / km2nmi(); }
+static constexpr double km2m() { return 1000.0; }
+static constexpr double nmi2m() { return nmi2km() * km2m(); }
 
 static constexpr double ms2mph() { return 2.23694; }
 static constexpr double kt2mph() { return 1.15078; }
