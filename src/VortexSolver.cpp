@@ -1,3 +1,28 @@
+// MIT License
+//
+// Copyright (c) 2020 ADCIRC Development Group
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+// Author: Zach Cobell
+// Contact: zcobell@thewaterinstitute.org
+//
 #include "VortexSolver.h"
 #include <cmath>
 #include <iostream>
@@ -15,10 +40,15 @@ double VortexSolverInternal::f(const double &r) const {
       std::exp(m_phi * (1.0 - rOverRmaxBg));
 
   //...Intermediate
-  const double fa = vmaxSq + m_vmax * r * Physical::km2m() * m_fc;
+  const double fa =
+      vmaxSq +
+      m_vmax * r * Units::convert(Units::Kilometer, Units::Meter) * m_fc;
   const double fb = rOverRmaxBg * expPhiOneMinusROverRmaxBg;
-  const double fc = std::pow((m_rmax * Physical::km2m() * m_fc) / 2.0, 2.0);
-  const double fd = (Physical::km2m() * m_rmax * m_fc) / 2.0;
+  const double fc = std::pow(
+      (m_rmax * Units::convert(Units::Kilometer, Units::Meter) * m_fc) / 2.0,
+      2.0);
+  const double fd =
+      (Units::convert(Units::Kilometer, Units::Meter) * m_rmax * m_fc) / 2.0;
 
   return std::sqrt(fa * fb + fc) - fd - m_vr;
 }

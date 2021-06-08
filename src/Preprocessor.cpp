@@ -37,8 +37,8 @@ int Preprocessor::run() {
   int ierr = 0;
   ierr = this->calculateOverlandTranslationVelocity();
   ierr += this->generateMissingPressureData();
-  ierr += this->computeParameters();
   ierr += this->calculateRadii();
+  ierr += this->computeParameters();
   return ierr;
 }
 
@@ -84,13 +84,13 @@ int Preprocessor::calculateOverlandTranslationVelocity() {
       gahm_throw_exception("Error calculating UVTrans");
     }
 
-    if (uv * Physical::ms2kt() < 1.0) {
-      uv = 1.0 * Physical::kt2ms();
+    if (uv * Units::convert(Units::MetersPerSecond, Units::Knot) < 1.0) {
+      uv = 1.0 * Units::convert(Units::Knot, Units::MetersPerSecond);
       it->setStormDirection((it - 1)->stormDirection());
     } else {
       double dir = std::atan2(u, v);
       if (dir < 0.0) dir += Physical::twopi();
-      it->setStormDirection(dir * Physical::rad2deg());
+      it->setStormDirection(dir * Units::convert(Units::Radian, Units::Degree));
     }
     it->setStormTranslationVelocities(u, v, uv);
     it->setStormSpeed(uv);
@@ -134,6 +134,8 @@ void Preprocessor::setAllRadiiToRmax(CircularArray<double, 4> *radii,
 void Preprocessor::setMissingRadiiToHalfNonzeroRadii(
     CircularArray<double, 4> *radii, const double radiisum, const size_t record,
     const size_t isotach) {
+  Logging::debug("RADII:HALF:: " + std::to_string(radiisum) + " " +
+                 std::to_string(radiisum * 0.5));
   for (size_t i = 0; i < radii->size(); ++i) {
     if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.5);
   }
@@ -154,6 +156,8 @@ void Preprocessor::setMissingRadiiToHalfNonzeroRadii(
 void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
     CircularArray<double, 4> *radii, const double radiisum, size_t record,
     size_t isotach) {
+  Logging::debug("RADII:HALFAVERAGE:: " + std::to_string(radiisum) + " " +
+                 std::to_string(radiisum * 0.25));
   for (size_t i = 0; i < radii->size(); ++i) {
     if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.25);
   }
@@ -173,8 +177,11 @@ void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
  */
 void Preprocessor::setMissingRadiiToAverageOfAdjacentRadii(
     CircularArray<double, 4> *radii, size_t record, size_t isotach) {
-  for (long j = 0; j < radii->size(); ++j) {
+  for (long j = 0; j < static_cast<long>(radii->size()); ++j) {
     if (radii->at(j) == 0.0) {
+      Logging::debug("RADII:AVGADJACENT: " + std::to_string(radii->at(j - 1)) +
+                     ", " + std::to_string(radii->at(j + 1)) + ", " +
+                     std::to_string(radii->at(j - 1) + radii->at(j + 1) * 0.5));
       radii->set(j, (radii->at(j - 1) + radii->at(j + 1)) * 0.5);
     }
   }
@@ -191,34 +198,44 @@ void Preprocessor::setMissingRadiiToAverageOfAdjacentRadii(
  * @return
  */
 int Preprocessor::calculateRadii() {
+  Logging::debug("Beginning to compute missing radii");
   for (auto ait = m_data->begin(); ait != m_data->end(); ++ait) {
     for (size_t i = 0; i < ait->nIsotach(); ++i) {
       const double radiisum =
-          std::accumulate(ait->cisotach(i)->crmax()->cbegin(),
-                          ait->cisotach(i)->crmax()->cend(), 0.0);
+          std::accumulate(ait->cisotach(i)->cisotachRadius()->cbegin(),
+                          ait->cisotach(i)->cisotachRadius()->cend(), 0.0);
       ait->isotach(i)->generateQuadFlag();
-      const int numNonzero =
-          std::accumulate(ait->cisotach(i)->cquadFlag()->cbegin(),
-                          ait->cisotach(i)->cquadFlag()->cend(), 0);
+      const unsigned numNonzero = [&]() -> unsigned {
+        unsigned numNonzero = 0;
+        for (size_t j = 0; j < 4; ++j) {
+          if (ait->cisotach(i)->cquadFlag()->at(j)) {
+            numNonzero++;
+          }
+        }
+        return numNonzero;
+      }();
+
+      Logging::debug("NumNonzero: " + std::to_string(numNonzero));
+
       const size_t record = ait - m_data->begin();
 
       switch (numNonzero) {
         case 0:
-          this->setAllRadiiToRmax(ait->isotach(i)->rmax(),
+          this->setAllRadiiToRmax(ait->isotach(i)->isotachRadius(),
                                   ait->isotach(i)->quadFlag(),
                                   ait->radiusMaxWinds(), record, i);
           break;
         case 1:
-          this->setMissingRadiiToHalfNonzeroRadii(ait->isotach(i)->rmax(),
-                                                  radiisum, record, i);
+          this->setMissingRadiiToHalfNonzeroRadii(
+              ait->isotach(i)->isotachRadius(), radiisum, record, i);
           break;
         case 2:
           this->setMissingRadiiToHalfOfAverageSpecifiedRadii(
-              ait->isotach(i)->rmax(), radiisum, record, i);
+              ait->isotach(i)->isotachRadius(), radiisum, record, i);
           break;
         case 3:
-          this->setMissingRadiiToAverageOfAdjacentRadii(ait->isotach(i)->rmax(),
-                                                        record, i);
+          this->setMissingRadiiToAverageOfAdjacentRadii(
+              ait->isotach(i)->isotachRadius(), record, i);
           break;
         case 4:
           //...No missing radii
@@ -291,8 +308,10 @@ int Preprocessor::computeParameters() {
 
       //...Compute the friction angle
       std::array<double, 4> quadRotateAngle(
-          {25.0 * Physical::deg2rad(), 25.0 * Physical::deg2rad(),
-           25.0 * Physical::deg2rad(), 25.0 * Physical::deg2rad()});
+          {25.0 * Units::convert(Units::Degree, Units::Radian),
+           25.0 * Units::convert(Units::Degree, Units::Radian),
+           25.0 * Units::convert(Units::Degree, Units::Radian),
+           25.0 * Units::convert(Units::Degree, Units::Radian)});
       if (i > 0) {
         nquadrotat = 1;
         for (size_t j = 0; j < 4; ++j) {
@@ -341,7 +360,8 @@ int Preprocessor::computeParameters() {
 
       //      std::cout << rec_counter << " ";
       //      for (const auto &b : *a.isotach(i)->quadrantVr()) {
-      //        std::cout << b * Physical::ms2kt() << " ";
+      //        std::cout << b *
+      //        Units::convert(Units::MetersPerSecond,Units::Knot) << " ";
       //      }
       //      std::cout << std::endl;
     }
@@ -354,18 +374,29 @@ double Preprocessor::computeGamma(const double uvr, const double vvr,
                                   const StormMotion &stormMotion,
                                   const double vmaxBL) {
   const double g0 =
-      (2.0 * uvr * Physical::ms2kt() * stormMotion.u * Physical::ms2kt() +
-       2.0 * vvr * Physical::ms2kt() * stormMotion.v * Physical::ms2kt());
+      (2.0 * uvr * Units::convert(Units::MetersPerSecond, Units::Knot) *
+           stormMotion.u * Units::convert(Units::MetersPerSecond, Units::Knot) +
+       2.0 * vvr * Units::convert(Units::MetersPerSecond, Units::Knot) *
+           stormMotion.v * Units::convert(Units::MetersPerSecond, Units::Knot));
   const double g1 = std::pow(g0, 2.0);
   const double g2 =
-      4.0 * (std::pow(stormMotion.uv * Physical::ms2kt(), 2.0) -
-             std::pow(vmaxBL * Physical::ms2kt(), 2.0) *
-                 Physical::windReduction() * Physical::windReduction());
-  const double g3 = std::pow(vr * Physical::ms2kt(), 2.0);
+      4.0 *
+      (std::pow(
+           stormMotion.uv * Units::convert(Units::MetersPerSecond, Units::Knot),
+           2.0) -
+       std::pow(vmaxBL * Units::convert(Units::MetersPerSecond, Units::Knot),
+                2.0) *
+           Physical::windReduction() * Physical::windReduction());
+  const double g3 =
+      std::pow(vr * Units::convert(Units::MetersPerSecond, Units::Knot), 2.0);
   const double g4 =
-      2.0 * (std::pow(stormMotion.uv * Physical::ms2kt(), 2.0) -
-             std::pow(vmaxBL * Physical::ms2kt(), 2.0) *
-                 Physical::windReduction() * Physical::windReduction());
+      2.0 *
+      (std::pow(
+           stormMotion.uv * Units::convert(Units::MetersPerSecond, Units::Knot),
+           2.0) -
+       std::pow(vmaxBL * Units::convert(Units::MetersPerSecond, Units::Knot),
+                2.0) *
+           Physical::windReduction() * Physical::windReduction());
 
   double g = (g0 - std::sqrt(g1 - g2 * g3)) / g4;
   g = std::max(std::min(g, 1.0), 0.0);
@@ -397,39 +428,54 @@ double Preprocessor::computeQuadrantVr(const double vmaxBL,
       Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
 
   const double qvr =
-      std::sqrt(std::pow(uvr * Physical::ms2kt() -
-                             gamma * stormMotion.u * Physical::ms2kt(),
-                         2.0) +
-                std::pow(vvr * Physical::ms2kt() -
-                             gamma * stormMotion.v * Physical::ms2kt(),
-                         2.0)) /
+      std::sqrt(
+          std::pow(uvr * Units::convert(Units::MetersPerSecond, Units::Knot) -
+                       gamma * stormMotion.u *
+                           Units::convert(Units::MetersPerSecond, Units::Knot),
+                   2.0) +
+          std::pow(vvr * Units::convert(Units::MetersPerSecond, Units::Knot) -
+                       gamma * stormMotion.v *
+                           Units::convert(Units::MetersPerSecond, Units::Knot),
+                   2.0)) /
       Physical::windReduction();
-  return qvr * Physical::kt2ms();
+  return qvr * Units::convert(Units::Knot, Units::MetersPerSecond);
 }
 
 double Preprocessor::computeQuadrantVr(const double quadrantVectorAngle,
                                        const StormMotion &stormMotion,
                                        const double vr) {
   const double qvr_1 =
-      (stormMotion.u * Physical::ms2kt() * std::cos(quadrantVectorAngle) +
-       stormMotion.v * Physical::ms2kt() * std::sin(quadrantVectorAngle));
+      (stormMotion.u * Units::convert(Units::MetersPerSecond, Units::Knot) *
+           std::cos(quadrantVectorAngle) +
+       stormMotion.v * Units::convert(Units::MetersPerSecond, Units::Knot) *
+           std::sin(quadrantVectorAngle));
   const double qvr =
       (-2.0 * qvr_1 +
        std::sqrt(4.0 * std::pow(qvr_1, 2.0) -
-                 4.0 * (std::pow(stormMotion.uv * Physical::ms2kt(), 2.0) -
-                        std::pow(vr * Physical::ms2kt(), 2.0)))) /
+                 4.0 * (std::pow(stormMotion.uv *
+                                     Units::convert(Units::MetersPerSecond,
+                                                    Units::Knot),
+                                 2.0) -
+                        std::pow(vr * Units::convert(Units::MetersPerSecond,
+                                                     Units::Knot),
+                                 2.0)))) /
       2.0;
-  return qvr * Physical::kt2ms();
+  return qvr * Units::convert(Units::Knot, Units::MetersPerSecond);
 }
 
 Preprocessor::StormMotion Preprocessor::computeStormMotion(
     const double speed, const double direction) {
   const double stormMotion =
-      1.5 * std::pow(speed * Physical::ms2kt(), 0.63) * Physical::kt2ms();
+      1.5 *
+      std::pow(speed * Units::convert(Units::MetersPerSecond, Units::Knot),
+               0.63) *
+      Units::convert(Units::Knot, Units::MetersPerSecond);
   const double stormMotionU =
-      std::sin(direction * Physical::deg2rad()) * stormMotion;
+      std::sin(direction * Units::convert(Units::Degree, Units::Radian)) *
+      stormMotion;
   const double stormMotionV =
-      std::cos(direction * Physical::deg2rad()) * stormMotion;
+      std::cos(direction * Units::convert(Units::Degree, Units::Radian)) *
+      stormMotion;
   return {stormMotionU, stormMotionV, stormMotion};
 }
 
@@ -480,8 +526,12 @@ void Preprocessor::recomputeQuadrantVr(
         isotach->vmaxBl()->set(k, qvr);
       } else {
         isotach->vmaxBl()->set(k, vmaxBL);
-        const double uvr = vr * std::cos(stormDirection * Physical::deg2rad());
-        const double vvr = vr * std::sin(stormDirection * Physical::deg2rad());
+        const double uvr =
+            vr * std::cos(stormDirection *
+                          Units::convert(Units::Degree, Units::Radian));
+        const double vvr =
+            vr * std::sin(stormDirection *
+                          Units::convert(Units::Degree, Units::Radian));
         const double gamma =
             Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
         const double qvr2 =

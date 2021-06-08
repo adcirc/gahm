@@ -84,9 +84,11 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
   std::array<double, 4> quadrantVr = {0.0, 0.0, 0.0, 0.0};
   for (auto i = 0; i < 4; ++i) {
     const double uvr =
-        std::cos(Physical::quadrantAngle(i) + Physical::deg2rad() * 90.0);
+        std::cos(Physical::quadrantAngle(i) +
+                 Units::convert(Units::Degree, Units::Radian) * 90.0);
     const double vvr =
-        std::sin(Physical::quadrantAngle(i) + Physical::deg2rad() * 90.0);
+        std::sin(Physical::quadrantAngle(i) +
+                 Units::convert(Units::Degree, Units::Radian) * 90.0);
     quadrantVr[i] = std::sqrt(std::pow(uvr - stormMotionU, 2.0) +
                               std::pow(vvr - stormMotionV, 2.0));
   }
@@ -102,7 +104,7 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
 
   if (sp.cycle < 0) {
     for (size_t i = 0; i < m_atcf->crecord(0)->nIsotach(); ++i) {
-      //vortex.setStormData(m_atcf->record(sp.cycle));
+      // vortex.setStormData(m_atcf->record(sp.cycle));
     }
   }
 
@@ -117,7 +119,7 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
                         const double phi, const double utrans,
                         const double coriolis, const double vtrans,
                         const double clat) {
-  if (distance < 1.0 * Physical::nmi2km()) {
+  if (distance < 1.0 * Units::convert(Units::NauticalMile, Units::Kilometer)) {
     return uvp(0.0, 0.0, pmin);
   }
 

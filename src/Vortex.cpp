@@ -32,8 +32,6 @@
 #include "Logging.h"
 #include "Physical.h"
 #include "VortexSolver.h"
-#include "boost/cstdint.hpp"
-#include "boost/math/tools/roots.hpp"
 
 Vortex::Vortex(Assumptions *assumptions)
     : m_currentQuadrant(0),
@@ -103,28 +101,34 @@ int Vortex::computeRadiusToWind() {
   for (size_t quad = 0; quad < 4; quad++) {
     this->setCurrentQuadrant(quad);
 
+    bool converged = false;
     for (size_t it = 0; it < m_max_it; ++it) {
       double root = this->iterateRadius();
       if (root < 0.0) {
         root =
             m_stormData->isotach(m_currentIsotach)->isotachRadius()->at(quad);
+        m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, root);
         m_assumptions->add(generate_assumption(
             Assumption::MAJOR,
             "Root could not be found for record " +
                 std::to_string(m_currentRecord) +
                 ", Isotach: " + std::to_string(m_currentIsotach) +
-                ", Quadrant: " + std::to_string(m_currentQuadrant)));
+                ", Quadrant: " + std::to_string(quad)));
       } else {
         m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, root);
       }
 
       double b_new, phi_new;
-      bool converged;
       std::tie(b_new, phi_new, converged) = this->iterateShapeTerms(root);
       if (converged) {
         Logging::debug("Radius iteration converged in " +
                        std::to_string(it + 1) + " iterations.");
+        m_stormData->isotach(m_currentIsotach)->hollandB()->set(quad, b_new);
+        m_stormData->isotach(m_currentIsotach)->phi()->set(quad, phi_new);
         break;
+      }
+      if (it == m_max_it - 1 && !converged) {
+        Logging::debug("Radius iteration failed to converged.");
       }
     }
   }
@@ -134,7 +138,7 @@ int Vortex::computeRadiusToWind() {
 std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               const double angle,
                                               const double whichWay) noexcept {
-  double a = Physical::deg2rad() * angle;
+  double a = Units::convert(Units::Degree, Units::Radian) * angle;
   if (whichWay >= 0.0) a *= -1.0;
   const double cosA = std::cos(a);
   const double sinA = std::sin(a);

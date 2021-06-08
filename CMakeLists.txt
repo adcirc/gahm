@@ -71,7 +71,8 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h)
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(

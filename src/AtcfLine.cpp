@@ -28,6 +28,7 @@
 #include <cassert>
 
 #include "Physical.h"
+#include "UnitConversion.h"
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
 
@@ -98,37 +99,38 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   lon = lonew == 'W' ? lon * -1.0 : lon;
   a.setLon(lon);
   a.setVmax(AtcfLine::readValueCheckBlank<double>(split[8]) *
-            Physical::kt2ms());
+            Units::convert(Units::Knot, Units::MetersPerSecond));
   a.setCentralPressure(AtcfLine::readValueCheckBlank<double>(split[9]));
 
-  auto r1 =
-      AtcfLine::readValueCheckBlank<double>(split[13]) * Physical::nmi2km();
-  auto r2 =
-      AtcfLine::readValueCheckBlank<double>(split[14]) * Physical::nmi2km();
-  auto r3 =
-      AtcfLine::readValueCheckBlank<double>(split[15]) * Physical::nmi2km();
-  auto r4 =
-      AtcfLine::readValueCheckBlank<double>(split[16]) * Physical::nmi2km();
+  auto r1 = AtcfLine::readValueCheckBlank<double>(split[13]) *
+            Units::convert(Units::NauticalMile, Units::Kilometer);
+  auto r2 = AtcfLine::readValueCheckBlank<double>(split[14]) *
+            Units::convert(Units::NauticalMile, Units::Kilometer);
+  auto r3 = AtcfLine::readValueCheckBlank<double>(split[15]) *
+            Units::convert(Units::NauticalMile, Units::Kilometer);
+  auto r4 = AtcfLine::readValueCheckBlank<double>(split[16]) *
+            Units::convert(Units::NauticalMile, Units::Kilometer);
 
-  Isotach i(
-      Isotach::codeFromString(split[12]),
-      AtcfLine::readValueCheckBlank<double>(split[11]) * Physical::kt2ms(), r1,
-      r2, r3, r4);
+  Isotach i(Isotach::codeFromString(split[12]),
+            AtcfLine::readValueCheckBlank<double>(split[11]) *
+                Units::convert(Units::Knot, Units::MetersPerSecond),
+            r1, r2, r3, r4);
   a.addIsotach(i);
   a.setLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[17]));
-  a.setRadiusLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[18]) *
-                              Physical::nmi2km());
+  a.setRadiusLastClosedIsobar(
+      AtcfLine::readValueCheckBlank<double>(split[18]) *
+      Units::convert(Units::NauticalMile, Units::Kilometer));
   a.setRadiusMaxWinds(AtcfLine::readValueCheckBlank<double>(split[19]) *
-                      Physical::nmi2km());
+                      Units::convert(Units::NauticalMile, Units::Kilometer));
   a.setGusts(AtcfLine::readValueCheckBlank<double>(split[20]) *
-             Physical::kt2ms());
+             Units::convert(Units::Knot, Units::MetersPerSecond));
   a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) *
-                   Physical::nmi2km());
+                   Units::convert(Units::NauticalMile, Units::Kilometer));
   a.setSubregion(split[22][0]);
   a.setInitials(split[24]);
   a.setStormDirection(AtcfLine::readValueCheckBlank<double>(split[25]));
   a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) *
-                  Physical::kt2ms());
+                  Units::convert(Units::Knot, Units::MetersPerSecond));
   a.setStormName(split[27]);
   a.setCoriolis(Physical::coriolis(a.lat()));
   a.setIsNull(false);

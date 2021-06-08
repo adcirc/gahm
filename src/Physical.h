@@ -30,29 +30,17 @@
 #include <cmath>
 #include <limits>
 #include <tuple>
+#include "UnitConversion.h"
 
 namespace Physical {
 
-static constexpr double m_deg2rad = M_PI / 180.0;
-static constexpr double m_rad2deg = 180.0 / M_PI;
-static constexpr std::array<double, 4> m_quadrantAngles = {
-    45.0 * m_deg2rad, (45.0 - 90.0) * m_deg2rad, (45.0 - 180.0) * m_deg2rad,
-    (45.0 - 270.0) * m_deg2rad};
-
 static constexpr double rotation_earth() { return 3600.0 * 7.2921 * 10e-5; }
 
-static constexpr double km2nmi() { return 1.852; }
-static constexpr double nmi2km() { return 1.0 / km2nmi(); }
-static constexpr double km2m() { return 1000.0; }
-static constexpr double nmi2m() { return nmi2km() * km2m(); }
-
-static constexpr double ms2mph() { return 2.23694; }
-static constexpr double kt2mph() { return 1.15078; }
-static constexpr double mph2kt() { return 1.0 / kt2mph(); }
-static constexpr double mph2ms() { return 1.0 / ms2mph(); }
-static constexpr double ms2kt() { return 1.94394; }
-static constexpr double kt2ms() { return 1.0 / ms2kt(); }
-static constexpr double mb2pa() { return 100.0; }
+static constexpr std::array<double, 4> m_quadrantAngles = {
+    45.0 * Units::convert(Units::Degree, Units::Radian),
+    (45.0 - 90.0) * Units::convert(Units::Degree, Units::Radian),
+    (45.0 - 180.0) * Units::convert(Units::Degree, Units::Radian),
+    (45.0 - 270.0) * Units::convert(Units::Degree, Units::Radian)};
 
 static constexpr double pi() { return M_PI; }
 static constexpr double twopi() { return pi() * 2.0; }
@@ -67,16 +55,13 @@ static constexpr double omega() { return 2.0 * pi() / 86164.20; }
 static constexpr double rhoWat0() { return 1000.0; }
 static constexpr double one2ten() { return 0.8928; }
 
-static constexpr double deg2rad() { return m_deg2rad; }
-static constexpr double rad2deg() { return m_rad2deg; }
-
 static constexpr double equatorialRadius() { return 6378137.0; }
 static constexpr double polarRadius() { return 6356752.3; }
 
 static double radiusEarth(
     const double latitude = std::numeric_limits<double>::max()) {
   if (latitude == std::numeric_limits<double>::max()) return 6378206.40;
-  const double l = deg2rad() * latitude;
+  const double l = Units::convert(Units::Degree, Units::Radian) * latitude;
   return std::sqrt(
       (std::pow(equatorialRadius(), 4.0) * std::cos(l) * std::cos(l) +
        std::pow(polarRadius(), 4.0) * std::sin(l) * std::sin(l)) /
@@ -95,10 +80,10 @@ static double cartesian_distance(const double x1, const double y1,
 
 static double geodesic_distance(const double x1, const double y1,
                                 const double x2, const double y2) {
-  const double lat1 = deg2rad() * y1;
-  const double lon1 = deg2rad() * x1;
-  const double lat2 = deg2rad() * y2;
-  const double lon2 = deg2rad() * x2;
+  const double lat1 = Units::convert(Units::Degree, Units::Radian) * y1;
+  const double lon1 = Units::convert(Units::Degree, Units::Radian) * x1;
+  const double lat2 = Units::convert(Units::Degree, Units::Radian) * y2;
+  const double lon2 = Units::convert(Units::Degree, Units::Radian) * x2;
   return 2.0 * radiusEarth(y1, y2) *
          std::asin(std::sqrt(std::pow(std::sin((lat2 - lat1) / 2.0), 2.0) +
                              std::cos(lat1) * std::cos(lat2) *
@@ -124,27 +109,27 @@ static double distance(const double x1, const double y1, const double x2,
 
 static double azimuthEarth(const double x1, const double y1, const double x2,
                            const double y2) {
-  const double lam0 = x1 * Physical::deg2rad();
-  const double phi0 = y1 * Physical::deg2rad();
-  const double lam1 = x2 * Physical::deg2rad();
-  const double phi1 = y2 * Physical::deg2rad();
+  const double lam0 = x1 * Units::convert(Units::Degree, Units::Radian);
+  const double phi0 = y1 * Units::convert(Units::Degree, Units::Radian);
+  const double lam1 = x2 * Units::convert(Units::Degree, Units::Radian);
+  const double phi1 = y2 * Units::convert(Units::Degree, Units::Radian);
   const double dlam = lam1 - lam0;
   const double a = std::sin(dlam) * std::cos(phi1);
   const double b = std::cos(phi0) * std::sin(phi1);
   const double c = std::sin(phi0) * std::cos(phi1) * std::cos(dlam);
   const double azi = std::atan2(a, b - c);
-  return azi * Physical::rad2deg();
+  return azi * Units::convert(Units::Radian, Units::Degree);
 }
 
 static constexpr double coriolis(double lat) noexcept {
-  return Physical::omega() * Physical::deg2rad() * lat;
+  return Physical::omega() * Units::convert(Units::Degree, Units::Radian) * lat;
 }
 
 static constexpr double calcHollandB(double vmax, double p0,
                                      double pinf) noexcept {
   assert(p0 != pinf);
   return (vmax * vmax * Physical::rhoAir() * Physical::e()) /
-         (Physical::mb2pa() * (pinf - p0));
+         (Units::convert(Units::Millibar, Units::Pascal) * (pinf - p0));
 }
 
 static constexpr double frictionAngle(double r, double rmx) noexcept {

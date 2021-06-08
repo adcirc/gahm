@@ -189,8 +189,9 @@ Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
     s.vtrans = m_atcfData.back().vTrans();
     s.uvtrans = m_atcfData.back().uvTrans();
   } else {
-    s.central_pressure = Atcf::linearInterp(
-        s.wtratio, m_atcfData[s.cycle].centralPressure(), m_atcfData[s.cycle + 1].centralPressure());
+    s.central_pressure =
+        Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].centralPressure(),
+                           m_atcfData[s.cycle + 1].centralPressure());
     s.background_pressure =
         Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].lastClosedIsobar(),
                            m_atcfData[s.cycle + 1].lastClosedIsobar());
@@ -221,23 +222,27 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
     const std::string lon = boost::str(boost::format("%3i") %
                                        (std::floor(std::abs(a.lon() * 10.0)))) +
                             (a.lon() > 0 ? "E" : "W");
-    const std::string vmax = boost::str(
-        boost::format("%3i") % (std::round(a.vmax() * Physical::ms2kt())));
+    const std::string vmax =
+        boost::str(boost::format("%3i") %
+                   (std::round(a.vmax() * Units::convert(Units::MetersPerSecond,
+                                                         Units::Knot))));
     const std::string mslp =
         boost::str(boost::format("%4i") % (std::round(a.centralPressure())));
     const std::string backgroundPressure =
         boost::str(boost::format("%4i") % std::round(a.lastClosedIsobar()));
-    const std::string rmax =
-        boost::str(boost::format("%4i") %
-                   (std::round(a.radiusMaxWinds() * Physical::km2nmi())));
+    const std::string rmax = boost::str(
+        boost::format("%4i") %
+        (std::round(a.radiusMaxWinds() *
+                    Units::convert(Units::Kilometer, Units::NauticalMile))));
 
     std::string heading =
         boost::str(boost::format("%3i") % (std::round(a.stormDirection())));
     if (heading == " -0") heading = "  0";  //...Check for signed zero
 
-    const std::string forwardSpeed =
-        boost::str(boost::format("%3i") %
-                   (std::round(a.stormSpeed() * Physical::ms2kt())));
+    const std::string forwardSpeed = boost::str(
+        boost::format("%3i") %
+        (std::round(a.stormSpeed() *
+                    Units::convert(Units::MetersPerSecond, Units::Knot))));
     const std::string forecastHour =
         boost::str(boost::format("%4i") %
                    std::round((a.datetime().toSeconds() -
@@ -247,46 +252,72 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
     for (size_t i = 0; i < a.nIsotach(); ++i) {
       const std::string isoWindSpeed = boost::str(
           boost::format("%4i") %
-          (std::round(a.cisotach(i)->windSpeed() * Physical::ms2kt())));
+          (std::round(a.cisotach(i)->windSpeed() *
+                      Units::convert(Units::MetersPerSecond, Units::Knot))));
       const std::string isospd = boost::str(
-          boost::format("%4i") %
-          (std::round(a.cisotach(i)->windSpeed() * Physical::ms2kt())));
-      const std::string ir1 =
-          boost::str(boost::format("%4i") %
-                     (std::round(a.cisotach(i)->cisotachRadius()->at(0) *
-                                 Physical::km2nmi())));
-      const std::string ir2 =
-          boost::str(boost::format("%4i") %
-                     (std::round(a.cisotach(i)->cisotachRadius()->at(1) *
-                                 Physical::km2nmi())));
-      const std::string ir3 =
-          boost::str(boost::format("%4i") %
-                     (std::round(a.cisotach(i)->cisotachRadius()->at(2) *
-                                 Physical::km2nmi())));
-      const std::string ir4 =
-          boost::str(boost::format("%4i") %
-                     (std::round(a.cisotach(i)->cisotachRadius()->at(4) *
-                                 Physical::km2nmi())));
-      const std::string rmx1 =
-          boost::str(boost::format("%9.1f") %
-                     (a.cisotach(i)->crmax()->at(0) * Physical::km2nmi()));
-      const std::string rmx2 =
-          boost::str(boost::format("%9.1f") %
-                     (a.cisotach(i)->crmax()->at(1) * Physical::km2nmi()));
-      const std::string rmx3 =
-          boost::str(boost::format("%9.1f") %
-                     (a.cisotach(i)->crmax()->at(2) * Physical::km2nmi()));
-      const std::string rmx4 =
-          boost::str(boost::format("%9.1f") %
-                     (a.cisotach(i)->crmax()->at(3) * Physical::km2nmi()));
+          boost::format("%7.1f") %
+          (std::round(a.cisotach(i)->windSpeed() *
+                      Units::convert(Units::MetersPerSecond, Units::Knot))));
+      const std::string ir1 = boost::str(
+          boost::format("%7.1f") %
+          (std::round(a.cisotach(i)->cisotachRadius()->at(0) *
+                      Units::convert(Units::Kilometer, Units::NauticalMile))));
+      const std::string ir2 = boost::str(
+          boost::format("%7.1f") %
+          (std::round(a.cisotach(i)->cisotachRadius()->at(1) *
+                      Units::convert(Units::Kilometer, Units::NauticalMile))));
+      const std::string ir3 = boost::str(
+          boost::format("%7.1f") %
+          (std::round(a.cisotach(i)->cisotachRadius()->at(2) *
+                      Units::convert(Units::Kilometer, Units::NauticalMile))));
+      const std::string ir4 = boost::str(
+          boost::format("%7.1f") %
+          (std::round(a.cisotach(i)->cisotachRadius()->at(4) *
+                      Units::convert(Units::Kilometer, Units::NauticalMile))));
+      //      const std::string rmx1 =
+      //          boost::str(boost::format("%9.1f") %
+      //                     (a.cisotach(i)->crmax()->at(0) *
+      //                      Units::convert(Units::Kilometer,
+      //                      Units::NauticalMile)));
+      //      const std::string rmx2 =
+      //          boost::str(boost::format("%9.1f") %
+      //                     (a.cisotach(i)->crmax()->at(1) *
+      //                      Units::convert(Units::Kilometer,
+      //                      Units::NauticalMile)));
+      //      const std::string rmx3 =
+      //          boost::str(boost::format("%9.1f") %
+      //                     (a.cisotach(i)->crmax()->at(2) *
+      //                      Units::convert(Units::Kilometer,
+      //                      Units::NauticalMile)));
+      //      const std::string rmx4 =
+      //          boost::str(boost::format("%9.1f") %
+      //                     (a.cisotach(i)->crmax()->at(3) *
+      //                      Units::convert(Units::Kilometer,
+      //                      Units::NauticalMile)));
+      const std::string b1 = boost::str(boost::format("%9.1f") %
+                                        a.cisotach(i)->chollandB()->at(0));
+      const std::string b2 = boost::str(boost::format("%9.1f") %
+                                        a.cisotach(i)->chollandB()->at(1));
+      const std::string b3 = boost::str(boost::format("%9.1f") %
+                                        a.cisotach(i)->chollandB()->at(2));
+      const std::string b4 = boost::str(boost::format("%9.1f") %
+                                        a.cisotach(i)->chollandB()->at(3));
+      const std::string phi1 =
+          boost::str(boost::format("%9.1f") % a.cisotach(i)->cphi()->at(0));
+      const std::string phi2 =
+          boost::str(boost::format("%9.1f") % a.cisotach(i)->cphi()->at(1));
+      const std::string phi3 =
+          boost::str(boost::format("%9.1f") % a.cisotach(i)->cphi()->at(2));
+      const std::string phi4 =
+          boost::str(boost::format("%9.1f") % a.cisotach(i)->cphi()->at(3));
 
       f << boost::str(
-          boost::format(
-              "%3s, %02i, %04i%02i%02i%02i,   "
-              ",%5s,%4s,%5s,%5s,%4s,%5s,   "
-              ",%5s,%5s,%5s,%5s,%4s,%4s,%5s,     ,%4s,     ,    , "
-              "   ,    ,    "
-              ",%3s,%4s,%12s,%4i,%5i,%2i,%2i,%2i,%2i,%9s,%9s,%9s,%9s\n") %
+          boost::format("%3s, %02i, %04i%02i%02i%02i,   "
+                        ",%5s,%4s,%5s,%5s,%4s,%5s,   "
+                        ",%5s,%5s,%5s,%5s,%4s,%4s,%5s,     ,%4s,     ,    , "
+                        "   ,    ,    "
+                        ",%3s,%4s,%12s,%4i,%5i,%2i,%2i,%2i,%2i,%9s,%9s,%9s,%9s,"
+                        "%9s,%9s,%9s,%9s,%9s,%9s,%9s,%9s\n") %
           a.basin() % a.cycloneNumber() % a.datetime().year() %
           a.datetime().month() % a.datetime().day() % a.datetime().hour() %
           a.techstring() % forecastHour % lat % lon % vmax % mslp %
@@ -296,7 +327,8 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
           a.cisotach(i)->cquadFlag()->at(0) %
           a.cisotach(i)->cquadFlag()->at(1) %
           a.cisotach(i)->cquadFlag()->at(2) %
-          a.cisotach(i)->cquadFlag()->at(3) % rmx1 % rmx2 % rmx3 % rmx4);
+          a.cisotach(i)->cquadFlag()->at(3) % ir1 % ir2 % ir3 % ir4 % b1 % b2 %
+          b3 % b4 % phi1 % phi2 % phi3 % phi4);
     }
   }
   f.close();
