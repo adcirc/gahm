@@ -27,7 +27,7 @@
 
 #include <cassert>
 
-#include "Physical.h"
+#include "Constants.h"
 #include "UnitConversion.h"
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
@@ -132,7 +132,7 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) *
                   Units::convert(Units::Knot, Units::MetersPerSecond));
   a.setStormName(split[27]);
-  a.setCoriolis(Physical::coriolis(a.lat()));
+  a.setCoriolis(Constants::coriolis(a.lat()));
   a.setIsNull(false);
   return a;
 }
@@ -330,46 +330,6 @@ void AtcfLine::removeIsotach(size_t pos) {
 
 size_t AtcfLine::nIsotach() const { return m_isotach.size(); }
 
-std::array<double, 4> AtcfLine::quadrantHollandB(size_t quadrant) const {
-  assert(quadrant < 4);
-  std::array<double, 4> arr;
-  std::fill(arr.begin(), arr.end(), 0.0);
-  for (size_t i = 0; i < m_isotach.size(); ++i) {
-    arr[i] = m_isotach[i].chollandB()->at(quadrant);
-  }
-  return arr;
-}
-
-std::array<double, 4> AtcfLine::quadrantRmax(size_t quadrant) const {
-  assert(quadrant < 4);
-  std::array<double, 4> arr;
-  std::fill(arr.begin(), arr.end(), 0.0);
-  for (size_t i = 0; i < m_isotach.size(); ++i) {
-    arr[i] = m_isotach[i].crmax()->at(quadrant);
-  }
-  return arr;
-}
-
-std::array<double, 4> AtcfLine::quadrantRadii(size_t quadrant) const {
-  assert(quadrant < 4);
-  std::array<double, 4> arr;
-  std::fill(arr.begin(), arr.end(), 0.0);
-  for (size_t i = 0; i < m_isotach.size(); ++i) {
-    arr[i] = m_isotach[i].cisotachRadius()->at(quadrant);
-  }
-  return arr;
-}
-
-std::array<double, 4> AtcfLine::quadrantVmaxBL(size_t quadrant) const {
-  assert(quadrant < 4);
-  std::array<double, 4> arr;
-  std::fill(arr.begin(), arr.end(), 0.0);
-  for (size_t i = 0; i < m_isotach.size(); ++i) {
-    arr[i] = m_isotach[i].cvmaxBl()->at(quadrant);
-  }
-  return arr;
-}
-
 /**
  * @brief operator<< Overload for streaming AtcfLine objects to a stream
  * @param os ostream object
@@ -465,3 +425,11 @@ void AtcfLine::setVTrans(double v) { m_v = v; }
 double AtcfLine::coriolis() const { return m_coriolis; }
 
 void AtcfLine::setCoriolis(double coriolis) { m_coriolis = coriolis; }
+
+double AtcfLine::hollandB() const { return m_hollandB; }
+
+void AtcfLine::setHollandB(double b) { m_hollandB = b; }
+
+double AtcfLine::vmaxBl() const { return m_vmaxbl; }
+
+void AtcfLine::setVmaxBl(double v){ m_vmaxbl = v; }

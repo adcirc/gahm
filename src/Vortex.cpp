@@ -26,11 +26,10 @@
 #include "Vortex.h"
 
 #include <cassert>
-#include <limits>
-#include <numeric>
 #include <utility>
+
+#include "Constants.h"
 #include "Logging.h"
-#include "Physical.h"
 #include "VortexSolver.h"
 
 Vortex::Vortex(Assumptions *assumptions)
@@ -50,28 +49,36 @@ Vortex::Vortex(AtcfLine *atcf, const size_t currentRecord,
 
 void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
 
+std::tuple<double, double> Vortex::computeBandPhi(double vmax, double root,
+                                                  double b, double cor,
+                                                  double cp) {
+  double phi_new = Vortex::computePhi(vmax, root, b, cor);
+  double b_new =
+      Vortex::computeBg(vmax, root, phi_new, cp, cor, Constants::rhoAir());
+  return std::make_tuple(phi_new, b_new);
+}
+
 std::tuple<double, double, bool> Vortex::iterateShapeTerms(
     const double root) const {
   constexpr double accuracy = 0.01;
-  double phi_new = Vortex::computePhi(m_stormData->vmax(), root,
-                                      m_stormData->cisotach(m_currentIsotach)
-                                          ->chollandB()
-                                          ->at(m_currentQuadrant),
-                                      m_stormData->coriolis());
-  double b_new = Vortex::computeBg(
-      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant),
-      m_stormData->radiusMaxWinds(), phi_new, m_stormData->centralPressure(),
-      m_stormData->coriolis(), Physical::rhoAir());
-  for (size_t i = 0; i < m_max_it; ++i) {
+
+  double vmax =
+      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
+  double b = m_stormData->cisotach(m_currentIsotach)
+                 ->chollandB()
+                 ->at(m_currentQuadrant);
+  double cor = m_stormData->coriolis();
+  double cp = m_stormData->centralPressure();
+
+  double phi_new, b_new;
+  std::tie(phi_new, b_new) = Vortex::computeBandPhi(vmax, root, b, cor, cp);
+
+  for (auto i = 0; i < m_max_it; ++i) {
     double b_new1 = b_new;
-    phi_new = Vortex::computePhi(m_stormData->vmax(), root, b_new,
-                                 m_stormData->coriolis());
-    b_new = Vortex::computeBg(m_stormData->cisotach(m_currentIsotach)
-                                  ->cvmaxBl()
-                                  ->at(m_currentQuadrant),
-                              m_stormData->radiusMaxWinds(), phi_new,
-                              m_stormData->centralPressure(),
-                              m_stormData->coriolis(), Physical::rhoAir());
+
+    std::tie(phi_new, b_new) =
+        Vortex::computeBandPhi(vmax, root, b_new, cor, cp);
+
     if (std::abs(b_new1 - b_new) < accuracy) {
       Logging::debug("Shape iteration converged in " + std::to_string(i + 1) +
                      " iterations.");
@@ -117,6 +124,9 @@ int Vortex::computeRadiusToWind() {
       } else {
         m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, root);
       }
+
+      std::cout << quad << " " << root << std::endl;
+      std::cout << "Stopping" << std::endl;
 
       double b_new, phi_new;
       std::tie(b_new, phi_new, converged) = this->iterateShapeTerms(root);
@@ -311,11 +321,14 @@ Vortex::Root Vortex::findRoot(double aa, double bb,
                               const double zoom_window) const {
   constexpr size_t itmax = 400;
   auto vortex_function = VortexSolver<VortexSolverType::NoDerivative>(
-      m_stormData, m_currentQuadrant, m_currentIsotach);
+      m_stormData, m_currentIsotach, m_currentQuadrant);
   double fa = vortex_function(aa);
 
+  std::cout << "Enter: " << aa << " " << bb << " " << zoom_window << " " << fa
+            << std::endl;
+
   for (size_t it = 0; it < itmax; ++it) {
-    bb = aa + (it + 1) * zoom_window;
+    bb = aa + static_cast<double>(it + 1) * zoom_window;
     double fb = vortex_function(bb);
 
     if (fa * fb < 0.0 || (std::abs(fb) > std::abs(fa))) {

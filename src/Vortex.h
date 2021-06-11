@@ -31,9 +31,10 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+
 #include "Assumptions.h"
 #include "AtcfLine.h"
-#include "Physical.h"
+#include "Constants.h"
 
 class Vortex {
  public:
@@ -75,14 +76,18 @@ class Vortex {
   static std::pair<double, double> rotateWinds(double x, double y, double angle,
                                                double whichWay) noexcept;
 
-  constexpr static double default_inner_radius() { return 1.0; }
+  constexpr static double default_inner_radius() {
+    return 1.0 * Units::convert(Units::NauticalMile, Units::Kilometer);
+  }
 
-  constexpr static double default_outer_radius() { return 400.0; }
+  constexpr static double default_outer_radius() {
+    return 400.0 * Units::convert(Units::NauticalMile, Units::Kilometer);
+  }
 
   size_t currentRecord() const;
   void setCurrentRecord(const size_t &currentRecord);
 
-private:
+ private:
   size_t m_currentQuadrant;
   size_t m_currentIsotach;
   size_t m_currentRecord;
@@ -114,6 +119,10 @@ private:
                           const double radiusToMaxWinds, const double phi,
                           const double dp, const double coriolis,
                           const double rho) noexcept;
+
+  static std::tuple<double, double> computeBandPhi(double vmax, double root,
+                                                   double b, double cor,
+                                                   double cp);
 
   double iterateRadius() const;
   std::tuple<double, double, bool> iterateShapeTerms(double root) const;

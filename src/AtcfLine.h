@@ -32,9 +32,9 @@
 #include <tuple>
 #include <vector>
 
+#include "Constants.h"
 #include "Date.h"
 #include "Isotach.h"
-#include "Physical.h"
 
 class AtcfLine {
  public:
@@ -83,11 +83,6 @@ class AtcfLine {
   void addIsotach(const Isotach &iso);
   void removeIsotach(size_t pos);
   size_t nIsotach() const;
-
-  std::array<double, 4> quadrantHollandB(size_t quadrant) const;
-  std::array<double, 4> quadrantRmax(size_t quadrant) const;
-  std::array<double, 4> quadrantRadii(size_t quadrant) const;
-  std::array<double, 4> quadrantVmaxBL(size_t quadrant) const;
 
   double lastClosedIsobar() const;
   void setLastClosedIsobar(double lastClosedIsobar);
@@ -146,6 +141,12 @@ class AtcfLine {
   double coriolis() const;
   void setCoriolis(double coriolis);
 
+  double hollandB() const;
+  void setHollandB(double b);
+
+  double vmaxBl() const;
+  void setVmaxBl(double v);
+
  private:
   /// Basin where the cyclone occurs
   std::string m_basin;
@@ -176,6 +177,12 @@ class AtcfLine {
 
   /// Storm maximum wind velocity
   double m_vmax;
+
+  /// Storm vmax at boundary layer
+  double m_vmaxbl;
+
+  /// Holland B
+  double m_hollandB;
 
   /// Storm minimum sea level pressure
   double m_centralPressure;

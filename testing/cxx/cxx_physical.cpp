@@ -24,36 +24,36 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #define CATCH_CONFIG_MAIN
-#include "Physical.h"
+#include "Constants.h"
 #include "catch.hpp"
 
 TEST_CASE("Physical - Radius Earth", "[RadiusEarth]") {
-  auto radiusEarthAt35 = Physical::radiusEarth(35.0);
+  auto radiusEarthAt35 = Constants::radiusEarth(35.0);
   REQUIRE(radiusEarthAt35 == Approx(6371141.2260278296));
 
-  auto radiusEarthAt352 = Physical::radiusEarth(30.0, 40.0);
+  auto radiusEarthAt352 = Constants::radiusEarth(30.0, 40.0);
   REQUIRE(radiusEarthAt35 == Approx(radiusEarthAt352));
 }
 
 TEST_CASE("Physical - Distance", "[distance]") {
-  auto cdis = Physical::cartesian_distance(1.0, 2.0, 3.0, 4.0);
+  auto cdis = Constants::cartesian_distance(1.0, 2.0, 3.0, 4.0);
   REQUIRE(cdis == Approx(2.828427));
 
-  auto gdis = Physical::geodesic_distance(-90.0, 20.0, -74.0, 40.0);
+  auto gdis = Constants::geodesic_distance(-90.0, 20.0, -74.0, 40.0);
   REQUIRE(gdis == Approx(2696551.5700955666));
 
-  auto sdis = Physical::sphericalDx(-90.0, 20.0, -74.0, 40.0);
+  auto sdis = Constants::sphericalDx(-90.0, 20.0, -74.0, 40.0);
   REQUIRE(std::get<0>(sdis) == Approx(1539944.325839015));
   REQUIRE(std::get<1>(sdis) == Approx(2224535.3744850801));
   REQUIRE(std::get<2>(sdis) == gdis);
 }
 
 TEST_CASE("Physical - Azimuth", "[azimuth]") {
-  auto azi = Physical::azimuthEarth(-90.0, 20.0, -74.0, 40.0);
+  auto azi = Constants::azimuthEarth(-90.0, 20.0, -74.0, 40.0);
   REQUIRE(azi == Approx(30.9456481898));
 }
 
 TEST_CASE("Physical - Coriolis", "[coriolis]") {
-  auto c = Physical::coriolis(30.0);
-  REQUIRE(c == Approx(0.0000381814));
+  auto c = Constants::coriolis(30.0);
+  REQUIRE(c == Approx(0.0000763628));
 }

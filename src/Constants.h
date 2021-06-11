@@ -23,16 +23,17 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef PHYSICAL_H
-#define PHYSICAL_H
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
 
 #include <cassert>
 #include <cmath>
 #include <limits>
 #include <tuple>
+
 #include "UnitConversion.h"
 
-namespace Physical {
+namespace Constants {
 
 static constexpr double rotation_earth() { return 3600.0 * 7.2921 * 10e-5; }
 
@@ -49,7 +50,7 @@ static constexpr double e() { return M_E; }
 
 static constexpr double backgroundPressure() { return 1013.0; }
 static constexpr double windReduction() { return 0.9; }
-static constexpr double rhoAir() { return 1.293; }
+static constexpr double rhoAir() { return 1.15; }
 static constexpr double g() { return 9.80665; }
 static constexpr double omega() { return 2.0 * pi() / 86164.20; }
 static constexpr double rhoWat0() { return 1000.0; }
@@ -60,7 +61,7 @@ static constexpr double polarRadius() { return 6356752.3; }
 
 static double radiusEarth(
     const double latitude = std::numeric_limits<double>::max()) {
-  if (latitude == std::numeric_limits<double>::max()) return 6378206.40;
+  if (latitude == std::numeric_limits<double>::max()) return 6378135.0;
   const double l = Units::convert(Units::Degree, Units::Radian) * latitude;
   return std::sqrt(
       (std::pow(equatorialRadius(), 4.0) * std::cos(l) * std::cos(l) +
@@ -75,7 +76,7 @@ static double radiusEarth(const double y1, const double y2) {
 
 static double cartesian_distance(const double x1, const double y1,
                                  const double x2, const double y2) {
-  return std::sqrt(std::pow(x2 - x1, 2.0) + std::pow(y2 - y1, 2.0));
+  return std::sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
 static double geodesic_distance(const double x1, const double y1,
@@ -122,13 +123,13 @@ static double azimuthEarth(const double x1, const double y1, const double x2,
 }
 
 static constexpr double coriolis(double lat) noexcept {
-  return Physical::omega() * Units::convert(Units::Degree, Units::Radian) * lat;
+  return 2.0 * Constants::omega() *
+         Units::convert(Units::Degree, Units::Radian) * lat;
 }
 
-static constexpr double calcHollandB(double vmax, double p0,
-                                     double pinf) noexcept {
+static constexpr double calcHollandB(double vmax, double p0, double pinf) {
   assert(p0 != pinf);
-  return (vmax * vmax * Physical::rhoAir() * Physical::e()) /
+  return (vmax * vmax * Constants::rhoAir() * Constants::e()) /
          (Units::convert(Units::Millibar, Units::Pascal) * (pinf - p0));
 }
 
@@ -145,7 +146,7 @@ static constexpr double frictionAngle(double r, double rmx) noexcept {
 }
 
 constexpr double quadrantAngle(size_t index) {
-  return Physical::m_quadrantAngles[index];
+  return Constants::m_quadrantAngles[index];
 }
 
 template <typename T>
@@ -175,6 +176,6 @@ static constexpr T fast_exp(const T x) noexcept {
   }
 }
 
-};  // namespace Physical
+};  // namespace Constants
 
-#endif  // PHYSICAL_H
+#endif  // CONSTANTS_H

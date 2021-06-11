@@ -48,7 +48,7 @@ add_library(
   gahm SHARED
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Physical.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/AtcfLine.cpp

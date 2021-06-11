@@ -31,8 +31,6 @@
 
 class Logging {
  public:
-  Logging() = default;
-
   static void throwError(const std::string &s);
   static void throwError(const std::string &s, const char *file, int line);
 
@@ -46,6 +44,7 @@ class Logging {
                     const std::string &heading = std::string());
 
  private:
+  Logging() = default;
   static void printMessage(const std::string &header,
                            const std::string &message);
   static void printErrorMessage(const std::string &header,

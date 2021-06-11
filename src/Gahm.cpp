@@ -28,8 +28,8 @@
 #include <iostream>
 #include <utility>
 
+#include "Constants.h"
 #include "Logging.h"
-#include "Physical.h"
 #include "Vortex.h"
 
 #ifdef GAHM_USE_FAST_MATH
@@ -69,7 +69,7 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
   const auto directionNow = [sp]() {
     double d = std::atan2(sp.utrans, sp.vtrans);
     if (d < 0.0) {
-      d += Physical::twopi();
+      d += Constants::twopi();
     }
     return d;
   }();
@@ -77,17 +77,17 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
   const double stormMotionU = std::sin(directionNow) * stormMotion;
   const double stormMotionV = std::cos(directionNow) * stormMotion;
 
-  double vmaxbl = (sp.vmax - stormMotion) / Physical::windReduction();
+  double vmaxbl = (sp.vmax - stormMotion) / Constants::windReduction();
 
   //...Quadrant angles in the radial direction. We need the tangential
   // direction since that is the direction of Vr
   std::array<double, 4> quadrantVr = {0.0, 0.0, 0.0, 0.0};
   for (auto i = 0; i < 4; ++i) {
     const double uvr =
-        std::cos(Physical::quadrantAngle(i) +
+        std::cos(Constants::quadrantAngle(i) +
                  Units::convert(Units::Degree, Units::Radian) * 90.0);
     const double vvr =
-        std::sin(Physical::quadrantAngle(i) +
+        std::sin(Constants::quadrantAngle(i) +
                  Units::convert(Units::Degree, Units::Radian) * 90.0);
     quadrantVr[i] = std::sqrt(std::pow(uvr - stormMotionU, 2.0) +
                               std::pow(vvr - stormMotionV, 2.0));
@@ -97,9 +97,9 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
   auto maxQuadrantVr = *(std::max(quadrantVr.begin(), quadrantVr.end()));
   if (maxQuadrantVr > vmaxbl) {
     for (auto i = 0; i < 4; ++i) {
-      quadrantVr[i] /= Physical::windReduction();
+      quadrantVr[i] /= Constants::windReduction();
     }
-    vmaxbl /= Physical::windReduction();
+    vmaxbl /= Constants::windReduction();
   }
 
   if (sp.cycle < 0) {
@@ -141,16 +141,16 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
   const double speedOverVmax = std::abs(speed / vmax);
   const double tsx = speedOverVmax * utrans;
   const double tsy = speedOverVmax * vtrans;
-  speed *= Physical::windReduction();
+  speed *= Constants::windReduction();
   const double u = -speed * std::cos(angle);
   const double v = speed * std::sin(angle);
 
   double uf, vf;
   std::tie(uf, vf) = Vortex::rotateWinds(
-      u, v, Physical::frictionAngle(distance, rmax_true), clat);
+      u, v, Constants::frictionAngle(distance, rmax_true), clat);
 
-  uf = (uf + tsx) * Physical::one2ten();
-  vf = (vf + tsy) * Physical::one2ten();
+  uf = (uf + tsx) * Constants::one2ten();
+  vf = (vf + tsy) * Constants::one2ten();
 
   const double p = geofactor
                        ? p_c + (p_background - p_c) * gahm_exp(-phi * rmaxdisb)

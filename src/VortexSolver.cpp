@@ -24,9 +24,11 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "VortexSolver.h"
+
 #include <cmath>
 #include <iostream>
-#include "Physical.h"
+
+#include "Constants.h"
 
 VortexSolverInternal::VortexSolverInternal(double rmax, double vmax, double bg,
                                            double phi, double fc, double vr)
@@ -50,12 +52,23 @@ double VortexSolverInternal::f(const double &r) const {
   const double fd =
       (Units::convert(Units::Kilometer, Units::Meter) * m_rmax * m_fc) / 2.0;
 
+  std::cout << m_vmax * Units::convert(Units::Kilometer, Units::NauticalMile)
+            << " " << r * Units::convert(Units::Kilometer, Units::NauticalMile)
+            << " " << m_fc << " "
+            << m_rmax * Units::convert(Units::Kilometer, Units::NauticalMile)
+            << " " << m_bg << std::endl;
+
+  std::cout << std::sqrt(fa * fb + fc) *
+                   Units::convert(Units::MetersPerSecond, Units::Knot)
+            << " "
+            << m_vr * Units::convert(Units::Kilometer, Units::NauticalMile)
+            << std::endl;
   return std::sqrt(fa * fb + fc) - fd - m_vr;
 }
 
 double VortexSolverInternal::fprime(const double &r) const {
   constexpr double dx = 0.001;
-  double f0 = f(r - dx);
-  double f1 = f(r + dx);
+  double f0 = f(r - dx * 0.5);
+  double f1 = f(r + dx * 0.5);
   return (f1 - f0) / dx;
 }

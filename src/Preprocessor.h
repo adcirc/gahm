@@ -28,6 +28,7 @@
 
 #include <iostream>
 #include <vector>
+
 #include "Assumption.h"
 #include "Atcf.h"
 
@@ -85,10 +86,12 @@ class Preprocessor {
   static double computeEpsilonAngle(double velocity, double quadrantVectorAngle,
                                     const StormMotion &stormMotion);
 
-  static double computeQuadrantVr(double vmaxBL, double quadrantVectorAngles,
-                                  const StormMotion &stormMotion, double vr);
+  static double computeQuadrantVrValue(const double vmaxBL,
+                                       const double quadrantVectorAngles,
+                                  const StormMotion &stormMotion,
+                                       const double vr);
 
-  static double computeQuadrantVr(const double quadrantVectorAngle,
+  static double computeQuadrantVrValue(const double quadrantVectorAngle,
                                   const StormMotion &stormMotion,
                                   const double vr);
 
@@ -97,20 +100,24 @@ class Preprocessor {
   static double computeQuadrantVectorAngle(
       size_t index, const std::array<double, 4> quadRotateAngle);
 
-  static void computeQuadrantVr(size_t quadrotindex,
+  static void computeQuadrantVrLoop(
+      const size_t quadrotindex,
                                 const std::array<double, 4> &quadRotateAngle,
-                                const std::array<bool, 4> &vmwBLflag,
-                                double vmaxBL, double vr,
+                                const std::array<bool, 4> &vmwBLflag, const double vmaxBL,
+      const double vr,
                                 const StormMotion &stormMotion,
                                 Isotach *isotach);
 
-  static void recomputeQuadrantVr(const size_t quadrotindex,
+  static void recomputeQuadrantVrLoop(const size_t quadrotindex,
                                   const std::array<double, 4> &quadRotateAngle,
                                   std::array<bool, 4> &vmwBLflag,
                                   const double vmaxBL, const double vr,
                                   const double stormDirection,
                                   const StormMotion &stormMotion,
                                   Isotach *isotach);
+
+  static unsigned int countNonzeroIsotachs(
+      const std::vector<AtcfLine>::iterator &ait, size_t i);
 
   Assumptions *m_assumptions;
   std::vector<AtcfLine> *m_data;

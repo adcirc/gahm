@@ -24,6 +24,7 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "Isotach.h"
+
 #include <cassert>
 
 static constexpr std::array<const char *, 6> radiusString = {
@@ -32,6 +33,7 @@ static constexpr std::array<const char *, 6> radiusString = {
 Isotach::Isotach()
     : m_windSpeed(0.0),
       m_isotachRadius({0.0, 0.0, 0.0, 0.0}),
+      m_isotachRadiusNullInInput({true, true, true, true}),
       m_rmax({0.0, 0.0, 0.0, 0.0}),
       m_hollandB({1.0, 1.0, 1.0, 1.0}),
       m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
@@ -43,6 +45,7 @@ Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
                  double r2, double r3, double r4)
     : m_windSpeed(windSpeed),
       m_isotachRadius({r1, r2, r3, r4}),
+      m_isotachRadiusNullInInput({r1==0.0, r2==0.0,r3==0.0,r4==0.0}),
       m_rmax({0.0, 0.0, 0.0, 0.0}),
       m_hollandB({1.0, 1.0, 1.0, 1.0}),
       m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
@@ -96,6 +99,10 @@ CircularArray<bool, 4> *Isotach::quadFlag() { return &m_quadFlag; }
 
 CircularArray<double, 4> *Isotach::isotachRadius() { return &m_isotachRadius; }
 
+CircularArray<bool, 4> *Isotach::isotachRadiusNullInInput() {
+  return &m_isotachRadiusNullInInput;
+}
+
 CircularArray<double, 4> *Isotach::rmax() { return &m_rmax; }
 
 CircularArray<double, 4> *Isotach::vmaxBl() { return &m_vmaxBL; }
@@ -110,6 +117,10 @@ const CircularArray<bool, 4> *Isotach::cquadFlag() const { return &m_quadFlag; }
 
 const CircularArray<double, 4> *Isotach::cisotachRadius() const {
   return &m_isotachRadius;
+}
+
+const CircularArray<bool, 4> *Isotach::cisotachRadiusNullInInput() const {
+  return &m_isotachRadiusNullInInput;
 }
 
 const CircularArray<double, 4> *Isotach::crmax() const { return &m_rmax; }

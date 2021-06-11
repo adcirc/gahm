@@ -30,6 +30,7 @@
 #include <ostream>
 #include <string>
 #include <vector>
+
 #include "CircularArray.h"
 
 class Isotach {
@@ -61,6 +62,7 @@ class Isotach {
 
   CircularArray<bool, 4> *quadFlag();
   CircularArray<double, 4> *isotachRadius();
+  CircularArray<bool, 4> *isotachRadiusNullInInput();
   CircularArray<double, 4> *rmax();
   CircularArray<double, 4> *vmaxBl();
   CircularArray<double, 4> *hollandB();
@@ -69,6 +71,7 @@ class Isotach {
 
   const CircularArray<bool, 4> *cquadFlag() const;
   const CircularArray<double, 4> *cisotachRadius() const;
+  const CircularArray<bool, 4> *cisotachRadiusNullInInput() const;
   const CircularArray<double, 4> *crmax() const;
   const CircularArray<double, 4> *cvmaxBl() const;
   const CircularArray<double, 4> *chollandB() const;
@@ -78,6 +81,7 @@ class Isotach {
  private:
   double m_windSpeed;
   CircularArray<double, 4> m_isotachRadius;
+  CircularArray<bool, 4> m_isotachRadiusNullInInput;
   CircularArray<double, 4> m_rmax;
   CircularArray<double, 4> m_hollandB;
   CircularArray<double, 4> m_vmaxBL;
