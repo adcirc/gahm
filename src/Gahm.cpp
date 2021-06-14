@@ -28,6 +28,7 @@
 #include <iostream>
 #include <utility>
 
+#include "Assumptions.h"
 #include "Constants.h"
 #include "Logging.h"
 #include "Vortex.h"
@@ -38,22 +39,22 @@
 #define gahm_exp std::exp
 #endif
 
-Gahm::Gahm(std::string filename) : m_filename(std::move(filename)) {}
+Gahm::Gahm(std::string filename)
+    : m_filename(std::move(filename)),
+      m_assumptions(std::make_unique<Assumptions>()) {}
 
 std::string Gahm::filename() const { return m_filename; }
 
+Assumptions *Gahm::assumptions() { return m_assumptions.get(); }
+
 int Gahm::read() {
-  this->m_atcf = std::make_unique<Atcf>(m_filename, &m_assumptions);
+  this->m_atcf = std::make_unique<Atcf>(m_filename, m_assumptions.get());
   int ierr = this->m_atcf->read();
   if (ierr != 0) {
     gahm_throw_exception("Could not read the ATCF file");
   }
-
   this->m_preprocessor =
-      std::make_unique<Preprocessor>(m_atcf->data(), &m_assumptions);
-
-  this->m_assumptions.log(Assumption::MINOR);
-
+      std::make_unique<Preprocessor>(m_atcf->data(), m_assumptions.get());
   return 0;
 }
 

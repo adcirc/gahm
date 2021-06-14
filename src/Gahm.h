@@ -29,7 +29,6 @@
 #include <array>
 #include <memory>
 
-#include "Assumptions.h"
 #include "Atcf.h"
 #include "Preprocessor.h"
 
@@ -44,6 +43,8 @@ class Gahm {
   int get(const Date &d, const std::vector<double> &x,
           const std::vector<double> &y, std::vector<double> &u,
           std::vector<double> &v, std::vector<double> &p);
+
+  Assumptions *assumptions();
 
  private:
   struct uvp {
@@ -61,9 +62,9 @@ class Gahm {
                      double clat);
 
   const std::string m_filename;
-  Assumptions m_assumptions;
   std::unique_ptr<Atcf> m_atcf;
   std::unique_ptr<Preprocessor> m_preprocessor;
+  std::unique_ptr<Assumptions> m_assumptions;
 };
 
 template <>

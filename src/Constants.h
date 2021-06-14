@@ -50,7 +50,7 @@ static constexpr double e() { return M_E; }
 
 static constexpr double backgroundPressure() { return 1013.0; }
 static constexpr double windReduction() { return 0.9; }
-static constexpr double rhoAir() { return 1.15; }
+static constexpr double rhoAir() { return 1.293; }
 static constexpr double g() { return 9.80665; }
 static constexpr double omega() { return 2.0 * pi() / 86164.20; }
 static constexpr double rhoWat0() { return 1000.0; }

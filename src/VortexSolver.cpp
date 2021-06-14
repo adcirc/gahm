@@ -52,17 +52,7 @@ double VortexSolverInternal::f(const double &r) const {
   const double fd =
       (Units::convert(Units::Kilometer, Units::Meter) * m_rmax * m_fc) / 2.0;
 
-  std::cout << m_vmax * Units::convert(Units::Kilometer, Units::NauticalMile)
-            << " " << r * Units::convert(Units::Kilometer, Units::NauticalMile)
-            << " " << m_fc << " "
-            << m_rmax * Units::convert(Units::Kilometer, Units::NauticalMile)
-            << " " << m_bg << std::endl;
-
-  std::cout << std::sqrt(fa * fb + fc) *
-                   Units::convert(Units::MetersPerSecond, Units::Knot)
-            << " "
-            << m_vr * Units::convert(Units::Kilometer, Units::NauticalMile)
-            << std::endl;
+  //...Return
   return std::sqrt(fa * fb + fc) - fd - m_vr;
 }
 

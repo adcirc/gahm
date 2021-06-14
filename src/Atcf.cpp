@@ -27,7 +27,6 @@
 
 #include <algorithm>
 #include <fstream>
-#include <numeric>
 #include <utility>
 
 #include "Constants.h"
@@ -39,8 +38,8 @@
  * @param[in] filename filename of the Atcf file to read
  * @param[in] assumptions pointer to Assumptions object
  */
-Atcf::Atcf(std::string filename, Assumptions *assumptions)
-    : m_filename(std::move(filename)), m_assumptions(assumptions) {}
+Atcf::Atcf(std::string filename, Assumptions *a)
+    : m_filename(std::move(filename)), m_assumptions(a) {}
 
 /**
  * Returns the filename of the Atcf file that is being used
@@ -76,7 +75,7 @@ int Atcf::read() {
   f.close();
 
   std::sort(m_atcfData.begin(), m_atcfData.end());
-  for (size_t i = m_atcfData.size() - 1; i >= 1; --i) {
+  for (auto i = m_atcfData.size() - 1; i >= 1; --i) {
     if (AtcfLine::isSameForecastPeriod(m_atcfData[i], m_atcfData[i - 1])) {
       for (size_t j = 0; j < m_atcfData[i].nIsotach(); ++j) {
         m_atcfData[i - 1].addIsotach(*(m_atcfData[i].cisotach(j)));
@@ -144,19 +143,6 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
         "Could not find a suitable time record. Check record ordering.");
     return {0, 0.0};
   }
-}
-
-/**
- * Computes a linear interpolation between two values with a specified weighting
- * factor
- * @param[in] weight weighting factor
- * @param[in] v1 value 1 for weighting
- * @param[in] v2 value 2 for weighting
- * @return interpolated value
- */
-inline double Atcf::linearInterp(const double weight, const double v1,
-                                 const double v2) {
-  return (1.0 - weight) * v1 + weight * v2;
 }
 
 /**
@@ -303,12 +289,13 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
 
       f << boost::str(
-          boost::format("%3s, %02i, %04i%02i%02i%02i,   "
-                        ",%5s,%4s,%5s,%5s,%4s,%5s,   "
-                        ",%5s,%5s,%5s,%5s,%4s,%4s,%5s,     ,%4s,     ,    , "
-                        "   ,    ,    "
-                        ",%3s,%4s,%12s,%4i,%5i,%2i,%2i,%2i,%2i,%9s,%9s,%9s,%9s,%9s,"
-                        "%9s,%9s,%9s,%9s,%9s,%9s,%9s,%9s\n") %
+          boost::format(
+              "%3s, %02i, %04i%02i%02i%02i,   "
+              ",%5s,%4s,%5s,%5s,%4s,%5s,   "
+              ",%5s,%5s,%5s,%5s,%4s,%4s,%5s,     ,%4s,     ,    , "
+              "   ,    ,    "
+              ",%3s,%4s,%12s,%4i,%5i,%2i,%2i,%2i,%2i,%9s,%9s,%9s,%9s,%9s,"
+              "%9s,%9s,%9s,%9s,%9s,%9s,%9s,%9s\n") %
           a.basin() % a.cycloneNumber() % a.datetime().year() %
           a.datetime().month() % a.datetime().day() % a.datetime().hour() %
           a.techstring() % forecastHour % lat % lon % vmax % mslp %

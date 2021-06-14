@@ -33,7 +33,7 @@
 
 Preprocessor::Preprocessor(std::vector<AtcfLine> *data,
                            Assumptions *assumptions)
-    : m_assumptions(assumptions), m_data(data) {}
+    : m_data(data), m_assumptions(assumptions) {}
 
 int Preprocessor::run() {
   int ierr = 0;
@@ -119,7 +119,7 @@ void Preprocessor::setAllRadiiToRmax(CircularArray<double, 4> *radii,
                                      const size_t isotach) {
   std::fill(quadFlag->begin(), quadFlag->end(), 1);
   std::fill(radii->begin(), radii->end(), rmax);
-  this->m_assumptions->add(generate_assumption(
+  m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
       "No isotachs reported. Assuming a constant "
       "radius (RMAX). Record " +
@@ -138,10 +138,10 @@ void Preprocessor::setMissingRadiiToHalfNonzeroRadii(
     const size_t isotach) {
   Logging::debug("RADII:HALF:: " + std::to_string(radiisum) + " " +
                  std::to_string(radiisum * 0.5));
-  for (size_t i = 0; i < radii->size(); ++i) {
+  for (auto i = 0; i < radii->size(); ++i) {
     if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.5);
   }
-  this->m_assumptions->add(generate_assumption(
+  m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
       "One isotach reported. Missing radii are half "
       "the nonzero radius. Record " +
@@ -168,7 +168,7 @@ void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
   for (auto i = 0; i < radii->size(); ++i) {
     if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.25);
   }
-  this->m_assumptions->add(generate_assumption(
+  m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
       "Two isotachs reported. Missing radii are half "
       "the average of the nonzero radii, Record " +
@@ -193,7 +193,7 @@ void Preprocessor::setMissingRadiiToAverageOfAdjacentRadii(
       radii->set(j, (radii->at(j - 1) + radii->at(j + 1)) * 0.5);
     }
   }
-  this->m_assumptions->add(generate_assumption(
+  m_assumptions->add(generate_assumption(
       Assumption::MAJOR,
       "Three isotachs reported. Missing radius is half "
       "the nonzero radius on either side. Record " +
@@ -256,7 +256,7 @@ int Preprocessor::calculateRadii() {
   return 0;
 }
 
-unsigned int Preprocessor::countNonzeroIsotachs(
+unsigned Preprocessor::countNonzeroIsotachs(
     const std::vector<AtcfLine>::iterator &ait, size_t i) {
   unsigned numNonzero = 0;
   for (auto j = 0; j < 4; ++j) {
@@ -317,9 +317,9 @@ int Preprocessor::computeParameters() {
     const auto stormMotion =
         Preprocessor::computeStormMotion(a.stormSpeed(), a.stormDirection());
     a.setVmaxBl(Preprocessor::computeVMaxBL(a.vmax(), stormMotion.uv));
+
     a.setHollandB(Constants::calcHollandB(a.vmaxBl(), a.centralPressure(),
                                           Constants::backgroundPressure()));
-
     for (size_t i = 0; i < a.nIsotach(); ++i) {
       rec_counter++;
 
@@ -328,47 +328,62 @@ int Preprocessor::computeParameters() {
                             ? a.vmax()
                             : a.isotach(i)->windSpeed();
 
-      // const size_t nquadrotat = i == 0 ? 300 : 1;
-      const size_t nquadrotat = 1;
-
       //...Compute the inward rotation angles
-      constexpr double initial_quadRotateAngle =
-          25.0 * Units::convert(Units::Degree, Units::Radian);
-      std::array<double, 4> quadRotateAngle{};
-      quadRotateAngle.fill(initial_quadRotateAngle);
-      if (i > 0) {
-        for (auto j = 0; j < 4; ++j) {
-          quadRotateAngle[j] =
-              Constants::frictionAngle(a.isotach(i)->isotachRadius()->at(j),
-                                       a.isotach(i)->rmax()->at(j));
-        }
-      }
+      const std::array<double, 4> quadRotateAngle =
+          Preprocessor::computeQuadRotateAngle(a, i);
 
       //...Initialize the flag that checks for violations in vmax vs vmaxbl
-      std::array<bool, 4> vmwBLflag{};
-      vmwBLflag.fill(false);
+      std::array<bool, 4> vmwBLflag = {false, false, false, false};
 
       //...Fill the holland b and phi in all quadrants for this isotach
       a.isotach(i)->hollandB()->fill(a.hollandB());
       a.isotach(i)->phi()->fill(1.0);
 
       //...Converge inward rotation angle
-      for (auto j = 0; j < nquadrotat; ++j) {
-        Preprocessor::computeQuadrantVrLoop(j, quadRotateAngle, vmwBLflag,
-                                            a.vmaxBl(), vr, stormMotion,
-                                            a.isotach(i));
-        Preprocessor::recomputeQuadrantVrLoop(
-            j, quadRotateAngle, vmwBLflag, a.vmaxBl(), vr, a.stormDirection(),
-            stormMotion, a.isotach(i));
-
-        //...Create a new vortex object and compute the radius to max wind
-        // in each quadrant of the storm
-        Vortex v(&a, rec_counter, i, m_assumptions);
-        v.computeRadiusToWind();
-      }
+      Preprocessor::convergeInwardRotationAngle(rec_counter, i, a, stormMotion,
+                                                vr, quadRotateAngle, vmwBLflag);
     }
   }
   return 0;
+}
+
+void Preprocessor::convergeInwardRotationAngle(
+    size_t rec_counter, size_t i, AtcfLine &a,
+    const Preprocessor::StormMotion &stormMotion, const double vr,
+    const std::array<double, 4> &quadRotateAngle,
+    std::array<bool, 4> &vmwBLflag) const {
+  const size_t nquadrotat = i == 0 ? 300 : 1;
+  // const size_t nquadrotat = 1;
+  for (auto j = 0; j < nquadrotat; ++j) {
+    Preprocessor::computeQuadrantVrLoop(j, quadRotateAngle, vmwBLflag,
+                                        a.vmaxBl(), vr, stormMotion,
+                                        a.isotach(i));
+    Preprocessor::recomputeQuadrantVrLoop(j, quadRotateAngle, vmwBLflag,
+                                          a.vmaxBl(), vr, a.stormDirection(),
+                                          stormMotion, a.isotach(i));
+
+    //...Create a new vortex object and compute the radius to max wind
+    // in each quadrant of the storm
+    Vortex v(&a, rec_counter, i, m_assumptions);
+    v.computeRadiusToWind();
+  }
+}
+
+std::array<double, 4> Preprocessor::computeQuadRotateAngle(const AtcfLine &a,
+                                                           size_t i) {
+  constexpr double initial_quadRotateAngle =
+      25.0 * Units::convert(Units::Degree, Units::Radian);
+  std::array<double, 4> quadRotateAngle{
+      initial_quadRotateAngle, initial_quadRotateAngle, initial_quadRotateAngle,
+      initial_quadRotateAngle};
+  if (i > 0) {
+    for (auto j = 0; j < 4; ++j) {
+      quadRotateAngle[j] =
+          Constants::frictionAngle(a.cisotach(i)->cisotachRadius()->at(j),
+                                   a.cisotach(i)->crmax()->at(j));
+    }
+  }
+  return quadRotateAngle;
 }
 
 void Preprocessor::computeQuadrantVrLoop(

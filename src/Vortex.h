@@ -38,7 +38,7 @@
 
 class Vortex {
  public:
-  Vortex(Assumptions *assumptions);
+  Vortex() = default;
 
   Vortex(AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
          Assumptions *assumptions);
@@ -55,23 +55,16 @@ class Vortex {
 
   template <VortexParameterType index>
   double interpolateParameter(const double angle, const double distance) {
-    switch (index) {
-      case RMAX:
-        return this->spInterp<index>(angle, distance);
-      case B:
-        return this->spInterp<index>(angle, distance);
-      case VMBL:
-        return this->spInterp<index>(angle, distance);
-    }
+    return this->spInterp<index>(angle, distance);
   }
 
   int computeRadiusToWind();
 
-  size_t currentQuadrant() const;
-  void setCurrentQuadrant(size_t quad);
+  unsigned currentQuadrant() const;
+  void setCurrentQuadrant(unsigned quad);
 
-  size_t currentIsotach() const;
-  void setCurrentIsotach(const size_t &currentIsotach);
+  unsigned currentIsotach() const;
+  void setCurrentIsotach(unsigned currentIsotach);
 
   static std::pair<double, double> rotateWinds(double x, double y, double angle,
                                                double whichWay) noexcept;
@@ -88,8 +81,8 @@ class Vortex {
   void setCurrentRecord(const size_t &currentRecord);
 
  private:
-  size_t m_currentQuadrant;
-  size_t m_currentIsotach;
+  unsigned m_currentQuadrant;
+  unsigned m_currentIsotach;
   size_t m_currentRecord;
   AtcfLine *m_stormData;
   Assumptions *m_assumptions;
@@ -98,8 +91,8 @@ class Vortex {
 
   static std::pair<int, double> getBaseQuadrant(double angle);
 
-  template <Vortex::VortexParameterType type, bool edge>
-  double getParameterValue(const size_t isotach, const size_t quad);
+  template <Vortex::VortexParameterType type>
+  double getParameterValue(size_t isotach, unsigned quad);
 
   template <VortexParameterType type>
   double spInterp(double angle, double distance) const;
@@ -108,24 +101,32 @@ class Vortex {
   double interpR(int quad, double r) const;
 
   static constexpr double rossbyNumber(double vmaxBoundaryLayer,
-                                       double radiausToMaxWinds,
-                                       double coriolis) noexcept;
+                                       double radiusToMaxWinds,
+                                       double coriolis);
 
   static constexpr double computePhi(double vmaxBoundaryLayer,
                                      double radiusToMaxWinds, double b,
-                                     double coriolis) noexcept;
+                                     double coriolis);
 
-  static double computeBg(const double vmaxBoundaryLayer,
-                          const double radiusToMaxWinds, const double phi,
-                          const double dp, const double coriolis,
-                          const double rho) noexcept;
+  static constexpr double computeBg(double vmaxBoundaryLayer,
+                                    double radiusToMaxWinds, double phi,
+                                    double dp, double coriolis, double rho);
 
   static std::tuple<double, double> computeBandPhi(double vmax, double root,
                                                    double b, double cor,
-                                                   double cp);
+                                                   double dp);
 
   double iterateRadius() const;
-  std::tuple<double, double, bool> iterateShapeTerms(double root) const;
+
+  struct ShapeTerms {
+    double b;
+    double phi;
+    bool converged;
+    ShapeTerms(double b, double phi, bool converged)
+        : b(b), phi(phi), converged(converged) {}
+  };
+
+  ShapeTerms iterateShapeTerms(double root) const;
 
   struct Root {
     double root;

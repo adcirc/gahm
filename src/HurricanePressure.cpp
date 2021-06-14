@@ -29,9 +29,8 @@
 
 #include "Logging.h"
 
-HurricanePressure::HurricanePressure(HurricanePressure::PressureMethod p,
-                                     Assumptions *assumptions)
-    : m_pressureMethod(p), m_assumptions(assumptions) {}
+HurricanePressure::HurricanePressure(HurricanePressure::PressureMethod p)
+    : m_pressureMethod(p) {}
 
 double HurricanePressure::computePressure(const double wind_speed) {
   return this->computePressure(wind_speed, 0.0, 0.0, 0.0, 0.0, 0.0);

@@ -46,7 +46,7 @@
  */
 class Atcf {
  public:
-  Atcf(std::string filename, Assumptions *assumptions);
+  Atcf(std::string filename, Assumptions *a);
 
   std::string filename() const;
   void setFilename(const std::string &filename);
@@ -84,12 +84,20 @@ class Atcf {
   /// Vector of AtcfLine data representing individual time points
   std::vector<AtcfLine> m_atcfData;
 
-  /// Assumptions that are made within this code for diagnostic analysis later
-  Assumptions *m_assumptions;
-
-  static inline double linearInterp(double weight, double v1, double v2);
+  /**
+   * Computes a linear interpolation between two values with a specified
+   * weighting factor
+   * @param[in] weight weighting factor
+   * @param[in] v1 value 1 for weighting
+   * @param[in] v2 value 2 for weighting
+   * @return interpolated value
+   */
+  static constexpr double linearInterp(double weight, double v1, double v2) {
+    return (1.0 - weight) * v1 + weight * v2;
+  }
 
   std::pair<int, double> getCycleNumber(const Date &d) const;
+  Assumptions *m_assumptions;
 };
 
 #endif  // ATCF_H
