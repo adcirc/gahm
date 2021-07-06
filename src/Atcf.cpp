@@ -30,6 +30,7 @@
 #include <utility>
 
 #include "Constants.h"
+#include "Interpolation.h"
 #include "Logging.h"
 #include "boost/format.hpp"
 
@@ -151,49 +152,56 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
  * @param[in] d date/time to compute parameters for
  * @return StormParameters object for specified date
  */
-Atcf::StormParameters Atcf::getStormParameters(const Date &d) const {
+StormParameters Atcf::getStormParameters(const Date &d) const {
   auto w = this->getCycleNumber(d);
-  StormParameters s{};
-  s.cycle = w.first;
-  s.wtratio = w.second;
-  if (s.cycle < 1) {
-    s.central_pressure = m_atcfData.front().centralPressure();
-    s.background_pressure = m_atcfData.front().lastClosedIsobar();
-    s.vmax = m_atcfData.front().vmax();
-    s.latitude = m_atcfData.front().lat();
-    s.longitude = m_atcfData.front().lon();
-    s.utrans = m_atcfData.front().uTrans();
-    s.vtrans = m_atcfData.front().vTrans();
-    s.uvtrans = m_atcfData.front().uvTrans();
-  } else if (s.cycle >= m_atcfData.size()) {
-    s.central_pressure = m_atcfData.back().centralPressure();
-    s.background_pressure = m_atcfData.back().lastClosedIsobar();
-    s.vmax = m_atcfData.back().vmax();
-    s.latitude = m_atcfData.back().lat();
-    s.longitude = m_atcfData.back().lon();
-    s.utrans = m_atcfData.back().uTrans();
-    s.vtrans = m_atcfData.back().vTrans();
-    s.uvtrans = m_atcfData.back().uvTrans();
+  StormParameters s;
+  s.setCycle(w.first);
+  s.setWtratio(w.second);
+  if (s.cycle() < 1) {
+    s.setCentralPressure(m_atcfData.front().centralPressure());
+    s.setBackgroundPressure(m_atcfData.front().lastClosedIsobar());
+    s.setVmax(m_atcfData.front().vmax());
+    s.setLatitude(m_atcfData.front().lat());
+    s.setLongitude(m_atcfData.front().lon());
+    s.setUtrans(m_atcfData.front().uTrans());
+    s.setVtrans(m_atcfData.front().vTrans());
+    s.setUvtrans(m_atcfData.front().uvTrans());
+  } else if (s.cycle() >= m_atcfData.size()) {
+    s.setCentralPressure(m_atcfData.back().centralPressure());
+    s.setBackgroundPressure(m_atcfData.back().lastClosedIsobar());
+    s.setVmax(m_atcfData.back().vmax());
+    s.setLatitude(m_atcfData.back().lat());
+    s.setLongitude(m_atcfData.back().lon());
+    s.setUtrans(m_atcfData.back().uTrans());
+    s.setVtrans(m_atcfData.back().vTrans());
+    s.setUvtrans(m_atcfData.back().uvTrans());
   } else {
-    s.central_pressure =
-        Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].centralPressure(),
-                           m_atcfData[s.cycle + 1].centralPressure());
-    s.background_pressure =
-        Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].lastClosedIsobar(),
-                           m_atcfData[s.cycle + 1].lastClosedIsobar());
-    s.vmax = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].vmax(),
-                                m_atcfData[s.cycle + 1].vmax());
-    s.latitude = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].lat(),
-                                    m_atcfData[s.cycle + 1].lat());
-    s.longitude = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].lon(),
-                                     m_atcfData[s.cycle + 1].lon());
-    s.utrans = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].uTrans(),
-                                  m_atcfData[s.cycle + 1].uTrans());
-    s.vtrans = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].vTrans(),
-                                  m_atcfData[s.cycle + 1].vTrans());
-    s.uvtrans = Atcf::linearInterp(s.wtratio, m_atcfData[s.cycle].uvTrans(),
-                                   m_atcfData[s.cycle + 1].uvTrans());
+    s.setCentralPressure(Interpolation::linearInterp(
+        s.wtratio(), m_atcfData[s.cycle()].centralPressure(),
+        m_atcfData[s.cycle() + 1].centralPressure()));
+    s.setBackgroundPressure(Interpolation::linearInterp(
+        s.wtratio(), m_atcfData[s.cycle()].lastClosedIsobar(),
+        m_atcfData[s.cycle() + 1].lastClosedIsobar()));
+    s.setVmax(Interpolation::linearInterp(s.wtratio(),
+                                          m_atcfData[s.cycle()].vmax(),
+                                          m_atcfData[s.cycle() + 1].vmax()));
+    s.setLatitude(Interpolation::linearInterp(s.wtratio(),
+                                              m_atcfData[s.cycle()].lat(),
+                                              m_atcfData[s.cycle() + 1].lat()));
+    s.setLongitude(
+        Interpolation::linearInterp(s.wtratio(), m_atcfData[s.cycle()].lon(),
+                                    m_atcfData[s.cycle() + 1].lon()));
+    s.setUtrans(
+        Interpolation::linearInterp(s.wtratio(), m_atcfData[s.cycle()].uTrans(),
+                                    m_atcfData[s.cycle() + 1].uTrans()));
+    s.setVtrans(
+        Interpolation::linearInterp(s.wtratio(), m_atcfData[s.cycle()].vTrans(),
+                                    m_atcfData[s.cycle() + 1].vTrans()));
+    s.setUvtrans(Interpolation::linearInterp(
+        s.wtratio(), m_atcfData[s.cycle()].uvTrans(),
+        m_atcfData[s.cycle() + 1].uvTrans()));
   }
+  s.setCorio(Constants::coriolis(s.latitude()));
 
   return s;
 }

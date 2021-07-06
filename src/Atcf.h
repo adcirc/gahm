@@ -32,6 +32,7 @@
 #include "Assumptions.h"
 #include "AtcfLine.h"
 #include "HurricanePressure.h"
+#include "StormParameters.h"
 
 /**
  * @class Atcf
@@ -59,20 +60,9 @@ class Atcf {
 
   std::vector<AtcfLine> *data();
 
-  struct StormParameters {
-    int cycle;
-    double wtratio;
-    double latitude;
-    double longitude;
-    double central_pressure;
-    double background_pressure;
-    double vmax;
-    double utrans;
-    double vtrans;
-    double uvtrans;
-  };
-
   StormParameters getStormParameters(const Date &d) const;
+
+  std::pair<int, double> getCycleNumber(const Date &d) const;
 
   enum AtcfFileTypes { FormatAtcf, FormatNWS20 };
   void write(const std::string &filename, AtcfFileTypes = FormatNWS20) const;
@@ -84,19 +74,6 @@ class Atcf {
   /// Vector of AtcfLine data representing individual time points
   std::vector<AtcfLine> m_atcfData;
 
-  /**
-   * Computes a linear interpolation between two values with a specified
-   * weighting factor
-   * @param[in] weight weighting factor
-   * @param[in] v1 value 1 for weighting
-   * @param[in] v2 value 2 for weighting
-   * @return interpolated value
-   */
-  static constexpr double linearInterp(double weight, double v1, double v2) {
-    return (1.0 - weight) * v1 + weight * v2;
-  }
-
-  std::pair<int, double> getCycleNumber(const Date &d) const;
   Assumptions *m_assumptions;
 };
 

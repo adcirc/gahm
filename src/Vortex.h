@@ -43,6 +43,8 @@ class Vortex {
   Vortex(AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
          Assumptions *assumptions);
 
+  Vortex(AtcfLine *atcf, Assumptions *assumptions);
+
   void setStormData(AtcfLine *atcf);
 
   enum VortexParameterType { RMAX, B, VMBL };
@@ -91,15 +93,6 @@ class Vortex {
 
   static std::pair<int, double> getBaseQuadrant(double angle);
 
-  template <Vortex::VortexParameterType type>
-  double getParameterValue(size_t isotach, unsigned quad);
-
-  template <VortexParameterType type>
-  double spInterp(double angle, double distance) const;
-
-  template <VortexParameterType type>
-  double interpR(int quad, double r) const;
-
   static constexpr double rossbyNumber(double vmaxBoundaryLayer,
                                        double radiusToMaxWinds,
                                        double coriolis);
@@ -138,6 +131,74 @@ class Vortex {
   };
 
   Root findRoot(double aa, double bb, double zoom_window) const;
+
+  template <Vortex::VortexParameterType type>
+  double spInterp(const double angle, const double distance) const {
+    int base_quadrant = 0;
+    double delta_angle = 0.0;
+    std::tie(base_quadrant, delta_angle) = Vortex::getBaseQuadrant(angle);
+    if (delta_angle < 1.0) {
+      return this->interpR<type>(base_quadrant - 1, distance);
+    } else if (delta_angle > 89.0) {
+      return this->interpR<type>(base_quadrant, distance);
+    } else {
+      const double t1 = this->interpR<type>(base_quadrant - 1, distance);
+      const double t2 = this->interpR<type>(base_quadrant, distance);
+      return (t1 / std::pow(delta_angle, 2.0) +
+              t2 / std::pow(90.0 - delta_angle, 2.0)) /
+             (1.0 / std::pow(delta_angle, 2.0) +
+              1.0 / std::pow(90.0 - delta_angle, 2.0));
+    }
+  }
+
+  template <Vortex::VortexParameterType type>
+  double getParameterValue(const size_t isotach, const unsigned quad) const {
+    if (type == Vortex::VortexParameterType::B) {
+      return m_stormData->cisotach(isotach)->chollandB()->at(quad);
+    } else if (type == Vortex::VortexParameterType::RMAX) {
+      return m_stormData->cisotach(isotach)->crmax()->at(quad);
+    } else if (type == Vortex::VortexParameterType::VMBL) {
+      return m_stormData->cisotach(isotach)->cvmaxBl()->at(quad);
+    } else {
+      return 0.0;
+    }
+  }
+
+  template <Vortex::VortexParameterType type>
+  double interpR(const int quad, const double r) const {
+    // These are somewhat ordered according to likelihood. This is a firey hot
+    // section of code. It's most likely for a typical adcirc mesh that much of
+    // your storm will be outside of the last isotach for the largest portion of
+    // the storm. That case goes first to avoid additional lookups when they're
+    // not needed. It's least likely that you're inside the smallest isotach,
+    // but it's a single lookup to determine that and the same lookup would be
+    // necessary to determine the else case anyway.
+
+    //...Handle case where there are no isotachs
+    if (m_stormData->nIsotach() == 0) {
+      if (type == VortexParameterType::VMBL) {
+        return m_stormData->vmaxBl();
+      } else if (type == VortexParameterType::RMAX) {
+        return m_stormData->radiusMaxWinds();
+      } else if (type == VortexParameterType::B) {
+        return m_stormData->hollandB();
+      }
+    }
+
+    if (r >
+        m_stormData->isotach(m_stormData->nIsotach() - 1)->crmax()->at(quad)) {
+      return this->getParameterValue<type>(m_stormData->nIsotach() - 1, quad);
+    } else if (r < m_stormData->isotach(0)->crmax()->at(quad)) {
+      return this->getParameterValue<type>(0, quad);
+    } else {
+      const auto radii = m_stormData->isotachRadii(quad);
+      const auto it = std::lower_bound(radii.begin(), radii.end(), r);
+      const auto p = it - radii.begin();
+      double fac = (r - radii[p]) / (radii[p + 1] - radii[p]);
+      return fac * this->getParameterValue<type>(p, quad) +
+             (1.0 - fac) * this->getParameterValue<type>(p + 1, quad);
+    }
+  }
 };
 
 #endif  // VORTEX_H

@@ -25,9 +25,14 @@
 //
 #include "Assumption.h"
 
-Assumption::Assumption(const Assumption::Severity s, const std::string &message,
-                       const std::string file, const size_t line)
-    : m_severity(s), m_message(message), m_filename(file), m_line(line) {}
+#include <utility>
+
+Assumption::Assumption(const Assumption::Severity s, std::string message,
+                       std::string file, const size_t line)
+    : m_severity(s),
+      m_message(std::move(message)),
+      m_filename(std::move(file)),
+      m_line(line) {}
 
 Assumption::Severity Assumption::severity() const { return m_severity; }
 
@@ -52,5 +57,7 @@ std::string Assumption::severityString(Assumption::Severity s) {
       return "MAJOR";
     case Assumption::Severity::CRITICAL:
       return "CRITICAL";
+    default:
+      return "UNKNOWN";
   }
 }

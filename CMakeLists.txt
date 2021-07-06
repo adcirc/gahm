@@ -45,10 +45,10 @@ mark_as_advanced(
   CMAKE_CXX_FLAGS_RELEASE)
 
 add_library(
-  gahm SHARED
+  gahm
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/AtcfLine.cpp
@@ -72,7 +72,11 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolution.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolutionPoint.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Interpolation.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h src/GahmSolutionState.cpp src/GahmSolutionState.h)
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(
@@ -80,4 +84,5 @@ target_include_directories(
   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src
           ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
           ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_76_0)
+
 

@@ -147,6 +147,11 @@ class AtcfLine {
   double vmaxBl() const;
   void setVmaxBl(double v);
 
+  const std::array<size_t, 4> &lastIsotach() const;
+  void generateLastIsotach();
+
+  std::vector<double> isotachRadii(int quad) const;
+
  private:
   /// Basin where the cyclone occurs
   std::string m_basin;
@@ -195,6 +200,9 @@ class AtcfLine {
 
   /// Vector of storm isotachs
   std::vector<Isotach> m_isotach;
+
+  /// Last isotach position (guard against a zero isotach)
+  std::array<size_t, 4> m_lastIsotach;
 
   /// Background pressure
   double m_lastClosedIsobar;

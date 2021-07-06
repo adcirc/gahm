@@ -432,4 +432,28 @@ void AtcfLine::setHollandB(double b) { m_hollandB = b; }
 
 double AtcfLine::vmaxBl() const { return m_vmaxbl; }
 
-void AtcfLine::setVmaxBl(double v){ m_vmaxbl = v; }
+void AtcfLine::setVmaxBl(double v) { m_vmaxbl = v; }
+
+const std::array<size_t, 4> &AtcfLine::lastIsotach() const {
+  return m_lastIsotach;
+}
+
+void AtcfLine::generateLastIsotach() {
+  std::array<size_t, 4> last_iso = {0, 0, 0, 0};
+  for (auto iso = m_isotach.begin(); iso != m_isotach.end(); ++iso) {
+    for (auto j = 0; j < 4; ++j) {
+      if (iso->cquadFlag()->at(j)) {
+        last_iso[j] = iso - m_isotach.begin();
+      }
+    }
+  }
+  m_lastIsotach = last_iso;
+}
+std::vector<double> AtcfLine::isotachRadii(int quad) const {
+  std::vector<double> radii;
+  radii.reserve(m_isotach.size());
+  for (auto i : m_isotach) {
+    radii.emplace_back(i.crmax()->at(quad));
+  }
+  return radii;
+}

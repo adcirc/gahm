@@ -25,50 +25,50 @@
 //
 #include "Gahm.h"
 
-#include <iostream>
 #include <utility>
 
 #include "Assumptions.h"
 #include "Constants.h"
+#include "Interpolation.h"
 #include "Logging.h"
 #include "Vortex.h"
 
-#ifdef GAHM_USE_FAST_MATH
-#define gahm_exp Physical::fast_exp
-#else
-#define gahm_exp std::exp
-#endif
-
-Gahm::Gahm(std::string filename)
+Gahm::Gahm(std::string filename, const std::vector<double> &x,
+           const std::vector<double> &y)
     : m_filename(std::move(filename)),
-      m_assumptions(std::make_unique<Assumptions>()) {}
-
-std::string Gahm::filename() const { return m_filename; }
-
-Assumptions *Gahm::assumptions() { return m_assumptions.get(); }
-
-int Gahm::read() {
-  this->m_atcf = std::make_unique<Atcf>(m_filename, m_assumptions.get());
+      m_assumptions(std::make_unique<Assumptions>()),
+      m_atcf(std::make_unique<Atcf>(m_filename, m_assumptions.get())),
+      m_state(std::make_unique<GahmSolutionState>(m_atcf.get(), x, y)) {
   int ierr = this->m_atcf->read();
   if (ierr != 0) {
     gahm_throw_exception("Could not read the ATCF file");
   }
   this->m_preprocessor =
       std::make_unique<Preprocessor>(m_atcf->data(), m_assumptions.get());
-  return 0;
+  this->m_preprocessor->run();
 }
 
-int Gahm::get(const Date &d, const std::vector<double> &x,
-              const std::vector<double> &y, std::vector<double> &u,
-              std::vector<double> &v, std::vector<double> &p) {
-  const Atcf::StormParameters sp = m_atcf->getStormParameters(d);
+std::string Gahm::filename() const { return m_filename; }
+
+Assumptions *Gahm::assumptions() { return m_assumptions.get(); }
+
+GahmSolution Gahm::get(const Date &d) {
+  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
+
+  m_state->query(d);
+  auto sp = m_state->stormParameters();
+
+  //...TODO: Need to add handling for 'CALM' type
+  //   Should just set the storm position, velocities to zero, and
+  //   pressure to background (Constants::backgroundPressure)
+
   const double stormMotion =
-      1.5 *
-      std::pow(std::sqrt(std::pow(sp.utrans, 2.0) + std::pow(sp.vtrans, 2.0)),
-               0.63);
+      1.5 * std::pow(std::sqrt(std::pow(sp.utrans(), 2.0) +
+                               std::pow(sp.vtrans(), 2.0)),
+                     0.63);
 
   const auto directionNow = [sp]() {
-    double d = std::atan2(sp.utrans, sp.vtrans);
+    double d = std::atan2(sp.utrans(), sp.vtrans());
     if (d < 0.0) {
       d += Constants::twopi();
     }
@@ -78,66 +78,77 @@ int Gahm::get(const Date &d, const std::vector<double> &x,
   const double stormMotionU = std::sin(directionNow) * stormMotion;
   const double stormMotionV = std::cos(directionNow) * stormMotion;
 
-  double vmaxbl = (sp.vmax - stormMotion) / Constants::windReduction();
+  //..Generate storm parameters
+  Vortex v1(m_atcf->record(sp.cycle()), m_assumptions.get());
+  const size_t cycle2 =
+      sp.cycle() + 1 > m_atcf->nRecords() - 1 ? sp.cycle() : sp.cycle() + 1;
+  Vortex v2(m_atcf->record(cycle2), m_assumptions.get());
 
-  //...Quadrant angles in the radial direction. We need the tangential
-  // direction since that is the direction of Vr
-  std::array<double, 4> quadrantVr = {0.0, 0.0, 0.0, 0.0};
-  for (auto i = 0; i < 4; ++i) {
-    const double uvr =
-        std::cos(Constants::quadrantAngle(i) +
-                 Units::convert(Units::Degree, Units::Radian) * 90.0);
-    const double vvr =
-        std::sin(Constants::quadrantAngle(i) +
-                 Units::convert(Units::Degree, Units::Radian) * 90.0);
-    quadrantVr[i] = std::sqrt(std::pow(uvr - stormMotionU, 2.0) +
-                              std::pow(vvr - stormMotionV, 2.0));
+  GahmSolution g;
+  g.reserve(m_state->size());
+
+  for (auto i = 0; i < m_state->size(); ++i) {
+    auto rmax = Interpolation::linearInterp(
+        sp.wtratio(),
+        v1.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i),
+                                              m_state->distance(i)),
+        v2.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i),
+                                              m_state->distance(i)));
+
+    auto rmaxtrue = Interpolation::linearInterp(
+        sp.wtratio(),
+        v1.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i), 1.0),
+        v2.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i), 1.0));
+
+    auto b = Interpolation::linearInterp(
+        sp.wtratio(),
+        v1.interpolateParameter<Vortex::B>(m_state->azimuth(i),
+                                           m_state->distance(i)),
+        v2.interpolateParameter<Vortex::B>(m_state->azimuth(i),
+                                           m_state->distance(i)));
+
+    auto vmaxbl = Interpolation::linearInterp(
+        sp.wtratio(),
+        v1.interpolateParameter<Vortex::VMBL>(m_state->azimuth(i),
+                                              m_state->distance(i)),
+        v2.interpolateParameter<Vortex::VMBL>(m_state->azimuth(i),
+                                              m_state->distance(i)));
+
+    auto phi =
+        1.0 + (vmaxbl * rmax * km2m * sp.corio()) /
+                  (b * vmaxbl * vmaxbl + vmaxbl * rmax * km2m * sp.corio());
+
+    GahmSolutionPoint p =
+        Gahm::getUvpr(m_state->distance(i), m_state->azimuth(i), rmax, rmaxtrue,
+                      b, vmaxbl, phi, stormMotionU, stormMotionV, sp);
+    g.emplace_back(p);
   }
 
-  //...Check if any of the isotach wind speeds are greater than vmax
-  auto maxQuadrantVr = *(std::max(quadrantVr.begin(), quadrantVr.end()));
-  if (maxQuadrantVr > vmaxbl) {
-    for (auto i = 0; i < 4; ++i) {
-      quadrantVr[i] /= Constants::windReduction();
-    }
-    vmaxbl /= Constants::windReduction();
-  }
-
-  if (sp.cycle < 0) {
-    for (size_t i = 0; i < m_atcf->crecord(0)->nIsotach(); ++i) {
-      // vortex.setStormData(m_atcf->record(sp.cycle));
-    }
-  }
-
-  return 0;
+  return g;
 }
 
-template <bool geofactor>
-Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
-                        const double rmax, const double rmax_true,
-                        const double p_c, const double p_background,
-                        const double b, const double vmax, const double pmin,
-                        const double phi, const double utrans,
-                        const double coriolis, const double vtrans,
-                        const double clat) {
-  if (distance < 1.0 * Units::convert(Units::NauticalMile, Units::Kilometer)) {
-    return uvp(0.0, 0.0, pmin);
+GahmSolutionPoint Gahm::getUvpr(const double distance, const double angle,
+                                const double rmax, const double rmax_true,
+                                const double b, const double vmax,
+                                const double phi, const double utrans,
+                                const double vtrans, const StormParameters &s) {
+  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
+
+  if (distance * km2m <
+      1.0 * Units::convert(Units::NauticalMile, Units::Kilometer)) {
+    return {0.0, 0.0, s.centralPressure()};
   }
 
-  const double percentCoriolis = 1.0;
   const double vmaxsq = std::pow(vmax, 2.0);
-  const double vmaxrmax = vmax * rmax * percentCoriolis * coriolis;
-  const double c = distance * percentCoriolis * coriolis / 2.0;
+  const double vmaxrmax = vmax * rmax * s.corio();
+  const double c = distance * km2m * s.corio() / 2.0;
   const double csq = std::pow(c, 2.0);
-  const double rmaxdisb = std::pow(rmax / distance, b);
+  const double rmaxdisb = std::pow(rmax / distance * km2m, b);
 
-  double speed =
-      geofactor
-          ? std::sqrt((vmaxsq + vmaxrmax) * rmaxdisb *
-                          gahm_exp(phi * (1.0 - rmaxdisb)) +
-                      csq) -
-                c
-          : std::sqrt(vmaxsq * rmaxdisb * gahm_exp(1.0 - rmaxdisb) + csq) - c;
+  double speed = std::sqrt((vmaxsq + vmaxrmax) * rmaxdisb *
+                               std::exp(phi * (1.0 - rmaxdisb)) +
+                           csq) -
+                 c;
 
   const double speedOverVmax = std::abs(speed / vmax);
   const double tsx = speedOverVmax * utrans;
@@ -148,14 +159,14 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
 
   double uf, vf;
   std::tie(uf, vf) = Vortex::rotateWinds(
-      u, v, Constants::frictionAngle(distance, rmax_true), clat);
+      u, v, Constants::frictionAngle(distance * km2m, rmax_true), s.latitude());
 
   uf = (uf + tsx) * Constants::one2ten();
   vf = (vf + tsy) * Constants::one2ten();
 
-  const double p = geofactor
-                       ? p_c + (p_background - p_c) * gahm_exp(-phi * rmaxdisb)
-                       : p_c + (p_background - p_c) * gahm_exp(-rmaxdisb);
+  const double p =
+      s.centralPressure() + (s.backgroundPressure() - s.centralPressure()) *
+                                std::exp(-phi * rmaxdisb);
 
-  return uvp(uf, vf, p);
+  return {uf, vf, p};
 }

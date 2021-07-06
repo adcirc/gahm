@@ -32,6 +32,13 @@
 #include "Logging.h"
 #include "VortexSolver.h"
 
+Vortex::Vortex(AtcfLine *atcf, Assumptions *assumptions)
+    : m_stormData(atcf),
+      m_assumptions(assumptions),
+      m_currentQuadrant(0),
+      m_currentIsotach(0),
+      m_currentRecord(0) {}
+
 Vortex::Vortex(AtcfLine *atcf, const size_t currentRecord,
                const size_t currentIsotach, Assumptions *assumptions)
     : m_currentQuadrant(0),
@@ -215,71 +222,6 @@ std::pair<int, double> Vortex::getBaseQuadrant(const double angle) {
   }
   gahm_throw_exception("Invalid angle provided!");
   return std::make_pair(0, 0.0);
-}
-
-template <Vortex::VortexParameterType type>
-double Vortex::spInterp(const double angle, const double distance) const {
-  int base_quadrant = 0;
-  double delta_angle = 0.0;
-  std::tie(base_quadrant, delta_angle) = this->getBaseQuadrant(angle);
-  if (delta_angle < 1.0) {
-    return this->interpR<type>(base_quadrant - 1, distance);
-  } else if (delta_angle > 89.0) {
-    return this->interpR<type>(base_quadrant, distance);
-  } else {
-    const double t1 = this->interpR<type>(base_quadrant - 1, distance);
-    const double t2 = this->interpR<type>(base_quadrant, distance);
-    return (t1 / std::pow(delta_angle, 2.0) +
-            t2 / std::pow(90.0 - delta_angle, 2.0)) /
-           (1.0 / std::pow(delta_angle, 2.0) +
-            1.0 / std::pow(90.0 - delta_angle, 2.0));
-  }
-}
-
-template <Vortex::VortexParameterType type>
-double Vortex::getParameterValue(const size_t isotach, const unsigned quad) {
-  if (type == Vortex::VortexParameterType::B) {
-    return m_stormData->cisotach(isotach)->chollandB()->at(quad);
-  } else if (type == Vortex::VortexParameterType::RMAX) {
-    return m_stormData->cisotach(isotach)->crmax()->at(quad);
-  } else if (type == Vortex::VortexParameterType::VMBL) {
-    return m_stormData->cisotach(isotach)->cvmaxBl()->at(quad);
-  } else {
-    return 0.0;
-  }
-}
-
-template <Vortex::VortexParameterType type>
-double Vortex::interpR(const int quad, const double r) const {
-  size_t total_isotachs = 0;
-  size_t last_isotach = 0;
-  for (size_t i = 0; i < m_stormData->nIsotach(); ++i) {
-    if (m_stormData->cisotach(i)->cquadFlag()->at(quad)) {
-      total_isotachs++;
-      last_isotach = i;
-    }
-  }
-
-  assert(total_isotachs > 0);
-
-  if (r < m_stormData->cisotach(0)->crmax()->at(quad)) {
-    return this->getParameterValue<type>(0, quad);
-  }
-
-  if (r > m_stormData->cisotach(last_isotach)->crmax()->at(quad)) {
-    return this->getParameterValue<type>(last_isotach, quad);
-  }
-
-  for (size_t i = 1; i < total_isotachs; ++i) {
-    if (r > m_stormData->cisotach(i)->crmax()->at(quad)) {
-      const double fac = (r - m_stormData->cisotach(i)->crmax()->at(quad)) /
-                         (m_stormData->cisotach(i - 1)->crmax()->at(quad) -
-                          m_stormData->cisotach(i)->crmax()->at(quad));
-      return fac * this->getParameterValue<type>(i - 1, quad) +
-             (1.0 - fac) * this->getParameterValue<type>(i, quad);
-    }
-  }
-  return this->getParameterValue<type>(last_isotach, quad);
 }
 
 /**

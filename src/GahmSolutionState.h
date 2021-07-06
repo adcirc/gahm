@@ -1,0 +1,58 @@
+//
+// Created by Zach Cobell on 7/6/21.
+//
+
+#ifndef GAHM_SRC_GAHMSOLUTIONSTATE_H_
+#define GAHM_SRC_GAHMSOLUTIONSTATE_H_
+
+#include <tuple>
+#include <vector>
+
+#include "Atcf.h"
+#include "Date.h"
+#include "Interpolation.h"
+#include "StormParameters.h"
+
+class GahmSolutionState {
+ public:
+  GahmSolutionState(Atcf *atcf, std::vector<double> x_points,
+                    std::vector<double> y_points);
+
+  void query(const Date &d);
+
+  double x(size_t index);
+  double y(size_t index);
+
+  size_t size();
+
+  double distance(size_t index);
+  double azimuth(size_t index);
+  StormParameters stormParameters();
+
+ private:
+  void generateUpdatedParameters(const Date &d);
+
+  std::tuple<std::vector<double>, std::vector<double>>
+  computeDistanceToStormCenter(double stormCenterX, double stormCenterY);
+
+  const std::vector<double> m_xpoints;
+  const std::vector<double> m_ypoints;
+
+  std::vector<double> m_distance1;
+  std::vector<double> m_distance2;
+  std::vector<double> m_azimuth1;
+  std::vector<double> m_azimuth2;
+  std::vector<double> m_distanceQuery;
+  std::vector<double> m_azimuthQuery;
+
+  Atcf *m_atcf;
+
+  Date m_date1;
+  Date m_date2;
+
+  StormParameters m_stormParametersQuery;
+
+  bool m_initialized;
+};
+
+#endif  // GAHM_SRC_GAHMSOLUTIONSTATE_H_

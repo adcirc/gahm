@@ -28,56 +28,36 @@
 
 #include <array>
 #include <memory>
+#include <vector>
 
 #include "Atcf.h"
+#include "GahmSolution.h"
+#include "GahmSolutionState.h"
 #include "Preprocessor.h"
+#include "StormParameters.h"
 
 class Gahm {
  public:
-  explicit Gahm(std::string filename);
+  Gahm(std::string filename, const std::vector<double> &x,
+       const std::vector<double> &y);
 
   std::string filename() const;
 
-  int read();
-
-  int get(const Date &d, const std::vector<double> &x,
-          const std::vector<double> &y, std::vector<double> &u,
-          std::vector<double> &v, std::vector<double> &p);
+  GahmSolution get(const Date &d);
 
   Assumptions *assumptions();
 
  private:
-  struct uvp {
-    double u;
-    double v;
-    double p;
-    uvp(double u = 0.0, double v = 0.0, double p = 1013.0) : u(u), v(v), p(p) {}
-  };
-
-  template <bool geofactor>
-  static uvp getUvpr(double distance, double angle, double rmax,
-                     double rmax_true, double p_c, double p_background,
-                     double b, double vmax, double pmin, double phi,
-                     double utrans, double coriolis, double vtrans,
-                     double clat);
+  static GahmSolutionPoint getUvpr(double distance, double angle, double rmax,
+                                   double rmax_true, double b, double vmax,
+                                   double phi, double utrans, double vtrans,
+                                   const StormParameters &s);
 
   const std::string m_filename;
+  std::unique_ptr<Assumptions> m_assumptions;
   std::unique_ptr<Atcf> m_atcf;
   std::unique_ptr<Preprocessor> m_preprocessor;
-  std::unique_ptr<Assumptions> m_assumptions;
+  std::unique_ptr<GahmSolutionState> m_state;
 };
-
-template <>
-Gahm::uvp Gahm::getUvpr<true>(double distance, double angle, double rmax,
-                              double rmax_true, double p_c, double p_background,
-                              double b, double vmax, double pmin, double phi,
-                              double utrans, double coriolis, double vtrans,
-                              double clat);
-template <>
-Gahm::uvp Gahm::getUvpr<false>(double distance, double angle, double rmax,
-                               double rmax_true, double p_c,
-                               double p_background, double b, double vmax,
-                               double pmin, double phi, double utrans,
-                               double coriolis, double vtrans, double clat);
 
 #endif  // GAHM_H

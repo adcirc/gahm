@@ -23,8 +23,8 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef ASSUMTION_H
-#define ASSUMTION_H
+#ifndef ASSUMPTION_H
+#define ASSUMPTION_H
 
 #include <string>
 
@@ -32,8 +32,8 @@ class Assumption {
  public:
   enum Severity { INFO, MINOR, MAJOR, CRITICAL };
 
-  Assumption(const Assumption::Severity s, const std::string &message,
-             const std::string file, const size_t line);
+  Assumption(Assumption::Severity s, std::string message,
+             std::string  file, size_t line);
 
   Severity severity() const;
 
@@ -53,4 +53,4 @@ class Assumption {
   const size_t m_line;
 };
 
-#endif  // ASSUMTION_H
+#endif  // ASSUMPTION_H
