@@ -63,18 +63,21 @@ GahmSolutionState::computeDistanceToStormCenter(const double stormCenterX,
   azimuth.reserve(m_ypoints.size());
 
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  constexpr double rad2deg = Units::convert(Units::Radian, Units::Degree);
 
   for (auto i = 0; i < m_xpoints.size(); ++i) {
     double radius_earth = Constants::radiusEarth(m_ypoints[i], stormCenterY);
     double dx = deg2rad * radius_earth * (m_xpoints[i] - stormCenterX) *
                 std::cos(deg2rad * stormCenterY);
     double dy = deg2rad * radius_earth * (m_ypoints[i] - stormCenterY);
-    distance.emplace_back(std::sqrt(dx * dx + dy * dy));
-    double azi = rad2deg * std::atan2(dx, dy);
-    azi < 0.0 ? azimuth.emplace_back(azi + 360.0) : azimuth.emplace_back(azi);
-  }
+    distance.push_back(std::sqrt(dx * dx + dy * dy) *
+                       Units::convert(Units::Meter, Units::Kilometer));
+    double azi = std::atan2(dx, dy);
 
+    if (azi < 0.0) {
+      azi += Constants::twopi();
+    }
+    azimuth.push_back(azi);
+  }
   return std::make_tuple(distance, azimuth);
 }
 

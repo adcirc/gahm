@@ -88,31 +88,22 @@ GahmSolution Gahm::get(const Date &d) {
   g.reserve(m_state->size());
 
   for (auto i = 0; i < m_state->size(); ++i) {
-    auto rmax = Interpolation::linearInterp(
-        sp.wtratio(),
-        v1.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i),
-                                              m_state->distance(i)),
-        v2.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i),
-                                              m_state->distance(i)));
 
-    auto rmaxtrue = Interpolation::linearInterp(
-        sp.wtratio(),
-        v1.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i), 1.0),
-        v2.interpolateParameter<Vortex::RMAX>(m_state->azimuth(i), 1.0));
+    double rmax1, rmax2;
+    double vmaxbl1, vmaxbl2;
+    double b1, b2;
+    double rmaxtrue1, rmaxtrue2;
 
-    auto b = Interpolation::linearInterp(
-        sp.wtratio(),
-        v1.interpolateParameter<Vortex::B>(m_state->azimuth(i),
-                                           m_state->distance(i)),
-        v2.interpolateParameter<Vortex::B>(m_state->azimuth(i),
-                                           m_state->distance(i)));
+    std::tie(vmaxbl1, rmax1, rmaxtrue1, b1) =
+        v1.getParameters(m_state->azimuth(i), m_state->distance(i));
+    std::tie(vmaxbl2, rmax2, rmaxtrue2, b2) =
+        v2.getParameters(m_state->azimuth(i), m_state->distance(i));
 
-    auto vmaxbl = Interpolation::linearInterp(
-        sp.wtratio(),
-        v1.interpolateParameter<Vortex::VMBL>(m_state->azimuth(i),
-                                              m_state->distance(i)),
-        v2.interpolateParameter<Vortex::VMBL>(m_state->azimuth(i),
-                                              m_state->distance(i)));
+    double rmax = Interpolation::linearInterp(sp.wtratio(), rmax1, rmax2);
+    double rmaxtrue =
+        Interpolation::linearInterp(sp.wtratio(), rmaxtrue1, rmaxtrue2);
+    double b = Interpolation::linearInterp(sp.wtratio(), b1, b2);
+    double vmaxbl = Interpolation::linearInterp(sp.wtratio(), vmaxbl1, vmaxbl2);
 
     auto phi =
         1.0 + (vmaxbl * rmax * km2m * sp.corio()) /
@@ -121,7 +112,7 @@ GahmSolution Gahm::get(const Date &d) {
     GahmSolutionPoint p =
         Gahm::getUvpr(m_state->distance(i), m_state->azimuth(i), rmax, rmaxtrue,
                       b, vmaxbl, phi, stormMotionU, stormMotionV, sp);
-    g.emplace_back(p);
+    g.push_back(std::move(p));
   }
 
   return g;
@@ -132,18 +123,16 @@ GahmSolutionPoint Gahm::getUvpr(const double distance, const double angle,
                                 const double b, const double vmax,
                                 const double phi, const double utrans,
                                 const double vtrans, const StormParameters &s) {
-  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
-
-  if (distance * km2m <
-      1.0 * Units::convert(Units::NauticalMile, Units::Kilometer)) {
+  if (distance <
+               1.0 * Units::convert(Units::NauticalMile, Units::Meter)) {
     return {0.0, 0.0, s.centralPressure()};
   }
 
   const double vmaxsq = std::pow(vmax, 2.0);
   const double vmaxrmax = vmax * rmax * s.corio();
-  const double c = distance * km2m * s.corio() / 2.0;
+  const double c = distance * s.corio() / 2.0;
   const double csq = std::pow(c, 2.0);
-  const double rmaxdisb = std::pow(rmax / distance * km2m, b);
+  const double rmaxdisb = std::pow(rmax / distance, b);
 
   double speed = std::sqrt((vmaxsq + vmaxrmax) * rmaxdisb *
                                std::exp(phi * (1.0 - rmaxdisb)) +
@@ -159,7 +148,7 @@ GahmSolutionPoint Gahm::getUvpr(const double distance, const double angle,
 
   double uf, vf;
   std::tie(uf, vf) = Vortex::rotateWinds(
-      u, v, Constants::frictionAngle(distance * km2m, rmax_true), s.latitude());
+      u, v, Constants::frictionAngle(distance, rmax_true), s.latitude());
 
   uf = (uf + tsx) * Constants::one2ten();
   vf = (vf + tsy) * Constants::one2ten();

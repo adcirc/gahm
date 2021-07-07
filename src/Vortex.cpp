@@ -29,6 +29,7 @@
 #include <utility>
 
 #include "Constants.h"
+#include "Interpolation.h"
 #include "Logging.h"
 #include "VortexSolver.h"
 
@@ -266,4 +267,74 @@ Vortex::Root Vortex::findRoot(double aa, double bb,
   Logging::debug("Bracket solver failed to converge in" +
                  std::to_string(max_iterations));
   return {aa, bb, -1.0};
+}
+
+std::tuple<double, double, double, double> Vortex::getParameters(
+    double angle, double distance) const {
+  int base_quadrant = 0;
+  double delta_angle = 0.0;
+  std::tie(base_quadrant, delta_angle) = Vortex::getBaseQuadrant(angle);
+
+  if (delta_angle < 1.0) {
+    return this->interpolateParameters(base_quadrant - 1, distance);
+  } else if (delta_angle > 89.0) {
+    return this->interpolateParameters(base_quadrant, distance);
+  } else {
+    double rmax1, rmax2, rmaxtrue1, rmaxtrue2, vmaxbl1, vmaxbl2, b1, b2;
+    std::tie(vmaxbl1, rmax1, rmaxtrue1, b1) =
+        this->interpolateParameters(base_quadrant - 1, distance);
+    std::tie(vmaxbl2, rmax2, rmaxtrue2, b2) =
+        this->interpolateParameters(base_quadrant, distance);
+    auto d1 = 1.0 / (delta_angle * delta_angle);
+    auto d2 = 1.0 / ((90.0 - delta_angle) * (90 - delta_angle));
+
+    double rmax = Interpolation::powerInterp(d1, d2, rmax1, rmax2);
+    double rmaxtrue = Interpolation::powerInterp(d1, d2, rmaxtrue1, rmaxtrue2);
+    double vmaxbl = Interpolation::powerInterp(d1, d2, vmaxbl1, vmaxbl2);
+    double b = Interpolation::powerInterp(d1, d2, b1, b2);
+    return std::make_tuple(vmaxbl, rmax, rmaxtrue, b);
+  }
+}
+
+std::tuple<double, double, double, double> Vortex::interpolateParameters(
+    int quad, double distance) const {
+  auto iso = m_stormData->nIsotach();
+  double rmaxtrue = m_stormData->cisotach(0)->crmax()->at(quad);
+
+  if (iso == 0) {
+    return std::make_tuple(m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
+                           rmaxtrue, m_stormData->hollandB());
+  }
+
+  iso -= 1;
+
+  if (distance >= m_stormData->cisotach(iso)->crmax()->at(quad)) {
+    return std::make_tuple(m_stormData->cisotach(iso)->cvmaxBl()->at(quad),
+                           m_stormData->cisotach(iso)->crmax()->at(quad),
+                           rmaxtrue,
+                           m_stormData->cisotach(iso)->chollandB()->at(quad));
+  } else if (distance <= m_stormData->cisotach(0)->crmax()->at(quad)) {
+    return std::make_tuple(m_stormData->cisotach(0)->cvmaxBl()->at(quad),
+                           m_stormData->cisotach(0)->crmax()->at(quad),
+                           rmaxtrue,
+                           m_stormData->cisotach(0)->chollandB()->at(quad));
+  } else {
+    const auto radii = m_stormData->isotachRadii(quad);
+    const auto it = std::lower_bound(radii.begin(), radii.end(), distance);
+    const auto p = it - radii.begin();
+    const auto r1 = *(it);
+    const auto r2 = *(it + 1);
+    const double fac = (distance - r1) / (r2 - r1);
+
+    double vmbl =
+        fac * m_stormData->cisotach(p)->cvmaxBl()->at(quad) +
+        (1.0 - fac) * m_stormData->cisotach(p + 1)->cvmaxBl()->at(quad);
+    double rmax = fac * m_stormData->cisotach(p)->crmax()->at(quad) +
+                  (1.0 - fac) * m_stormData->cisotach(p + 1)->crmax()->at(quad);
+    double b =
+        fac * m_stormData->cisotach(p)->chollandB()->at(quad) +
+        (1.0 - fac) * m_stormData->cisotach(p + 1)->chollandB()->at(quad);
+
+    return std::make_tuple(vmbl, rmax, rmaxtrue, b);
+  }
 }
