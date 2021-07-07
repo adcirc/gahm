@@ -38,7 +38,6 @@
 
 class Vortex {
  public:
-  Vortex() = default;
 
   Vortex(AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
          Assumptions *assumptions);
