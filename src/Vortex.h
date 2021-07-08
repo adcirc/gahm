@@ -38,7 +38,6 @@
 
 class Vortex {
  public:
-
   Vortex(AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
          Assumptions *assumptions);
 
@@ -54,8 +53,19 @@ class Vortex {
   /// Number of isotachs for which wind speeds may be provided
   static const size_t maxIsotachs = 4;
 
-  std::tuple<double, double, double, double> getParameters(
-      double angle, double distance) const;
+  struct ParameterPack {
+    double vmaxBoundaryLayer;
+    double radiusToMaxWinds;
+    double radiusToMaxWindsTrue;
+    double hollandB;
+    ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b)
+        : vmaxBoundaryLayer(vmaxbl),
+          radiusToMaxWinds(rmax),
+          radiusToMaxWindsTrue(rmaxtrue),
+          hollandB(b) {}
+  };
+
+  Vortex::ParameterPack getParameters(double angle, double distance) const;
 
   int computeRadiusToWind();
 
@@ -106,8 +116,7 @@ class Vortex {
                                                    double b, double cor,
                                                    double dp);
 
-  std::tuple<double, double, double, double> interpolateParameters(
-      int quad, double distance) const;
+  Vortex::ParameterPack interpolateParameters(int quad, double distance) const;
 
   double iterateRadius() const;
 

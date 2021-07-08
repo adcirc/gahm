@@ -185,6 +185,7 @@ double HurricanePressure::twoslope(const double wind_speed,
                                  wind_speed, last_vmax, last_pressure);
 }
 
+#include <fstream>
 std::string HurricanePressure::pressureMethodString(
     const HurricanePressure::PressureMethod &method) {
   switch (method) {
@@ -200,7 +201,11 @@ std::string HurricanePressure::pressureMethodString(
       return "Two Slope";
     case COURTNEYKNAFF:
       return "Courtney-Knaff";
+    default:
+      return "Unknown";
   }
+
+
 }
 HurricanePressure::PressureMethod HurricanePressure::pressureMethod() const {
   return m_pressureMethod;

@@ -54,6 +54,20 @@ void GahmSolutionState::query(const Date &d) {
     m_azimuthQuery[i] = Interpolation::angleInterp(
         m_stormParametersQuery.wtratio(), m_azimuth1[i], m_azimuth2[i]);
   }
+
+  m_stormMotion =
+      1.5 * std::pow(std::sqrt(std::pow(m_stormParametersQuery.utrans(), 2.0) +
+                               std::pow(m_stormParametersQuery.vtrans(), 2.0)),
+                     0.63);
+
+  m_direction = std::atan2(m_stormParametersQuery.utrans(),
+                           m_stormParametersQuery.vtrans());
+  if (m_direction < 0.0) {
+    m_direction += Constants::twopi();
+  }
+
+  m_stormMotionU = std::sin(m_direction) * m_stormMotion;
+  m_stormMotionV = std::cos(m_direction) * m_stormMotion;
 }
 
 void GahmSolutionState::generateUpdatedParameters(const Date &d) {
@@ -90,8 +104,7 @@ GahmSolutionState::computeDistanceToStormCenter(const double stormCenterX,
     double dx = deg2rad * radius_earth * (m_xpoints[i] - stormCenterX) *
                 std::cos(deg2rad * stormCenterY);
     double dy = deg2rad * radius_earth * (m_ypoints[i] - stormCenterY);
-    distance.push_back(std::sqrt(dx * dx + dy * dy) *
-                       Units::convert(Units::Meter, Units::Kilometer));
+    distance.push_back(std::sqrt(dx * dx + dy * dy));
     double azi = std::atan2(dx, dy);
 
     if (azi < 0.0) {
@@ -102,30 +115,38 @@ GahmSolutionState::computeDistanceToStormCenter(const double stormCenterX,
   return std::make_tuple(distance, azimuth);
 }
 
-double GahmSolutionState::distance(size_t index) {
+double GahmSolutionState::distance(size_t index) const {
   assert(m_initialized);
   assert(index < m_distanceQuery.size());
   return m_distanceQuery[index];
 }
 
-double GahmSolutionState::azimuth(size_t index) {
+double GahmSolutionState::azimuth(size_t index) const {
   assert(m_initialized);
   assert(index < m_azimuthQuery.size());
   return m_azimuthQuery[index];
 }
-StormParameters GahmSolutionState::stormParameters() {
+StormParameters GahmSolutionState::stormParameters() const {
   assert(m_initialized);
   return m_stormParametersQuery;
 }
 
-double GahmSolutionState::x(size_t index) {
+double GahmSolutionState::x(size_t index) const {
   assert(index < m_xpoints.size());
   return m_xpoints[index];
 }
 
-double GahmSolutionState::y(size_t index) {
+double GahmSolutionState::y(size_t index) const {
   assert(index < m_ypoints.size());
   return m_ypoints[index];
 }
 
 size_t GahmSolutionState::size() { return m_xpoints.size(); }
+
+double GahmSolutionState::stormDirection() const { return m_direction; }
+
+double GahmSolutionState::stormMotion() const { return m_stormMotion; }
+
+double GahmSolutionState::stormMotionU() const { return m_stormMotionU; }
+
+double GahmSolutionState::stormMotionV() const { return m_stormMotionV; }

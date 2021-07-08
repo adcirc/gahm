@@ -35,8 +35,8 @@ namespace Interpolation {
  * @param[in] v2 value 2 for weighting
  * @return interpolated value
  */
-static double linearInterp(const double weight, const double v1,
-                           const double v2) {
+static constexpr double linearInterp(const double weight, const double v1,
+                                     const double v2) {
   return (1.0 - weight) * v1 + weight * v2;
 }
 
@@ -58,8 +58,9 @@ static double angleInterp(const double weight, const double v1,
   }
 }
 
-static double powerInterp(double power1, double power2, double value1, double value2){
-    return ((value1 * power1) + (value2 * power2)) / ( power1 + power2 );
+static constexpr double quadrantInterp(double power1, double power2,
+                                       double value1, double value2) {
+  return ((value1 * power1) + (value2 * power2)) / (power1 + power2);
 }
 
 }  // namespace Interpolation

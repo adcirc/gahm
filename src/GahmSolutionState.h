@@ -41,14 +41,19 @@ class GahmSolutionState {
 
   void query(const Date &d);
 
-  double x(size_t index);
-  double y(size_t index);
+  double x(size_t index) const;
+  double y(size_t index) const;
 
   size_t size();
 
-  double distance(size_t index);
-  double azimuth(size_t index);
-  StormParameters stormParameters();
+  double distance(size_t index) const;
+  double azimuth(size_t index) const;
+  StormParameters stormParameters() const;
+
+  double stormDirection() const;
+  double stormMotion() const;
+  double stormMotionU() const;
+  double stormMotionV() const;
 
  private:
   void generateUpdatedParameters(const Date &d);
@@ -72,6 +77,11 @@ class GahmSolutionState {
   Date m_date2;
 
   StormParameters m_stormParametersQuery;
+
+  double m_stormMotion;
+  double m_direction;
+  double m_stormMotionU;
+  double m_stormMotionV;
 
   bool m_initialized;
 };

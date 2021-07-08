@@ -35,6 +35,7 @@
 #include "GahmSolutionState.h"
 #include "Preprocessor.h"
 #include "StormParameters.h"
+#include "Vortex.h"
 
 class Gahm {
  public:
@@ -48,8 +49,8 @@ class Gahm {
   Assumptions *assumptions();
 
  private:
-  static GahmSolutionPoint getUvpr(double distance, double angle, double rmax,
-                                   double rmax_true, double b, double vmax,
+  static GahmSolutionPoint getUvpr(double distance, double angle,
+                                   const Vortex::ParameterPack &pack,
                                    double phi, double utrans, double vtrans,
                                    const StormParameters &s);
 
@@ -58,6 +59,9 @@ class Gahm {
   std::unique_ptr<Atcf> m_atcf;
   std::unique_ptr<Preprocessor> m_preprocessor;
   std::unique_ptr<GahmSolutionState> m_state;
+  Vortex::ParameterPack generateStormParameterPackForLocation(
+      const StormParameters &sp, const Vortex &v1, const Vortex &v2,
+      int i) const;
 };
 
 #endif  // GAHM_H
