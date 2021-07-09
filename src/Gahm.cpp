@@ -52,8 +52,14 @@ std::string Gahm::filename() const { return m_filename; }
 
 Assumptions *Gahm::assumptions() { return m_assumptions.get(); }
 
-GahmSolution Gahm::get(const Date &d) {
+WindData Gahm::get(const Date &d) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
+
+  WindData g(m_state->size(), 0.0, 0.0, Constants::backgroundPressure());
+
+  if (d < m_atcf->begin_time() || d > m_atcf->end_time()) {
+    return g;
+  }
 
   m_state->query(d);
   auto sp = m_state->stormParameters();
@@ -68,9 +74,6 @@ GahmSolution Gahm::get(const Date &d) {
       sp.cycle() + 1 > m_atcf->nRecords() - 1 ? sp.cycle() : sp.cycle() + 1;
   Vortex v2(m_atcf->record(cycle2), m_assumptions.get());
 
-  GahmSolution g;
-  g.reserve(m_state->size());
-
   for (auto i = 0; i < m_state->size(); ++i) {
     auto param = this->generateStormParameterPackForLocation(sp, v1, v2, i);
 
@@ -81,10 +84,9 @@ GahmSolution Gahm::get(const Date &d) {
                           param.vmaxBoundaryLayer * param.radiusToMaxWinds *
                               km2m * sp.corio());
 
-    GahmSolutionPoint p =
-        Gahm::getUvpr(m_state->distance(i), m_state->azimuth(i), param, phi,
-                      m_state->stormMotionU(), m_state->stormMotionV(), sp);
-    g.push_back(p);
+    uvp p = Gahm::getUvpr(m_state->distance(i), m_state->azimuth(i), param, phi,
+                          m_state->stormMotionU(), m_state->stormMotionV(), sp);
+    g.set(i, p.u, p.v, p.p);
   }
 
   return g;
@@ -107,10 +109,10 @@ Vortex::ParameterPack Gahm::generateStormParameterPackForLocation(
   return {vmaxbl, rmax, rmaxtrue, b};
 }
 
-GahmSolutionPoint Gahm::getUvpr(const double distance, const double angle,
-                                const Vortex::ParameterPack &pack,
-                                const double phi, const double utrans,
-                                const double vtrans, const StormParameters &s) {
+Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
+                        const Vortex::ParameterPack &pack, const double phi,
+                        const double utrans, const double vtrans,
+                        const StormParameters &s) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
 
   if (distance < 1.0 * Units::convert(Units::NauticalMile, Units::Meter)) {

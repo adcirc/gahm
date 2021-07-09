@@ -73,10 +73,20 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolution.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolutionPoint.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Interpolation.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h src/GahmSolutionState.cpp src/GahmSolutionState.h)
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolutionState.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolutionState.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp)
 
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(

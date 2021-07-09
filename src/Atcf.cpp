@@ -122,14 +122,18 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
                                ") occurs before the first data record (" +
                                m_atcfData.front().datetime().toString() +
                                "). Assuming storm is in the start position."));
-    return {-1, 1.0};
+    return {0, 1.0};
   } else if (d > m_atcfData.back().datetime()) {
     m_assumptions->add(generate_assumption(
         Assumption::MINOR, "Requested date (" + d.toString() +
                                ") occurs after the last data record (" +
                                m_atcfData.back().datetime().toString() +
                                "). Assuming storm is in the last position."));
-    return {m_atcfData.size(), 1.0};
+    return {m_atcfData.size() - 1, 1.0};
+  } else if (d == m_atcfData.front().datetime()) {
+    return {0, 1.0};
+  } else if (d == m_atcfData.back().datetime()) {
+    return {m_atcfData.size() - 1, 1.0};
   } else {
     auto dt = d.toSeconds();
     for (auto it = m_atcfData.begin(); it < m_atcfData.end(); ++it) {
@@ -140,10 +144,10 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
                 static_cast<double>(dt - t1) / static_cast<double>(t2 - t1)};
       }
     }
-    gahm_throw_exception(
-        "Could not find a suitable time record. Check record ordering.");
-    return {0, 0.0};
   }
+  gahm_throw_exception(
+      "Could not find a suitable time record. Check record ordering.");
+  return {0, 0.0};
 }
 
 /**
@@ -319,3 +323,6 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
   }
   f.close();
 }
+Date Atcf::begin_time() const { return m_atcfData.front().datetime(); }
+
+Date Atcf::end_time() const { return m_atcfData.back().datetime(); }

@@ -31,11 +31,11 @@
 #include <vector>
 
 #include "Atcf.h"
-#include "GahmSolution.h"
 #include "GahmSolutionState.h"
 #include "Preprocessor.h"
 #include "StormParameters.h"
 #include "Vortex.h"
+#include "WindData.h"
 
 class Gahm {
  public:
@@ -44,15 +44,20 @@ class Gahm {
 
   std::string filename() const;
 
-  GahmSolution get(const Date &d);
+  WindData get(const Date &d);
 
   Assumptions *assumptions();
 
  private:
-  static GahmSolutionPoint getUvpr(double distance, double angle,
-                                   const Vortex::ParameterPack &pack,
-                                   double phi, double utrans, double vtrans,
-                                   const StormParameters &s);
+  struct uvp {
+    double u;
+    double v;
+    double p;
+  };
+
+  static uvp getUvpr(double distance, double angle,
+                     const Vortex::ParameterPack &pack, double phi,
+                     double utrans, double vtrans, const StormParameters &s);
 
   const std::string m_filename;
   std::unique_ptr<Assumptions> m_assumptions;

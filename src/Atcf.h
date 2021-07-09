@@ -67,6 +67,9 @@ class Atcf {
   enum AtcfFileTypes { FormatAtcf, FormatNWS20 };
   void write(const std::string &filename, AtcfFileTypes = FormatNWS20) const;
 
+  Date begin_time() const;
+  Date end_time() const;
+
  private:
   /// Filename of the Atcf file to use
   std::string m_filename;

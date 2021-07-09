@@ -3,6 +3,7 @@
     set(TEST_LIST
             cxx_atcf.cpp
             cxx_physical.cpp
+            cxx_owi.cpp
             )
 
     foreach (TESTFILE ${TEST_LIST})
