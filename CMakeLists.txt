@@ -1,4 +1,34 @@
+# MIT License
+#
+# Copyright (c) 2020 ADCIRC Development Group
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+# Author: Zach Cobell Contact: zcobell@thewaterinstitute.org
+#
+
 cmake_minimum_required(VERSION 3.0)
+set(GAHM_VERSION_MAJOR 0)
+set(GAHM_VERSION_MINOR 0)
+set(GAHM_VERSION_PATCH 1)
+set(GAHM_VERSION_STRING
+    ${GAHM_VERSION_MAJOR}.${GAHM_VERSION_MINOR}.${GAHM_VERSION_PATCH})
 
 # ...Set the default build type
 if(DEFINED CMAKE_BUILD_TYPE)
@@ -20,7 +50,7 @@ cmake_policy(SET CMP0048 NEW)
 project(
   gahm
   LANGUAGES CXX
-  VERSION 0.0.1)
+  VERSION ${GAHM_VERSION_STRING})
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -88,6 +118,14 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp)
 
+if(APPLE)
+  set_target_properties(
+    gahm PROPERTIES MACHO_CURRENT_VERSION ${GAHM_VERSION_STRING}
+                    MACHO_COMPATIBILITY_VERSION ${GAHM_VERSION_MAJOR}.${GAHM_VERSION_MINOR})
+endif()
+set_target_properties(gahm PROPERTIES VERSION ${GAHM_VERSION_STRING}
+                                      SOVERSION ${GAHM_VERSION_MAJOR})
+
 target_compile_definitions(gahm PRIVATE GAHM_LIBRARY)
 target_include_directories(
   gahm
@@ -95,4 +133,7 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
           ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_76_0)
 
-
+write_basic_package_version_file(
+  gahmConfigVersion.cmake
+  VERSION ${GAHM_VERSION_STRING}
+  COMPATIBILITY SameMajorVersion)
