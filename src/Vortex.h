@@ -58,11 +58,16 @@ class Vortex {
     double radiusToMaxWinds;
     double radiusToMaxWindsTrue;
     double hollandB;
-    ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b)
+    int base_quadrant;
+    double delta_angle;
+    ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b,
+                  int quad, double angle)
         : vmaxBoundaryLayer(vmaxbl),
           radiusToMaxWinds(rmax),
           radiusToMaxWindsTrue(rmaxtrue),
-          hollandB(b) {}
+          hollandB(b),
+          base_quadrant(quad),
+          delta_angle(angle) {}
   };
 
   Vortex::ParameterPack getParameters(double angle, double distance) const;
@@ -89,6 +94,8 @@ class Vortex {
   size_t currentRecord() const;
   void setCurrentRecord(const size_t &currentRecord);
 
+  Date datetime() const;
+
  private:
   unsigned m_currentQuadrant;
   unsigned m_currentIsotach;
@@ -98,7 +105,7 @@ class Vortex {
 
   static constexpr size_t m_max_it = 400;
 
-  static std::pair<int, double> getBaseQuadrant(double angle);
+  constexpr static std::pair<int, double> getBaseQuadrant(double angle);
 
   static constexpr double rossbyNumber(double vmaxBoundaryLayer,
                                        double radiusToMaxWinds,
@@ -116,7 +123,8 @@ class Vortex {
                                                    double b, double cor,
                                                    double dp);
 
-  Vortex::ParameterPack interpolateParameters(int quad, double distance) const;
+  Vortex::ParameterPack interpolateParameters(int quad, double distance,
+                                              double angle) const;
 
   double iterateRadius() const;
 

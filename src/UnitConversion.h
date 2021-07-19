@@ -68,8 +68,8 @@ class UnitInternal {
 constexpr UnitInternal::Length Meter(1.0);
 constexpr UnitInternal::Length Kilometer(0.001);
 constexpr UnitInternal::Length Foot(3.28084);
-constexpr UnitInternal::Length Mile(1.0/1609.34);
-constexpr UnitInternal::Length NauticalMile(1.0/1851.995396854);
+constexpr UnitInternal::Length Mile(1.0 / 1609.34);
+constexpr UnitInternal::Length NauticalMile(1.0 / 1851.995396854);
 
 constexpr UnitInternal::Angle Radian(1.0);
 constexpr UnitInternal::Angle Degree(180.0 / M_PI);

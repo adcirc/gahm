@@ -24,12 +24,11 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "Assumptions.h"
+
 #include <cassert>
 #include <iostream>
 
-void Assumptions::add(const Assumption &a) {
-  m_assumptions.push_back(a);
-}
+void Assumptions::add(const Assumption &a) { m_assumptions.push_back(a); }
 
 Assumption Assumptions::get(size_t index) const {
   assert(index < m_assumptions.size());

@@ -45,7 +45,7 @@ Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
                  double r2, double r3, double r4)
     : m_windSpeed(windSpeed),
       m_isotachRadius({r1, r2, r3, r4}),
-      m_isotachRadiusNullInInput({r1==0.0, r2==0.0,r3==0.0,r4==0.0}),
+      m_isotachRadiusNullInInput({r1 == 0.0, r2 == 0.0, r3 == 0.0, r4 == 0.0}),
       m_rmax({0.0, 0.0, 0.0, 0.0}),
       m_hollandB({1.0, 1.0, 1.0, 1.0}),
       m_vmaxBL({0.0, 0.0, 0.0, 0.0}),

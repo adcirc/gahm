@@ -23,22 +23,23 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#define CATCH_CONFIG_MAIN
+//#define CATCH_CONFIG_MAIN
 #include "Gahm.h"
 #include "OwiAscii.h"
 #include "catch.hpp"
 
-TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
-  Date start_date(2005, 8, 23, 18, 0, 0);
-  Date end_date(2005, 8, 31, 6, 0, 0);
-  const unsigned dt = 7200;
+//TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
+int main() {
+  Date start_date(2005, 8, 27, 0, 0, 0);
+  Date end_date(2005, 8, 28, 0, 0, 0);
+  const unsigned dt = 1800;
 
   const double llx = -99.0;
-  const double lly = 10.0;
-  const double urx = -70.0;
-  const double ury = 30.0;
-  const double dx = 0.1;
-  const double dy = 0.1;
+  const double lly = 15.0;
+  const double urx = -75.0;
+  const double ury = 35.0;
+  const double dx = 0.01;
+  const double dy = 0.01;
 
   const std::string pressure_file = "katrina_gahm.221";
   const std::string wind_file = "katrina_gahm.222";
@@ -48,20 +49,24 @@ TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
   WindGrid domain1(llx, lly, urx, ury, dx, dy);
   ogrid.addDomain(domain1, pressure_file, wind_file);
 
+  domain1.write("grid.txt");
+
   auto position = domain1.griddata();
+  std::cout << std::get<0>(position).size() << std::endl;
 
   Gahm g("../testing/test_files/bal122005.dat", std::get<0>(position),
          std::get<1>(position));
 
+  size_t ii = 0;
   for (auto d = start_date; d <= end_date; d += dt) {
     std::cout << "Time = " << d << std::endl;
-
     std::cout << "    Solving GAHM...";
     auto s = g.get(d);
     std::cout << "done!" << std::endl;
-
     std::cout << "    Writing solution to Oceanweather format...";
     ogrid.write(d, 0, s.p(), s.u(), s.v());
     std::cout << "done!" << std::endl;
+    ii++;
+    //std::cout << ii << ", " << s.stormParameters()->cycle() << "," << s.stormParameters()->longitude() << ", " << s.stormParameters()->latitude() << std::endl;
   }
 }

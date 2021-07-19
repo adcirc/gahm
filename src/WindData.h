@@ -9,6 +9,8 @@
 #include <cstdlib>
 #include <vector>
 
+#include "StormParameters.h"
+
 class WindData {
  public:
   explicit WindData(size_t n);
@@ -30,11 +32,15 @@ class WindData {
   void setV(const std::vector<double> &v);
   void setP(const std::vector<double> &p);
 
+  void setStormParameters(const StormParameters &sp);
+  const StormParameters *stormParameters() const;
+
  private:
   size_t m_n;
   std::vector<double> m_u;
   std::vector<double> m_v;
   std::vector<double> m_p;
+  StormParameters m_stormParameters;
 };
 
 #endif  // METGET_LIBRARY_WINDDATA_H_

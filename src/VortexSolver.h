@@ -27,6 +27,7 @@
 #define VORTEXSOLVER_H
 
 #include <utility>
+
 #include "AtcfLine.h"
 
 enum VortexSolverType { Derivative, NoDerivative };

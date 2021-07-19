@@ -388,16 +388,6 @@ bool AtcfLine::isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2) {
   }
 }
 
-bool AtcfLine::operator<(const AtcfLine &a) const {
-  if (this->datetime() < a.datetime()) return true;
-  if (this->datetime() > a.datetime()) return false;
-  if (this->nIsotach() == 0 && a.nIsotach() == 0) return false;
-  if (this->nIsotach() > 0 && a.nIsotach() == 0) return true;
-  if (this->nIsotach() == 0 && a.nIsotach() > 0) return false;
-  if (this->cisotach(0)->windSpeed() < a.cisotach(0)->windSpeed()) return true;
-  return false;
-}
-
 void AtcfLine::setStormTranslationVelocities(const double u, const double v,
                                              const double uv) {
   m_u = u;

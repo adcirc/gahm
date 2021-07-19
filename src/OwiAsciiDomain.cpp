@@ -103,7 +103,7 @@ std::string OwiAsciiDomain::generateRecordHeader(const Date &date,
   return boost::str(
       boost::format("iLat=%4diLong=%4dDX=%6.4fDY=%6.4fSWLat=%8.5fSWLon=%8.4fDT="
                     "%4.4i%02i%02i%02i%02i\n") %
-      grid->ni() % grid->nj() % grid->dx() % grid->dy() %
+      grid->nj() % grid->ni() % grid->dy() % grid->dx() %
       grid->bottom_left().y() % grid->bottom_left().x() % date.year() %
       date.month() % date.day() % date.hour() % date.minute());
 }

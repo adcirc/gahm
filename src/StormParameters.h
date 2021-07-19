@@ -26,6 +26,8 @@
 #ifndef GAHM_SRC_STORMPARAMETERS_H_
 #define GAHM_SRC_STORMPARAMETERS_H_
 
+#include "Constants.h"
+
 class StormParameters {
  public:
   StormParameters()

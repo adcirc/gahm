@@ -204,8 +204,6 @@ std::string HurricanePressure::pressureMethodString(
     default:
       return "Unknown";
   }
-
-
 }
 HurricanePressure::PressureMethod HurricanePressure::pressureMethod() const {
   return m_pressureMethod;

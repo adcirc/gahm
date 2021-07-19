@@ -26,6 +26,7 @@
 #include "Atcf.h"
 
 #include <algorithm>
+#include <cassert>
 #include <fstream>
 #include <utility>
 
@@ -70,7 +71,7 @@ int Atcf::read() {
     std::getline(f, line);
     AtcfLine a = AtcfLine::parseAtcfLine(line);
     if (!a.isNull()) {
-      m_atcfData.emplace_back(a);
+      m_atcfData.push_back(a);
     }
   }
   f.close();
@@ -116,6 +117,7 @@ std::vector<AtcfLine> *Atcf::data() { return &m_atcfData; }
  * appropriate weighting factor to use
  */
 std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
+  assert(std::is_sorted(m_atcfData.begin(), m_atcfData.end()));
   if (d < m_atcfData.front().datetime()) {
     m_assumptions->add(generate_assumption(
         Assumption::MINOR, "Requested date (" + d.toString() +
@@ -135,15 +137,14 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
   } else if (d == m_atcfData.back().datetime()) {
     return {m_atcfData.size() - 1, 1.0};
   } else {
-    auto dt = d.toSeconds();
-    for (auto it = m_atcfData.begin(); it < m_atcfData.end(); ++it) {
-      auto t1 = it->datetime().toSeconds();
-      auto t2 = (it + 1)->datetime().toSeconds();
-      if (dt >= t1 && dt < t2) {
-        return {it - m_atcfData.begin(),
-                static_cast<double>(dt - t1) / static_cast<double>(t2 - t1)};
-      }
-    }
+    const auto dt = d.toSeconds();
+    auto it = std::lower_bound(m_atcfData.cbegin(), m_atcfData.cend(), dt,
+                               AtcfLine::atcfLineLessThan()) -
+              1;
+    auto t1 = it->datetime().toSeconds();
+    auto t2 = (it + 1)->datetime().toSeconds();
+    return {it - m_atcfData.begin(),
+            static_cast<double>(dt - t1) / static_cast<double>(t2 - t1)};
   }
   gahm_throw_exception(
       "Could not find a suitable time record. Check record ordering.");
@@ -158,10 +159,22 @@ std::pair<int, double> Atcf::getCycleNumber(const Date &d) const {
  */
 StormParameters Atcf::getStormParameters(const Date &d) const {
   auto w = this->getCycleNumber(d);
+  return this->getStormParameters(w.first, w.second);
+}
+
+/**
+ * Returns a StormParameters object constructed via linear interpolation at the
+ * specified date/time
+ * @param[in] cycle cycle to compute parameters for
+ * @param[in] weight of the specified cycle versus the next cycle
+ * @return StormParameters object for specified date
+ */
+StormParameters Atcf::getStormParameters(const int cycle,
+                                         const double weight) const {
   StormParameters s;
-  s.setCycle(w.first);
-  s.setWtratio(w.second);
-  if (s.cycle() < 1) {
+  s.setCycle(cycle);
+  s.setWtratio(weight);
+  if (cycle < 1) {
     s.setCentralPressure(m_atcfData.front().centralPressure());
     s.setBackgroundPressure(m_atcfData.front().lastClosedIsobar());
     s.setVmax(m_atcfData.front().vmax());
@@ -170,7 +183,7 @@ StormParameters Atcf::getStormParameters(const Date &d) const {
     s.setUtrans(m_atcfData.front().uTrans());
     s.setVtrans(m_atcfData.front().vTrans());
     s.setUvtrans(m_atcfData.front().uvTrans());
-  } else if (s.cycle() >= m_atcfData.size()) {
+  } else if (cycle >= m_atcfData.size() - 1) {
     s.setCentralPressure(m_atcfData.back().centralPressure());
     s.setBackgroundPressure(m_atcfData.back().lastClosedIsobar());
     s.setVmax(m_atcfData.back().vmax());
@@ -181,29 +194,26 @@ StormParameters Atcf::getStormParameters(const Date &d) const {
     s.setUvtrans(m_atcfData.back().uvTrans());
   } else {
     s.setCentralPressure(Interpolation::linearInterp(
-        s.wtratio(), m_atcfData[s.cycle()].centralPressure(),
-        m_atcfData[s.cycle() + 1].centralPressure()));
+        s.wtratio(), m_atcfData[cycle].centralPressure(),
+        m_atcfData[cycle + 1].centralPressure()));
     s.setBackgroundPressure(Interpolation::linearInterp(
-        s.wtratio(), m_atcfData[s.cycle()].lastClosedIsobar(),
-        m_atcfData[s.cycle() + 1].lastClosedIsobar()));
-    s.setVmax(Interpolation::linearInterp(s.wtratio(),
-                                          m_atcfData[s.cycle()].vmax(),
-                                          m_atcfData[s.cycle() + 1].vmax()));
-    s.setLatitude(Interpolation::linearInterp(s.wtratio(),
-                                              m_atcfData[s.cycle()].lat(),
-                                              m_atcfData[s.cycle() + 1].lat()));
-    s.setLongitude(
-        Interpolation::linearInterp(s.wtratio(), m_atcfData[s.cycle()].lon(),
-                                    m_atcfData[s.cycle() + 1].lon()));
-    s.setUtrans(
-        Interpolation::linearInterp(s.wtratio(), m_atcfData[s.cycle()].uTrans(),
-                                    m_atcfData[s.cycle() + 1].uTrans()));
-    s.setVtrans(
-        Interpolation::linearInterp(s.wtratio(), m_atcfData[s.cycle()].vTrans(),
-                                    m_atcfData[s.cycle() + 1].vTrans()));
-    s.setUvtrans(Interpolation::linearInterp(
-        s.wtratio(), m_atcfData[s.cycle()].uvTrans(),
-        m_atcfData[s.cycle() + 1].uvTrans()));
+        s.wtratio(), m_atcfData[cycle].lastClosedIsobar(),
+        m_atcfData[cycle + 1].lastClosedIsobar()));
+    s.setVmax(Interpolation::linearInterp(s.wtratio(), m_atcfData[cycle].vmax(),
+                                          m_atcfData[cycle + 1].vmax()));
+    s.setLatitude(Interpolation::linearInterp(
+        s.wtratio(), m_atcfData[cycle].lat(), m_atcfData[cycle + 1].lat()));
+    s.setLongitude(Interpolation::linearInterp(
+        s.wtratio(), m_atcfData[cycle].lon(), m_atcfData[cycle + 1].lon()));
+    s.setUtrans(Interpolation::linearInterp(s.wtratio(),
+                                            m_atcfData[cycle].uTrans(),
+                                            m_atcfData[cycle + 1].uTrans()));
+    s.setVtrans(Interpolation::linearInterp(s.wtratio(),
+                                            m_atcfData[cycle].vTrans(),
+                                            m_atcfData[cycle + 1].vTrans()));
+    s.setUvtrans(Interpolation::linearInterp(s.wtratio(),
+                                             m_atcfData[cycle].uvTrans(),
+                                             m_atcfData[cycle + 1].uvTrans()));
   }
   s.setCorio(Constants::coriolis(s.latitude()));
 

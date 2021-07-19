@@ -61,6 +61,8 @@ class Atcf {
   std::vector<AtcfLine> *data();
 
   StormParameters getStormParameters(const Date &d) const;
+  StormParameters getStormParameters(const int cycle,
+                                     const double weight) const;
 
   std::pair<int, double> getCycleNumber(const Date &d) const;
 

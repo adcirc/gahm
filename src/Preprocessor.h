@@ -39,8 +39,8 @@ class Preprocessor {
   int run();
 
  private:
-  static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv, double &vv,
-              double &uuvv);
+  static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
+                     double &vv, double &uuvv);
   int calculateOverlandTranslationVelocity();
 
   void setAllRadiiToRmax(CircularArray<double, 4> *radii,

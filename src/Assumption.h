@@ -32,8 +32,8 @@ class Assumption {
  public:
   enum Severity { INFO, MINOR, MAJOR, CRITICAL };
 
-  Assumption(Assumption::Severity s, std::string message,
-             std::string  file, size_t line);
+  Assumption(Assumption::Severity s, std::string message, std::string file,
+             size_t line);
 
   Severity severity() const;
 

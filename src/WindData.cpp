@@ -61,3 +61,11 @@ void WindData::setP(const std::vector<double>& p) {
   assert(p.size() == m_n);
   m_p = p;
 }
+
+void WindData::setStormParameters(const StormParameters& sp) {
+  m_stormParameters = sp;
+}
+
+const StormParameters* WindData::stormParameters() const {
+  return &m_stormParameters;
+}

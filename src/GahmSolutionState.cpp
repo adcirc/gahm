@@ -41,16 +41,16 @@ GahmSolutionState::GahmSolutionState(Atcf *atcf, std::vector<double> x_points,
 }
 
 void GahmSolutionState::query(const Date &d) {
-  if (d < m_date1 || d > m_date2 || !m_initialized) {
-    this->generateUpdatedParameters(d);
-    m_initialized = true;
-  }
+  // if (d < m_date1 || d > m_date2 || !m_initialized) {
+  this->generateUpdatedParameters(d);
+  m_initialized = true;
+  //}
 
   m_stormParametersQuery = m_atcf->getStormParameters(d);
 
   for (auto i = 0; i < m_xpoints.size(); ++i) {
     m_distanceQuery[i] = Interpolation::linearInterp(
-        m_stormParametersQuery.wtratio(), m_distance1[i], m_distance2[2]);
+        m_stormParametersQuery.wtratio(), m_distance1[i], m_distance2[i]);
     m_azimuthQuery[i] = Interpolation::angleInterp(
         m_stormParametersQuery.wtratio(), m_azimuth1[i], m_azimuth2[i]);
   }
@@ -62,9 +62,6 @@ void GahmSolutionState::query(const Date &d) {
 
   m_direction = std::atan2(m_stormParametersQuery.utrans(),
                            m_stormParametersQuery.vtrans());
-  if (m_direction < 0.0) {
-    m_direction += Constants::twopi();
-  }
 
   m_stormMotionU = std::sin(m_direction) * m_stormMotion;
   m_stormMotionV = std::cos(m_direction) * m_stormMotion;
@@ -74,20 +71,13 @@ void GahmSolutionState::generateUpdatedParameters(const Date &d) {
   auto cycle0 = m_atcf->getCycleNumber(d).first;
   auto cycle1 = cycle0 + 1;
 
-  m_date1 = m_atcf->crecord(cycle0)->datetime();
-  m_date2 = m_atcf->crecord(cycle1)->datetime();
+  auto stormParameters1 = m_atcf->getStormParameters(cycle0, 1.0);
+  auto stormParameters2 = m_atcf->getStormParameters(cycle1, 1.0);
 
-  auto stormParameters1 = m_atcf->getStormParameters(m_date1);
-  auto stormParameters2 = m_atcf->getStormParameters(m_date2);
-
-  auto v1 = this->computeDistanceToStormCenter(stormParameters1.longitude(),
-                                               stormParameters1.latitude());
-  auto v2 = this->computeDistanceToStormCenter(stormParameters2.longitude(),
-                                               stormParameters2.latitude());
-  m_distance1 = std::get<0>(v1);
-  m_azimuth1 = std::get<1>(v1);
-  m_distance2 = std::get<0>(v2);
-  m_azimuth2 = std::get<1>(v2);
+  std::tie(m_distance1, m_azimuth1) = this->computeDistanceToStormCenter(
+      stormParameters1.longitude(), stormParameters1.latitude());
+  std::tie(m_distance2, m_azimuth2) = this->computeDistanceToStormCenter(
+      stormParameters2.longitude(), stormParameters2.latitude());
 }
 
 std::tuple<std::vector<double>, std::vector<double>>
@@ -105,11 +95,12 @@ GahmSolutionState::computeDistanceToStormCenter(const double stormCenterX,
                 std::cos(deg2rad * stormCenterY);
     double dy = deg2rad * radius_earth * (m_ypoints[i] - stormCenterY);
     distance.push_back(std::sqrt(dx * dx + dy * dy));
+
     double azi = std::atan2(dx, dy);
 
-    if (azi < 0.0) {
-      azi += Constants::twopi();
-    }
+    assert(azi >= -Constants::pi());
+    assert(azi <= Constants::pi());
+
     azimuth.push_back(azi);
   }
   return std::make_tuple(distance, azimuth);

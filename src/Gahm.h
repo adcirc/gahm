@@ -48,6 +48,8 @@ class Gahm {
 
   Assumptions *assumptions();
 
+  Atcf *atcf();
+
  private:
   struct uvp {
     double u;
@@ -55,18 +57,22 @@ class Gahm {
     double p;
   };
 
-  static uvp getUvpr(double distance, double angle,
-                     const Vortex::ParameterPack &pack, double phi,
-                     double utrans, double vtrans, const StormParameters &s);
-
   const std::string m_filename;
   std::unique_ptr<Assumptions> m_assumptions;
   std::unique_ptr<Atcf> m_atcf;
   std::unique_ptr<Preprocessor> m_preprocessor;
   std::unique_ptr<GahmSolutionState> m_state;
+
+  static uvp getUvpr(double distance, double angle,
+                     const Vortex::ParameterPack &pack, double utrans,
+                     double vtrans, const StormParameters &s);
+
   Vortex::ParameterPack generateStormParameterPackForLocation(
       const StormParameters &sp, const Vortex &v1, const Vortex &v2,
       int i) const;
+
+  static constexpr double computePhi(const Vortex::ParameterPack &p,
+                                     double corio);
 };
 
 #endif  // GAHM_H

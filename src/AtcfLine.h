@@ -124,7 +124,26 @@ class AtcfLine {
 
   static bool isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2);
 
-  bool operator<(const AtcfLine &a) const;
+  bool operator<(const AtcfLine &a) const {
+    if (this->datetime() < a.datetime()) return true;
+    if (this->datetime() > a.datetime()) return false;
+    if (this->nIsotach() == 0 && a.nIsotach() == 0) return false;
+    if (this->nIsotach() > 0 && a.nIsotach() == 0) return true;
+    if (this->nIsotach() == 0 && a.nIsotach() > 0) return false;
+    if (this->cisotach(0)->windSpeed() < a.cisotach(0)->windSpeed()) {
+      return true;
+    }
+    return false;
+  }
+
+  struct atcfLineLessThan {
+    bool operator()(const AtcfLine &left, const long right) {
+      return left.datetime().toSeconds() < right;
+    }
+    bool operator()(const long left, const AtcfLine &right) {
+      return left < right.datetime().toSeconds();
+    }
+  };
 
   void setStormTranslationVelocities(double u, double v, double uv);
   std::tuple<double, double, double> stormTranslationVelocities() const;
