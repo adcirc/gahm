@@ -56,6 +56,9 @@ class WindGrid {
 
   std::tuple<std::vector<double>, std::vector<double>> griddata() const;
 
+  std::vector<double> xpoints() const;
+  std::vector<double> ypoints() const;
+
  private:
   const double m_di;
   const double m_dj;

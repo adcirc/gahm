@@ -42,18 +42,18 @@ GahmSolutionState::GahmSolutionState(Atcf *atcf, std::vector<double> x_points,
 
 void GahmSolutionState::query(const Date &d) {
   // if (d < m_date1 || d > m_date2 || !m_initialized) {
-  this->generateUpdatedParameters(d);
   m_initialized = true;
   //}
 
   m_stormParametersQuery = m_atcf->getStormParameters(d);
 
-  for (auto i = 0; i < m_xpoints.size(); ++i) {
-    m_distanceQuery[i] = Interpolation::linearInterp(
-        m_stormParametersQuery.wtratio(), m_distance1[i], m_distance2[i]);
-    m_azimuthQuery[i] = Interpolation::angleInterp(
-        m_stormParametersQuery.wtratio(), m_azimuth1[i], m_azimuth2[i]);
-  }
+  //for (auto i = 0; i < m_xpoints.size(); ++i) {
+    //m_distanceQuery[i] = Interpolation::linearInterp(
+    //    m_stormParametersQuery.wtratio(), m_distance1[i], m_distance2[i]);
+    //m_azimuthQuery[i] = Interpolation::angleInterp(
+    //    m_stormParametersQuery.wtratio(), m_azimuth1[i], m_azimuth2[i]);
+    std::tie(m_distanceQuery,m_azimuthQuery) = this->computeDistanceToStormCenter(m_stormParametersQuery.longitude(),m_stormParametersQuery.latitude());
+  //}
 
   m_stormMotion =
       1.5 * std::pow(std::sqrt(std::pow(m_stormParametersQuery.utrans(), 2.0) +

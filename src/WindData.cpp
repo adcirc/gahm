@@ -8,6 +8,8 @@
 
 #include "Constants.h"
 
+WindData::WindData() : m_n(0) {}
+
 WindData::WindData(size_t n)
     : m_n(n),
       m_u(n, 0.0),
@@ -68,4 +70,11 @@ void WindData::setStormParameters(const StormParameters& sp) {
 
 const StormParameters* WindData::stormParameters() const {
   return &m_stormParameters;
+}
+
+void WindData::setSize(size_t n){
+    m_n = n;
+    m_u.resize(m_n);
+    m_v.resize(m_n);
+    m_p.resize(m_n);
 }

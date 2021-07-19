@@ -148,7 +148,6 @@ Gahm::uvp Gahm::getUvpr(const double distance, const double angle,
   const double p =
       s.centralPressure() + (s.backgroundPressure() - s.centralPressure()) *
                                 std::exp(-phi * rmaxdisb);
-//  return {uf, vf, pack.hollandB};
   return {uf, vf, p};
 }
 

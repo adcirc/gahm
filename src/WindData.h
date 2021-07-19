@@ -13,6 +13,9 @@
 
 class WindData {
  public:
+
+  WindData();	 
+
   explicit WindData(size_t n);
 
   WindData(size_t n, double u, double v, double p);
@@ -34,6 +37,8 @@ class WindData {
 
   void setStormParameters(const StormParameters &sp);
   const StormParameters *stormParameters() const;
+
+  void setSize(size_t n);
 
  private:
   size_t m_n;

@@ -137,3 +137,8 @@ write_basic_package_version_file(
   gahmConfigVersion.cmake
   VERSION ${GAHM_VERSION_STRING}
   COMPATIBILITY SameMajorVersion)
+
+
+#...Python Interface
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python_gahm.cmake)

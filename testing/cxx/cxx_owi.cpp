@@ -38,8 +38,8 @@ int main() {
   const double lly = 15.0;
   const double urx = -75.0;
   const double ury = 35.0;
-  const double dx = 0.01;
-  const double dy = 0.01;
+  const double dx = 0.1;
+  const double dy = 0.1;
 
   const std::string pressure_file = "katrina_gahm.221";
   const std::string wind_file = "katrina_gahm.222";

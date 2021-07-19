@@ -198,3 +198,30 @@ std::tuple<std::vector<double>, std::vector<double>> WindGrid::griddata()
 
   return std::make_tuple(x, y);
 }
+
+std::vector<double> WindGrid::xpoints() const {
+  std::vector<double> x;
+  x.reserve(m_grid.size() * m_grid[0].size());
+
+  for (auto j = 0; j < nj(); ++j) {
+    for (auto i = 0; i < ni(); ++i) {
+      auto p = corner(i, j);
+      x.push_back(p.x());
+    }
+  }
+  return x;
+}
+
+
+std::vector<double> WindGrid::ypoints() const {
+  std::vector<double> y;
+  y.reserve(m_grid.size() * m_grid[0].size());
+
+  for (auto j = 0; j < nj(); ++j) {
+    for (auto i = 0; i < ni(); ++i) {
+      auto p = corner(i, j);
+      y.push_back(p.y());
+    }
+  }
+  return y;
+}
