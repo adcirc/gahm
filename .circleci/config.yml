@@ -15,7 +15,7 @@ jobs:
         - checkout
         - run: 
             name: Build GAHM 
-            command: mkdir build; cd build; cmake .. -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_FLAGS="-O3 -DNDEBUG -march=native -fprofile-arcs -ftest-coverage -g -funroll-loops --param max-unroll-times=4"; make -j
+            command: mkdir build; cd build; cmake .. -DGAHM_ENABLE_TESTING=ON -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_FLAGS="-O3 -DNDEBUG -march=native -fprofile-arcs -ftest-coverage -g -funroll-loops --param max-unroll-times=4"; make -j
         - run: 
             name: Test GAHM
             command: cd build; make test
