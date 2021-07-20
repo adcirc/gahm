@@ -21,7 +21,7 @@ jobs:
             command: cd build; make test
         - run: 
             name: Generate coverage report
-            command: coveralls --exclude thirdparty --exclude testing --gcov-options '\-lp'
+            command: coveralls --exclude thirdparty --exclude testing --exclude build --gcov-options '\-lp'
 workflows:
   version: 2
   build_and_test:
