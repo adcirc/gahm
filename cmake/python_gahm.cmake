@@ -1,8 +1,7 @@
 # ##############################################################################
 # Python GAHM Library
 # ##############################################################################
-if(SWIG_FOUND
-   AND Python3_FOUND)
+if(SWIG_FOUND AND Python3_FOUND)
 
   set(PYTHONFLAG "-py3")
 
@@ -25,8 +24,7 @@ if(SWIG_FOUND
       COMMAND
         ${SWIG_EXECUTABLE} -outdir ${CMAKE_CURRENT_BINARY_DIR} -c++ -python
         ${PYTHONFLAG} -I${CMAKE_CURRENT_SOURCE_DIR}/src
-        -I${Python3_INCLUDE_DIRS}
-        ${SWIG_GDAL_FLAG} -o
+        -I${Python3_INCLUDE_DIRS} ${SWIG_GDAL_FLAG} -o
         ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx.1
         ${CMAKE_CURRENT_SOURCE_DIR}/swig/gahm.i
       COMMAND
@@ -42,8 +40,7 @@ if(SWIG_FOUND
       OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
       COMMAND
         ${SWIG_EXECUTABLE} -outdir ${CMAKE_CURRENT_BINARY_DIR} -c++ -python
-        ${PYTHONFLAG} -I${CMAKE_CURRENT_SOURCE_DIR}/src
-        -I${PYTHON_INCLUDE_PATH}
+        ${PYTHONFLAG} -I${CMAKE_CURRENT_SOURCE_DIR}/src -I${PYTHON_INCLUDE_PATH}
         ${SWIG_GDAL_FLAG} -o
         ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
         ${CMAKE_CURRENT_SOURCE_DIR}/swig/gahm.i
@@ -53,11 +50,11 @@ if(SWIG_FOUND
 
   add_library(pygahm SHARED
               ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx)
-  target_include_directories(
-    pygahm PRIVATE ${Python3_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/src)
-  target_link_libraries(pygahm gahm )
+  target_include_directories(pygahm PRIVATE ${Python3_INCLUDE_DIRS}
+                                            ${CMAKE_CURRENT_SOURCE_DIR}/src)
+  target_link_libraries(pygahm gahm)
   if(APPLE)
-      target_link_libraries(pygahm Python3::Module)
+    target_link_libraries(pygahm Python3::Module)
   endif(APPLE)
   set_target_properties(pygahm PROPERTIES PREFIX "_")
   set_target_properties(pygahm PROPERTIES INSTALL_NAME_DIR "gahm")
@@ -72,21 +69,21 @@ if(SWIG_FOUND
   if(WIN32)
     set_target_properties(
       pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-                          RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+                        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
     install(
       TARGETS pygahm
       LIBRARY DESTINATION bin
       RUNTIME DESTINATION ${PYTHON_INSTALL_DIRECTORY})
   elseif(CYGWIN)
     set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
-                                              ${CMAKE_CURRENT_BINARY_DIR})
+                                            ${CMAKE_CURRENT_BINARY_DIR})
     install(
       TARGETS pygahm
       LIBRARY DESTINATION lib
       RUNTIME DESTINATION ${PYTHON_INSTALL_DIRECTORY})
   else(WIN32)
     set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
-                                              ${CMAKE_CURRENT_BINARY_DIR})
+                                            ${CMAKE_CURRENT_BINARY_DIR})
     install(TARGETS pygahm LIBRARY DESTINATION ${PYTHON_INSTALL_DIRECTORY})
   endif(WIN32)
 

@@ -212,7 +212,6 @@ std::vector<double> WindGrid::xpoints() const {
   return x;
 }
 
-
 std::vector<double> WindGrid::ypoints() const {
   std::vector<double> y;
   y.reserve(m_grid.size() * m_grid[0].size());

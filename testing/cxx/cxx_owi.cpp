@@ -28,7 +28,7 @@
 #include "OwiAscii.h"
 #include "catch.hpp"
 
-//TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
+// TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
 int main() {
   Date start_date(2005, 8, 27, 0, 0, 0);
   Date end_date(2005, 8, 28, 0, 0, 0);
@@ -67,6 +67,8 @@ int main() {
     ogrid.write(d, 0, s.p(), s.u(), s.v());
     std::cout << "done!" << std::endl;
     ii++;
-    //std::cout << ii << ", " << s.stormParameters()->cycle() << "," << s.stormParameters()->longitude() << ", " << s.stormParameters()->latitude() << std::endl;
+    // std::cout << ii << ", " << s.stormParameters()->cycle() << "," <<
+    // s.stormParameters()->longitude() << ", " <<
+    // s.stormParameters()->latitude() << std::endl;
   }
 }

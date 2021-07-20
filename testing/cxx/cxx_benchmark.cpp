@@ -23,56 +23,48 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef GAHM_H
-#define GAHM_H
+#include "Gahm.h"
+#include "WindGrid.h"
+#include "Logging.h"
+#include "benchmark/benchmark.h"
 
-#include <array>
-#include <memory>
-#include <vector>
+static bool printed_points_to_screen = false;
 
-#include "Atcf.h"
-#include "GahmState.h"
-#include "Preprocessor.h"
-#include "StormParameters.h"
-#include "Vortex.h"
-#include "WindData.h"
+static void benchmark_gahm_katrina(benchmark::State &state) {
+  
+  Date start_date(2005, 8, 27, 0, 0, 0);
+  Date end_date(2005, 8, 30, 0, 0, 0);
+  const unsigned dt = 900;
 
-class Gahm {
- public:
-  Gahm(std::string filename, const std::vector<double> &x,
-       const std::vector<double> &y);
+  const double llx = -99.0;
+  const double lly = 15.0;
+  const double urx = -75.0;
+  const double ury = 35.0;
+  const double dx = 0.1;
+  const double dy = 0.1;
 
-  std::string filename() const;
+  WindGrid domain1(llx, lly, urx, ury, dx, dy);
+  auto position = domain1.griddata();
 
-  WindData get(const Date &d);
+  auto xpoints = std::get<0>(position);
+  auto ypoints = std::get<1>(position);
 
-  Assumptions *assumptions();
+  Gahm g("../testing/test_files/bal122005.dat", xpoints,ypoints);
 
-  Atcf *atcf();
+  if( !printed_points_to_screen ){
+      Logging::log("Running GAHM using " + std::to_string(xpoints.size()) + " points."); 
+      printed_points_to_screen = true;
+  }
 
- private:
-  struct uvp {
-    double u;
-    double v;
-    double p;
-  };
+  auto d = start_date;
 
-  const std::string m_filename;
-  std::unique_ptr<Assumptions> m_assumptions;
-  std::unique_ptr<Atcf> m_atcf;
-  std::unique_ptr<Preprocessor> m_preprocessor;
-  std::unique_ptr<GahmState> m_state;
+  for (auto _ : state) {
+    auto solution = g.get(d);
+    benchmark::DoNotOptimize(solution);
+    d+=dt;
+  }
+}
 
-  static uvp getUvpr(double distance, double angle,
-                     const Vortex::ParameterPack &pack, double utrans,
-                     double vtrans, const StormParameters &s);
+BENCHMARK(benchmark_gahm_katrina);
 
-  Vortex::ParameterPack generateStormParameterPackForLocation(
-      const StormParameters &sp, const Vortex &v1, const Vortex &v2,
-      int i) const;
-
-  static constexpr double computePhi(const Vortex::ParameterPack &p,
-                                     double corio);
-};
-
-#endif  // GAHM_H
+BENCHMARK_MAIN();

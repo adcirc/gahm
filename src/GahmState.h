@@ -23,10 +23,9 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef GAHM_SRC_GAHMSOLUTIONSTATE_H_
-#define GAHM_SRC_GAHMSOLUTIONSTATE_H_
+#ifndef GAHM_SRC_GAHMSTATE_H_
+#define GAHM_SRC_GAHMSTATE_H_
 
-#include <tuple>
 #include <vector>
 
 #include "Atcf.h"
@@ -34,10 +33,10 @@
 #include "Interpolation.h"
 #include "StormParameters.h"
 
-class GahmSolutionState {
+class GahmState {
  public:
-  GahmSolutionState(Atcf *atcf, std::vector<double> x_points,
-                    std::vector<double> y_points);
+  GahmState(Atcf *atcf, std::vector<double> x_points,
+            std::vector<double> y_points);
 
   void query(const Date &d);
 
@@ -58,23 +57,15 @@ class GahmSolutionState {
  private:
   void generateUpdatedParameters(const Date &d);
 
-  std::tuple<std::vector<double>, std::vector<double>>
-  computeDistanceToStormCenter(double stormCenterX, double stormCenterY);
+  void computeDistanceToStormCenter(double stormCenterX, double stormCenterY);
 
   const std::vector<double> m_xpoints;
   const std::vector<double> m_ypoints;
 
-  std::vector<double> m_distance1;
-  std::vector<double> m_distance2;
-  std::vector<double> m_azimuth1;
-  std::vector<double> m_azimuth2;
-  std::vector<double> m_distanceQuery;
-  std::vector<double> m_azimuthQuery;
+  std::vector<double> m_distance;
+  std::vector<double> m_azimuth;
 
   Atcf *m_atcf;
-
-  Date m_date1;
-  Date m_date2;
 
   StormParameters m_stormParametersQuery;
 
@@ -82,8 +73,6 @@ class GahmSolutionState {
   double m_direction;
   double m_stormMotionU;
   double m_stormMotionV;
-
-  bool m_initialized;
 };
 
-#endif  // GAHM_SRC_GAHMSOLUTIONSTATE_H_
+#endif  // GAHM_SRC_GAHMSTATE_H_

@@ -300,15 +300,14 @@ Vortex::ParameterPack Vortex::getParameters(double angle,
     auto d1 = 1.0 / (delta_angle * delta_angle);
     auto d2 = 1.0 / ((angle_90 - delta_angle) * (angle_90 - delta_angle));
 
-    double rmax = Interpolation::quadrantInterp(d1, d2,
-    pack1.radiusToMaxWinds,
-                                               pack2.radiusToMaxWinds);
+    double rmax = Interpolation::quadrantInterp(d1, d2, pack1.radiusToMaxWinds,
+                                                pack2.radiusToMaxWinds);
     double rmaxtrue = Interpolation::quadrantInterp(
-       d1, d2, pack1.radiusToMaxWindsTrue, pack2.radiusToMaxWindsTrue);
+        d1, d2, pack1.radiusToMaxWindsTrue, pack2.radiusToMaxWindsTrue);
     double vmaxbl = Interpolation::quadrantInterp(
-       d1, d2, pack1.vmaxBoundaryLayer, pack2.vmaxBoundaryLayer);
+        d1, d2, pack1.vmaxBoundaryLayer, pack2.vmaxBoundaryLayer);
     double b =
-       Interpolation::quadrantInterp(d1, d2, pack1.hollandB, pack2.hollandB);
+        Interpolation::quadrantInterp(d1, d2, pack1.hollandB, pack2.hollandB);
     return {vmaxbl, rmax, rmaxtrue, b, base_quadrant, delta_angle};
   }
 }

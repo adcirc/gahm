@@ -53,6 +53,7 @@ project(
   VERSION ${GAHM_VERSION_STRING})
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS NO)
 
 include(CheckIncludeFiles)
 include(CheckLibraryExists)
@@ -105,8 +106,8 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Interpolation.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolutionState.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolutionState.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.h
@@ -120,8 +121,10 @@ add_library(
 
 if(APPLE)
   set_target_properties(
-    gahm PROPERTIES MACHO_CURRENT_VERSION ${GAHM_VERSION_STRING}
-                    MACHO_COMPATIBILITY_VERSION ${GAHM_VERSION_MAJOR}.${GAHM_VERSION_MINOR})
+    gahm
+    PROPERTIES MACHO_CURRENT_VERSION ${GAHM_VERSION_STRING}
+               MACHO_COMPATIBILITY_VERSION
+               ${GAHM_VERSION_MAJOR}.${GAHM_VERSION_MINOR})
 endif()
 set_target_properties(gahm PROPERTIES VERSION ${GAHM_VERSION_STRING}
                                       SOVERSION ${GAHM_VERSION_MAJOR})
@@ -138,7 +141,12 @@ write_basic_package_version_file(
   VERSION ${GAHM_VERSION_STRING}
   COMPATIBILITY SameMajorVersion)
 
-
-#...Python Interface
+# ...Python Interface
+option(GAHM_ENABLE_PYTHON OFF "Enable building the Python3 interface via SWIG")
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python_gahm.cmake)
+
+# ...Benchmarking
+option(GAHM_ENABLE_BENCHMARKING OFF
+       "Enable the benchmarking tests using Google Benchmark")
+include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/benchmark.cmake)

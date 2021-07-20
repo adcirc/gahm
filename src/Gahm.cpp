@@ -38,7 +38,7 @@ Gahm::Gahm(std::string filename, const std::vector<double> &x,
     : m_filename(std::move(filename)),
       m_assumptions(std::make_unique<Assumptions>()),
       m_atcf(std::make_unique<Atcf>(m_filename, m_assumptions.get())),
-      m_state(std::make_unique<GahmSolutionState>(m_atcf.get(), x, y)) {
+      m_state(std::make_unique<GahmState>(m_atcf.get(), x, y)) {
   int ierr = this->m_atcf->read();
   if (ierr != 0) {
     gahm_throw_exception("Could not read the ATCF file");

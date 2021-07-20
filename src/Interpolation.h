@@ -45,28 +45,28 @@ static double angleInterp(const double weight, const double v1,
   constexpr double min_angle =
       10.0 * Units::convert(Units::Degree, Units::Radian);
 
-  // if (v2 - v1 < min_angle) {
-  //  double v = linearInterp(weight, v1, v2);
-  //  if(v < 0.0 ) return v+= Constants::twopi();
-  //  if(v > Constants::twopi()) return v -= Constants::twopi();
-  //  assert( v > 0.0 );
-  //  assert( v < Constants::twopi());
-  //  return v;
-  //} else {
-  double v1x = std::cos(v1);
-  double v1y = std::sin(v1);
-  double v2x = std::cos(v2);
-  double v2y = std::sin(v2);
-  double v3x = Interpolation::linearInterp(weight, v1x, v2x);
-  double v3y = Interpolation::linearInterp(weight, v1y, v2y);
-  double v = std::atan2(v3y, v3x);
-  return v;
-  //}
+  if (v2 - v1 < min_angle) {
+    double v = linearInterp(weight, v1, v2);
+    if (v < 0.0) return v += Constants::twopi();
+    if (v > Constants::twopi()) return v -= Constants::twopi();
+    assert(v > 0.0);
+    assert(v < Constants::twopi());
+    return v;
+  } else {
+    double v1x = std::cos(v1);
+    double v1y = std::sin(v1);
+    double v2x = std::cos(v2);
+    double v2y = std::sin(v2);
+    double v3x = Interpolation::linearInterp(weight, v1x, v2x);
+    double v3y = Interpolation::linearInterp(weight, v1y, v2y);
+    double v = std::atan2(v3y, v3x);
+    return v;
+  }
 }
 
-static constexpr double quadrantInterp(double power1, double power2,
+static constexpr double quadrantInterp(double weight1, double weight2,
                                        double value1, double value2) {
-  return ((value1 * power1) + (value2 * power2)) / (power1 + power2);
+  return ((value1 * weight1) + (value2 * weight2)) / (weight1 + weight2);
 }
 
 }  // namespace Interpolation

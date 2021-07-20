@@ -13,8 +13,7 @@
 
 class WindData {
  public:
-
-  WindData();	 
+  WindData();
 
   explicit WindData(size_t n);
 
