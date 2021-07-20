@@ -26,7 +26,7 @@ comment:
   require_changes: no
 
 ignore:
-  - "thirdparty/**/*."
+  - "thirdparty"
   - "src/Date.h"
   - "src/Date.cpp"
-  - "testing/**/*."
+  - "testing"

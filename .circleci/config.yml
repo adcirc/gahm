@@ -20,6 +20,9 @@ jobs:
             name: Test GAHM
             command: cd build; make test
         - run: 
+            name: Cleaning reports
+            command: rm $(find . -name "*.gcov" | grep thirdparty\|testing)
+        - run: 
             name: Generate coverage report
             command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
 workflows:
