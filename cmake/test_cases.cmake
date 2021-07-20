@@ -1,3 +1,4 @@
+option(GAHM_ENABLE_TESTING OFF "Enable building the test suite")
 if(GAHM_ENABLE_TESTING)
   file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/cxx_testcases)
 

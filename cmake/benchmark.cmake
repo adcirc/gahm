@@ -1,3 +1,5 @@
+option(GAHM_ENABLE_BENCHMARKING OFF
+       "Enable the benchmarking tests using Google Benchmark")
 if(GAHM_ENABLE_BENCHMARKING)
   set(GAHM_GOOGLE_BENCHMARK_HOME
       "GOOGLE_BENCHMARK_NOT_FOUND"

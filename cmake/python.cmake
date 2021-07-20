@@ -2,6 +2,7 @@
 # SWIG/PYTHON/PERL Note: This will attempt to default to Python3 Give the flag
 # -DPYTHON2=ON to force Python2 usage
 # ##############################################################################
+option(GAHM_ENABLE_PYTHON OFF "Enable building the Python3 interface via SWIG")
 if(GAHM_ENABLE_PYTHON)
   if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} GREATER_EQUAL 3.12)
     set(Python3_USE_STATIC_LIBS TRUE)

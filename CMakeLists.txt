@@ -45,6 +45,12 @@ else()
         RelWithDebInfo MinSizeRel.")
 endif()
 
+option(GAHM_BUILD_SHARED_LIB OFF "Build the GAHM library as a shared object")
+set(GAHM_LIBRARY_TYPE STATIC)
+if(GAHM_BUILD_SHARED_LIB)
+  set(GAHM_LIBRARY_TYPE SHARED)
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 cmake_policy(SET CMP0048 NEW)
 project(
@@ -77,6 +83,7 @@ mark_as_advanced(
 
 add_library(
   gahm
+  ${GAHM_LIBRARY_TYPE}
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
@@ -142,11 +149,8 @@ write_basic_package_version_file(
   COMPATIBILITY SameMajorVersion)
 
 # ...Python Interface
-option(GAHM_ENABLE_PYTHON OFF "Enable building the Python3 interface via SWIG")
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python.cmake)
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python_gahm.cmake)
 
 # ...Benchmarking
-option(GAHM_ENABLE_BENCHMARKING OFF
-       "Enable the benchmarking tests using Google Benchmark")
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/benchmark.cmake)
