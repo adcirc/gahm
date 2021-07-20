@@ -115,7 +115,7 @@ class Vortex {
                                      double radiusToMaxWinds, double b,
                                      double coriolis);
 
-  static constexpr double computeBg(double vmaxBoundaryLayer,
+  static double computeBg(double vmaxBoundaryLayer,
                                     double radiusToMaxWinds, double phi,
                                     double dp, double coriolis, double rho);
 

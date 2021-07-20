@@ -61,7 +61,7 @@ void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
  * @param rho density of air
  * @return GAHM b_g parameter
  */
-constexpr double Vortex::computeBg(const double vmaxBoundaryLayer,
+double Vortex::computeBg(const double vmaxBoundaryLayer,
                                    const double radiusToMaxWinds,
                                    const double phi, const double dp,
                                    const double coriolis, const double rho) {
