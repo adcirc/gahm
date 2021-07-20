@@ -6,7 +6,7 @@
 # Generated for: CircleCI v2.0
 #
 ########################################################################
-version: 2
+version: 2.1
 jobs:
   build:
       docker:
@@ -20,11 +20,8 @@ jobs:
             name: Test GAHM
             command: cd build; make test
         - run: 
-            name: Cleaning reports
-            command: rm $(find . -name "*.gcov" | grep thirdparty\|testing)
-        - run: 
             name: Generate coverage report
-            command: bash <(curl -s https://codecov.io/bash) -t $CODECOV_TOKEN
+            command: coveralls --exclude thirdparty --exclude testing --gcov-options '\-lp'
 workflows:
   version: 2
   build_and_test:
