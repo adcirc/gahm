@@ -75,18 +75,15 @@ void GahmState::computeDistanceToStormCenter(const double stormCenterX,
 }
 
 double GahmState::distance(size_t index) const {
-  assert(m_initialized);
   assert(index < m_distance.size());
   return m_distance[index];
 }
 
 double GahmState::azimuth(size_t index) const {
-  assert(m_initialized);
   assert(index < m_azimuth.size());
   return m_azimuth[index];
 }
 StormParameters GahmState::stormParameters() const {
-  assert(m_initialized);
   return m_stormParametersQuery;
 }
 

@@ -62,9 +62,9 @@ void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
  * @return GAHM b_g parameter
  */
 double Vortex::computeBg(const double vmaxBoundaryLayer,
-                                   const double radiusToMaxWinds,
-                                   const double phi, const double dp,
-                                   const double coriolis, const double rho) {
+                         const double radiusToMaxWinds, const double phi,
+                         const double dp, const double coriolis,
+                         const double rho) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
   constexpr double mb2pa = Units::convert(Units::Millibar, Units::Pascal);
   return (std::pow(vmaxBoundaryLayer, 2.0) +

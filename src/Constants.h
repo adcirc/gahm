@@ -26,6 +26,7 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <limits>

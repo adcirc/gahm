@@ -115,9 +115,8 @@ class Vortex {
                                      double radiusToMaxWinds, double b,
                                      double coriolis);
 
-  static double computeBg(double vmaxBoundaryLayer,
-                                    double radiusToMaxWinds, double phi,
-                                    double dp, double coriolis, double rho);
+  static double computeBg(double vmaxBoundaryLayer, double radiusToMaxWinds,
+                          double phi, double dp, double coriolis, double rho);
 
   static std::tuple<double, double> computeBandPhi(double vmax, double root,
                                                    double b, double cor,
