@@ -45,6 +45,11 @@ else()
         RelWithDebInfo MinSizeRel.")
 endif()
 
+option(GAHM_ENABLE_FORTRAN OFF "Build the FORTRAN interface to GAHM")
+if(GAHM_ENABLE_FORTRAN)
+  enable_language(Fortran)
+endif()
+
 option(GAHM_BUILD_SHARED_LIB OFF "Build the GAHM library as a shared object")
 set(GAHM_LIBRARY_TYPE STATIC)
 if(GAHM_BUILD_SHARED_LIB)
@@ -82,9 +87,7 @@ mark_as_advanced(
   CMAKE_CXX_FLAGS_DEBUG
   CMAKE_CXX_FLAGS_RELEASE)
 
-add_library(
-  gahm
-  ${GAHM_LIBRARY_TYPE}
+SET( GAHM_LIBRARY_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
@@ -126,6 +129,12 @@ add_library(
   ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
   ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp)
+
+if(GAHM_ENABLE_FORTRAN)
+    set(GAHM_LIBRARY_SOURCES ${GAHM_LIBRARY_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm_fortran.cpp ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm.F90 )
+endif()
+
+add_library( gahm ${GAHM_LIBRARY_TYPE} ${GAHM_LIBRARY_SOURCES})
 
 if(APPLE)
   set_target_properties(

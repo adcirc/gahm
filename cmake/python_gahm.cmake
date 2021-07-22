@@ -26,7 +26,7 @@ if(SWIG_FOUND AND Python3_FOUND)
         ${PYTHONFLAG} -I${CMAKE_CURRENT_SOURCE_DIR}/src
         -I${Python3_INCLUDE_DIRS} ${SWIG_GDAL_FLAG} -o
         ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx.1
-        ${CMAKE_CURRENT_SOURCE_DIR}/swig/gahm.i
+        ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm.i
       COMMAND
         ${CMAKE_COMMAND}
         -DSRC=\"${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx.1\"
@@ -43,7 +43,7 @@ if(SWIG_FOUND AND Python3_FOUND)
         ${PYTHONFLAG} -I${CMAKE_CURRENT_SOURCE_DIR}/src -I${PYTHON_INCLUDE_PATH}
         ${SWIG_GDAL_FLAG} -o
         ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
-        ${CMAKE_CURRENT_SOURCE_DIR}/swig/gahm.i
+        ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm.i
       WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
       COMMENT "Generating SWIG interface to Python...")
   endif(WIN32)
