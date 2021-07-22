@@ -87,54 +87,57 @@ mark_as_advanced(
   CMAKE_CXX_FLAGS_DEBUG
   CMAKE_CXX_FLAGS_RELEASE)
 
-SET( GAHM_LIBRARY_SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/AtcfLine.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/AtcfLine.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Isotach.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Isotach.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Date.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Date.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/HurricanePressure.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/HurricanePressure.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Logging.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Logging.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Interpolation.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.cpp
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp)
+set(GAHM_LIBRARY_SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Gahm.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Constants.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/AtcfLine.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/AtcfLine.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Isotach.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Isotach.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Date.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Date.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/HurricanePressure.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/HurricanePressure.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Logging.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Logging.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Interpolation.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp)
 
 if(GAHM_ENABLE_FORTRAN)
-    set(GAHM_LIBRARY_SOURCES ${GAHM_LIBRARY_SOURCES} ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm_fortran.cpp ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm.F90 )
+  set(GAHM_LIBRARY_SOURCES
+      ${GAHM_LIBRARY_SOURCES}
+      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm_fortran.cpp
+      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/gahm.F90)
 endif()
 
-add_library( gahm ${GAHM_LIBRARY_TYPE} ${GAHM_LIBRARY_SOURCES})
+add_library(gahm ${GAHM_LIBRARY_TYPE} ${GAHM_LIBRARY_SOURCES})
 
 if(APPLE)
   set_target_properties(
@@ -157,6 +160,11 @@ write_basic_package_version_file(
   gahmConfigVersion.cmake
   VERSION ${GAHM_VERSION_STRING}
   COMPATIBILITY SameMajorVersion)
+
+if(GAHM_ENABLE_FORTRAN)
+  set_target_properties(gahm PROPERTIES Fortran_MODULE_DIRECTORY
+                                        ${CMAKE_BINARY_DIR}/CMakeFiles/mod/gahm)
+endif()
 
 # ...Python Interface
 include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/python.cmake)

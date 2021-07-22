@@ -39,8 +39,8 @@ module gahm_module
         integer, private :: m_year, m_month, m_day, m_hour, m_minute, m_second
         integer(c_long), private :: m_serial_date
     contains
-        procedure, pass(this) :: set => set_date
-        procedure, pass(this) :: serial_date
+        procedure, pass(this) :: set => date_set
+        procedure, pass(this) :: serial => date_serial
         procedure, pass(this) :: add => date_add
     end type date_t
 
@@ -89,7 +89,7 @@ module gahm_module
 
 contains
 
-    subroutine set_date(this, year, month, day, hour, minute, second)
+    subroutine date_set(this, year, month, day, hour, minute, second)
         implicit none
         class(date_t), intent(inout) :: this
         integer, intent(in) :: year
@@ -130,13 +130,13 @@ contains
         this%m_serial_date = c_gahm_get_serial_date(this%m_year, this%m_month, this%m_day, &
                 this%m_hour, this%m_minute, this%m_second)
 
-    end subroutine set_date
+    end subroutine date_set
 
-    integer(8) function serial_date(this)
+    integer(8) function date_serial(this)
         implicit none
         class(date_t), intent(in) :: this
-        serial_date = this%m_serial_date
-    end function serial_date
+        date_serial = this%m_serial_date
+    end function date_serial
 
     type(date_t) function date_add(this, seconds)
         implicit none
