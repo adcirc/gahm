@@ -136,6 +136,7 @@ class AtcfLine {
     return false;
   }
 
+#ifndef SWIG
   struct atcfLineLessThan {
     bool operator()(const AtcfLine &left, const long right) {
       return left.datetime().toSeconds() < right;
@@ -144,6 +145,7 @@ class AtcfLine {
       return left < right.datetime().toSeconds();
     }
   };
+#endif
 
   void setStormTranslationVelocities(double u, double v, double uv);
   std::tuple<double, double, double> stormTranslationVelocities() const;
@@ -270,9 +272,11 @@ class AtcfLine {
 
   static std::vector<std::string> splitString(const std::string &line);
 
+#ifndef SWIG
   template <typename T, typename = typename std::enable_if<
                             std::is_arithmetic<T>::value, T>::type>
   static T readValueCheckBlank(const std::string &line);
+#endif
 };
 
 std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);

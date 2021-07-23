@@ -7,13 +7,10 @@
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 %}
 
+
 %{
 #define SWIG_FILE_WITH_INIT
 #include "Gahm.h"
-#include "OwiAscii.h"
-#include "WindData.h"
-#include "WindGrid.h"
-#include "Date.h"
 %}
 
 %include <std_string.i>
@@ -37,8 +34,23 @@ namespace std {
     %template(DoubleDoubleVector) vector<vector<double>>;
 }
 
-%include "Gahm.h"
+%include "Assumption.h"
+%include "Assumptions.h"
+%include "Atcf.h"
+%include "AtcfLine.h"
+%include "Constants.h"
+%include "Date.h"
+%include "GahmState.h"
+%include "GahmVortex.h"
+%include "HurricanePressure.h"
+%include "Isotach.h"
+%include "Logging.h"
 %include "OwiAscii.h"
+%include "OwiAsciiDomain.h"
+%include "Point.h"
+%include "Preprocessor.h"
+%include "StormParameters.h"
+%include "Vortex.h"
 %include "WindData.h"
 %include "WindGrid.h"
-%include "Date.h"
+%include "ParameterPack.h"

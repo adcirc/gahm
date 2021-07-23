@@ -23,46 +23,22 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#include "Gahm.h"
-#include "benchmark/benchmark.h"
+#ifndef PARAMETERPACK_H
+#define PARAMETERPACK_H
 
-static bool printed_points_to_screen = false;
+#include <array>
 
-static void benchmark_gahm_katrina(benchmark::State &state) {
-  Date start_date(2005, 8, 27, 0, 0, 0);
-  Date end_date(2005, 8, 30, 0, 0, 0);
-  const unsigned dt = 900;
+class ParameterPack {
+ public:
+  constexpr ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b)
+      : m_data{vmaxbl, rmax, rmaxtrue, b} {}
 
-  const double llx = -99.0;
-  const double lly = 15.0;
-  const double urx = -75.0;
-  const double ury = 35.0;
-  const double dx = 0.1;
-  const double dy = 0.1;
+  constexpr double vmaxBoundaryLayer() const { return m_data[0]; }
+  constexpr double radiusToMaxWinds() const { return m_data[1]; }
+  constexpr double radiusToMaxWindsTrue() const { return m_data[2]; }
+  constexpr double hollandB() const { return m_data[3]; }
 
-  WindGrid domain1(llx, lly, urx, ury, dx, dy);
-  auto position = domain1.griddata();
-
-  auto xpoints = std::get<0>(position);
-  auto ypoints = std::get<1>(position);
-
-  GahmVortex g("../testing/test_files/bal122005.dat", xpoints, ypoints);
-
-  if (!printed_points_to_screen) {
-    Logging::log("Running GAHM using " + std::to_string(xpoints.size()) +
-                 " points.");
-    printed_points_to_screen = true;
-  }
-
-  auto d = start_date;
-
-  for (auto _ : state) {
-    auto solution = g.get(d);
-    benchmark::DoNotOptimize(solution);
-    d += dt;
-  }
-}
-
-BENCHMARK(benchmark_gahm_katrina);
-
-BENCHMARK_MAIN();
+ private:
+  std::array<double, 4> m_data;
+};
+#endif  // PARAMETERPACK_H

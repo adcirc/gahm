@@ -25,7 +25,6 @@
 //
 //#define CATCH_CONFIG_MAIN
 #include "Gahm.h"
-#include "OwiAscii.h"
 #include "catch.hpp"
 
 // TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
@@ -54,8 +53,8 @@ int main() {
   auto position = domain1.griddata();
   std::cout << std::get<0>(position).size() << std::endl;
 
-  Gahm g("../testing/test_files/bal122005.dat", std::get<0>(position),
-         std::get<1>(position));
+  GahmVortex g("../testing/test_files/bal122005.dat", std::get<0>(position),
+               std::get<1>(position));
 
   size_t ii = 0;
   for (auto d = start_date; d <= end_date; d += dt) {

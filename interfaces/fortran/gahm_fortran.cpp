@@ -33,14 +33,14 @@ void *gahm_create_ftn(char *filename, long size, double *x, double *y) {
     xv.push_back(x[i]);
     yv.push_back(y[i]);
   }
-  auto *g = new Gahm(f, xv, yv);
+  auto *g = new GahmVortex(f, xv, yv);
 
   return reinterpret_cast<void *>(g);
 }
 
 void gahm_get_ftn(void *ptr, int year, int month, int day, int hour, int minute,
                   int second, long size, double *u, double *v, double *p) {
-  auto g = reinterpret_cast<Gahm *>(ptr);
+  auto g = reinterpret_cast<GahmVortex *>(ptr);
   auto d = Date(year, month, day, hour, minute, second);
   auto result = g->get(d);
 
@@ -56,7 +56,7 @@ void gahm_get_ftn(void *ptr, int year, int month, int day, int hour, int minute,
 }
 
 void gahm_delete_ftn(void *ptr) {
-  auto g = reinterpret_cast<Gahm *>(ptr);
+  auto g = reinterpret_cast<GahmVortex *>(ptr);
   delete g;
 }
 

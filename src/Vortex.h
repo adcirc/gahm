@@ -35,6 +35,7 @@
 #include "Assumptions.h"
 #include "AtcfLine.h"
 #include "Constants.h"
+#include "ParameterPack.h"
 
 class Vortex {
  public:
@@ -53,24 +54,7 @@ class Vortex {
   /// Number of isotachs for which wind speeds may be provided
   static const size_t maxIsotachs = 4;
 
-  struct ParameterPack {
-    double vmaxBoundaryLayer;
-    double radiusToMaxWinds;
-    double radiusToMaxWindsTrue;
-    double hollandB;
-    int base_quadrant;
-    double delta_angle;
-    ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b,
-                  int quad, double angle)
-        : vmaxBoundaryLayer(vmaxbl),
-          radiusToMaxWinds(rmax),
-          radiusToMaxWindsTrue(rmaxtrue),
-          hollandB(b),
-          base_quadrant(quad),
-          delta_angle(angle) {}
-  };
-
-  Vortex::ParameterPack getParameters(double angle, double distance) const;
+  ParameterPack getParameters(double angle, double distance) const;
 
   int computeRadiusToWind();
 
@@ -122,7 +106,7 @@ class Vortex {
                                                    double b, double cor,
                                                    double dp);
 
-  Vortex::ParameterPack interpolateParameters(int quad, double distance,
+  ParameterPack interpolateParameters(int quad, double distance,
                                               double angle) const;
 
   double iterateRadius() const;

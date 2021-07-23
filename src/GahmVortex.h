@@ -23,28 +23,56 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef GAHM_H
-#define GAHM_H
+#ifndef GAHMVORTEX_H
+#define GAHMVORTEX_H
 
-#include "Assumption.h"
-#include "Assumptions.h"
+#include <array>
+#include <memory>
+#include <vector>
+
 #include "Atcf.h"
-#include "AtcfLine.h"
-#include "Constants.h"
-#include "Date.h"
 #include "GahmState.h"
-#include "GahmVortex.h"
-#include "HurricanePressure.h"
-#include "Isotach.h"
-#include "Logging.h"
-#include "OwiAscii.h"
-#include "OwiAsciiDomain.h"
-#include "Point.h"
 #include "Preprocessor.h"
 #include "StormParameters.h"
 #include "Vortex.h"
 #include "WindData.h"
-#include "WindGrid.h"
-#include "ParameterPack.h"
+
+class GahmVortex {
+ public:
+  GahmVortex(std::string filename, const std::vector<double> &x,
+             const std::vector<double> &y);
+
+  std::string filename() const;
+
+  WindData get(const Date &d);
+
+  Assumptions *assumptions();
+
+  Atcf *atcf();
+
+ private:
+  struct uvp {
+    double u;
+    double v;
+    double p;
+  };
+
+  const std::string m_filename;
+  std::unique_ptr<Assumptions> m_assumptions;
+  std::unique_ptr<Atcf> m_atcf;
+  std::unique_ptr<Preprocessor> m_preprocessor;
+  std::unique_ptr<GahmState> m_state;
+
+  static uvp getUvpr(double distance, double angle,
+                     const ParameterPack &pack, double utrans,
+                     double vtrans, const StormParameters &s);
+
+  ParameterPack generateStormParameterPackForLocation(
+      const StormParameters &sp, const Vortex &v1, const Vortex &v2,
+      int i) const;
+
+  static constexpr double computePhi(const ParameterPack &p,
+                                     double corio);
+};
 
 #endif  // GAHM_H

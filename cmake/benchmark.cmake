@@ -17,7 +17,7 @@ if(GAHM_ENABLE_BENCHMARKING)
   find_package(Threads REQUIRED)
 
   add_executable(gahm_benchmark
-                 ${CMAKE_CURRENT_SOURCE_DIR}/testing/cxx/cxx_benchmark.cpp)
+                 ${CMAKE_CURRENT_SOURCE_DIR}/testing/test_cases/cxx_benchmark.cpp)
   target_link_libraries(gahm_benchmark PRIVATE gahm benchmark
                                                ${CMAKE_THREAD_LIBS_INIT})
   target_include_directories(gahm_benchmark
