@@ -33,25 +33,26 @@
 #include "WindData.h"
 #include "WindGrid.h"
 
+namespace Gahm {
 class OwiAscii {
  public:
   OwiAscii(const Date &date_start, const Date &date_end, unsigned time_step);
 
-  int addDomain(const WindGrid &w, const std::string &pressureFile,
+  int addDomain(const Gahm::WindGrid &w, const std::string &pressureFile,
                 const std::string &windFile);
 
-  int write(const Date &date, const size_t domain_index, const WindData &data);
+  int write(const Date &date, size_t domain_index, const Gahm::WindData &data);
 
-  int write(const Date &date, const size_t domain_index,
+  int write(const Gahm::Date &date, size_t domain_index,
             const std::vector<double> &pressure,
             const std::vector<double> &wind_u,
             const std::vector<double> &wind_v);
 
  private:
-  const Date m_startdate;
-  const Date m_enddate;
+  const Gahm::Date m_startdate;
+  const Gahm::Date m_enddate;
   const unsigned m_timestep;
-  std::vector<std::unique_ptr<OwiAsciiDomain>> m_domains;
+  std::vector<std::unique_ptr<Gahm::OwiAsciiDomain>> m_domains;
 };
-
+}  // namespace Gahm
 #endif  // METGET_LIBRARY_OWIASCII_H_

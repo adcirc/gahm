@@ -25,6 +25,8 @@
 //
 #include "Logging.h"
 
+using namespace Gahm;
+
 static const std::string c_errorHeading("[GAHM ERROR]: ");
 static const std::string c_warningHeading("[GAHM WARNING]: ");
 static const std::string c_logHeading("[GAHM INFO]: ");

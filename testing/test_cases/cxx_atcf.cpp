@@ -29,11 +29,11 @@
 #include "catch.hpp"
 
 TEST_CASE("Atcf - I/O GAHM", "[atcf-io]") {
-  Assumptions assume;
-  Atcf a("test_files/bal082018.dat", &assume);
+  Gahm::Assumptions assume;
+  Gahm::Atcf a("test_files/bal082018.dat", &assume);
   a.read();
 
-  Preprocessor p(a.data(), &assume);
+  Gahm::Preprocessor p(a.data(), &assume);
   int ierr = p.run();
 
   a.write("test_output.22");
@@ -42,5 +42,5 @@ TEST_CASE("Atcf - I/O GAHM", "[atcf-io]") {
 
   REQUIRE(a.record(8)->centralPressure() == Approx(979.530231));
 
-  assume.log(Assumption::MINOR);
+  assume.log(Gahm::Assumption::MINOR);
 }

@@ -30,6 +30,8 @@
 
 #include "Constants.h"
 
+using namespace Gahm;
+
 WindData::WindData() : m_n(0) {}
 
 WindData::WindData(size_t n)

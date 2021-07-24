@@ -29,23 +29,24 @@
 #include <vector>
 
 #include "Assumption.h"
-
+namespace Gahm {
 class Assumptions {
  public:
   Assumptions() = default;
 
-  void add(const Assumption &a);
+  void add(const Gahm::Assumption &a);
 
-  Assumption get(size_t index) const;
+  Gahm::Assumption get(size_t index) const;
 
   size_t count() const;
 
-  void log(Assumption::Severity s = Assumption::Severity::MAJOR);
+  void log(Gahm::Assumption::Severity s = Gahm::Assumption::Severity::MAJOR);
 
  private:
-  std::vector<Assumption> m_assumptions;
+  std::vector<Gahm::Assumption> m_assumptions;
 };
-
-#define generate_assumption(sev, msg) Assumption(sev, msg, __FILE__, __LINE__)
+}  // namespace Gahm
+#define generate_assumption(sev, msg) \
+  Gahm::Assumption(sev, msg, __FILE__, __LINE__)
 
 #endif  // ASSUMPTIONS_H

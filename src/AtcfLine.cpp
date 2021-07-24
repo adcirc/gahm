@@ -32,6 +32,8 @@
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
 
+using namespace Gahm;
+
 /**
  * Default constructor
  */
@@ -336,7 +338,7 @@ size_t AtcfLine::nIsotach() const { return m_isotach.size(); }
  * @param atcf AtcfLine object to write to specified stream
  * @return stream object
  */
-std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf) {
+std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
   os << "|---------------------------------------------------------------------"
         "---|\n";
   os << "                         Basin: " << atcf.basin() << "\n";
@@ -354,9 +356,9 @@ std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf) {
   os << "                      Max Wind: " << atcf.vmax() << " m/s\n";
   os << "                     Max Gusts: " << atcf.gusts() << " m/s\n";
   os << "                  Min Pressure: " << atcf.centralPressure() << " mb\n";
-  os << "  Number of specified isotachs: " << atcf.m_isotach.size() << "\n";
+  os << "  Number of specified isotachs: " << atcf.isotachs()->size() << "\n";
   size_t n = 0;
-  for (const auto iso : atcf.m_isotach) {
+  for (const auto &iso : *(atcf.isotachs())) {
     os << "                        Isotach " << n << ": " << iso << " km";
     if (Isotach::isNull(iso)) {
       os << "; [NULL]";
@@ -447,3 +449,5 @@ std::vector<double> AtcfLine::isotachRadii(int quad) const {
   }
   return radii;
 }
+
+const std::vector<Isotach> *AtcfLine::isotachs() const { return &m_isotach; }

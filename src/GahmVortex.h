@@ -37,6 +37,7 @@
 #include "Vortex.h"
 #include "WindData.h"
 
+namespace Gahm {
 class GahmVortex {
  public:
   GahmVortex(std::string filename, const std::vector<double> &x,
@@ -44,11 +45,11 @@ class GahmVortex {
 
   std::string filename() const;
 
-  WindData get(const Date &d);
+  Gahm::WindData get(const Gahm::Date &d);
 
-  Assumptions *assumptions();
+  Gahm::Assumptions *assumptions();
 
-  Atcf *atcf();
+  Gahm::Atcf *atcf();
 
  private:
   struct uvp {
@@ -58,21 +59,21 @@ class GahmVortex {
   };
 
   const std::string m_filename;
-  std::unique_ptr<Assumptions> m_assumptions;
-  std::unique_ptr<Atcf> m_atcf;
-  std::unique_ptr<Preprocessor> m_preprocessor;
-  std::unique_ptr<GahmState> m_state;
+  std::unique_ptr<Gahm::Assumptions> m_assumptions;
+  std::unique_ptr<Gahm::Atcf> m_atcf;
+  std::unique_ptr<Gahm::Preprocessor> m_preprocessor;
+  std::unique_ptr<Gahm::GahmState> m_state;
 
   static uvp getUvpr(double distance, double angle,
-                     const ParameterPack &pack, double utrans,
-                     double vtrans, const StormParameters &s);
+                     const Gahm::ParameterPack &pack, double utrans,
+                     double vtrans, const Gahm::StormParameters &s);
 
-  ParameterPack generateStormParameterPackForLocation(
-      const StormParameters &sp, const Vortex &v1, const Vortex &v2,
+  Gahm::ParameterPack generateStormParameterPackForLocation(
+      const StormParameters &sp, const Gahm::Vortex &v1, const Gahm::Vortex &v2,
       int i) const;
 
-  static constexpr double computePhi(const ParameterPack &p,
+  static constexpr double computePhi(const Gahm::ParameterPack &p,
                                      double corio);
 };
-
+}  // namespace Gahm
 #endif  // GAHM_H

@@ -33,7 +33,7 @@
 #include <tuple>
 
 #include "UnitConversion.h"
-
+namespace Gahm {
 namespace Constants {
 
 static constexpr double rotation_earth() { return 3600.0 * 7.2921 * 10e-5; }
@@ -63,7 +63,8 @@ static constexpr double polarRadius() { return 6356752.3; }
 static double radiusEarth(
     const double latitude = std::numeric_limits<double>::max()) {
   if (latitude == std::numeric_limits<double>::max()) return 6378135.0;
-  const double l = Units::convert(Units::Degree, Units::Radian) * latitude;
+  const double l =
+      Gahm::Units::convert(Gahm::Units::Degree, Gahm::Units::Radian) * latitude;
   return std::sqrt(
       (std::pow(equatorialRadius(), 4.0) * std::cos(l) * std::cos(l) +
        std::pow(polarRadius(), 4.0) * std::sin(l) * std::sin(l)) /
@@ -72,7 +73,7 @@ static double radiusEarth(
 }
 
 static double radiusEarth(const double y1, const double y2) {
-  return radiusEarth((y1 + y2) / 2.0);
+  return Gahm::Constants::radiusEarth((y1 + y2) / 2.0);
 }
 
 static double cartesian_distance(const double x1, const double y1,
@@ -178,5 +179,5 @@ static constexpr T fast_exp(const T x) noexcept {
 }
 
 };  // namespace Constants
-
+}  // namespace Gahm
 #endif  // CONSTANTS_H

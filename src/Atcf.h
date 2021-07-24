@@ -45,9 +45,10 @@
  * describe hurricane track data
  *
  */
+namespace Gahm {
 class Atcf {
  public:
-  Atcf(std::string filename, Assumptions *a);
+  Atcf(std::string filename, Gahm::Assumptions *a);
 
   std::string filename() const;
   void setFilename(const std::string &filename);
@@ -55,22 +56,21 @@ class Atcf {
   int read();
 
   size_t nRecords() const;
-  const AtcfLine *crecord(size_t index) const;
-  AtcfLine *record(size_t index);
+  const Gahm::AtcfLine *crecord(size_t index) const;
+  Gahm::AtcfLine *record(size_t index);
 
-  std::vector<AtcfLine> *data();
+  std::vector<Gahm::AtcfLine> *data();
 
-  StormParameters getStormParameters(const Date &d) const;
-  StormParameters getStormParameters(const int cycle,
-                                     const double weight) const;
+  Gahm::StormParameters getStormParameters(const Gahm::Date &d) const;
+  Gahm::StormParameters getStormParameters(int cycle, double weight) const;
 
-  std::pair<int, double> getCycleNumber(const Date &d) const;
+  std::pair<int, double> getCycleNumber(const Gahm::Date &d) const;
 
   enum AtcfFileTypes { FormatAtcf, FormatNWS20 };
   void write(const std::string &filename, AtcfFileTypes = FormatNWS20) const;
 
-  Date begin_time() const;
-  Date end_time() const;
+  Gahm::Date begin_time() const;
+  Gahm::Date end_time() const;
 
  private:
   /// Filename of the Atcf file to use
@@ -81,5 +81,5 @@ class Atcf {
 
   Assumptions *m_assumptions;
 };
-
+}  // namespace Gahm
 #endif  // ATCF_H

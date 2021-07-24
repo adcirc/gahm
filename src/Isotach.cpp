@@ -27,6 +27,8 @@
 
 #include <cassert>
 
+using namespace Gahm;
+
 static constexpr std::array<const char *, 6> radiusString = {
     "AAA", "NEQ", "SEQ", "SWQ", "NWQ", "NONE"};
 
@@ -137,7 +139,7 @@ const CircularArray<double, 4> *Isotach::cquadrantVr() const {
   return &m_quadrantVr;
 }
 
-std::ostream &operator<<(std::ostream &os, const Isotach &iso) {
+std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso) {
   os << Isotach::stringFromCode(iso.code()) << ", " << iso.windSpeed()
      << " m/s, [" << iso.cisotachRadius()->at(0) << ", "
      << iso.cisotachRadius()->at(1) << ", " << iso.cisotachRadius()->at(2)

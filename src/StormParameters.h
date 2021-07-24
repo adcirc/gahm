@@ -28,6 +28,7 @@
 
 #include "Constants.h"
 
+namespace Gahm {
 class StormParameters {
  public:
   StormParameters()
@@ -83,5 +84,5 @@ class StormParameters {
   double m_uvtrans;
   double m_corio;
 };
-
+}  // namespace Gahm
 #endif  // GAHM_SRC_STORMPARAMETERS_H_

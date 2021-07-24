@@ -28,7 +28,7 @@
 
 #include <iostream>
 #include <string>
-
+namespace Gahm {
 class Logging {
  public:
   static void throwError(const std::string &s);
@@ -50,7 +50,8 @@ class Logging {
   static void printErrorMessage(const std::string &header,
                                 const std::string &message);
 };
-
-#define gahm_throw_exception(arg) Logging::throwError(arg, __FILE__, __LINE__)
+}  // namespace Gahm
+#define gahm_throw_exception(arg) \
+  Gahm::Logging::throwError(arg, __FILE__, __LINE__)
 
 #endif  // LOGGING_H

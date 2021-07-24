@@ -30,6 +30,7 @@
 
 #include "AtcfLine.h"
 
+namespace Gahm {
 enum VortexSolverType { Derivative, NoDerivative };
 
 class VortexSolverInternal {
@@ -84,5 +85,5 @@ class VortexSolver {
  private:
   VortexSolverInternal m_data;
 };
-
+}  // namespace Gahm
 #endif  // VORTEXSOLVER_H

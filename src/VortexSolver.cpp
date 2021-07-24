@@ -30,6 +30,8 @@
 
 #include "Constants.h"
 
+using namespace Gahm;
+
 VortexSolverInternal::VortexSolverInternal(double rmax, double vmax, double bg,
                                            double phi, double fc, double vr)
     : m_rmax(rmax), m_vmax(vmax), m_bg(bg), m_phi(phi), m_fc(fc), m_vr(vr) {}

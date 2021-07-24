@@ -31,6 +31,8 @@
 #include "Logging.h"
 #include "Vortex.h"
 
+using namespace Gahm;
+
 Preprocessor::Preprocessor(std::vector<AtcfLine> *data,
                            Assumptions *assumptions)
     : m_data(data), m_assumptions(assumptions) {}

@@ -28,6 +28,8 @@
 #include <cassert>
 #include <iostream>
 
+using namespace Gahm;
+
 void Assumptions::add(const Assumption &a) { m_assumptions.push_back(a); }
 
 Assumption Assumptions::get(size_t index) const {

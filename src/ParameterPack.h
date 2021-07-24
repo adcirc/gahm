@@ -28,6 +28,7 @@
 
 #include <array>
 
+namespace Gahm {
 class ParameterPack {
  public:
   constexpr ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b)
@@ -41,4 +42,5 @@ class ParameterPack {
  private:
   std::array<double, 4> m_data;
 };
+}  // namespace Gahm
 #endif  // PARAMETERPACK_H

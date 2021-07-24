@@ -28,6 +28,7 @@
 
 #include <array>
 
+namespace Gahm {
 template <typename T, size_t array_size>
 class CircularArray {
  public:
@@ -42,13 +43,13 @@ class CircularArray {
     return m_data[mod_floor(index)];
   }
 
-  CircularArray<T, array_size> &operator=(
-      const CircularArray<T, array_size> &arr) noexcept {
+  Gahm::CircularArray<T, array_size> &operator=(
+      const Gahm::CircularArray<T, array_size> &arr) noexcept {
     m_data = arr.m_data;
     return *this;
   }
 
-  CircularArray<T, array_size> &operator=(
+  Gahm::CircularArray<T, array_size> &operator=(
       const std::array<T, array_size> &arr) noexcept {
     m_data = arr;
     return *this;
@@ -112,5 +113,5 @@ class CircularArray {
     return ((position % array_size) + array_size) % array_size;
   }
 };
-
+}  // namespace Gahm
 #endif  // CIRCULARARRAY_H

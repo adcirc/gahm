@@ -33,6 +33,7 @@
 
 #include "StormParameters.h"
 
+namespace Gahm {
 class WindData {
  public:
   WindData();
@@ -68,5 +69,5 @@ class WindData {
   std::vector<double> m_p;
   StormParameters m_stormParameters;
 };
-
+}  // namespace Gahm
 #endif  // METGET_LIBRARY_WINDDATA_H_

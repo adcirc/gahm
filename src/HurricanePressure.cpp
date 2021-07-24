@@ -29,6 +29,8 @@
 
 #include "Logging.h"
 
+using namespace Gahm;
+
 HurricanePressure::HurricanePressure(HurricanePressure::PressureMethod p)
     : m_pressureMethod(p) {}
 

@@ -34,6 +34,7 @@
 
 #include "Point.h"
 
+namespace Gahm {
 class Geometry;
 
 class WindGrid {
@@ -106,5 +107,5 @@ class WindGrid {
   static std::array<Point, 4> generateCorners(double cx, double cy, double w,
                                               double h, double rotation = 0.0);
 };
-
+}  // namespace Gahm
 #endif  // METGET_WINDGRID_H

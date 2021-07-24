@@ -29,6 +29,7 @@
 #include <cmath>
 #include <type_traits>
 
+namespace Gahm {
 namespace Units {
 
 class UnitInternal {
@@ -92,5 +93,5 @@ constexpr double convert(const T &a, const T &b) {
 }
 
 };  // namespace Units
-
+}  // namespace Gahm
 #endif  // UNITCONVERSION_H

@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "Date.h"
 #include "Gahm.h"
 
 extern "C" {
@@ -33,15 +32,15 @@ void *gahm_create_ftn(char *filename, long size, double *x, double *y) {
     xv.push_back(x[i]);
     yv.push_back(y[i]);
   }
-  auto *g = new GahmVortex(f, xv, yv);
+  auto *g = new Gahm::GahmVortex(f, xv, yv);
 
   return reinterpret_cast<void *>(g);
 }
 
 void gahm_get_ftn(void *ptr, int year, int month, int day, int hour, int minute,
                   int second, long size, double *u, double *v, double *p) {
-  auto g = reinterpret_cast<GahmVortex *>(ptr);
-  auto d = Date(year, month, day, hour, minute, second);
+  auto g = reinterpret_cast<Gahm::GahmVortex *>(ptr);
+  auto d = Gahm::Date(year, month, day, hour, minute, second);
   auto result = g->get(d);
 
   assert(size == result.size());
@@ -56,13 +55,13 @@ void gahm_get_ftn(void *ptr, int year, int month, int day, int hour, int minute,
 }
 
 void gahm_delete_ftn(void *ptr) {
-  auto g = reinterpret_cast<GahmVortex *>(ptr);
+  auto g = reinterpret_cast<Gahm::GahmVortex *>(ptr);
   delete g;
 }
 
 long gahm_get_serial_date(int year, int month, int day, int hour, int minute,
                           int second) {
-  auto d = Date(year, month, day, hour, minute, second);
+  auto d = Gahm::Date(year, month, day, hour, minute, second);
   return d.toSeconds();
 }
 
@@ -70,7 +69,7 @@ void gahm_date_add(int year_in, int month_in, int day_in, int hour_in,
                    int minute_in, int second_in, int add_seconds, int &year_out,
                    int &month_out, int &day_out, int &hour_out, int &minute_out,
                    int &second_out) {
-  Date date(year_in, month_in, day_in, hour_in, minute_in, second_in);
+  Gahm::Date date(year_in, month_in, day_in, hour_in, minute_in, second_in);
   date.addSeconds(add_seconds);
   year_out = date.year();
   month_out = date.month();

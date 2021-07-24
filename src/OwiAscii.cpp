@@ -26,6 +26,9 @@
 #include "OwiAscii.h"
 
 #include <cassert>
+
+using namespace Gahm;
+
 OwiAscii::OwiAscii(const Date& startDate, const Date& endDate,
                    const unsigned time_step)
     : m_startdate(startDate), m_enddate(endDate), m_timestep(time_step) {}

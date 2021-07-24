@@ -32,13 +32,13 @@
 #include "Date.h"
 #include "Interpolation.h"
 #include "StormParameters.h"
-
+namespace Gahm {
 class GahmState {
  public:
-  GahmState(Atcf *atcf, std::vector<double> x_points,
+  GahmState(Gahm::Atcf *atcf, std::vector<double> x_points,
             std::vector<double> y_points);
 
-  void query(const Date &d);
+  void query(const Gahm::Date &d);
 
   double x(size_t index) const;
   double y(size_t index) const;
@@ -47,7 +47,7 @@ class GahmState {
 
   double distance(size_t index) const;
   double azimuth(size_t index) const;
-  StormParameters stormParameters() const;
+  Gahm::StormParameters stormParameters() const;
 
   double stormDirection() const;
   double stormMotion() const;
@@ -55,8 +55,6 @@ class GahmState {
   double stormMotionV() const;
 
  private:
-  void generateUpdatedParameters(const Date &d);
-
   void computeDistanceToStormCenter(double stormCenterX, double stormCenterY);
 
   const std::vector<double> m_xpoints;
@@ -65,14 +63,14 @@ class GahmState {
   std::vector<double> m_distance;
   std::vector<double> m_azimuth;
 
-  Atcf *m_atcf;
+  Gahm::Atcf *m_atcf;
 
-  StormParameters m_stormParametersQuery;
+  Gahm::StormParameters m_stormParametersQuery;
 
   double m_stormMotion;
   double m_direction;
   double m_stormMotionU;
   double m_stormMotionV;
 };
-
+}  // namespace Gahm
 #endif  // GAHM_SRC_GAHMSTATE_H_

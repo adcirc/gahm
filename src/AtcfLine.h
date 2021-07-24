@@ -35,7 +35,7 @@
 #include "Constants.h"
 #include "Date.h"
 #include "Isotach.h"
-
+namespace Gahm {
 class AtcfLine {
  public:
   AtcfLine();
@@ -48,11 +48,11 @@ class AtcfLine {
   int cycloneNumber() const;
   void setCycloneNumber(int cycloneNumber);
 
-  Date datetime() const;
-  void setDatetime(const Date &datetime);
+  Gahm::Date datetime() const;
+  void setDatetime(const Gahm::Date &datetime);
 
-  Date referenceDatetime() const;
-  void setReferenceDatetime(const Date &datetime);
+  Gahm::Date referenceDatetime() const;
+  void setReferenceDatetime(const Gahm::Date &datetime);
 
   int technum() const;
   void setTechnum(int technum);
@@ -78,11 +78,12 @@ class AtcfLine {
   std::string maxDevelopmentLevel() const;
   void setMaxDevelopmentLevel(const std::string &maxDevelopmentLevel);
 
-  Isotach *isotach(size_t index);
-  const Isotach *cisotach(size_t index) const;
-  void addIsotach(const Isotach &iso);
+  Gahm::Isotach *isotach(size_t index);
+  const Gahm::Isotach *cisotach(size_t index) const;
+  void addIsotach(const Gahm::Isotach &iso);
   void removeIsotach(size_t pos);
   size_t nIsotach() const;
+  const std::vector<Gahm::Isotach> *isotachs() const;
 
   double lastClosedIsobar() const;
   void setLastClosedIsobar(double lastClosedIsobar);
@@ -114,17 +115,16 @@ class AtcfLine {
   std::string systemDepth() const;
   void setSystemDepth(const std::string &systemDepth);
 
-  friend std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);
-
   bool isNull() const;
   void setIsNull(bool isNull);
 
   double gusts() const;
   void setGusts(double gusts);
 
-  static bool isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2);
+  static bool isSameForecastPeriod(const Gahm::AtcfLine &a1,
+                                   const Gahm::AtcfLine &a2);
 
-  bool operator<(const AtcfLine &a) const {
+  bool operator<(const Gahm::AtcfLine &a) const {
     if (this->datetime() < a.datetime()) return true;
     if (this->datetime() > a.datetime()) return false;
     if (this->nIsotach() == 0 && a.nIsotach() == 0) return false;
@@ -138,10 +138,10 @@ class AtcfLine {
 
 #ifndef SWIG
   struct atcfLineLessThan {
-    bool operator()(const AtcfLine &left, const long right) {
+    bool operator()(const Gahm::AtcfLine &left, const long right) {
       return left.datetime().toSeconds() < right;
     }
-    bool operator()(const long left, const AtcfLine &right) {
+    bool operator()(const long left, const Gahm::AtcfLine &right) {
       return left < right.datetime().toSeconds();
     }
   };
@@ -181,10 +181,10 @@ class AtcfLine {
   int m_cycloneNumber;
 
   /// Reference date/time
-  Date m_refDatetime;
+  Gahm::Date m_refDatetime;
 
   /// Current date/time
-  Date m_datetime;
+  Gahm::Date m_datetime;
 
   /// Technique number
   int m_technum;
@@ -278,7 +278,8 @@ class AtcfLine {
   static T readValueCheckBlank(const std::string &line);
 #endif
 };
+}  // namespace Gahm
 
-std::ostream &operator<<(std::ostream &os, const AtcfLine &atcf);
+std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf);
 
 #endif  // ATCFLINE_H

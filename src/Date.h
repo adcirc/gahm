@@ -33,7 +33,7 @@
 #include <string>
 #include <type_traits>
 #include <vector>
-
+namespace Gahm {
 class Date {
  public:
   using milliseconds = std::chrono::milliseconds;
@@ -130,8 +130,6 @@ class Date {
   Date &operator-=(const Date::years &rhs);
   Date &operator-=(const Date::months &rhs);
 
-  friend std::ostream &operator<<(std::ostream &os, const Date &dt);
-
   void addSeconds(const long &value);
   void addMinutes(const long &value);
   void addHours(const long &value);
@@ -204,4 +202,7 @@ Date operator-(Date lhs, const T &rhs) {
   lhs -= rhs;
   return lhs;
 }
+}  // namespace Gahm
+
+std::ostream &operator<<(std::ostream &os, const Gahm::Date &dt);
 #endif  // DATE_H

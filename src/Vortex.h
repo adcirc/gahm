@@ -37,14 +37,15 @@
 #include "Constants.h"
 #include "ParameterPack.h"
 
+namespace Gahm {
 class Vortex {
  public:
-  Vortex(AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
-         Assumptions *assumptions);
+  Vortex(Gahm::AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
+         Gahm::Assumptions *assumptions);
 
-  Vortex(AtcfLine *atcf, Assumptions *assumptions);
+  Vortex(Gahm::AtcfLine *atcf, Gahm::Assumptions *assumptions);
 
-  void setStormData(AtcfLine *atcf);
+  void setStormData(Gahm::AtcfLine *atcf);
 
   enum VortexParameterType { RMAX, B, VMBL };
 
@@ -54,7 +55,7 @@ class Vortex {
   /// Number of isotachs for which wind speeds may be provided
   static const size_t maxIsotachs = 4;
 
-  ParameterPack getParameters(double angle, double distance) const;
+  Gahm::ParameterPack getParameters(double angle, double distance) const;
 
   int computeRadiusToWind();
 
@@ -68,24 +69,24 @@ class Vortex {
                                                double whichWay) noexcept;
 
   constexpr static double default_inner_radius() {
-    return 1.0 * Units::convert(Units::NauticalMile, Units::Kilometer);
+    return 1.0 * Units::convert(Gahm::Units::NauticalMile, Gahm::Units::Kilometer);
   }
 
   constexpr static double default_outer_radius() {
-    return 400.0 * Units::convert(Units::NauticalMile, Units::Kilometer);
+    return 400.0 * Gahm::Units::convert(Gahm::Units::NauticalMile, Gahm::Units::Kilometer);
   }
 
   size_t currentRecord() const;
   void setCurrentRecord(const size_t &currentRecord);
 
-  Date datetime() const;
+  Gahm::Date datetime() const;
 
  private:
   unsigned m_currentQuadrant;
   unsigned m_currentIsotach;
   size_t m_currentRecord;
-  AtcfLine *m_stormData;
-  Assumptions *m_assumptions;
+  Gahm::AtcfLine *m_stormData;
+  Gahm::Assumptions *m_assumptions;
 
   static constexpr size_t m_max_it = 400;
 
@@ -106,8 +107,8 @@ class Vortex {
                                                    double b, double cor,
                                                    double dp);
 
-  ParameterPack interpolateParameters(int quad, double distance,
-                                              double angle) const;
+  Gahm::ParameterPack interpolateParameters(int quad, double distance,
+                                      double angle) const;
 
   double iterateRadius() const;
 
@@ -132,5 +133,5 @@ class Vortex {
 
   Root findRoot(double aa, double bb, double zoom_window) const;
 };
-
+}  // namespace Gahm
 #endif  // VORTEX_H

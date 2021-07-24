@@ -35,15 +35,16 @@
 #include "Date.h"
 #include "WindGrid.h"
 
+namespace Gahm {
 class OwiAsciiDomain {
  public:
-  OwiAsciiDomain(const WindGrid *grid, const Date &startDate,
-                 const Date &endDate, unsigned time_step,
+  OwiAsciiDomain(const Gahm::WindGrid *grid, const Gahm::Date &startDate,
+                 const Gahm::Date &endDate, unsigned time_step,
                  std::string pressureFile, std::string windFile);
 
   ~OwiAsciiDomain();
 
-  int write(const Date &date, const std::vector<double> &pressure,
+  int write(const Gahm::Date &date, const std::vector<double> &pressure,
             const std::vector<double> &wind_u,
             const std::vector<double> &wind_v);
 
@@ -54,9 +55,10 @@ class OwiAsciiDomain {
  private:
   void write_header();
 
-  static std::string generateHeaderLine(const Date &date1, const Date &date2);
-  static std::string generateRecordHeader(const Date &date,
-                                          const WindGrid *grid);
+  static std::string generateHeaderLine(const Gahm::Date &date1,
+                                        const Gahm::Date &date2);
+  static std::string generateRecordHeader(const Gahm::Date &date,
+                                          const Gahm::WindGrid *grid);
   static void write_record(std::ofstream *stream,
                            const std::vector<double> &value);
 
@@ -67,9 +69,9 @@ class OwiAsciiDomain {
   const unsigned m_timestep;
   std::unique_ptr<std::ofstream> m_ofstream_pressure;
   std::unique_ptr<std::ofstream> m_ofstream_wind;
-  const WindGrid *m_windGrid;
+  const Gahm::WindGrid *m_windGrid;
   const std::string m_pressureFile;
   const std::string m_windFile;
 };
-
+}  // namespace Gahm
 #endif  // METGET_LIBRARY_OWIASCIIDOMAIN_H_

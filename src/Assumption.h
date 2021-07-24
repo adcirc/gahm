@@ -27,13 +27,13 @@
 #define ASSUMPTION_H
 
 #include <string>
-
+namespace Gahm {
 class Assumption {
  public:
   enum Severity { INFO, MINOR, MAJOR, CRITICAL };
 
-  Assumption(Assumption::Severity s, std::string message, std::string file,
-             size_t line);
+  Assumption(Gahm::Assumption::Severity s, std::string message,
+             std::string file, size_t line);
 
   Severity severity() const;
 
@@ -44,7 +44,7 @@ class Assumption {
   size_t line() const;
 
   std::string toString() const;
-  static std::string severityString(Assumption::Severity s);
+  static std::string severityString(Gahm::Assumption::Severity s);
 
  private:
   const Severity m_severity;
@@ -52,5 +52,6 @@ class Assumption {
   const std::string m_filename;
   const size_t m_line;
 };
+}  // namespace Gahm
 
 #endif  // ASSUMPTION_H

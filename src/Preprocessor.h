@@ -32,6 +32,7 @@
 #include "Assumptions.h"
 #include "Atcf.h"
 
+namespace Gahm {
 class Preprocessor {
  public:
   Preprocessor(std::vector<AtcfLine> *data, Assumptions *assumptions);
@@ -123,5 +124,5 @@ class Preprocessor {
   std::vector<AtcfLine> *m_data;
   Assumptions *m_assumptions;
 };
-
+}  // namespace Gahm
 #endif  // PREPROCESSOR_H

@@ -31,6 +31,8 @@
 #include "Logging.h"
 #include "boost/format.hpp"
 
+using namespace Gahm;
+
 OwiAsciiDomain::OwiAsciiDomain(const WindGrid *grid, const Date &startDate,
                                const Date &endDate,
                                const unsigned int time_step,

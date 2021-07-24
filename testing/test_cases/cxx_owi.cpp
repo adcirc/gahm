@@ -29,8 +29,8 @@
 
 // TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
 int main() {
-  Date start_date(2005, 8, 27, 0, 0, 0);
-  Date end_date(2005, 8, 28, 0, 0, 0);
+  Gahm::Date start_date(2005, 8, 27, 0, 0, 0);
+  Gahm::Date end_date(2005, 8, 28, 0, 0, 0);
   const unsigned dt = 1800;
 
   const double llx = -99.0;
@@ -43,9 +43,9 @@ int main() {
   const std::string pressure_file = "katrina_gahm.221";
   const std::string wind_file = "katrina_gahm.222";
 
-  OwiAscii ogrid(start_date, end_date, dt);
+  Gahm::OwiAscii ogrid(start_date, end_date, dt);
 
-  WindGrid domain1(llx, lly, urx, ury, dx, dy);
+  Gahm::WindGrid domain1(llx, lly, urx, ury, dx, dy);
   ogrid.addDomain(domain1, pressure_file, wind_file);
 
   domain1.write("grid.txt");
@@ -53,8 +53,8 @@ int main() {
   auto position = domain1.griddata();
   std::cout << std::get<0>(position).size() << std::endl;
 
-  GahmVortex g("../testing/test_files/bal122005.dat", std::get<0>(position),
-               std::get<1>(position));
+  Gahm::GahmVortex g("../testing/test_files/bal122005.dat",
+                     std::get<0>(position), std::get<1>(position));
 
   size_t ii = 0;
   for (auto d = start_date; d <= end_date; d += dt) {

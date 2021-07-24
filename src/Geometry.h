@@ -29,7 +29,7 @@
 
 #include "Point.h"
 #include "boost/geometry.hpp"
-
+namespace Gahm {
 class Geometry {
  public:
   template <size_t s>
@@ -54,5 +54,5 @@ class Geometry {
 
   geom_polygon_t m_polygon;
 };
-
+}  // namespace Gahm
 #endif  // METGET_LIBRARY_GEOMETRY_H_

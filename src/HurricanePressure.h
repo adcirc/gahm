@@ -27,7 +27,7 @@
 #define HURRICANEPRESSURE_H
 
 #include <string>
-
+namespace Gahm {
 class HurricanePressure {
  public:
   enum PressureMethod {
@@ -78,5 +78,5 @@ class HurricanePressure {
 
   const PressureMethod m_pressureMethod;
 };
-
+}  // namespace Gahm
 #endif  // HURRICANEPRESSURE_H

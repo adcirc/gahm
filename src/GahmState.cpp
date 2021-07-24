@@ -27,6 +27,8 @@
 
 #include <cassert>
 
+using namespace Gahm;
+
 GahmState::GahmState(Atcf *atcf, std::vector<double> x_points,
                      std::vector<double> y_points)
     : m_atcf(atcf),

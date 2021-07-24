@@ -27,6 +27,7 @@
 #ifndef METGET_LIBRARY_POINT_H_
 #define METGET_LIBRARY_POINT_H_
 
+namespace Gahm {
 class Point {
  public:
   Point();
@@ -44,5 +45,5 @@ class Point {
   double m_x;
   double m_y;
 };
-
+}  // namespace Gahm
 #endif  // METGET_LIBRARY_POINT_H_

@@ -27,6 +27,8 @@
 
 #include <utility>
 
+using namespace Gahm;
+
 Assumption::Assumption(const Assumption::Severity s, std::string message,
                        std::string file, const size_t line)
     : m_severity(s),

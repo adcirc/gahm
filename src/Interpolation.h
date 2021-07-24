@@ -26,6 +26,7 @@
 #ifndef GAHM_SRC_INTERPOLATION_H_
 #define GAHM_SRC_INTERPOLATION_H_
 
+namespace Gahm {
 namespace Interpolation {
 /**
  * Computes a linear interpolation between two values with a specified
@@ -70,5 +71,5 @@ static constexpr double quadrantInterp(double weight1, double weight2,
 }
 
 }  // namespace Interpolation
-
+}  // namespace Gahm
 #endif  // GAHM_SRC_INTERPOLATION_H_

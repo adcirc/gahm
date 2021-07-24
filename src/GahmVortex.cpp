@@ -32,6 +32,8 @@
 #include "Logging.h"
 #include "Vortex.h"
 
+using namespace Gahm;
+
 GahmVortex::GahmVortex(std::string filename, const std::vector<double> &x,
                        const std::vector<double> &y)
     : m_filename(std::move(filename)),
@@ -86,9 +88,10 @@ WindData GahmVortex::get(const Date &d) {
 constexpr double GahmVortex::computePhi(const ParameterPack &p,
                                         const double corio) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
-  return 1.0 + (p.vmaxBoundaryLayer() * p.radiusToMaxWinds() * km2m * corio) /
-                   (p.hollandB() * p.vmaxBoundaryLayer() * p.vmaxBoundaryLayer() +
-                    p.vmaxBoundaryLayer() * p.radiusToMaxWinds() * km2m * corio);
+  return 1.0 +
+         (p.vmaxBoundaryLayer() * p.radiusToMaxWinds() * km2m * corio) /
+             (p.hollandB() * p.vmaxBoundaryLayer() * p.vmaxBoundaryLayer() +
+              p.vmaxBoundaryLayer() * p.radiusToMaxWinds() * km2m * corio);
 }
 
 ParameterPack GahmVortex::generateStormParameterPackForLocation(
@@ -100,8 +103,8 @@ ParameterPack GahmVortex::generateStormParameterPackForLocation(
       sp.wtratio(), pack1.radiusToMaxWinds(), pack2.radiusToMaxWinds());
   double rmaxtrue = Interpolation::linearInterp(
       sp.wtratio(), pack1.radiusToMaxWindsTrue(), pack2.radiusToMaxWindsTrue());
-  double b =
-      Interpolation::linearInterp(sp.wtratio(), pack1.hollandB(), pack2.hollandB());
+  double b = Interpolation::linearInterp(sp.wtratio(), pack1.hollandB(),
+                                         pack2.hollandB());
   double vmaxbl = Interpolation::linearInterp(
       sp.wtratio(), pack1.vmaxBoundaryLayer(), pack2.vmaxBoundaryLayer());
   return {vmaxbl, rmax, rmaxtrue, b};

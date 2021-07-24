@@ -30,6 +30,8 @@
 
 #include "date.hpp"
 
+using namespace Gahm;
+
 struct s_date {
  private:
   date::year_month_day dd;
@@ -125,7 +127,7 @@ bool Date::operator<=(const Date &d) const {
 
 bool Date::operator!=(const Date &d) const { return !(*(this) == d); }
 
-std::ostream &operator<<(std::ostream &os, const Date &dt) {
+std::ostream &operator<<(std::ostream &os, const Gahm::Date &dt) {
   os << dt.toString();
   return os;
 }

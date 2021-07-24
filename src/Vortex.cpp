@@ -33,6 +33,8 @@
 #include "Logging.h"
 #include "VortexSolver.h"
 
+using namespace Gahm;
+
 Vortex::Vortex(AtcfLine *atcf, Assumptions *assumptions)
     : m_stormData(atcf),
       m_assumptions(assumptions),
