@@ -37,9 +37,9 @@ class CircularArray {
   explicit CircularArray(std::array<T, array_size> arr)
       : m_data(std::move(arr)) {}
 
-  T &operator[](long index) noexcept { return m_data[mod_floor(index)]; }
+  T &operator[](int index) noexcept { return m_data[mod_floor(index)]; }
 
-  const T &operator[](long index) const noexcept {
+  const T &operator[](int index) const noexcept {
     return m_data[mod_floor(index)];
   }
 
@@ -55,8 +55,8 @@ class CircularArray {
     return *this;
   }
 
-  auto at(long index) const noexcept { return m_data[mod_floor(index)]; }
-  void set(long index, T value) noexcept { m_data[mod_floor(index)] = value; }
+  auto at(int index) const noexcept { return m_data[mod_floor(index)]; }
+  void set(int index, T value) noexcept { m_data[mod_floor(index)] = value; }
 
   auto front() noexcept { return m_data.front(); }
   auto back() noexcept { return m_data.back(); }
@@ -109,7 +109,7 @@ class CircularArray {
  private:
   std::array<T, array_size> m_data;
 
-  static constexpr size_t mod_floor(long position) noexcept {
+  static constexpr size_t mod_floor(int position) noexcept {
     return ((position % array_size) + array_size) % array_size;
   }
 };

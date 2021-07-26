@@ -32,6 +32,7 @@
 #include <vector>
 
 #include "CircularArray.h"
+#include "ParameterPack.h"
 namespace Gahm {
 class Isotach {
  public:
@@ -57,6 +58,8 @@ class Isotach {
 
   Gahm::Isotach::RadiusCode radiusCode() const;
   void setRadiusCode(const Gahm::Isotach::RadiusCode &radiusCode);
+
+  Gahm::ParameterPack parameterPack(int quad) const;
 
   Gahm::CircularArray<bool, 4> *quadFlag();
   Gahm::CircularArray<double, 4> *isotachRadius();

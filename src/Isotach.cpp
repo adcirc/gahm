@@ -70,7 +70,8 @@ void Isotach::generateQuadFlag() {
 
 bool Isotach::isNull(const Isotach &iso) {
   if (iso.windSpeed() == 0.0) return true;
-  if (iso.isotachRadius()->at(0) <= 0.0 && iso.isotachRadius()->at(1) <= 0.0 && iso.isotachRadius()->at(2) <= 0.0 && iso.isotachRadius()->at(3) <= 0.0)
+  if (iso.isotachRadius()->at(0) <= 0.0 && iso.isotachRadius()->at(1) <= 0.0 &&
+      iso.isotachRadius()->at(2) <= 0.0 && iso.isotachRadius()->at(3) <= 0.0)
     return true;
   if (iso.code() == RadiusCode::NONE) return true;
   return false;
@@ -136,11 +137,14 @@ const CircularArray<double, 4> *Isotach::phi() const { return &m_phi; }
 const CircularArray<double, 4> *Isotach::quadrantVr() const {
   return &m_quadrantVr;
 }
+Gahm::ParameterPack Isotach::parameterPack(int quad) const {
+  return {m_vmaxBL[quad], m_rmax[quad], m_rmax[quad], m_hollandB[quad]};
+}
 
 std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso) {
   os << Isotach::stringFromCode(iso.code()) << ", " << iso.windSpeed()
      << " m/s, [" << iso.isotachRadius()->at(0) << ", "
-     << iso.isotachRadius()->at(1) << ", " << iso.isotachRadius()->at(2)
-     << ", " << iso.isotachRadius()->at(3) << "]";
+     << iso.isotachRadius()->at(1) << ", " << iso.isotachRadius()->at(2) << ", "
+     << iso.isotachRadius()->at(3) << "]";
   return os;
 }

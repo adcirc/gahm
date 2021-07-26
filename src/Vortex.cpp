@@ -107,8 +107,7 @@ Vortex::ShapeTerms Vortex::iterateShapeTerms(const double root) const {
   double vmax =
       m_stormData->isotach(m_currentIsotach)->vmaxBl()->at(m_currentQuadrant);
   double b =
-      m_stormData->isotach(m_currentIsotach)->hollandB()
-                 ->at(m_currentQuadrant);
+      m_stormData->isotach(m_currentIsotach)->hollandB()->at(m_currentQuadrant);
   double cor = m_stormData->coriolis();
   double dp = Constants::backgroundPressure() - m_stormData->centralPressure();
 
@@ -278,8 +277,7 @@ Vortex::Root Vortex::findRoot(double aa, double bb,
   return {aa, bb, -1.0};
 }
 
-ParameterPack Vortex::getParameters(double angle,
-                                            double distance) const {
+ParameterPack Vortex::getParameters(double angle, double distance) const {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double m2km = Units::convert(Units::Meter, Units::Kilometer);
   constexpr double angle_1 = deg2rad;
@@ -302,43 +300,32 @@ ParameterPack Vortex::getParameters(double angle,
     auto d1 = 1.0 / (delta_angle * delta_angle);
     auto d2 = 1.0 / ((angle_90 - delta_angle) * (angle_90 - delta_angle));
 
-    double rmax = Interpolation::quadrantInterp(d1, d2, pack1.radiusToMaxWinds(),
-                                                pack2.radiusToMaxWinds());
+    double rmax = Interpolation::quadrantInterp(
+        d1, d2, pack1.radiusToMaxWinds(), pack2.radiusToMaxWinds());
     double rmaxtrue = Interpolation::quadrantInterp(
         d1, d2, pack1.radiusToMaxWindsTrue(), pack2.radiusToMaxWindsTrue());
     double vmaxbl = Interpolation::quadrantInterp(
         d1, d2, pack1.vmaxBoundaryLayer(), pack2.vmaxBoundaryLayer());
-    double b =
-        Interpolation::quadrantInterp(d1, d2, pack1.hollandB(), pack2.hollandB());
+    double b = Interpolation::quadrantInterp(d1, d2, pack1.hollandB(),
+                                             pack2.hollandB());
     return {vmaxbl, rmax, rmaxtrue, b};
   }
 }
 
 ParameterPack Vortex::interpolateParameters(int quad, double distance,
-                                                    double angle) const {
+                                            double angle) const {
   auto iso = m_stormData->nIsotach();
-  double rmaxtrue = m_stormData->isotach(0)->rmax()->at(quad);
-
   if (iso == 0) {
-    return {m_stormData->vmaxBl(),
-            m_stormData->radiusMaxWinds(),
-            rmaxtrue,
-            m_stormData->hollandB()};
+    return {m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
+            m_stormData->isotach(0)->rmax()->at(quad), m_stormData->hollandB()};
   }
 
   iso -= 1;
 
   if (distance >= m_stormData->isotach(iso)->rmax()->at(quad)) {
-    return {m_stormData->isotach(iso)->vmaxBl()->at(quad),
-            m_stormData->isotach(iso)->rmax()->at(quad),
-            rmaxtrue,
-            m_stormData->isotach(iso)->hollandB()->at(quad)};
-
+    return m_stormData->isotach(iso)->parameterPack(quad);
   } else if (distance <= m_stormData->isotach(0)->rmax()->at(quad)) {
-    return {m_stormData->isotach(0)->vmaxBl()->at(quad),
-            m_stormData->isotach(0)->rmax()->at(quad),
-            rmaxtrue,
-            m_stormData->isotach(0)->hollandB()->at(quad)};
+    return m_stormData->isotach(0)->parameterPack(quad);
   } else {
     const auto radii = m_stormData->isotachRadii(quad);
     const auto it = std::lower_bound(radii.begin(), radii.end(), distance) - 1;
@@ -347,15 +334,16 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     const auto r2 = *(it + 1);
     const double fac = (distance - r1) / (r2 - r1);
 
-    double vmbl = Interpolation::linearInterp(
-        fac, m_stormData->isotach(p)->vmaxBl()->at(quad),
-        m_stormData->isotach(p + 1)->vmaxBl()->at(quad));
-    double rmax = Interpolation::linearInterp(
-        fac, m_stormData->isotach(p)->rmax()->at(quad),
-        m_stormData->isotach(p + 1)->rmax()->at(quad));
-    double b = Interpolation::linearInterp(
-        fac, m_stormData->isotach(p)->hollandB()->at(quad),
-        m_stormData->isotach(p + 1)->hollandB()->at(quad));
+    const auto p1 = m_stormData->isotach(p)->parameterPack(quad);
+    const auto p2 = m_stormData->isotach(p + 1)->parameterPack(quad);
+
+    double vmbl = Interpolation::linearInterp(fac, p1.vmaxBoundaryLayer(),
+                                              p2.vmaxBoundaryLayer());
+    double rmax = Interpolation::linearInterp(fac, p1.radiusToMaxWinds(),
+                                              p2.radiusToMaxWinds());
+    double b = Interpolation::linearInterp(fac, p1.hollandB(), p2.hollandB());
+    double rmaxtrue = Interpolation::linearInterp(
+        fac, p1.radiusToMaxWindsTrue(), p2.radiusToMaxWindsTrue());
 
     return {vmbl, rmax, rmaxtrue, b};
   }
