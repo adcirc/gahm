@@ -76,4 +76,4 @@ class GahmVortex {
                                      double corio);
 };
 }  // namespace Gahm
-#endif  // GAHM_H
+#endif  // GAHMVORTEX_H

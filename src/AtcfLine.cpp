@@ -317,7 +317,7 @@ Isotach *AtcfLine::isotach(size_t index) {
   return &m_isotach[index];
 }
 
-const Isotach *AtcfLine::cisotach(size_t index) const {
+const Isotach *AtcfLine::isotach(size_t index) const {
   assert(index < m_isotach.size());
   return &m_isotach[index];
 }
@@ -383,7 +383,7 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
 bool AtcfLine::isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2) {
   if (a1.basin() == a2.basin() && a1.cycloneNumber() == a2.cycloneNumber() &&
       a1.datetime() == a2.datetime() &&
-      a1.cisotach(0)->windSpeed() != a2.cisotach(0)->windSpeed()) {
+      a1.isotach(0)->windSpeed() != a2.isotach(0)->windSpeed()) {
     return true;
   } else {
     return false;
@@ -434,7 +434,7 @@ void AtcfLine::generateLastIsotach() {
   std::array<size_t, 4> last_iso = {0, 0, 0, 0};
   for (auto iso = m_isotach.begin(); iso != m_isotach.end(); ++iso) {
     for (auto j = 0; j < 4; ++j) {
-      if (iso->cquadFlag()->at(j)) {
+      if (iso->quadFlag()->at(j)) {
         last_iso[j] = iso - m_isotach.begin();
       }
     }
@@ -445,7 +445,7 @@ std::vector<double> AtcfLine::isotachRadii(int quad) const {
   std::vector<double> radii;
   radii.reserve(m_isotach.size());
   for (auto i : m_isotach) {
-    radii.emplace_back(i.crmax()->at(quad));
+    radii.emplace_back(i.rmax()->at(quad));
   }
   return radii;
 }

@@ -26,6 +26,8 @@
 #include "Gahm.h"
 #include "benchmark/benchmark.h"
 
+using namespace Gahm;
+
 static bool printed_points_to_screen = false;
 
 static void benchmark_gahm_katrina(benchmark::State &state) {

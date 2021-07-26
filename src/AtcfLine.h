@@ -79,7 +79,8 @@ class AtcfLine {
   void setMaxDevelopmentLevel(const std::string &maxDevelopmentLevel);
 
   Gahm::Isotach *isotach(size_t index);
-  const Gahm::Isotach *cisotach(size_t index) const;
+  const Gahm::Isotach *isotach(size_t index) const;
+
   void addIsotach(const Gahm::Isotach &iso);
   void removeIsotach(size_t pos);
   size_t nIsotach() const;
@@ -130,7 +131,7 @@ class AtcfLine {
     if (this->nIsotach() == 0 && a.nIsotach() == 0) return false;
     if (this->nIsotach() > 0 && a.nIsotach() == 0) return true;
     if (this->nIsotach() == 0 && a.nIsotach() > 0) return false;
-    if (this->cisotach(0)->windSpeed() < a.cisotach(0)->windSpeed()) {
+    if (this->isotach(0)->windSpeed() < a.isotach(0)->windSpeed()) {
       return true;
     }
     return false;
@@ -174,23 +175,14 @@ class AtcfLine {
   std::vector<double> isotachRadii(int quad) const;
 
  private:
-  /// Basin where the cyclone occurs
-  std::string m_basin;
+  /// Is this record null
+  bool m_null;
 
   /// Cyclone number
   int m_cycloneNumber;
 
-  /// Reference date/time
-  Gahm::Date m_refDatetime;
-
-  /// Current date/time
-  Gahm::Date m_datetime;
-
   /// Technique number
   int m_technum;
-
-  /// Technique name
-  std::string m_techstring;
 
   /// Forecast hour
   int m_tau;
@@ -216,15 +208,6 @@ class AtcfLine {
   /// Coriolis Force
   double m_coriolis;
 
-  /// Maximum development level that the storm has achieved
-  std::string m_maxDevelopmentLevel;
-
-  /// Vector of storm isotachs
-  std::vector<Isotach> m_isotach;
-
-  /// Last isotach position (guard against a zero isotach)
-  std::array<size_t, 4> m_lastIsotach;
-
   /// Background pressure
   double m_lastClosedIsobar;
 
@@ -240,26 +223,11 @@ class AtcfLine {
   /// Maximum gust wind speed
   double m_gusts;
 
-  /// Subregion where the storm occurs
-  char m_subregion;
-
-  /// Forecaster initials
-  std::string m_initials;
-
   /// Storm direction in degrees
   double m_stormDirection;
 
   /// Storm speed in m/s
   double m_stormSpeed;
-
-  /// Storm name
-  std::string m_stormName;
-
-  /// System depth
-  std::string m_systemDepth;
-
-  /// Is this record null
-  bool m_null;
 
   /// Translation speed
   double m_uv;
@@ -269,6 +237,39 @@ class AtcfLine {
 
   /// Translation velocity (v-direction)
   double m_v;
+
+  /// Reference date/time
+  Gahm::Date m_refDatetime;
+
+  /// Current date/time
+  Gahm::Date m_datetime;
+
+  /// Vector of storm isotachs
+  std::vector<Isotach> m_isotach;
+
+  /// Last isotach position (guard against a zero isotach)
+  std::array<size_t, 4> m_lastIsotach;
+
+  /// Basin where the cyclone occurs
+  std::string m_basin;
+
+  /// Technique name
+  std::string m_techstring;
+
+  /// System depth
+  std::string m_systemDepth;
+
+  /// Storm name
+  std::string m_stormName;
+
+  /// Maximum development level that the storm has achieved
+  std::string m_maxDevelopmentLevel;
+
+  /// Forecaster initials
+  std::string m_initials;
+
+  /// Subregion where the storm occurs
+  char m_subregion;
 
   static std::vector<std::string> splitString(const std::string &line);
 

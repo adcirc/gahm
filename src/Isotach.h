@@ -67,26 +67,26 @@ class Isotach {
   Gahm::CircularArray<double, 4> *phi();
   Gahm::CircularArray<double, 4> *quadrantVr();
 
-  const Gahm::CircularArray<bool, 4> *cquadFlag() const;
-  const Gahm::CircularArray<double, 4> *cisotachRadius() const;
-  const Gahm::CircularArray<bool, 4> *cisotachRadiusNullInInput() const;
-  const Gahm::CircularArray<double, 4> *crmax() const;
-  const Gahm::CircularArray<double, 4> *cvmaxBl() const;
-  const Gahm::CircularArray<double, 4> *chollandB() const;
-  const Gahm::CircularArray<double, 4> *cphi() const;
-  const Gahm::CircularArray<double, 4> *cquadrantVr() const;
+  const Gahm::CircularArray<bool, 4> *quadFlag() const;
+  const Gahm::CircularArray<double, 4> *isotachRadius() const;
+  const Gahm::CircularArray<bool, 4> *isotachRadiusNullInInput() const;
+  const Gahm::CircularArray<double, 4> *rmax() const;
+  const Gahm::CircularArray<double, 4> *vmaxBl() const;
+  const Gahm::CircularArray<double, 4> *hollandB() const;
+  const Gahm::CircularArray<double, 4> *phi() const;
+  const Gahm::CircularArray<double, 4> *quadrantVr() const;
 
  private:
   double m_windSpeed;
+  Gahm::Isotach::RadiusCode m_radiusCode;
   Gahm::CircularArray<double, 4> m_isotachRadius;
-  Gahm::CircularArray<bool, 4> m_isotachRadiusNullInInput;
   Gahm::CircularArray<double, 4> m_rmax;
   Gahm::CircularArray<double, 4> m_hollandB;
   Gahm::CircularArray<double, 4> m_vmaxBL;
-  Gahm::CircularArray<bool, 4> m_quadFlag;
   Gahm::CircularArray<double, 4> m_quadrantVr;
   Gahm::CircularArray<double, 4> m_phi;
-  Gahm::Isotach::RadiusCode m_radiusCode;
+  Gahm::CircularArray<bool, 4> m_quadFlag;
+  Gahm::CircularArray<bool, 4> m_isotachRadiusNullInInput;
 };
 }  // namespace Gahm
 std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso);

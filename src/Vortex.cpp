@@ -105,9 +105,9 @@ Vortex::ShapeTerms Vortex::iterateShapeTerms(const double root) const {
   constexpr double accuracy = 0.01;
 
   double vmax =
-      m_stormData->cisotach(m_currentIsotach)->cvmaxBl()->at(m_currentQuadrant);
-  double b = m_stormData->cisotach(m_currentIsotach)
-                 ->chollandB()
+      m_stormData->isotach(m_currentIsotach)->vmaxBl()->at(m_currentQuadrant);
+  double b =
+      m_stormData->isotach(m_currentIsotach)->hollandB()
                  ->at(m_currentQuadrant);
   double cor = m_stormData->coriolis();
   double dp = Constants::backgroundPressure() - m_stormData->centralPressure();
@@ -317,7 +317,7 @@ ParameterPack Vortex::getParameters(double angle,
 ParameterPack Vortex::interpolateParameters(int quad, double distance,
                                                     double angle) const {
   auto iso = m_stormData->nIsotach();
-  double rmaxtrue = m_stormData->cisotach(0)->crmax()->at(quad);
+  double rmaxtrue = m_stormData->isotach(0)->rmax()->at(quad);
 
   if (iso == 0) {
     return {m_stormData->vmaxBl(),
@@ -328,17 +328,17 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
 
   iso -= 1;
 
-  if (distance >= m_stormData->cisotach(iso)->crmax()->at(quad)) {
-    return {m_stormData->cisotach(iso)->cvmaxBl()->at(quad),
-            m_stormData->cisotach(iso)->crmax()->at(quad),
+  if (distance >= m_stormData->isotach(iso)->rmax()->at(quad)) {
+    return {m_stormData->isotach(iso)->vmaxBl()->at(quad),
+            m_stormData->isotach(iso)->rmax()->at(quad),
             rmaxtrue,
-            m_stormData->cisotach(iso)->chollandB()->at(quad)};
+            m_stormData->isotach(iso)->hollandB()->at(quad)};
 
-  } else if (distance <= m_stormData->cisotach(0)->crmax()->at(quad)) {
-    return {m_stormData->cisotach(0)->cvmaxBl()->at(quad),
-            m_stormData->cisotach(0)->crmax()->at(quad),
+  } else if (distance <= m_stormData->isotach(0)->rmax()->at(quad)) {
+    return {m_stormData->isotach(0)->vmaxBl()->at(quad),
+            m_stormData->isotach(0)->rmax()->at(quad),
             rmaxtrue,
-            m_stormData->cisotach(0)->chollandB()->at(quad)};
+            m_stormData->isotach(0)->hollandB()->at(quad)};
   } else {
     const auto radii = m_stormData->isotachRadii(quad);
     const auto it = std::lower_bound(radii.begin(), radii.end(), distance) - 1;
@@ -348,14 +348,14 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     const double fac = (distance - r1) / (r2 - r1);
 
     double vmbl = Interpolation::linearInterp(
-        fac, m_stormData->cisotach(p)->cvmaxBl()->at(quad),
-        m_stormData->cisotach(p + 1)->cvmaxBl()->at(quad));
+        fac, m_stormData->isotach(p)->vmaxBl()->at(quad),
+        m_stormData->isotach(p + 1)->vmaxBl()->at(quad));
     double rmax = Interpolation::linearInterp(
-        fac, m_stormData->cisotach(p)->crmax()->at(quad),
-        m_stormData->cisotach(p + 1)->crmax()->at(quad));
+        fac, m_stormData->isotach(p)->rmax()->at(quad),
+        m_stormData->isotach(p + 1)->rmax()->at(quad));
     double b = Interpolation::linearInterp(
-        fac, m_stormData->cisotach(p)->chollandB()->at(quad),
-        m_stormData->cisotach(p + 1)->chollandB()->at(quad));
+        fac, m_stormData->isotach(p)->hollandB()->at(quad),
+        m_stormData->isotach(p + 1)->hollandB()->at(quad));
 
     return {vmbl, rmax, rmaxtrue, b};
   }

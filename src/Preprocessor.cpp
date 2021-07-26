@@ -212,8 +212,8 @@ int Preprocessor::calculateRadii() {
   for (auto ait = m_data->begin(); ait != m_data->end(); ++ait) {
     for (size_t i = 0; i < ait->nIsotach(); ++i) {
       const double radiisum =
-          std::accumulate(ait->cisotach(i)->cisotachRadius()->cbegin(),
-                          ait->cisotach(i)->cisotachRadius()->cend(), 0.0);
+          std::accumulate(ait->isotach(i)->isotachRadius()->cbegin(),
+                          ait->isotach(i)->isotachRadius()->cend(), 0.0);
       ait->isotach(i)->generateQuadFlag();
 
       const unsigned int numNonzero =
@@ -262,7 +262,7 @@ unsigned Preprocessor::countNonzeroIsotachs(
     const std::vector<AtcfLine>::iterator &ait, size_t i) {
   unsigned numNonzero = 0;
   for (auto j = 0; j < 4; ++j) {
-    if (ait->cisotach(i)->cquadFlag()->at(j)) {
+    if (ait->isotach(i)->quadFlag()->at(j)) {
       numNonzero++;
     }
   }
@@ -381,8 +381,8 @@ std::array<double, 4> Preprocessor::computeQuadRotateAngle(const AtcfLine &a,
   if (i > 0) {
     for (auto j = 0; j < 4; ++j) {
       quadRotateAngle[j] =
-          Constants::frictionAngle(a.cisotach(i)->cisotachRadius()->at(j),
-                                   a.cisotach(i)->crmax()->at(j));
+          Constants::frictionAngle(
+          a.isotach(i)->isotachRadius()->at(j), a.isotach(i)->rmax()->at(j));
     }
   }
   return quadRotateAngle;
@@ -433,10 +433,10 @@ void Preprocessor::recomputeQuadrantVrLoop(
     Isotach *isotach) {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   for (auto k = 0; k < 4; ++k) {
-    if (isotach->cquadrantVr()->at(k) > vmaxBL || vmwBLflag[k]) {
+    if (isotach->quadrantVr()->at(k) > vmaxBL || vmwBLflag[k]) {
       if (quadrotindex == 1) vmwBLflag[k] = true;
 
-      if (!isotach->cisotachRadiusNullInInput()->at(k)) {
+      if (!isotach->isotachRadiusNullInInput()->at(k)) {
         const double quadrantVectorAngle =
             Preprocessor::computeQuadrantVectorAngle(k, quadRotateAngle);
         double qvr = Preprocessor::computeQuadrantVrValue(quadrantVectorAngle,
