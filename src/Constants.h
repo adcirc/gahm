@@ -31,6 +31,7 @@
 #include <cmath>
 #include <limits>
 #include <tuple>
+#include <iostream>
 
 #include "UnitConversion.h"
 namespace Gahm {
@@ -47,6 +48,7 @@ static constexpr std::array<double, 4> m_quadrantAngles = {
 static constexpr double pi() { return M_PI; }
 static constexpr double twopi() { return pi() * 2.0; }
 static constexpr double halfpi() { return pi() * 0.5; }
+static constexpr double quarterpi() { return pi() * 0.25; }
 static constexpr double e() { return M_E; }
 
 static constexpr double backgroundPressure() { return 1013.0; }
@@ -110,18 +112,18 @@ static double distance(const double x1, const double y1, const double x2,
                   : cartesian_distance(x1, y1, x2, y2);
 }
 
-static double azimuthEarth(const double x1, const double y1, const double x2,
-                           const double y2) {
-  const double lam0 = x1 * Units::convert(Units::Degree, Units::Radian);
-  const double phi0 = y1 * Units::convert(Units::Degree, Units::Radian);
-  const double lam1 = x2 * Units::convert(Units::Degree, Units::Radian);
-  const double phi1 = y2 * Units::convert(Units::Degree, Units::Radian);
-  const double dlam = lam1 - lam0;
-  const double a = std::sin(dlam) * std::cos(phi1);
-  const double b = std::cos(phi0) * std::sin(phi1);
-  const double c = std::sin(phi0) * std::cos(phi1) * std::cos(dlam);
-  const double azi = std::atan2(a, b - c);
-  return azi * Units::convert(Units::Radian, Units::Degree);
+static double azimuthEarth(double x1, double y1, double x2,
+                           double y2) {
+  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
+  x1 *= deg2rad;
+  y1 *= deg2rad;
+  x2 *= deg2rad;
+  y2 *= deg2rad;
+  double dx = x1 - x2;
+  double cy2 = std::cos(y2);
+  double x = std::cos(y1)*std::sin(y2)-std::sin(y1)*cy2*std::cos(dx);
+  double y = std::sin(dx)*cy2;
+  return std::atan2(y,x);
 }
 
 static constexpr double coriolis(double lat) noexcept {

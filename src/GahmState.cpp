@@ -59,20 +59,13 @@ void GahmState::query(const Date &d) {
 void GahmState::computeDistanceToStormCenter(const double stormCenterX,
                                              const double stormCenterY) {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-
+  constexpr double rotation = Constants::pi() + Constants::quarterpi();
   for (auto i = 0; i < m_xpoints.size(); ++i) {
-    double radius_earth = Constants::radiusEarth(m_ypoints[i], stormCenterY);
-    double dx = deg2rad * radius_earth * (m_xpoints[i] - stormCenterX) *
-                std::cos(deg2rad * stormCenterY);
-    double dy = deg2rad * radius_earth * (m_ypoints[i] - stormCenterY);
-    m_distance[i] = std::sqrt(dx * dx + dy * dy);
-
-    double azi = std::atan2(dx, dy);
-
-    assert(azi >= -Constants::pi());
-    assert(azi <= Constants::pi());
-
-    m_azimuth[i] = azi;
+    m_distance[i] = Constants::geodesic_distance(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY);
+    m_azimuth[i] = Constants::azimuthEarth(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY)+rotation;
+    if(m_azimuth[i] > Constants::twopi()){
+        m_azimuth[i] -= Constants::twopi();
+    }
   }
 }
 

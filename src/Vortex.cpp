@@ -207,30 +207,11 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
-constexpr std::pair<int, double> Vortex::getBaseQuadrant(const double angle) {
-  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  constexpr double angle_45 = 45.0 * deg2rad;
-  constexpr double angle_135 = 135.0 * deg2rad;
-  constexpr double angle_225 = 225.0 * deg2rad;
-  constexpr double angle_315 = 315.0 * deg2rad;
-
-  double angle360 = angle + Constants::pi();
-
-  assert(angle360 >= 0.0);
-  assert(angle360 < Constants::twopi());
-
-  if (angle360 <= angle_45) {
-    return std::make_pair(4, angle_45 + angle360);
-  } else if (angle360 <= angle_135) {
-    return std::make_pair(1, angle360 - angle_45);
-  } else if (angle360 <= angle_225) {
-    return std::make_pair(2, angle360 - angle_135);
-  } else if (angle360 <= angle_315) {
-    return std::make_pair(3, angle360 - angle_225);
-  } else if (angle360 > angle_315) {
-    return std::make_pair(4, angle360 - angle_315);
-  }
-  return std::make_pair(0, 0.0);
+constexpr std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
+  angle = std::fmod(angle+Constants::twopi(),Constants::twopi());
+  int quadrant = 4 - std::floor(angle / Constants::halfpi());
+  double remainder = Constants::halfpi() - std::fmod(angle, Constants::halfpi());
+  return std::make_pair(quadrant,remainder);
 }
 
 /**
@@ -285,7 +266,7 @@ ParameterPack Vortex::getParameters(double angle, double distance) const {
   constexpr double angle_90 = 90.0 * deg2rad;
   const double dis = distance * m2km;
 
-  int base_quadrant = 0;
+  int base_quadrant = -2;
   double delta_angle = 0.0;
   std::tie(base_quadrant, delta_angle) = Vortex::getBaseQuadrant(angle);
 
