@@ -110,9 +110,9 @@ Vortex::ShapeTerms Vortex::iterateShapeTerms(const double root) const {
   constexpr double accuracy = 0.01;
 
   double vmax =
-      m_stormData->isotach(m_currentIsotach)->vmaxBl()->at(m_currentQuadrant);
+      m_stormData->isotach(m_currentIsotach).vmaxBl().at(m_currentQuadrant);
   double b =
-      m_stormData->isotach(m_currentIsotach)->hollandB()->at(m_currentQuadrant);
+      m_stormData->isotach(m_currentIsotach).hollandB().at(m_currentQuadrant);
   double cor = m_stormData->coriolis();
   double dp = Constants::backgroundPressure() - m_stormData->centralPressure();
 
@@ -158,9 +158,8 @@ int Vortex::computeRadiusToWind() {
     for (size_t it = 0; it < m_max_it; ++it) {
       double root = this->iterateRadius();
       if (root < 0.0) {
-        root =
-            m_stormData->isotach(m_currentIsotach)->isotachRadius()->at(quad);
-        m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, root);
+        root = m_stormData->isotach(m_currentIsotach).isotachRadius().at(quad);
+        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
         m_assumptions->add(generate_assumption(
             Assumption::MAJOR,
             "Root could not be found for record " +
@@ -168,15 +167,15 @@ int Vortex::computeRadiusToWind() {
                 ", Isotach: " + std::to_string(m_currentIsotach) +
                 ", Quadrant: " + std::to_string(quad)));
       } else {
-        m_stormData->isotach(m_currentIsotach)->rmax()->set(quad, root);
+        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
       }
 
       const ShapeTerms st = this->iterateShapeTerms(root);
       if (st.converged) {
         Logging::debug("Radius iteration converged in " +
                        std::to_string(it + 1) + " iterations.");
-        m_stormData->isotach(m_currentIsotach)->hollandB()->set(quad, st.b);
-        m_stormData->isotach(m_currentIsotach)->phi()->set(quad, st.phi);
+        m_stormData->isotach(m_currentIsotach).hollandB().set(quad, st.b);
+        m_stormData->isotach(m_currentIsotach).phi().set(quad, st.phi);
         break;
       }
       if (it == m_max_it - 1 && !st.converged) {
@@ -304,15 +303,15 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
   auto iso = m_stormData->nIsotach();
   if (iso == 0) {
     return {m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
-            m_stormData->isotach(0)->rmax()->at(quad), m_stormData->hollandB()};
+            m_stormData->isotach(0).rmax().at(quad), m_stormData->hollandB()};
   }
 
   iso -= 1;
 
-  if (distance >= m_stormData->isotach(iso)->rmax()->at(quad)) {
-    return m_stormData->isotach(iso)->parameterPack(quad);
-  } else if (distance <= m_stormData->isotach(0)->rmax()->at(quad)) {
-    return m_stormData->isotach(0)->parameterPack(quad);
+  if (distance >= m_stormData->isotach(iso).rmax().at(quad)) {
+    return m_stormData->isotach(iso).parameterPack(quad);
+  } else if (distance <= m_stormData->isotach(0).rmax().at(quad)) {
+    return m_stormData->isotach(0).parameterPack(quad);
   } else {
     const auto radii = m_stormData->isotachRadii(quad);
     const auto it = std::lower_bound(radii.begin(), radii.end(), distance) - 1;
@@ -321,8 +320,8 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     const auto r2 = *(it + 1);
     const double fac = (distance - r1) / (r2 - r1);
 
-    const auto p1 = m_stormData->isotach(p)->parameterPack(quad);
-    const auto p2 = m_stormData->isotach(p + 1)->parameterPack(quad);
+    const auto p1 = m_stormData->isotach(p).parameterPack(quad);
+    const auto p2 = m_stormData->isotach(p + 1).parameterPack(quad);
 
     double vmbl = Interpolation::linearInterp(fac, p1.vmaxBoundaryLayer(),
                                               p2.vmaxBoundaryLayer());

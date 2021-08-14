@@ -73,7 +73,7 @@ AtcfLine::AtcfLine()
  * @param[in] line line from the file being read
  * @return AtcfLine object. Will have null field set if unsuccessful
  */
-AtcfLine AtcfLine::parseBestTrackLine(const std::string &line) {
+AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   if (line.size() < 150) return {};
   AtcfLine a;
   auto split = AtcfLine::splitString(line);
@@ -87,7 +87,9 @@ AtcfLine AtcfLine::parseBestTrackLine(const std::string &line) {
   a.setTechnum(AtcfLine::readValueCheckBlank<int>(split[3]));
   a.setTechstring(split[4]);
   a.setTau(AtcfLine::readValueCheckBlank<int>(split[5]));
-  a.setDatetime(a.referenceDatetime() + a.tau() * 3600);
+
+  if (formatid == 0) a.setDatetime(a.referenceDatetime() + a.tau() * 3600);
+
   auto lat = AtcfLine::readValueCheckBlank<double>(
                  split[6].substr(0, split[6].length() - 1)) /
              10.0;
@@ -117,7 +119,9 @@ AtcfLine AtcfLine::parseBestTrackLine(const std::string &line) {
             AtcfLine::readValueCheckBlank<double>(split[11]) *
                 Units::convert(Units::Knot, Units::MetersPerSecond),
             r1, r2, r3, r4);
-  a.addIsotach(i);
+
+  if (formatid == 0) a.addIsotach(i);
+
   a.setLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[17]));
   a.setRadiusLastClosedIsobar(
       AtcfLine::readValueCheckBlank<double>(split[18]) *
@@ -135,16 +139,20 @@ AtcfLine AtcfLine::parseBestTrackLine(const std::string &line) {
                   Units::convert(Units::Knot, Units::MetersPerSecond));
   a.setStormName(split[27]);
   a.setCoriolis(Constants::coriolis(a.lat()));
+
+  if (formatid == 1) {
+  }
+
   a.setIsNull(false);
   return a;
 }
 
 Gahm::AtcfLine AtcfLine::parseAswipLine(const std::string &line) {
-  if (line.size() < 150) return {};
-  AtcfLine a;
-  auto split = AtcfLine::splitString(line);
+  return AtcfLine::parseLine(line, 1);
+}
 
-  return a;
+Gahm::AtcfLine AtcfLine::parseBestTrackLine(const std::string &line) {
+  return AtcfLine::parseLine(line, 0);
 }
 
 /**
@@ -320,14 +328,14 @@ void AtcfLine::setStormName(const std::string &storm_name) {
   m_stormName = storm_name;
 }
 
-Isotach *AtcfLine::isotach(size_t index) {
-  assert(index < m_isotach.size());
-  return &m_isotach[index];
+Isotach &AtcfLine::isotach(size_t index) {
+  return const_cast<Isotach &>(
+      static_cast<const AtcfLine &>(*this).isotach(index));
 }
 
-const Isotach *AtcfLine::isotach(size_t index) const {
+const Isotach &AtcfLine::isotach(size_t index) const {
   assert(index < m_isotach.size());
-  return &m_isotach[index];
+  return m_isotach[index];
 }
 
 void AtcfLine::addIsotach(const Isotach &iso) {
@@ -391,7 +399,7 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
 bool AtcfLine::isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2) {
   if (a1.basin() == a2.basin() && a1.cycloneNumber() == a2.cycloneNumber() &&
       a1.datetime() == a2.datetime() &&
-      a1.isotach(0)->windSpeed() != a2.isotach(0)->windSpeed()) {
+      a1.isotach(0).windSpeed() != a2.isotach(0).windSpeed()) {
     return true;
   } else {
     return false;
@@ -442,7 +450,7 @@ void AtcfLine::generateLastIsotach() {
   std::array<size_t, 4> last_iso = {0, 0, 0, 0};
   for (auto iso = m_isotach.begin(); iso != m_isotach.end(); ++iso) {
     for (auto j = 0; j < 4; ++j) {
-      if (iso->quadFlag()->at(j)) {
+      if (iso->quadFlag().at(j)) {
         last_iso[j] = iso - m_isotach.begin();
       }
     }
@@ -453,7 +461,7 @@ std::vector<double> AtcfLine::isotachRadii(int quad) const {
   std::vector<double> radii;
   radii.reserve(m_isotach.size());
   for (auto i : m_isotach) {
-    radii.emplace_back(i.rmax()->at(quad));
+    radii.emplace_back(i.rmax().at(quad));
   }
   return radii;
 }

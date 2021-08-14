@@ -45,19 +45,19 @@ class Preprocessor {
                      double &vv, double &uuvv);
   int calculateOverlandTranslationVelocity();
 
-  void setAllRadiiToRmax(CircularArray<double, 4> *radii,
-                         CircularArray<bool, 4> *quadFlag, double rmax,
+  void setAllRadiiToRmax(CircularArray<double, 4> &radii,
+                         CircularArray<bool, 4> &quadFlag, double rmax,
                          size_t record, size_t isotach);
 
-  void setMissingRadiiToHalfNonzeroRadii(CircularArray<double, 4> *radii,
+  void setMissingRadiiToHalfNonzeroRadii(CircularArray<double, 4> &radii,
                                          double radiisum, size_t record,
                                          size_t isotach);
 
   void setMissingRadiiToHalfOfAverageSpecifiedRadii(
-      CircularArray<double, 4> *radii, double radiisum, size_t record,
+      CircularArray<double, 4> &radii, double radiisum, size_t record,
       size_t isotach);
 
-  void setMissingRadiiToAverageOfAdjacentRadii(CircularArray<double, 4> *radii,
+  void setMissingRadiiToAverageOfAdjacentRadii(CircularArray<double, 4> &radii,
                                                size_t record, size_t isotach);
 
   int calculateRadii();
@@ -104,12 +104,12 @@ class Preprocessor {
   static void computeQuadrantVrLoop(
       size_t quadrotindex, const std::array<double, 4> &quadRotateAngle,
       const std::array<bool, 4> &vmwBLflag, double vmaxBL, double vr,
-      const StormMotion &stormMotion, Isotach *isotach);
+      const StormMotion &stormMotion, Isotach &isotach);
 
   static void recomputeQuadrantVrLoop(
       size_t quadrotindex, const std::array<double, 4> &quadRotateAngle,
       std::array<bool, 4> &vmwBLflag, double vmaxBL, double vr,
-      double stormDirection, const StormMotion &stormMotion, Isotach *isotach);
+      double stormDirection, const StormMotion &stormMotion, Isotach &isotach);
 
   static unsigned countNonzeroIsotachs(
       const std::vector<AtcfLine>::iterator &ait, size_t i);

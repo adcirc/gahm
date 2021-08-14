@@ -43,7 +43,6 @@ namespace std {
 %include "GahmState.h"
 %include "GahmVortex.h"
 %include "HurricanePressure.h"
-%include "Isotach.h"
 %include "Logging.h"
 %include "OwiAscii.h"
 %include "OwiAsciiDomain.h"
@@ -54,3 +53,4 @@ namespace std {
 %include "WindData.h"
 %include "WindGrid.h"
 %include "ParameterPack.h"
+

@@ -72,12 +72,11 @@ class VortexSolver {
                const size_t current_quadrant)
       : m_data(
             data->radiusMaxWinds(),
-               data->isotach(currentIsotach)->vmaxBl()->at(current_quadrant),
-               data->isotach(currentIsotach)->hollandB()->at(current_quadrant),
-               data->isotach(currentIsotach)->phi()->at(current_quadrant),
+            data->isotach(currentIsotach).vmaxBl().at(current_quadrant),
+            data->isotach(currentIsotach).hollandB().at(current_quadrant),
+            data->isotach(currentIsotach).phi().at(current_quadrant),
             data->coriolis(),
-            data->isotach(currentIsotach)->quadrantVr()
-                ->at(current_quadrant)) {}
+            data->isotach(currentIsotach).quadrantVr().at(current_quadrant)) {}
 
   auto operator()(const double &r) { return m_data.operator()<T>(r); }
 
