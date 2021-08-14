@@ -41,7 +41,7 @@ namespace Gahm {
 class GahmVortex {
  public:
   GahmVortex(std::string filename, const std::vector<double> &x,
-             const std::vector<double> &y);
+             const std::vector<double> &y, Atcf::AtcfFormat format = Atcf::AtcfFormat::BEST_TRACK);
 
   std::string filename() const;
 

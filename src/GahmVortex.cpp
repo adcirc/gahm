@@ -35,7 +35,7 @@
 using namespace Gahm;
 
 GahmVortex::GahmVortex(std::string filename, const std::vector<double> &x,
-                       const std::vector<double> &y)
+                       const std::vector<double> &y, Atcf::AtcfFormat format)
     : m_filename(std::move(filename)),
       m_assumptions(std::make_unique<Assumptions>()),
       m_atcf(std::make_unique<Atcf>(m_filename, m_assumptions.get())),

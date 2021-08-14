@@ -43,7 +43,11 @@ using namespace Gahm;
  * @param[in] assumptions pointer to Assumptions object
  */
 Atcf::Atcf(std::string filename, Assumptions *a)
-    : m_filename(std::move(filename)), m_assumptions(a) {}
+    : m_filename(std::move(filename)), m_format(Atcf::AtcfFormat::BEST_TRACK), m_assumptions(a) {}
+
+
+Atcf::Atcf(std::string filename, Atcf::AtcfFormat format, Gahm::Assumptions *a)
+    : m_filename(std::move(filename)), m_format(format), m_assumptions(a) {}
 
 /**
  * Returns the filename of the Atcf file that is being used
@@ -62,6 +66,20 @@ void Atcf::setFilename(const std::string &filename) { m_filename = filename; }
  * @return
  */
 int Atcf::read() {
+    switch(m_format){
+        case AtcfFormat::BEST_TRACK: return this->readBestTrack();
+        case AtcfFormat::ASWIP: return this->readAswip();
+        default: gahm_throw_exception("Invalid ATCF format specified");
+    }
+}
+
+
+int Atcf::readAswip() {
+    return 0;
+}
+
+
+int Atcf::readBestTrack() {
   std::ifstream f(m_filename);
   if (f.fail()) {
     gahm_throw_exception("Specified file does not exist");

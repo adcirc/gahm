@@ -48,7 +48,14 @@
 namespace Gahm {
 class Atcf {
  public:
+
+  enum AtcfFormat{
+    BEST_TRACK, ASWIP
+  };
+
   Atcf(std::string filename, Gahm::Assumptions *a);
+
+  Atcf(std::string filename, Atcf::AtcfFormat format, Gahm::Assumptions *a);
 
   std::string filename() const;
   void setFilename(const std::string &filename);
@@ -73,11 +80,18 @@ class Atcf {
   Gahm::Date end_time() const;
 
  private:
+
+  int readBestTrack();
+  int readAswip();
+
   /// Filename of the Atcf file to use
   std::string m_filename;
 
   /// Vector of AtcfLine data representing individual time points
   std::vector<AtcfLine> m_atcfData;
+
+  /// File format used within the input file
+  AtcfFormat m_format;
 
   Assumptions *m_assumptions;
 };
