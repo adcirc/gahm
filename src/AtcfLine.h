@@ -40,7 +40,9 @@ class AtcfLine {
  public:
   AtcfLine();
 
-  static AtcfLine parseAtcfLine(const std::string &line);
+  static AtcfLine parseBestTrackLine(const std::string &line);
+
+  static AtcfLine parseAswipLine(const std::string &line);
 
   std::string basin() const;
   void setBasin(const std::string &basin);

@@ -50,7 +50,7 @@ TEST_CASE("Physical - Distance", "[distance]") {
 
 TEST_CASE("Physical - Azimuth", "[azimuth]") {
   auto azi = Gahm::Constants::azimuthEarth(-90.0, 20.0, -74.0, 40.0);
-  REQUIRE(azi == Approx(30.9456481898));
+  REQUIRE(azi == Approx(-0.5401034501));
 }
 
 TEST_CASE("Physical - Coriolis", "[coriolis]") {

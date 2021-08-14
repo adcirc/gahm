@@ -73,8 +73,8 @@ AtcfLine::AtcfLine()
  * @param[in] line line from the file being read
  * @return AtcfLine object. Will have null field set if unsuccessful
  */
-AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
-  if (line.size() < 150) return AtcfLine();
+AtcfLine AtcfLine::parseBestTrackLine(const std::string &line) {
+  if (line.size() < 150) return {};
   AtcfLine a;
   auto split = AtcfLine::splitString(line);
   a.setBasin(split[0]);
@@ -136,6 +136,14 @@ AtcfLine AtcfLine::parseAtcfLine(const std::string &line) {
   a.setStormName(split[27]);
   a.setCoriolis(Constants::coriolis(a.lat()));
   a.setIsNull(false);
+  return a;
+}
+
+Gahm::AtcfLine AtcfLine::parseAswipLine(const std::string &line) {
+  if (line.size() < 150) return {};
+  AtcfLine a;
+  auto split = AtcfLine::splitString(line);
+
   return a;
 }
 

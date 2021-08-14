@@ -37,15 +37,14 @@ using namespace Gahm;
 GahmVortex::GahmVortex(std::string filename, const std::vector<double> &x,
                        const std::vector<double> &y, Atcf::AtcfFormat format)
     : m_filename(std::move(filename)),
-      m_assumptions(std::make_unique<Assumptions>()),
-      m_atcf(std::make_unique<Atcf>(m_filename, m_assumptions.get())),
+      m_assumptions(std::make_shared<Assumptions>()),
+      m_atcf(std::make_unique<Atcf>(m_filename, format, m_assumptions)),
       m_state(std::make_unique<GahmState>(m_atcf.get(), x, y)) {
   int ierr = this->m_atcf->read();
   if (ierr != 0) {
     gahm_throw_exception("Could not read the ATCF file");
   }
-  this->m_preprocessor =
-      std::make_unique<Preprocessor>(m_atcf->data(), m_assumptions.get());
+  this->m_preprocessor = std::make_unique<Preprocessor>(m_atcf.get());
   this->m_preprocessor->run();
 }
 
@@ -69,10 +68,10 @@ WindData GahmVortex::get(const Date &d) {
   //   pressure to background (Constants::backgroundPressure)
 
   //..Generate storm parameters
-  Vortex v1(m_atcf->record(sp.cycle()), m_assumptions.get());
+  Vortex v1(m_atcf->record(sp.cycle()), m_assumptions);
   const size_t cycle2 =
       sp.cycle() + 1 > m_atcf->nRecords() - 1 ? sp.cycle() : sp.cycle() + 1;
-  Vortex v2(m_atcf->record(cycle2), m_assumptions.get());
+  Vortex v2(m_atcf->record(cycle2), m_assumptions);
 
   for (auto i = 0; i < m_state->size(); ++i) {
     auto param = this->generateStormParameterPackForLocation(sp, v1, v2, i);

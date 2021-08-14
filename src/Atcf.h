@@ -26,6 +26,7 @@
 #ifndef ATCF_H
 #define ATCF_H
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -48,17 +49,19 @@
 namespace Gahm {
 class Atcf {
  public:
+  enum AtcfFormat { BEST_TRACK, ASWIP };
 
-  enum AtcfFormat{
-    BEST_TRACK, ASWIP
-  };
+  explicit Atcf(std::string filename,
+                std::shared_ptr<Gahm::Assumptions> a = nullptr);
 
-  Atcf(std::string filename, Gahm::Assumptions *a);
-
-  Atcf(std::string filename, Atcf::AtcfFormat format, Gahm::Assumptions *a);
+  Atcf(std::string filename, Atcf::AtcfFormat format,
+       std::shared_ptr<Assumptions> a = nullptr);
 
   std::string filename() const;
-  void setFilename(const std::string &filename);
+  void setFilename(const std::string &filename,
+                   Atcf::AtcfFormat = AtcfFormat::BEST_TRACK);
+
+  Atcf::AtcfFormat format() const;
 
   int read();
 
@@ -79,11 +82,11 @@ class Atcf {
   Gahm::Date begin_time() const;
   Gahm::Date end_time() const;
 
+  Assumptions *assumptions();
+
+  std::shared_ptr<Assumptions> assumptions_sharedptr();
+
  private:
-
-  int readBestTrack();
-  int readAswip();
-
   /// Filename of the Atcf file to use
   std::string m_filename;
 
@@ -93,7 +96,7 @@ class Atcf {
   /// File format used within the input file
   AtcfFormat m_format;
 
-  Assumptions *m_assumptions;
+  std::shared_ptr<Assumptions> m_assumptions;
 };
 }  // namespace Gahm
 #endif  // ATCF_H

@@ -28,6 +28,7 @@
 
 #include <array>
 #include <cassert>
+#include <memory>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -41,9 +42,10 @@ namespace Gahm {
 class Vortex {
  public:
   Vortex(Gahm::AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
-         Gahm::Assumptions *assumptions);
+         std::shared_ptr<Gahm::Assumptions> assumptions = nullptr);
 
-  Vortex(Gahm::AtcfLine *atcf, Gahm::Assumptions *assumptions);
+  explicit Vortex(Gahm::AtcfLine *atcf,
+                  std::shared_ptr<Gahm::Assumptions> assumptions = nullptr);
 
   void setStormData(Gahm::AtcfLine *atcf);
 
@@ -69,11 +71,13 @@ class Vortex {
                                                double whichWay) noexcept;
 
   constexpr static double default_inner_radius() {
-    return 1.0 * Units::convert(Gahm::Units::NauticalMile, Gahm::Units::Kilometer);
+    return 1.0 *
+           Units::convert(Gahm::Units::NauticalMile, Gahm::Units::Kilometer);
   }
 
   constexpr static double default_outer_radius() {
-    return 400.0 * Gahm::Units::convert(Gahm::Units::NauticalMile, Gahm::Units::Kilometer);
+    return 400.0 * Gahm::Units::convert(Gahm::Units::NauticalMile,
+                                        Gahm::Units::Kilometer);
   }
 
   size_t currentRecord() const;
@@ -86,7 +90,7 @@ class Vortex {
   unsigned m_currentIsotach;
   size_t m_currentRecord;
   Gahm::AtcfLine *m_stormData;
-  Gahm::Assumptions *m_assumptions;
+  std::shared_ptr<Gahm::Assumptions> m_assumptions;
 
   static constexpr size_t m_max_it = 400;
 
@@ -108,7 +112,7 @@ class Vortex {
                                                    double dp);
 
   Gahm::ParameterPack interpolateParameters(int quad, double distance,
-                                      double angle) const;
+                                            double angle) const;
 
   double iterateRadius() const;
 

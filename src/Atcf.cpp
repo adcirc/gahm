@@ -42,12 +42,20 @@ using namespace Gahm;
  * @param[in] filename filename of the Atcf file to read
  * @param[in] assumptions pointer to Assumptions object
  */
-Atcf::Atcf(std::string filename, Assumptions *a)
-    : m_filename(std::move(filename)), m_format(Atcf::AtcfFormat::BEST_TRACK), m_assumptions(a) {}
+Atcf::Atcf(std::string filename, std::shared_ptr<Assumptions> a)
+    : m_filename(std::move(filename)),
+      m_format(Atcf::AtcfFormat::BEST_TRACK),
+      m_assumptions(std::move(a)) {
+  if (!m_assumptions) m_assumptions = std::make_shared<Assumptions>();
+}
 
-
-Atcf::Atcf(std::string filename, Atcf::AtcfFormat format, Gahm::Assumptions *a)
-    : m_filename(std::move(filename)), m_format(format), m_assumptions(a) {}
+Atcf::Atcf(std::string filename, Atcf::AtcfFormat format,
+           std::shared_ptr<Assumptions> a)
+    : m_filename(std::move(filename)),
+      m_format(format),
+      m_assumptions(std::move(a)) {
+  if (!m_assumptions) m_assumptions = std::make_shared<Assumptions>();
+}
 
 /**
  * Returns the filename of the Atcf file that is being used
@@ -59,27 +67,18 @@ std::string Atcf::filename() const { return m_filename; }
  * @brief Sets the Atcf filename to use
  * @param filename
  */
-void Atcf::setFilename(const std::string &filename) { m_filename = filename; }
+void Atcf::setFilename(const std::string &filename, AtcfFormat format) {
+  m_filename = filename;
+  m_format = format;
+}
+
+Atcf::AtcfFormat Atcf::format() const { return m_format; }
 
 /**
  * Reads the specified atcf file into a vector of AtcfLine objects
  * @return
  */
 int Atcf::read() {
-    switch(m_format){
-        case AtcfFormat::BEST_TRACK: return this->readBestTrack();
-        case AtcfFormat::ASWIP: return this->readAswip();
-        default: gahm_throw_exception("Invalid ATCF format specified");
-    }
-}
-
-
-int Atcf::readAswip() {
-    return 0;
-}
-
-
-int Atcf::readBestTrack() {
   std::ifstream f(m_filename);
   if (f.fail()) {
     gahm_throw_exception("Specified file does not exist");
@@ -89,7 +88,17 @@ int Atcf::readBestTrack() {
   while (!f.eof()) {
     std::string line;
     std::getline(f, line);
-    AtcfLine a = AtcfLine::parseAtcfLine(line);
+
+    AtcfLine a = [&]() {
+      if (m_format == BEST_TRACK) {
+        return AtcfLine::parseBestTrackLine(line);
+      } else if (m_format == ASWIP) {
+        return AtcfLine::parseAswipLine(line);
+      } else {
+        gahm_throw_exception("Invalid file format specified.");
+      }
+    }();
+
     if (!a.isNull()) {
       m_atcfData.push_back(a);
     }
@@ -304,10 +313,14 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
                       Units::convert(Units::Kilometer, Units::NauticalMile))));
       const std::string bbase =
           boost::str(boost::format("%9.4f") % a.hollandB());
-      const std::string b1 = boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(0));
-      const std::string b2 = boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(1));
-      const std::string b3 = boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(2));
-      const std::string b4 = boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(3));
+      const std::string b1 =
+          boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(0));
+      const std::string b2 =
+          boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(1));
+      const std::string b3 =
+          boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(2));
+      const std::string b4 =
+          boost::str(boost::format("%9.4f") % a.isotach(i)->hollandB()->at(3));
 
       const std::string vmax1 =
           boost::str(boost::format("%9.4f") %
@@ -341,8 +354,9 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
           ir1 % ir2 % ir3 % ir4 % backgroundPressure % rmax % heading %
           forwardSpeed % a.stormName() % cycleNumber % a.nIsotach() %
           a.isotach(i)->quadFlag()->at(0) % a.isotach(i)->quadFlag()->at(1) %
-          a.isotach(i)->quadFlag()->at(2) % a.isotach(i)->quadFlag()->at(3) % ir1 % ir2 % ir3 % ir4 % bbase %
-          b1 % b2 % b3 % b4 % vmax1 % vmax2 % vmax3 % vmax4);
+          a.isotach(i)->quadFlag()->at(2) % a.isotach(i)->quadFlag()->at(3) %
+          ir1 % ir2 % ir3 % ir4 % bbase % b1 % b2 % b3 % b4 % vmax1 % vmax2 %
+          vmax3 % vmax4);
     }
   }
   f.close();
@@ -350,3 +364,9 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
 Date Atcf::begin_time() const { return m_atcfData.front().datetime(); }
 
 Date Atcf::end_time() const { return m_atcfData.back().datetime(); }
+
+Assumptions *Atcf::assumptions() { return m_assumptions.get(); }
+
+std::shared_ptr<Assumptions> Atcf::assumptions_sharedptr() {
+  return m_assumptions;
+}

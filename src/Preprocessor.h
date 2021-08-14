@@ -27,6 +27,7 @@
 #define PREPROCESSOR_H
 
 #include <iostream>
+#include <memory>
 #include <vector>
 
 #include "Assumptions.h"
@@ -35,7 +36,7 @@
 namespace Gahm {
 class Preprocessor {
  public:
-  Preprocessor(std::vector<AtcfLine> *data, Assumptions *assumptions);
+  explicit Preprocessor(Atcf *atcfData);
 
   int run();
 
@@ -121,8 +122,7 @@ class Preprocessor {
                                    const std::array<double, 4> &quadRotateAngle,
                                    std::array<bool, 4> &vmwBLflag) const;
 
-  std::vector<AtcfLine> *m_data;
-  Assumptions *m_assumptions;
+  Atcf *m_data;
 };
 }  // namespace Gahm
 #endif  // PREPROCESSOR_H

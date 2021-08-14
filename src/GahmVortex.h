@@ -41,7 +41,8 @@ namespace Gahm {
 class GahmVortex {
  public:
   GahmVortex(std::string filename, const std::vector<double> &x,
-             const std::vector<double> &y, Atcf::AtcfFormat format = Atcf::AtcfFormat::BEST_TRACK);
+             const std::vector<double> &y,
+             Atcf::AtcfFormat format = Atcf::AtcfFormat::BEST_TRACK);
 
   std::string filename() const;
 
@@ -59,7 +60,7 @@ class GahmVortex {
   };
 
   const std::string m_filename;
-  std::unique_ptr<Gahm::Assumptions> m_assumptions;
+  std::shared_ptr<Gahm::Assumptions> m_assumptions;
   std::unique_ptr<Gahm::Atcf> m_atcf;
   std::unique_ptr<Gahm::Preprocessor> m_preprocessor;
   std::unique_ptr<Gahm::GahmState> m_state;

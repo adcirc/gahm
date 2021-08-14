@@ -35,20 +35,25 @@
 
 using namespace Gahm;
 
-Vortex::Vortex(AtcfLine *atcf, Assumptions *assumptions)
+Vortex::Vortex(AtcfLine *atcf, std::shared_ptr<Assumptions> assumptions)
     : m_stormData(atcf),
-      m_assumptions(assumptions),
+      m_assumptions(std::move(assumptions)),
       m_currentQuadrant(0),
       m_currentIsotach(0),
-      m_currentRecord(0) {}
+      m_currentRecord(0) {
+  if (!m_assumptions) m_assumptions = std::make_shared<Assumptions>();
+}
 
 Vortex::Vortex(AtcfLine *atcf, const size_t currentRecord,
-               const size_t currentIsotach, Assumptions *assumptions)
+               const size_t currentIsotach,
+               std::shared_ptr<Assumptions> assumptions)
     : m_currentQuadrant(0),
       m_currentIsotach(currentIsotach),
       m_currentRecord(currentRecord),
       m_stormData(atcf),
-      m_assumptions(assumptions) {}
+      m_assumptions(std::move(assumptions)) {
+  if (!m_assumptions) m_assumptions = std::make_shared<Assumptions>();
+}
 
 void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
 
@@ -208,10 +213,11 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 constexpr std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
-  angle = std::fmod(angle+Constants::twopi(),Constants::twopi());
+  angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
   int quadrant = 4 - std::floor(angle / Constants::halfpi());
-  double remainder = Constants::halfpi() - std::fmod(angle, Constants::halfpi());
-  return std::make_pair(quadrant,remainder);
+  double remainder =
+      Constants::halfpi() - std::fmod(angle, Constants::halfpi());
+  return std::make_pair(quadrant, remainder);
 }
 
 /**

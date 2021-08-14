@@ -26,6 +26,7 @@
 #include "Preprocessor.h"
 
 #include <numeric>
+#include <utility>
 
 #include "Constants.h"
 #include "Logging.h"
@@ -33,9 +34,7 @@
 
 using namespace Gahm;
 
-Preprocessor::Preprocessor(std::vector<AtcfLine> *data,
-                           Assumptions *assumptions)
-    : m_data(data), m_assumptions(assumptions) {}
+Preprocessor::Preprocessor(Atcf *atcf) : m_data(atcf) {}
 
 int Preprocessor::run() {
   int ierr = 0;
@@ -78,7 +77,8 @@ int Preprocessor::uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
  * @return error code
  */
 int Preprocessor::calculateOverlandTranslationVelocity() {
-  for (auto it = m_data->begin() + 1; it != m_data->end(); ++it) {
+  for (auto it = m_data->data()->begin() + 1; it != m_data->data()->end();
+       ++it) {
     auto r1 = *(it - 1);
     auto r2 = *(it);
     double u, v, uv;
@@ -99,11 +99,13 @@ int Preprocessor::calculateOverlandTranslationVelocity() {
     it->setStormTranslationVelocities(u, v, uv);
     it->setStormSpeed(uv);
   }
-  m_data->begin()->setStormDirection((m_data->begin() + 1)->stormDirection());
-  m_data->begin()->setStormSpeed((m_data->begin() + 1)->stormSpeed());
-  auto v = (m_data->begin() + 1)->stormTranslationVelocities();
-  m_data->begin()->setStormTranslationVelocities(std::get<0>(v), std::get<1>(v),
-                                                 std::get<2>(v));
+  m_data->data()->begin()->setStormDirection(
+      (m_data->data()->begin() + 1)->stormDirection());
+  m_data->data()->begin()->setStormSpeed(
+      (m_data->data()->begin() + 1)->stormSpeed());
+  auto v = (m_data->data()->begin() + 1)->stormTranslationVelocities();
+  m_data->data()->begin()->setStormTranslationVelocities(
+      std::get<0>(v), std::get<1>(v), std::get<2>(v));
   return 0;
 }
 
@@ -121,7 +123,7 @@ void Preprocessor::setAllRadiiToRmax(CircularArray<double, 4> *radii,
                                      const size_t isotach) {
   std::fill(quadFlag->begin(), quadFlag->end(), 1);
   std::fill(radii->begin(), radii->end(), rmax);
-  m_assumptions->add(generate_assumption(
+  m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
       "No isotachs reported. Assuming a constant "
       "radius (RMAX). Record " +
@@ -143,7 +145,7 @@ void Preprocessor::setMissingRadiiToHalfNonzeroRadii(
   for (auto i = 0; i < radii->size(); ++i) {
     if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.5);
   }
-  m_assumptions->add(generate_assumption(
+  m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
       "One isotach reported. Missing radii are half "
       "the nonzero radius. Record " +
@@ -170,7 +172,7 @@ void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
   for (auto i = 0; i < radii->size(); ++i) {
     if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.25);
   }
-  m_assumptions->add(generate_assumption(
+  m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
       "Two isotachs reported. Missing radii are half "
       "the average of the nonzero radii, Record " +
@@ -195,7 +197,7 @@ void Preprocessor::setMissingRadiiToAverageOfAdjacentRadii(
       radii->set(j, (radii->at(j - 1) + radii->at(j + 1)) * 0.5);
     }
   }
-  m_assumptions->add(generate_assumption(
+  m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
       "Three isotachs reported. Missing radius is half "
       "the nonzero radius on either side. Record " +
@@ -209,7 +211,8 @@ void Preprocessor::setMissingRadiiToAverageOfAdjacentRadii(
  */
 int Preprocessor::calculateRadii() {
   Logging::debug("Beginning to compute missing radii");
-  for (auto ait = m_data->begin(); ait != m_data->end(); ++ait) {
+  for (auto ait = m_data->data()->begin(); ait != m_data->data()->end();
+       ++ait) {
     for (size_t i = 0; i < ait->nIsotach(); ++i) {
       const double radiisum =
           std::accumulate(ait->isotach(i)->isotachRadius()->cbegin(),
@@ -225,7 +228,7 @@ int Preprocessor::calculateRadii() {
                      " " + std::to_string(ait->isotach(i)->quadFlag()->at(2)) +
                      " " + std::to_string(ait->isotach(i)->quadFlag()->at(3)));
 
-      const size_t record = ait - m_data->begin();
+      const size_t record = ait - m_data->data()->begin();
 
       switch (numNonzero) {
         case 0:
@@ -279,22 +282,22 @@ int Preprocessor::generateMissingPressureData(
     const HurricanePressure::PressureMethod &method) {
   HurricanePressure hp(method);
   double vmax_global = 0.0;
-  for (auto it = m_data->begin(); it != m_data->end(); ++it) {
+  for (auto it = m_data->data()->begin(); it != m_data->data()->end(); ++it) {
     vmax_global = std::max(vmax_global, it->vmax());
     if (it->centralPressure() <= 0.0) {
-      if (it == m_data->begin()) {
+      if (it == m_data->data()->begin()) {
         it->setCentralPressure(
             HurricanePressure::computeInitialPressureEstimate(it->vmax()));
-        m_assumptions->add(
-            generate_assumption(Assumption::MINOR,
-                                "Pressure data was assumed using initial "
-                                "pressure estimate method. Record " +
-                                    std::to_string(it - m_data->begin())));
+        m_data->assumptions()->add(generate_assumption(
+            Assumption::MINOR,
+            "Pressure data was assumed using initial "
+            "pressure estimate method. Record " +
+                std::to_string(it - m_data->data()->begin())));
       } else {
         it->setCentralPressure(hp.computePressure(
             it->vmax(), vmax_global, (it - 1)->vmax(),
             (it - 1)->centralPressure(), it->lat(), it->uvTrans()));
-        m_assumptions->add(generate_assumption(
+        m_data->assumptions()->add(generate_assumption(
             Assumption::MINOR,
             "Pressure was computed as " +
                 std::to_string(it->centralPressure()) +
@@ -305,7 +308,7 @@ int Preprocessor::generateMissingPressureData(
                 "mb, lat=" + std::to_string(it->lat()) + ", speed=" +
                 std::to_string(it->uvTrans()) + "m/s, with method=" +
                 HurricanePressure::pressureMethodString(hp.pressureMethod()) +
-                " for record " + std::to_string(it - m_data->begin())));
+                " for record " + std::to_string(it - m_data->data()->begin())));
       }
     }
   }
@@ -314,7 +317,7 @@ int Preprocessor::generateMissingPressureData(
 
 int Preprocessor::computeParameters() {
   size_t rec_counter = 0;
-  for (auto &a : *(m_data)) {
+  for (auto &a : *(m_data->data())) {
     //...Compute the global parameters for this period in the storm
     const auto stormMotion =
         Preprocessor::computeStormMotion(a.stormSpeed(), a.stormDirection());
@@ -366,7 +369,8 @@ void Preprocessor::convergeInwardRotationAngle(
 
     //...Create a new vortex object and compute the radius to max wind
     // in each quadrant of the storm
-    Vortex v(&a, rec_counter, i, m_assumptions);
+
+    Vortex v(&a, rec_counter, i, m_data->assumptions_sharedptr());
     v.computeRadiusToWind();
   }
 }
@@ -380,8 +384,7 @@ std::array<double, 4> Preprocessor::computeQuadRotateAngle(const AtcfLine &a,
       initial_quadRotateAngle};
   if (i > 0) {
     for (auto j = 0; j < 4; ++j) {
-      quadRotateAngle[j] =
-          Constants::frictionAngle(
+      quadRotateAngle[j] = Constants::frictionAngle(
           a.isotach(i)->isotachRadius()->at(j), a.isotach(i)->rmax()->at(j));
     }
   }
