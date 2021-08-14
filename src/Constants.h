@@ -138,12 +138,17 @@ static constexpr double calcHollandB(double vmax, double p0, double pinf) {
 }
 
 static constexpr double frictionAngle(double r, double rmx) noexcept {
+  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
+  constexpr double degree1 = deg2rad;
+  constexpr double degree10 = 10.0 * deg2rad;
+  constexpr double degree25 = 25.0 * deg2rad;
+  constexpr double degree75 = 75.0 * deg2rad;
   if (0.0 < r && r < rmx) {
-    return 10.0 * r / rmx;
+    return degree10 * r / rmx;
   } else if (rmx <= r && r < 1.2 * rmx) {
-    return 10.0 + 75.0 * (r / rmx - 1.0);
+    return degree10 + degree75 * (r / rmx - degree1);
   } else if (r >= 1.2 * rmx) {
-    return 25.0;
+    return degree25;
   } else {
     return 0.0;
   }

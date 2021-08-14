@@ -27,6 +27,7 @@
 #define PARAMETERPACK_H
 
 #include <array>
+#include <iostream>
 
 namespace Gahm {
 class ParameterPack {
@@ -38,9 +39,16 @@ class ParameterPack {
   constexpr double radiusToMaxWinds() const { return m_data[1]; }
   constexpr double radiusToMaxWindsTrue() const { return m_data[2]; }
   constexpr double hollandB() const { return m_data[3]; }
+  
+  void printToScreen() const {
+    std::cout << "   vmaxBoundaryLayer: " << vmaxBoundaryLayer() << std::endl;
+    std::cout << "    radiusToMaxWinds: " << radiusToMaxWinds() << std::endl;
+    std::cout << "radiusToMaxWindsTrue: " << radiusToMaxWindsTrue() << std::endl;
+    std::cout << "            hollandB: " << hollandB() << std::endl;
+  }
 
  private:
-  std::array<double, 4> m_data;
+  const std::array<double, 4> m_data;
 };
 }  // namespace Gahm
 #endif  // PARAMETERPACK_H

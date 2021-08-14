@@ -27,6 +27,7 @@
 #define GAHM_SRC_STORMPARAMETERS_H_
 
 #include "Constants.h"
+#include <iostream>
 
 namespace Gahm {
 class StormParameters {
@@ -70,6 +71,19 @@ class StormParameters {
   void setUvtrans(double uvtrans) { m_uvtrans = uvtrans; }
   double corio() const { return m_corio; }
   void setCorio(double corio) { m_corio = corio; }
+
+  void printToScreen() const {
+    std::cout << "Cycle: " << cycle() << std::endl;
+    std::cout << "WeightRatio: " << wtratio() << std::endl;
+    std::cout << "Latitude: " << latitude() << std::endl;
+    std::cout << "Longitude: " << longitude() << std::endl;
+    std::cout << "centralPressure: " << centralPressure() << std::endl;
+    std::cout << "backgroundPressure: " << backgroundPressure() << std::endl;
+    std::cout << "vmax: " << vmax() << std::endl;
+    std::cout << "utrans: " << utrans() << std::endl;
+    std::cout << "vtrans: " << vtrans() << std::endl;
+    std::cout << "corio: " << corio() << std::endl;
+  }
 
  private:
   int m_cycle;

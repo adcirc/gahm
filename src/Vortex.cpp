@@ -185,7 +185,7 @@ int Vortex::computeRadiusToWind() {
 std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               double angle,
                                               const double whichWay) noexcept {
-  if (whichWay >= 0.0) angle *= -1.0;
+  if (whichWay < 0.0) angle *= -1.0;
   const double cosA = std::cos(angle);
   const double sinA = std::sin(angle);
   return std::make_pair(x * cosA - y * sinA, x * sinA + y * cosA);
