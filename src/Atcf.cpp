@@ -86,25 +86,33 @@ int Atcf::read() {
   }
 
   while (!f.eof()) {
-    std::string line;
-    std::getline(f, line);
-
-    AtcfLine a = [&]() {
-      if (m_format == BEST_TRACK) {
-        return AtcfLine::parseBestTrackLine(line);
-      } else if (m_format == ASWIP) {
-        return AtcfLine::parseAswipLine(line);
-      } else {
-        gahm_throw_exception("Invalid file format specified.");
-      }
-    }();
-
-    if (!a.isNull()) {
-      m_atcfData.push_back(a);
-    }
+    auto a = this->parseNextLine(f);
+    if (!a.isNull()) m_atcfData.push_back(a);
   }
   f.close();
 
+  if (m_format == ASWIP)
+    this->computeAswipDatetime(m_atcfData[0].referenceDatetime());
+
+  this->organizeAtcfData();
+
+  return 0;
+}
+
+AtcfLine Atcf::parseNextLine(std::ifstream &f) {
+  std::string line;
+  std::getline(f, line);
+  if (m_format == BEST_TRACK) {
+    return AtcfLine::parseBestTrackLine(line);
+  } else if (m_format == ASWIP) {
+    return AtcfLine::parseAswipLine(line);
+  } else {
+    gahm_throw_exception("Invalid file format specified.");
+    return {};
+  }
+}
+
+void Atcf::organizeAtcfData() {
   std::sort(m_atcfData.begin(), m_atcfData.end());
   for (auto i = m_atcfData.size() - 1; i >= 1; --i) {
     if (AtcfLine::isSameForecastPeriod(m_atcfData[i], m_atcfData[i - 1])) {
@@ -114,7 +122,12 @@ int Atcf::read() {
       m_atcfData.erase(m_atcfData.begin() + i);
     }
   }
-  return 0;
+}
+
+void Atcf::computeAswipDatetime(const Date &referenceDate) {
+  for (auto &a : m_atcfData) {
+    a.setDatetime(referenceDate + a.tau() * 3600);
+  }
 }
 
 /**

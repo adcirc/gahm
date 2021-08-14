@@ -110,6 +110,7 @@ class CircularArray {
   std::array<T, array_size> m_data;
 
   static constexpr size_t mod_floor(int position) noexcept {
+    if (position >= 0 && position < array_size) return position;
     return ((position % array_size) + array_size) % array_size;
   }
 };

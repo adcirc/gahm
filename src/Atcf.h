@@ -87,6 +87,10 @@ class Atcf {
   std::shared_ptr<Assumptions> assumptions_sharedptr();
 
  private:
+  AtcfLine parseNextLine(std::ifstream &f);
+  void computeAswipDatetime(const Date &referenceDate);
+  void organizeAtcfData();
+
   /// Filename of the Atcf file to use
   std::string m_filename;
 

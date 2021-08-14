@@ -16,7 +16,7 @@ owi.addDomain(wind_domain,"katrina.221","katrina.222")
 xloc = wind_domain.xpoints();
 yloc = wind_domain.ypoints();
 
-gahm_model = pygahm.Gahm("../testing/test_files/bal122005.dat",xloc,yloc)
+gahm_model = pygahm.GahmVortex("../testing/test_files/bal122005.dat",xloc,yloc)
 
 for d in range(start_date.toSeconds(),end_date.toSeconds(),dt):
     now = pygahm.Date(d)

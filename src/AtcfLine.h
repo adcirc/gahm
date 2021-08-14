@@ -56,8 +56,8 @@ class AtcfLine {
   Gahm::Date referenceDatetime() const;
   void setReferenceDatetime(const Gahm::Date &datetime);
 
-  int technum() const;
-  void setTechnum(int technum);
+//  int technum() const;
+//  void setTechnum(int technum);
 
   std::string techstring() const;
   void setTechstring(const std::string &techstring);
@@ -172,25 +172,13 @@ class AtcfLine {
   double vmaxBl() const;
   void setVmaxBl(double v);
 
-  const std::array<size_t, 4> &lastIsotach() const;
+  const std::array<unsigned short, 4> &lastIsotach() const;
   void generateLastIsotach();
 
   std::vector<double> isotachRadii(int quad) const;
 
  private:
   static AtcfLine parseLine(const std::string &line, int formatid);
-
-  /// Is this record null
-  bool m_null;
-
-  /// Cyclone number
-  int m_cycloneNumber;
-
-  /// Technique number
-  int m_technum;
-
-  /// Forecast hour
-  int m_tau;
 
   /// Storm center latitude
   double m_lat;
@@ -249,39 +237,52 @@ class AtcfLine {
   /// Current date/time
   Gahm::Date m_datetime;
 
+  /// Last isotach position (guard against a zero isotach)
+  std::array<unsigned short, 4> m_lastIsotach;
+
   /// Vector of storm isotachs
   std::vector<Isotach> m_isotach;
 
-  /// Last isotach position (guard against a zero isotach)
-  std::array<size_t, 4> m_lastIsotach;
+  /// Cyclone number
+  int m_cycloneNumber;
 
-  /// Basin where the cyclone occurs
+  /// Forecast hour
+  int m_tau;
+
+  // Technique Number
+  //int m_technum;
+
+  /// Basin
   std::string m_basin;
 
-  /// Technique name
-  std::string m_techstring;
+  /// Initials
+  std::string m_initials;
 
-  /// System depth
+  /// System Depth
   std::string m_systemDepth;
 
   /// Storm name
   std::string m_stormName;
 
+  /// Technique String
+  std::string m_techstring;
+
   /// Maximum development level that the storm has achieved
   std::string m_maxDevelopmentLevel;
 
-  /// Forecaster initials
-  std::string m_initials;
-
-  /// Subregion where the storm occurs
+  /// Subregion
   char m_subregion;
+
+  /// Is this record null
+  bool m_null;
 
   static std::vector<std::string> splitString(const std::string &line);
 
 #ifndef SWIG
   template <typename T, typename = typename std::enable_if<
-                            std::is_arithmetic<T>::value, T>::type>
+                            std::is_fundamental<T>::value, T>::type>
   static T readValueCheckBlank(const std::string &line);
+
 #endif
 };
 }  // namespace Gahm

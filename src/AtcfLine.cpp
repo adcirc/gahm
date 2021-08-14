@@ -42,8 +42,6 @@ AtcfLine::AtcfLine()
       m_cycloneNumber(0),
       m_refDatetime(1970, 1, 1),
       m_datetime(1970, 1, 1),
-      m_technum(0),
-      m_techstring("NA"),
       m_tau(0),
       m_lat(0.0),
       m_lon(0.0),
@@ -65,7 +63,10 @@ AtcfLine::AtcfLine()
       m_uv(0.0),
       m_u(0.0),
       m_v(0.0),
-      m_null(true) {}
+      m_null(true),
+      m_vmaxbl(0.0),
+      m_hollandB(1.0),
+      m_lastIsotach({0, 0, 0, 0}) {}
 
 /**
  * Static function to parse an atcf line text using boost. Places data
@@ -74,6 +75,10 @@ AtcfLine::AtcfLine()
  * @return AtcfLine object. Will have null field set if unsuccessful
  */
 AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
+  constexpr double kt2ms = Units::convert(Units::Knot, Units::MetersPerSecond);
+  constexpr double nm2km =
+      Units::convert(Units::NauticalMile, Units::Kilometer);
+
   if (line.size() < 150) return {};
   AtcfLine a;
   auto split = AtcfLine::splitString(line);
@@ -84,7 +89,7 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
            AtcfLine::readValueCheckBlank<int>(split[2].substr(4, 2)),
            AtcfLine::readValueCheckBlank<int>(split[2].substr(6, 2)),
            AtcfLine::readValueCheckBlank<int>(split[2].substr(8, 2))));
-  a.setTechnum(AtcfLine::readValueCheckBlank<int>(split[3]));
+  // a.setTechnum(AtcfLine::readValueCheckBlank<int>(split[3]));
   a.setTechstring(split[4]);
   a.setTau(AtcfLine::readValueCheckBlank<int>(split[5]));
 
@@ -102,45 +107,63 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   auto lonew = split[7].back();
   lon = lonew == 'W' ? lon * -1.0 : lon;
   a.setLon(lon);
-  a.setVmax(AtcfLine::readValueCheckBlank<double>(split[8]) *
-            Units::convert(Units::Knot, Units::MetersPerSecond));
+  a.setVmax(AtcfLine::readValueCheckBlank<double>(split[8]) * kt2ms);
   a.setCentralPressure(AtcfLine::readValueCheckBlank<double>(split[9]));
 
-  auto r1 = AtcfLine::readValueCheckBlank<double>(split[13]) *
-            Units::convert(Units::NauticalMile, Units::Kilometer);
-  auto r2 = AtcfLine::readValueCheckBlank<double>(split[14]) *
-            Units::convert(Units::NauticalMile, Units::Kilometer);
-  auto r3 = AtcfLine::readValueCheckBlank<double>(split[15]) *
-            Units::convert(Units::NauticalMile, Units::Kilometer);
-  auto r4 = AtcfLine::readValueCheckBlank<double>(split[16]) *
-            Units::convert(Units::NauticalMile, Units::Kilometer);
+  auto r1 = AtcfLine::readValueCheckBlank<double>(split[13]) * nm2km;
+  auto r2 = AtcfLine::readValueCheckBlank<double>(split[14]) * nm2km;
+  auto r3 = AtcfLine::readValueCheckBlank<double>(split[15]) * nm2km;
+  auto r4 = AtcfLine::readValueCheckBlank<double>(split[16]) * nm2km;
 
   Isotach i(Isotach::codeFromString(split[12]),
-            AtcfLine::readValueCheckBlank<double>(split[11]) *
-                Units::convert(Units::Knot, Units::MetersPerSecond),
-            r1, r2, r3, r4);
+            AtcfLine::readValueCheckBlank<double>(split[11]) * kt2ms, r1, r2,
+            r3, r4);
 
   if (formatid == 0) a.addIsotach(i);
 
   a.setLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[17]));
-  a.setRadiusLastClosedIsobar(
-      AtcfLine::readValueCheckBlank<double>(split[18]) *
-      Units::convert(Units::NauticalMile, Units::Kilometer));
-  a.setRadiusMaxWinds(AtcfLine::readValueCheckBlank<double>(split[19]) *
-                      Units::convert(Units::NauticalMile, Units::Kilometer));
-  a.setGusts(AtcfLine::readValueCheckBlank<double>(split[20]) *
-             Units::convert(Units::Knot, Units::MetersPerSecond));
-  a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) *
-                   Units::convert(Units::NauticalMile, Units::Kilometer));
+  a.setRadiusLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[18]) *
+                              nm2km);
+  a.setRadiusMaxWinds(AtcfLine::readValueCheckBlank<double>(split[19]) * nm2km);
+  a.setGusts(AtcfLine::readValueCheckBlank<double>(split[20]) * kt2ms);
+  a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) * nm2km);
   a.setSubregion(split[22][0]);
   a.setInitials(split[24]);
   a.setStormDirection(AtcfLine::readValueCheckBlank<double>(split[25]));
-  a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) *
-                  Units::convert(Units::Knot, Units::MetersPerSecond));
+  a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) * kt2ms);
   a.setStormName(split[27]);
   a.setCoriolis(Constants::coriolis(a.lat()));
 
   if (formatid == 1) {
+    assert(split.size() >= 46);
+
+    auto null0 = AtcfLine::readValueCheckBlank<bool>(split[30]);
+    auto null1 = AtcfLine::readValueCheckBlank<bool>(split[31]);
+    auto null2 = AtcfLine::readValueCheckBlank<bool>(split[32]);
+    auto null3 = AtcfLine::readValueCheckBlank<bool>(split[33]);
+    i.isotachRadiusNullInInput() = {null0, null1, null2, null3};
+
+    auto ir0 = AtcfLine::readValueCheckBlank<double>(split[34]) * nm2km;
+    auto ir1 = AtcfLine::readValueCheckBlank<double>(split[35]) * nm2km;
+    auto ir2 = AtcfLine::readValueCheckBlank<double>(split[36]) * nm2km;
+    auto ir3 = AtcfLine::readValueCheckBlank<double>(split[37]) * nm2km;
+    i.isotachRadius() = {ir0, ir1, ir2, ir3};
+
+    a.setHollandB(AtcfLine::readValueCheckBlank<double>(split[38]));
+
+    auto b0 = AtcfLine::readValueCheckBlank<double>(split[39]);
+    auto b1 = AtcfLine::readValueCheckBlank<double>(split[40]);
+    auto b2 = AtcfLine::readValueCheckBlank<double>(split[41]);
+    auto b3 = AtcfLine::readValueCheckBlank<double>(split[42]);
+    i.hollandB() = {b0, b1, b2, b3};
+
+    auto v0 = AtcfLine::readValueCheckBlank<double>(split[43]) * kt2ms;
+    auto v1 = AtcfLine::readValueCheckBlank<double>(split[44]) * kt2ms;
+    auto v2 = AtcfLine::readValueCheckBlank<double>(split[45]) * kt2ms;
+    auto v3 = AtcfLine::readValueCheckBlank<double>(split[46]) * kt2ms;
+    i.vmaxBl() = {v0, v1, v2, v3};
+
+    a.addIsotach(i);
   }
 
   a.setIsNull(false);
@@ -170,6 +193,9 @@ T AtcfLine::readValueCheckBlank(const std::string &line) {
       return stoi(line);
     } else if (std::is_floating_point<T>::value) {
       return stod(line);
+    } else if (std::is_same<bool, T>::value) {
+      auto i = stoi(line);
+      return i != 0;
     }
   }
 }
@@ -232,9 +258,9 @@ void AtcfLine::setReferenceDatetime(const Date &datetime) {
   m_refDatetime = datetime;
 }
 
-int AtcfLine::technum() const { return m_technum; }
-
-void AtcfLine::setTechnum(int technum) { m_technum = technum; }
+// int AtcfLine::technum() const { return m_technum; }
+//
+// void AtcfLine::setTechnum(int technum) { m_technum = technum; }
 
 std::string AtcfLine::techstring() const { return m_techstring; }
 
@@ -364,8 +390,9 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
      << "\n";
   os << "                Reference Date: "
      << atcf.referenceDatetime().toString() << "\n";
-  os << "                     Technique: " << atcf.techstring() << "("
-     << atcf.technum() << ")\n";
+  os << "                     Technique: "
+     << atcf.techstring();  //<< "("
+                            //<< atcf.technum() << ")\n";
   os << "                 Forecast Hour: " << atcf.tau() << " hours\n";
   os << "                     Longitude: " << atcf.lon() << " degrees east\n";
   os << "                      Latitude: " << atcf.lat() << " degrees north\n";
@@ -442,21 +469,22 @@ double AtcfLine::vmaxBl() const { return m_vmaxbl; }
 
 void AtcfLine::setVmaxBl(double v) { m_vmaxbl = v; }
 
-const std::array<size_t, 4> &AtcfLine::lastIsotach() const {
+const std::array<unsigned short, 4> &AtcfLine::lastIsotach() const {
   return m_lastIsotach;
 }
 
 void AtcfLine::generateLastIsotach() {
-  std::array<size_t, 4> last_iso = {0, 0, 0, 0};
+  std::array<unsigned short, 4> last_iso = {0, 0, 0, 0};
   for (auto iso = m_isotach.begin(); iso != m_isotach.end(); ++iso) {
     for (auto j = 0; j < 4; ++j) {
       if (iso->quadFlag().at(j)) {
-        last_iso[j] = iso - m_isotach.begin();
+        last_iso[j] = static_cast<unsigned short>(iso - m_isotach.begin());
       }
     }
   }
   m_lastIsotach = last_iso;
 }
+
 std::vector<double> AtcfLine::isotachRadii(int quad) const {
   std::vector<double> radii;
   radii.reserve(m_isotach.size());

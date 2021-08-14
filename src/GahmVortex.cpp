@@ -45,7 +45,7 @@ GahmVortex::GahmVortex(std::string filename, const std::vector<double> &x,
     gahm_throw_exception("Could not read the ATCF file");
   }
   this->m_preprocessor = std::make_unique<Preprocessor>(m_atcf.get());
-  this->m_preprocessor->run();
+  if (format == Atcf::AtcfFormat::BEST_TRACK) this->m_preprocessor->run();
 }
 
 std::string GahmVortex::filename() const { return m_filename; }

@@ -41,6 +41,7 @@ Isotach::Isotach()
       m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
       m_quadFlag({false, false, false, false}),
       m_quadrantVr({0.0, 0.0, 0.0, 0.0}),
+      m_phi({1.0, 1.0, 1.0, 1.0}),
       m_radiusCode(NONE) {}
 
 Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
@@ -53,6 +54,7 @@ Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
       m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
       m_quadFlag({false, false, false, false}),
       m_quadrantVr({0.0, 0.0, 0.0, 0.0}),
+      m_phi({1.0, 1.0, 1.0, 1.0}),
       m_radiusCode(code) {}
 
 double Isotach::windSpeed() const { return m_windSpeed; }

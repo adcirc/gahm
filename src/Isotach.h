@@ -154,15 +154,15 @@ class Isotach {
 
  private:
   double m_windSpeed;
-  Gahm::Isotach::RadiusCode m_radiusCode;
   Gahm::CircularArray<double, 4> m_isotachRadius;
   Gahm::CircularArray<double, 4> m_rmax;
   Gahm::CircularArray<double, 4> m_hollandB;
   Gahm::CircularArray<double, 4> m_vmaxBL;
-  Gahm::CircularArray<double, 4> m_quadrantVr;
   Gahm::CircularArray<double, 4> m_phi;
+  Gahm::CircularArray<double, 4> m_quadrantVr;
   Gahm::CircularArray<bool, 4> m_quadFlag;
   Gahm::CircularArray<bool, 4> m_isotachRadiusNullInInput;
+  Gahm::Isotach::RadiusCode m_radiusCode;
 };
 }  // namespace Gahm
 std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso);

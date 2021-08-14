@@ -20,6 +20,10 @@ if(GAHM_ENABLE_TESTING)
       ${TESTNAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                              ${CMAKE_BINARY_DIR}/testcases)
 
+    if(GAHM_ENABLE_FORTRAN)
+        target_include_directories(${TESTNAME} PRIVATE ${CMAKE_BINARY_DIR}/CMakeFiles/mod/gahm)
+    endif()
+
     add_test(
       NAME TEST_${TESTNAME}
       COMMAND ${CMAKE_BINARY_DIR}/testcases/${TESTNAME}
