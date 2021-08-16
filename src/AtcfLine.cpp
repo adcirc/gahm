@@ -93,7 +93,11 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   a.setTechstring(split[4]);
   a.setTau(AtcfLine::readValueCheckBlank<int>(split[5]));
 
-  if (formatid == 0) a.setDatetime(a.referenceDatetime() + a.tau() * 3600);
+  if (formatid == 0) {
+      a.setDatetime(a.referenceDatetime() + a.tau() * 3600);
+  } else if(formatid == 1) {
+      a.setReferenceDatetime(a.referenceDatetime() - a.tau() * 3600);
+  }
 
   auto lat = AtcfLine::readValueCheckBlank<double>(
                  split[6].substr(0, split[6].length() - 1)) /
@@ -118,8 +122,6 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   Isotach i(Isotach::codeFromString(split[12]),
             AtcfLine::readValueCheckBlank<double>(split[11]) * kt2ms, r1, r2,
             r3, r4);
-
-  if (formatid == 0) a.addIsotach(i);
 
   a.setLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[17]));
   a.setRadiusLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[18]) *
@@ -147,7 +149,7 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto ir1 = AtcfLine::readValueCheckBlank<double>(split[35]) * nm2km;
     auto ir2 = AtcfLine::readValueCheckBlank<double>(split[36]) * nm2km;
     auto ir3 = AtcfLine::readValueCheckBlank<double>(split[37]) * nm2km;
-    i.isotachRadius() = {ir0, ir1, ir2, ir3};
+    i.rmax() = {ir0, ir1, ir2, ir3};
 
     a.setHollandB(AtcfLine::readValueCheckBlank<double>(split[38]));
 
@@ -163,8 +165,9 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto v3 = AtcfLine::readValueCheckBlank<double>(split[46]) * kt2ms;
     i.vmaxBl() = {v0, v1, v2, v3};
 
-    a.addIsotach(i);
   }
+    
+  a.addIsotach(i);
 
   a.setIsNull(false);
   return a;
@@ -488,8 +491,9 @@ void AtcfLine::generateLastIsotach() {
 std::vector<double> AtcfLine::isotachRadii(int quad) const {
   std::vector<double> radii;
   radii.reserve(m_isotach.size());
-  for (auto i : m_isotach) {
-    radii.emplace_back(i.rmax().at(quad));
+  for (auto i = m_isotach.rbegin(); i != m_isotach.rend(); ++i) {
+    auto v = *i;
+    radii.push_back(v.rmax().at(quad));
   }
   return radii;
 }

@@ -27,6 +27,7 @@
 
 #include <cassert>
 #include <utility>
+#include <algorithm>
 
 #include "Constants.h"
 #include "Interpolation.h"
@@ -212,11 +213,30 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 constexpr std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
-  angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
-  int quadrant = 4 - std::floor(angle / Constants::halfpi());
-  double remainder =
-      Constants::halfpi() - std::fmod(angle, Constants::halfpi());
-  return std::make_pair(quadrant, remainder);
+  //angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
+  //int quadrant = 4 - std::floor(angle / Constants::halfpi());
+  //double remainder =
+  //    Constants::halfpi() - std::fmod(angle, Constants::halfpi());
+  //return std::make_pair(quadrant, remainder);
+  constexpr double deg2rad = Units::convert(Units::Degree,Units::Radian);
+  constexpr double angle_45 = 45.0 * deg2rad;
+  constexpr double angle_135 = 135.0 * deg2rad;
+  constexpr double angle_225 = 225.0 * deg2rad;
+  constexpr double angle_315 = 315.0 * deg2rad;
+  angle = std::fmod(angle, Constants::twopi());
+  if(angle <= angle_45){
+    return std::make_pair(4,angle_45 + angle);
+  } else if( angle <= angle_135 ){
+    return std::make_pair(1, angle - angle_45);
+  } else if( angle <= angle_225){
+    return std::make_pair(2, angle - angle_135);
+  } else if( angle <= angle_315){
+    return std::make_pair(3, angle - angle_225);
+  } else if( angle > angle_315){
+    return std::make_pair(4, angle - angle_315);
+  }
+  gahm_throw_exception("Invalid angle");
+  return std::make_pair(0,0.0);
 }
 
 /**
@@ -308,10 +328,10 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
 
   iso -= 1;
 
-  if (distance >= m_stormData->isotach(iso).rmax().at(quad)) {
-    return m_stormData->isotach(iso).parameterPack(quad);
-  } else if (distance <= m_stormData->isotach(0).rmax().at(quad)) {
+  if (distance >= m_stormData->isotach(0).rmax().at(quad)) {
     return m_stormData->isotach(0).parameterPack(quad);
+  } else if (distance <= m_stormData->isotach(iso).rmax().at(quad)) {
+    return m_stormData->isotach(iso).parameterPack(quad);
   } else {
     const auto radii = m_stormData->isotachRadii(quad);
     const auto it = std::lower_bound(radii.begin(), radii.end(), distance) - 1;
@@ -319,10 +339,8 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     const auto r1 = *(it);
     const auto r2 = *(it + 1);
     const double fac = (distance - r1) / (r2 - r1);
-
     const auto p1 = m_stormData->isotach(p).parameterPack(quad);
     const auto p2 = m_stormData->isotach(p + 1).parameterPack(quad);
-
     double vmbl = Interpolation::linearInterp(fac, p1.vmaxBoundaryLayer(),
                                               p2.vmaxBoundaryLayer());
     double rmax = Interpolation::linearInterp(fac, p1.radiusToMaxWinds(),
@@ -330,7 +348,6 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     double b = Interpolation::linearInterp(fac, p1.hollandB(), p2.hollandB());
     double rmaxtrue = Interpolation::linearInterp(
         fac, p1.radiusToMaxWindsTrue(), p2.radiusToMaxWindsTrue());
-
     return {vmbl, rmax, rmaxtrue, b};
   }
 }

@@ -109,3 +109,4 @@ std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso) {
      << iso.isotachRadius().at(3) << "]";
   return os;
 }
+

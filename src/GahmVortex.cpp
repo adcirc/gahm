@@ -96,8 +96,10 @@ constexpr double GahmVortex::computePhi(const ParameterPack &p,
 ParameterPack GahmVortex::generateStormParameterPackForLocation(
     const StormParameters &sp, const Vortex &v1, const Vortex &v2,
     int i) const {
-  auto pack1 = v1.getParameters(m_state->azimuth(i), m_state->distance(i));
-  auto pack2 = v2.getParameters(m_state->azimuth(i), m_state->distance(i));
+  constexpr double rotation = Constants::pi() + Constants::quarterpi();
+  double azimuthRotated = m_state->azimuth(i) + rotation; 
+  auto pack1 = v1.getParameters(azimuthRotated, m_state->distance(i));
+  auto pack2 = v2.getParameters(azimuthRotated, m_state->distance(i));
   double rmax = Interpolation::linearInterp(
       sp.wtratio(), pack1.radiusToMaxWinds(), pack2.radiusToMaxWinds());
   double rmaxtrue = Interpolation::linearInterp(
@@ -109,11 +111,12 @@ ParameterPack GahmVortex::generateStormParameterPackForLocation(
   return {vmaxbl, rmax, rmaxtrue, b};
 }
 
-GahmVortex::uvp GahmVortex::getUvpr(const double distance, const double angle,
+GahmVortex::uvp GahmVortex::getUvpr(const double distance, double angle,
                                     const ParameterPack &pack,
                                     const double utrans, const double vtrans,
                                     const StormParameters &s) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
+  constexpr double deg2rad = Units::convert(Units::Radian, Units::Degree);
 
   if (distance < 1.0 * Units::convert(Units::NauticalMile, Units::Meter)) {
     return {0.0, 0.0, s.centralPressure()};
