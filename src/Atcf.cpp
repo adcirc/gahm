@@ -257,7 +257,7 @@ StormParameters Atcf::getStormParameters(const int cycle,
                                              m_atcfData[cycle].uvTrans(),
                                              m_atcfData[cycle + 1].uvTrans()));
   }
-  s.setCorio(Constants::coriolis(s.latitude()));
+  s.setCorio(Physical::coriolis(s.latitude()));
 
   return s;
 }
@@ -279,7 +279,7 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
     const std::string mslp =
         boost::str(boost::format("%4i") % (std::round(a.centralPressure())));
     const std::string backgroundPressure = boost::str(
-        boost::format("%4i") % std::round(Constants::backgroundPressure()));
+        boost::format("%4i") % std::round(Physical::backgroundPressure()));
     const std::string rmax = boost::str(
         boost::format("%4i") %
         (std::round(a.radiusMaxWinds() *

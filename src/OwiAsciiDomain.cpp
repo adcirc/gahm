@@ -29,7 +29,9 @@
 #include <utility>
 
 #include "Logging.h"
-#include "boost/format.hpp"
+
+#define FMT_HEADER_ONLY
+#include "fmt/core.h"
 
 using namespace Gahm;
 
@@ -37,49 +39,28 @@ OwiAsciiDomain::OwiAsciiDomain(const WindGrid *grid, const Date &startDate,
                                const Date &endDate,
                                const unsigned int time_step,
                                std::string pressureFile, std::string windFile)
-    : m_isOpen(false),
+    : m_isOpen(true),
       m_windGrid(grid),
       m_startDate(startDate),
       m_endDate(endDate),
       m_previousDate(startDate - time_step),
       m_timestep(time_step),
       m_pressureFile(std::move(pressureFile)),
-      m_windFile(std::move(windFile)),
-      m_ofstream_pressure(std::make_unique<std::ofstream>(pressureFile)),
-      m_ofstream_wind(std::make_unique<std::ofstream>(windFile)) {
+      m_windFile(std::move(windFile)) {
+  m_file_pressure = fopen(m_pressureFile.c_str(),"w");
+  m_file_wind = fopen(m_windFile.c_str(),"w");
+  this->write_header();
   assert(startDate < endDate);
-  this->open();
 }
 
 OwiAsciiDomain::~OwiAsciiDomain() {
-  if (m_ofstream_pressure->is_open()) {
-    m_ofstream_pressure->close();
-  }
-  if (m_ofstream_wind->is_open()) {
-    m_ofstream_wind->is_open();
-  }
+  if(m_file_pressure) fclose(m_file_pressure);
+  if(m_file_wind) fclose(m_file_wind);
 }
 
-void OwiAsciiDomain::open() {
-  if (!m_ofstream_pressure->is_open()) {
-    m_ofstream_pressure->open(m_pressureFile);
-  }
-  if (!m_ofstream_wind->is_open()) {
-    m_ofstream_wind->open(m_windFile);
-  }
-  this->write_header();
-  m_isOpen = true;
-}
+std::string OwiAsciiDomain::pressureFile() const { return m_pressureFile; }
 
-void OwiAsciiDomain::close() {
-  if (!m_ofstream_pressure->is_open()) {
-    m_ofstream_pressure->close();
-  }
-  if (!m_ofstream_wind->is_open()) {
-    m_ofstream_wind->is_open();
-  }
-  m_isOpen = false;
-}
+std::string OwiAsciiDomain::windFile() const { return m_windFile; }
 
 int OwiAsciiDomain::write(const Date &date, const std::vector<double> &pressure,
                           const std::vector<double> &wind_u,
@@ -94,12 +75,13 @@ int OwiAsciiDomain::write(const Date &date, const std::vector<double> &pressure,
     gahm_throw_exception("Attempt to write past file end date");
   }
 
-  *(m_ofstream_pressure) << generateRecordHeader(date, m_windGrid);
-  *(m_ofstream_wind) << generateRecordHeader(date, m_windGrid);
+  auto recordHeader = generateRecordHeader(date, m_windGrid);
+  fputs( recordHeader.c_str(), m_file_pressure);
+  fputs( recordHeader.c_str(), m_file_wind);
 
-  OwiAsciiDomain::write_record(m_ofstream_pressure.get(), pressure);
-  OwiAsciiDomain::write_record(m_ofstream_wind.get(), wind_u);
-  OwiAsciiDomain::write_record(m_ofstream_wind.get(), wind_v);
+  OwiAsciiDomain::write_record(m_file_pressure, pressure);
+  OwiAsciiDomain::write_record(m_file_wind, wind_u);
+  OwiAsciiDomain::write_record(m_file_wind, wind_v);
 
   m_previousDate = date;
 
@@ -108,40 +90,40 @@ int OwiAsciiDomain::write(const Date &date, const std::vector<double> &pressure,
 
 void OwiAsciiDomain::write_header() {
   auto header = generateHeaderLine(m_startDate, m_endDate);
-  *(m_ofstream_pressure) << header;
-  *(m_ofstream_wind) << header;
+  fputs(header.c_str(), m_file_pressure);
+  fputs(header.c_str(), m_file_wind);
 }
 
 std::string OwiAsciiDomain::generateHeaderLine(const Date &date1,
                                                const Date &date2) {
-  return boost ::str(
-      boost::format("Oceanweather WIN/PRE Format                         "
-                    "   %4.4i%02d%02i%02i     %4.4i%02d%02i%02i\n") %
-      date1.year() % date1.month() % date1.day() % date1.hour() % date2.year() %
-      date2.month() % date2.day() % date2.hour());
+  return fmt::format(
+      "Oceanweather WIN/PRE Format                         "
+      "   {:4d}{:02d}{:02d}{:02d}     {:4d}{:02d}{:02d}{:02d}\n",
+      date1.year(), date1.month(), date1.day(), date1.hour(), date2.year(),
+      date2.month(), date2.day(), date2.hour());
 }
 
 std::string OwiAsciiDomain::generateRecordHeader(const Date &date,
                                                  const WindGrid *grid) {
-  return boost::str(
-      boost::format("iLat=%4diLong=%4dDX=%6.4fDY=%6.4fSWLat=%8.5fSWLon=%8.4fDT="
-                    "%4.4i%02i%02i%02i%02i\n") %
-      grid->nj() % grid->ni() % grid->dy() % grid->dx() %
-      grid->bottom_left().y() % grid->bottom_left().x() % date.year() %
-      date.month() % date.day() % date.hour() % date.minute());
+  return fmt::format(
+      "iLat={:4d}iLong={:4d}DX={:6.4f}DY={:6.4f}SWLat={:8.5f}SWLon={:8.4f}DT={:"
+      "04d}{:02d}{:02d}{:02d}{:02d}\n",
+      grid->nj(), grid->ni(), grid->dy(), grid->dx(), grid->bottom_left().y(),
+      grid->bottom_left().x(), date.year(), date.month(), date.day(),
+      date.hour(), date.minute());
 }
 
-void OwiAsciiDomain::write_record(std::ofstream *stream,
+void OwiAsciiDomain::write_record(FILE *stream,
                                   const std::vector<double> &value) {
-  const size_t num_records_per_line = 8;
+  constexpr size_t num_records_per_line = 8;
   size_t n = 0;
   for (const auto &v : value) {
-    *(stream) << boost::str(boost::format(" %9.4f") % v);
+    fmt::print(stream, " {:9.4f}", v);
     n++;
     if (n == num_records_per_line) {
-      *(stream) << "\n";
+      fputs("\n", stream);
       n = 0;
     }
   }
-  *(stream) << "\n";
+  if(n!=0)fputs( "\n", stream);
 }

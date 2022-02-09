@@ -26,7 +26,7 @@
 #ifndef GAHM_SRC_STORMPARAMETERS_H_
 #define GAHM_SRC_STORMPARAMETERS_H_
 
-#include "Constants.h"
+#include "Physical.h"
 #include <iostream>
 
 namespace Gahm {
@@ -37,8 +37,8 @@ class StormParameters {
         m_wtratio(0.0),
         m_latitude(0.0),
         m_longitude(0.0),
-        m_central_pressure(Constants::backgroundPressure()),
-        m_background_pressure(Constants::backgroundPressure()),
+        m_central_pressure(Physical::backgroundPressure()),
+        m_background_pressure(Physical::backgroundPressure()),
         m_vmax(0.0),
         m_utrans(0.0),
         m_vtrans(0.0),

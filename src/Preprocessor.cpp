@@ -63,7 +63,7 @@ int Preprocessor::run() {
 int Preprocessor::uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
                           double &vv, double &uuvv) {
   const auto dxdy =
-      Constants::sphericalDx(d1.lon(), d1.lat(), d2.lon(), d2.lat());
+      Physical::sphericalDx(d1.lon(), d1.lat(), d2.lon(), d2.lat());
   const double dt = static_cast<double>(d2.datetime().toSeconds() -
                                         d1.datetime().toSeconds());
 
@@ -328,8 +328,8 @@ int Preprocessor::computeParameters() {
         Preprocessor::computeStormMotion(a.stormSpeed(), a.stormDirection());
     a.setVmaxBl(Preprocessor::computeVMaxBL(a.vmax(), stormMotion.uv));
 
-    a.setHollandB(Constants::calcHollandB(a.vmaxBl(), a.centralPressure(),
-                                          Constants::backgroundPressure()));
+    a.setHollandB(Physical::calcHollandB(a.vmaxBl(), a.centralPressure(),
+                                         Physical::backgroundPressure()));
     for (size_t i = 0; i < a.nIsotach(); ++i) {
       rec_counter++;
 
@@ -388,7 +388,7 @@ std::array<double, 4> Preprocessor::computeQuadRotateAngle(const AtcfLine &a,
       initial_quadRotateAngle};
   if (i > 0) {
     for (auto j = 0; j < 4; ++j) {
-      quadRotateAngle[j] = Constants::frictionAngle(
+      quadRotateAngle[j] = Physical::frictionAngle(
           a.isotach(i).isotachRadius().at(j), a.isotach(i).rmax().at(j));
     }
   }
@@ -429,7 +429,7 @@ double Preprocessor::computeQuadrantVrValue(const double vmaxBL,
   const double qvr =
       std::sqrt(std::pow(uvr * mps2kt - gamma * stormMotion.u * mps2kt, 2.0) +
                 std::pow(vvr * mps2kt - gamma * stormMotion.v * mps2kt, 2.0)) /
-      Constants::windReduction();
+      Physical::windReduction();
   return qvr * Units::convert(Units::Knot, Units::MetersPerSecond);
 }
 
@@ -448,7 +448,7 @@ void Preprocessor::recomputeQuadrantVrLoop(
             Preprocessor::computeQuadrantVectorAngle(k, quadRotateAngle);
         double qvr = Preprocessor::computeQuadrantVrValue(quadrantVectorAngle,
                                                           stormMotion, vr);
-        qvr /= Constants::windReduction();
+        qvr /= Physical::windReduction();
         isotach.quadrantVr().set(k, qvr);
         isotach.vmaxBl().set(k, qvr);
       } else {
@@ -458,7 +458,7 @@ void Preprocessor::recomputeQuadrantVrLoop(
         const double gamma =
             Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
         const double qvr2 =
-            (vr - gamma * stormMotion.uv) / Constants::windReduction();
+            (vr - gamma * stormMotion.uv) / Physical::windReduction();
         isotach.quadrantVr().set(k, qvr2);
       }
     } else {
@@ -493,13 +493,13 @@ double Preprocessor::computeGamma(const double uvr, const double vvr,
   const double g1 = std::pow(g0, 2.0);
   const double g2 =
       4.0 * (std::pow(stormMotion.uv * ms2kt, 2.0) -
-             std::pow(vmaxBL * ms2kt, 2.0) * Constants::windReduction() *
-                 Constants::windReduction());
+             std::pow(vmaxBL * ms2kt, 2.0) * Physical::windReduction() *
+                 Physical::windReduction());
   const double g3 = std::pow(vr * ms2kt, 2.0);
   const double g4 =
       2.0 * (std::pow(stormMotion.uv * ms2kt, 2.0) -
-             std::pow(vmaxBL * ms2kt, 2.0) * Constants::windReduction() *
-                 Constants::windReduction());
+             std::pow(vmaxBL * ms2kt, 2.0) * Physical::windReduction() *
+                 Physical::windReduction());
 
   double g = (g0 - std::sqrt(g1 - g2 * g3)) / g4;
   g = std::max(std::min(g, 1.0), 0.0);
@@ -535,7 +535,7 @@ Preprocessor::StormMotion Preprocessor::computeStormMotion(
 
 double Preprocessor::computeVMaxBL(const double vmax,
                                    const double stormMotion) {
-  return (vmax - stormMotion) / Constants::windReduction();
+  return (vmax - stormMotion) / Physical::windReduction();
 }
 
 double Preprocessor::computeQuadrantVectorAngle(

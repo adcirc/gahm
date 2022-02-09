@@ -27,7 +27,6 @@
 #ifndef METGET_LIBRARY_OWIASCIIDOMAIN_H_
 #define METGET_LIBRARY_OWIASCIIDOMAIN_H_
 
-#include <fstream>
 #include <memory>
 #include <string>
 #include <vector>
@@ -48,9 +47,9 @@ class OwiAsciiDomain {
             const std::vector<double> &wind_u,
             const std::vector<double> &wind_v);
 
-  void open();
+  std::string pressureFile() const;
 
-  void close();
+  std::string windFile() const;
 
  private:
   void write_header();
@@ -59,19 +58,18 @@ class OwiAsciiDomain {
                                         const Gahm::Date &date2);
   static std::string generateRecordHeader(const Gahm::Date &date,
                                           const Gahm::WindGrid *grid);
-  static void write_record(std::ofstream *stream,
-                           const std::vector<double> &value);
+  static void write_record(FILE *stream, const std::vector<double> &value);
 
   bool m_isOpen;
   const Date m_startDate;
   const Date m_endDate;
   Date m_previousDate;
   const unsigned m_timestep;
-  std::unique_ptr<std::ofstream> m_ofstream_pressure;
-  std::unique_ptr<std::ofstream> m_ofstream_wind;
   const Gahm::WindGrid *m_windGrid;
   const std::string m_pressureFile;
   const std::string m_windFile;
+  FILE *m_file_pressure;
+  FILE *m_file_wind;
 };
 }  // namespace Gahm
 #endif  // METGET_LIBRARY_OWIASCIIDOMAIN_H_

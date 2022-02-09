@@ -25,13 +25,13 @@
 //
 #include "Vortex.h"
 
+#include <algorithm>
 #include <cassert>
 #include <utility>
-#include <algorithm>
 
-#include "Constants.h"
 #include "Interpolation.h"
 #include "Logging.h"
+#include "Physical.h"
 #include "VortexSolver.h"
 
 using namespace Gahm;
@@ -103,7 +103,7 @@ std::tuple<double, double> Vortex::computeBandPhi(double vmax, double root,
                                                   double dp) {
   double phi_new = Vortex::computePhi(vmax, root, b, cor);
   double b_new =
-      Vortex::computeBg(vmax, root, phi_new, dp, cor, Constants::rhoAir());
+      Vortex::computeBg(vmax, root, phi_new, dp, cor, Physical::rhoAir());
   return std::make_tuple(phi_new, b_new);
 }
 
@@ -115,7 +115,7 @@ Vortex::ShapeTerms Vortex::iterateShapeTerms(const double root) const {
   double b =
       m_stormData->isotach(m_currentIsotach).hollandB().at(m_currentQuadrant);
   double cor = m_stormData->coriolis();
-  double dp = Constants::backgroundPressure() - m_stormData->centralPressure();
+  double dp = Physical::backgroundPressure() - m_stormData->centralPressure();
 
   double phi_new, b_new;
   std::tie(phi_new, b_new) = Vortex::computeBandPhi(vmax, root, b, cor, dp);
@@ -213,30 +213,30 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 constexpr std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
-  //angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
-  //int quadrant = 4 - std::floor(angle / Constants::halfpi());
-  //double remainder =
-  //    Constants::halfpi() - std::fmod(angle, Constants::halfpi());
-  //return std::make_pair(quadrant, remainder);
-  constexpr double deg2rad = Units::convert(Units::Degree,Units::Radian);
+  // angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
+  // int quadrant = 4 - std::floor(angle / Constants::halfpi());
+  // double remainder =
+  //     Constants::halfpi() - std::fmod(angle, Constants::halfpi());
+  // return std::make_pair(quadrant, remainder);
+  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double angle_45 = 45.0 * deg2rad;
   constexpr double angle_135 = 135.0 * deg2rad;
   constexpr double angle_225 = 225.0 * deg2rad;
   constexpr double angle_315 = 315.0 * deg2rad;
   angle = std::fmod(angle, Constants::twopi());
-  if(angle <= angle_45){
-    return std::make_pair(4,angle_45 + angle);
-  } else if( angle <= angle_135 ){
+  if (angle <= angle_45) {
+    return std::make_pair(4, angle_45 + angle);
+  } else if (angle <= angle_135) {
     return std::make_pair(1, angle - angle_45);
-  } else if( angle <= angle_225){
+  } else if (angle <= angle_225) {
     return std::make_pair(2, angle - angle_135);
-  } else if( angle <= angle_315){
+  } else if (angle <= angle_315) {
     return std::make_pair(3, angle - angle_225);
-  } else if( angle > angle_315){
+  } else if (angle > angle_315) {
     return std::make_pair(4, angle - angle_315);
   }
   gahm_throw_exception("Invalid angle");
-  return std::make_pair(0,0.0);
+  return std::make_pair(0, 0.0);
 }
 
 /**
@@ -333,11 +333,23 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
   } else if (distance <= m_stormData->isotach(iso).rmax().at(quad)) {
     return m_stormData->isotach(iso).parameterPack(quad);
   } else {
-    const auto radii = m_stormData->isotachRadii(quad);
-    const auto it = std::lower_bound(radii.begin(), radii.end(), distance) - 1;
-    const auto p = it - radii.begin();
-    const auto r1 = *(it);
-    const auto r2 = *(it + 1);
+    //    const auto radii = m_stormData->isotachRadii(quad);
+    //    const auto it = std::lower_bound(radii.begin(), radii.end(),
+    //    distance)- 1; const auto p = it - radii.begin(); const auto r1 =
+    //    *(it); const auto r2 = *(it + 1);
+
+    double r1 = 0;
+    double r2 = 0;
+    size_t p = 0;
+    for (size_t i = 0; i < m_stormData->isotachRadii(quad).size(); ++i) {
+      if (distance < m_stormData->isotachRadii(quad)[i]) {
+        r1 = m_stormData->isotachRadii(quad)[i];
+        r2 = m_stormData->isotachRadii(quad)[i + 1];
+        p = i;
+        break;
+      }
+    }
+
     const double fac = (distance - r1) / (r2 - r1);
     const auto p1 = m_stormData->isotach(p).parameterPack(quad);
     const auto p2 = m_stormData->isotach(p + 1).parameterPack(quad);

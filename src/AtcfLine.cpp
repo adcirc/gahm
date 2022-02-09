@@ -27,7 +27,7 @@
 
 #include <cassert>
 
-#include "Constants.h"
+#include "Physical.h"
 #include "UnitConversion.h"
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
@@ -94,9 +94,9 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   a.setTau(AtcfLine::readValueCheckBlank<int>(split[5]));
 
   if (formatid == 0) {
-      a.setDatetime(a.referenceDatetime() + a.tau() * 3600);
-  } else if(formatid == 1) {
-      a.setReferenceDatetime(a.referenceDatetime() - a.tau() * 3600);
+    a.setDatetime(a.referenceDatetime() + a.tau() * 3600);
+  } else if (formatid == 1) {
+    a.setReferenceDatetime(a.referenceDatetime() - a.tau() * 3600);
   }
 
   auto lat = AtcfLine::readValueCheckBlank<double>(
@@ -134,7 +134,7 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   a.setStormDirection(AtcfLine::readValueCheckBlank<double>(split[25]));
   a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) * kt2ms);
   a.setStormName(split[27]);
-  a.setCoriolis(Constants::coriolis(a.lat()));
+  a.setCoriolis(Physical::coriolis(a.lat()));
 
   if (formatid == 1) {
     assert(split.size() >= 46);
@@ -164,9 +164,8 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto v2 = AtcfLine::readValueCheckBlank<double>(split[45]) * kt2ms;
     auto v3 = AtcfLine::readValueCheckBlank<double>(split[46]) * kt2ms;
     i.vmaxBl() = {v0, v1, v2, v3};
-
   }
-    
+
   a.addIsotach(i);
 
   a.setIsNull(false);

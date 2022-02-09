@@ -35,58 +35,58 @@ using namespace Gahm;
 WindData::WindData() : m_n(0) {}
 
 WindData::WindData(size_t n)
-    : m_n(n),
-      m_u(n, 0.0),
-      m_v(n, 0.0),
-      m_p(n, Constants::backgroundPressure()) {}
+    : m_n(n), m_data(n, Gahm::Uvp(0, 0, Physical::backgroundPressure())) {}
 
-WindData::WindData(size_t n, double u, double v, double p)
-    : m_n(n), m_u(n, u), m_v(n, v), m_p(n, p) {}
+WindData::WindData(size_t n, const Gahm::Uvp& uvp) : m_n(n), m_data(n, uvp) {}
 
-const std::vector<double>& WindData::u() const { return m_u; }
+std::vector<double> WindData::u() const {
+  std::vector<double> u;
+  u.reserve(m_n);
+  for (const auto& d : m_data) {
+    u.push_back(d.u());
+  }
+  return u;
+}
 
-const std::vector<double>& WindData::v() const { return m_v; }
+std::vector<double> WindData::v() const {
+  std::vector<double> v;
+  v.reserve(m_n);
+  for (const auto& d : m_data) {
+    v.push_back(d.v());
+  }
+  return v;
+}
 
-const std::vector<double>& WindData::p() const { return m_p; }
+std::vector<double> WindData::p() const {
+  std::vector<double> p;
+  p.reserve(m_n);
+  for (const auto& d : m_data) {
+    p.push_back(d.u());
+  }
+  return p;
+}
 
-void WindData::set(size_t index, double u, double v, double p) {
+void WindData::set(size_t index, const Gahm::Uvp& record) {
   assert(index < m_n);
-  m_u[index] = u;
-  m_v[index] = v;
-  m_p[index] = p;
+  m_data[index] = record;
 }
 
 void WindData::setU(size_t index, double value) {
-  assert(index < m_u.size());
-  m_u[index] = value;
+  assert(index < m_data.size());
+  m_data[index].setU(value);
 }
 
 void WindData::setV(size_t index, double value) {
-  assert(index < m_v.size());
-  m_v[index] = value;
+  assert(index < m_data.size());
+  m_data[index].setV(value);
 }
 
 void WindData::setP(size_t index, double value) {
-  assert(index < m_p.size());
-  m_p[index] = value;
+  assert(index < m_data.size());
+  m_data[index].setP(value);
 }
 
 size_t WindData::size() const { return m_n; }
-
-void WindData::setU(const std::vector<double>& u) {
-  assert(u.size() == m_n);
-  m_u = u;
-}
-
-void WindData::setV(const std::vector<double>& v) {
-  assert(v.size() == m_n);
-  m_v = v;
-}
-
-void WindData::setP(const std::vector<double>& p) {
-  assert(p.size() == m_n);
-  m_p = p;
-}
 
 void WindData::setStormParameters(const StormParameters& sp) {
   m_stormParameters = sp;
@@ -98,7 +98,5 @@ const StormParameters* WindData::stormParameters() const {
 
 void WindData::setSize(size_t n) {
   m_n = n;
-  m_u.resize(m_n);
-  m_v.resize(m_n);
-  m_p.resize(m_n);
+  m_data.resize(m_n);
 }

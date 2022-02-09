@@ -23,46 +23,53 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
+#ifndef GAHM_SRC_FASTMATH_H_
+#define GAHM_SRC_FASTMATH_H_
 
-#ifndef METGET_LIBRARY_WINDDATA_H_
-#define METGET_LIBRARY_WINDDATA_H_
-
-#include <array>
+#include <cmath>
+#include <cstdint>
 #include <cstdlib>
-#include <vector>
-
-#include "StormParameters.h"
-#include "Uvp.h"
+#include <type_traits>
 
 namespace Gahm {
-class WindData {
+class FastMath {
  public:
-  WindData();
+  template <typename T>
+  static T fast_exp(const T x) noexcept {
+    if (std::is_same<T, float>()) {
+      return FastMath::float_fastExp(x);
+    } else if (std::is_same<T, double>()) {
+      return FastMath::double_fastExp(x);
+    } else {
+      return T(0);
+    }
+  }
 
-  explicit WindData(size_t n);
-
-  WindData(size_t n, const Gahm::Uvp &record);
-
-  std::vector<double> u() const;
-  std::vector<double> v() const;
-  std::vector<double> p() const;
-  size_t size() const;
-
-  void set(size_t index, const Gahm::Uvp &record);
-
-  void setU(size_t index, double value);
-  void setV(size_t index, double value);
-  void setP(size_t index, double value);
-
-  void setStormParameters(const StormParameters &sp);
-  const StormParameters *stormParameters() const;
-
-  void setSize(size_t n);
+  template <typename T>
+  static T fast_sqrt(const T x) noexcept {
+    if (std::is_same<T, float>()) {
+      return FastMath::float_fastInverseSquareRoot(x);
+    } else if (std::is_same<T, double>()) {
+      return FastMath::double_fastInverseSquareRoot(x);
+    } else {
+      return T(0);
+    }
+  }
 
  private:
-  size_t m_n;
-  std::vector<Gahm::Uvp> m_data;
-  StormParameters m_stormParameters;
+  static float float_fastExp(float number) noexcept;
+  static double double_fastExp(double number) noexcept;
+  static float float_fastInverseSquareRoot(const float number) noexcept;
+  static double double_fastInverseSquareRoot(const double number) noexcept;
 };
 }  // namespace Gahm
-#endif  // METGET_LIBRARY_WINDDATA_H_
+
+#ifdef GAHM_USE_FASTMATH
+#define gahm_sqrt Gahm::FastMath::fast_sqrt
+#define gahm_exp Gahm::FastMath::fast_exp
+#else
+#define gahm_sqrt std::sqrt
+#define gahm_exp std::exp
+#endif
+
+#endif  // GAHM_SRC_FASTMATH_H_

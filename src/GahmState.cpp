@@ -27,6 +27,8 @@
 
 #include <cassert>
 
+#include "FastMath.h"
+
 using namespace Gahm;
 
 GahmState::GahmState(Atcf *atcf, std::vector<double> x_points,
@@ -60,14 +62,17 @@ void GahmState::computeDistanceToStormCenter(const double stormCenterX,
                                              const double stormCenterY) {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double rotation = Constants::pi() + Constants::quarterpi();
-  double rearth = Constants::radiusEarth();
+  double rearth = Physical::radiusEarth();
   for (auto i = 0; i < m_xpoints.size(); ++i) {
-    //m_distance[i] = Constants::geodesic_distance(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY);
-    //m_azimuth[i] = Constants::azimuthEarth(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY)+rotation;
-    double dx = deg2rad * rearth * (m_xpoints[i]-stormCenterX)*std::cos(deg2rad*stormCenterY);
-    double dy = deg2rad * rearth * (m_ypoints[i]-stormCenterY);
-    m_distance[i] = std::sqrt(dx*dx + dy*dy);
-    m_azimuth[i] = std::atan2(dx,dy);
+    // m_distance[i] =
+    // Constants::geodesic_distance(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY);
+    // m_azimuth[i] =
+    // Constants::azimuthEarth(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY)+rotation;
+    double dx = deg2rad * rearth * (m_xpoints[i] - stormCenterX) *
+                std::cos(deg2rad * stormCenterY);
+    double dy = deg2rad * rearth * (m_ypoints[i] - stormCenterY);
+    m_distance[i] = gahm_sqrt(dx * dx + dy * dy);
+    m_azimuth[i] = std::atan2(dx, dy);
   }
 }
 

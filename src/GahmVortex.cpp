@@ -53,7 +53,7 @@ std::string GahmVortex::filename() const { return m_filename; }
 Assumptions *GahmVortex::assumptions() { return m_assumptions.get(); }
 
 WindData GahmVortex::get(const Date &d) {
-  WindData g(m_state->size(), 0.0, 0.0, Constants::backgroundPressure());
+  WindData g(m_state->size(), {0.0, 0.0, Physical::backgroundPressure()});
 
   if (d < m_atcf->begin_time() || d > m_atcf->end_time()) {
     return g;
@@ -75,10 +75,10 @@ WindData GahmVortex::get(const Date &d) {
 
   for (auto i = 0; i < m_state->size(); ++i) {
     auto param = this->generateStormParameterPackForLocation(sp, v1, v2, i);
-    uvp p = GahmVortex::getUvpr(m_state->distance(i), m_state->azimuth(i),
-                                param, m_state->stormMotionU(),
-                                m_state->stormMotionV(), sp);
-    g.set(i, p.u, p.v, p.p);
+    auto uvp = GahmVortex::getUvpr(m_state->distance(i), m_state->azimuth(i),
+                                   param, m_state->stormMotionU(),
+                                   m_state->stormMotionV(), sp);
+    g.set(i, uvp);
   }
 
   return g;
@@ -97,7 +97,7 @@ ParameterPack GahmVortex::generateStormParameterPackForLocation(
     const StormParameters &sp, const Vortex &v1, const Vortex &v2,
     int i) const {
   constexpr double rotation = Constants::pi() + Constants::quarterpi();
-  double azimuthRotated = m_state->azimuth(i) + rotation; 
+  double azimuthRotated = m_state->azimuth(i) + rotation;
   auto pack1 = v1.getParameters(azimuthRotated, m_state->distance(i));
   auto pack2 = v2.getParameters(azimuthRotated, m_state->distance(i));
   double rmax = Interpolation::linearInterp(
@@ -111,10 +111,9 @@ ParameterPack GahmVortex::generateStormParameterPackForLocation(
   return {vmaxbl, rmax, rmaxtrue, b};
 }
 
-GahmVortex::uvp GahmVortex::getUvpr(const double distance, double angle,
-                                    const ParameterPack &pack,
-                                    const double utrans, const double vtrans,
-                                    const StormParameters &s) {
+Gahm::Uvp GahmVortex::getUvpr(const double distance, double angle,
+                              const ParameterPack &pack, const double utrans,
+                              const double vtrans, const StormParameters &s) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
   constexpr double deg2rad = Units::convert(Units::Radian, Units::Degree);
 
@@ -138,18 +137,18 @@ GahmVortex::uvp GahmVortex::getUvpr(const double distance, double angle,
   const double speedOverVmax = std::abs(speed / pack.vmaxBoundaryLayer());
   const double tsx = speedOverVmax * utrans;
   const double tsy = speedOverVmax * vtrans;
-  speed *= Constants::windReduction();
+  speed *= Physical::windReduction();
   const double u = -speed * std::cos(angle);
   const double v = speed * std::sin(angle);
 
   const double friction_angle =
-      Constants::frictionAngle(distance, pack.radiusToMaxWindsTrue() * km2m);
+      Physical::frictionAngle(distance, pack.radiusToMaxWindsTrue() * km2m);
 
   double uf, vf;
   std::tie(uf, vf) = Vortex::rotateWinds(u, v, friction_angle, s.latitude());
 
-  uf = (uf + tsx) * Constants::one2ten();
-  vf = (vf + tsy) * Constants::one2ten();
+  uf = (uf + tsx) * Physical::one2ten();
+  vf = (vf + tsy) * Physical::one2ten();
 
   const double p =
       s.centralPressure() + (s.backgroundPressure() - s.centralPressure()) *

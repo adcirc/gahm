@@ -34,6 +34,7 @@
 #include "GahmState.h"
 #include "Preprocessor.h"
 #include "StormParameters.h"
+#include "Uvp.h"
 #include "Vortex.h"
 #include "WindData.h"
 
@@ -53,21 +54,15 @@ class GahmVortex {
   Gahm::Atcf *atcf();
 
  private:
-  struct uvp {
-    double u;
-    double v;
-    double p;
-  };
-
   const std::string m_filename;
   std::shared_ptr<Gahm::Assumptions> m_assumptions;
   std::unique_ptr<Gahm::Atcf> m_atcf;
   std::unique_ptr<Gahm::Preprocessor> m_preprocessor;
   std::unique_ptr<Gahm::GahmState> m_state;
 
-  static uvp getUvpr(double distance, double angle,
-                     const Gahm::ParameterPack &pack, double utrans,
-                     double vtrans, const Gahm::StormParameters &s);
+  static Gahm::Uvp getUvpr(double distance, double angle,
+                           const Gahm::ParameterPack &pack, double utrans,
+                           double vtrans, const Gahm::StormParameters &s);
 
   Gahm::ParameterPack generateStormParameterPackForLocation(
       const StormParameters &sp, const Gahm::Vortex &v1, const Gahm::Vortex &v2,
