@@ -60,7 +60,7 @@ WindData GahmVortex::get(const Date &d) {
   }
 
   m_state->query(d);
-  auto sp = m_state->stormParameters();
+  const auto sp = m_state->stormParameters();
   g.setStormParameters(sp);
 
   //...TODO: Need to add handling for 'CALM' type
@@ -68,10 +68,10 @@ WindData GahmVortex::get(const Date &d) {
   //   pressure to background (Constants::backgroundPressure)
 
   //..Generate storm parameters
-  Vortex v1(m_atcf->record(sp.cycle()), m_assumptions);
+  const Vortex v1(m_atcf->record(sp.cycle()), m_assumptions);
   const size_t cycle2 =
       sp.cycle() + 1 > m_atcf->nRecords() - 1 ? sp.cycle() : sp.cycle() + 1;
-  Vortex v2(m_atcf->record(cycle2), m_assumptions);
+  const Vortex v2(m_atcf->record(cycle2), m_assumptions);
 
   for (auto i = 0; i < m_state->size(); ++i) {
     auto param = this->generateStormParameterPackForLocation(sp, v1, v2, i);
@@ -116,8 +116,9 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, double angle,
                               const double vtrans, const StormParameters &s) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
   constexpr double deg2rad = Units::convert(Units::Radian, Units::Degree);
+  constexpr double thresholdRadius = 1.0 * Units::convert(Units::NauticalMile, Units::Meter);
 
-  if (distance < 1.0 * Units::convert(Units::NauticalMile, Units::Meter)) {
+  if (distance < thresholdRadius) {
     return {0.0, 0.0, s.centralPressure()};
   }
 

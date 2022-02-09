@@ -61,7 +61,7 @@ std::vector<double> WindData::p() const {
   std::vector<double> p;
   p.reserve(m_n);
   for (const auto& d : m_data) {
-    p.push_back(d.u());
+    p.push_back(d.p());
   }
   return p;
 }
