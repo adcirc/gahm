@@ -142,7 +142,7 @@ if(GAHM_ENABLE_FORTRAN)
   set(GAHM_LIBRARY_SOURCES
       ${GAHM_LIBRARY_SOURCES}
       ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm_fortran.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm.F90 src/Physical.h src/FileUniquePtr.h src/FileObject.h)
+      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm.F90)
 endif()
 
 # ...Generate the library
