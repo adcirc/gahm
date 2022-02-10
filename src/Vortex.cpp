@@ -212,7 +212,7 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
-constexpr std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
+std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
   // angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
   // int quadrant = 4 - std::floor(angle / Constants::halfpi());
   // double remainder =

@@ -94,7 +94,7 @@ class Vortex {
 
   static constexpr size_t m_max_it = 400;
 
-  constexpr static std::pair<int, double> getBaseQuadrant(double angle);
+  static std::pair<int, double> getBaseQuadrant(double angle);
 
   static constexpr double rossbyNumber(double vmaxBoundaryLayer,
                                        double radiusToMaxWinds,
