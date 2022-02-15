@@ -487,14 +487,14 @@ void AtcfLine::generateLastIsotach() {
   m_lastIsotach = last_iso;
 }
 
-std::vector<double> AtcfLine::isotachRadii(int quad) const {
-  std::vector<double> radii;
-  radii.reserve(m_isotach.size());
-  for (auto i = m_isotach.rbegin(); i != m_isotach.rend(); ++i) {
-    auto v = *i;
-    radii.push_back(v.rmax().at(quad));
+const std::vector<double> *AtcfLine::isotachRadii(int quad) const {
+  if (m_isotachRadiiCache[quad].empty()) {
+    m_isotachRadiiCache[quad].reserve(m_isotach.size());
+    for (const auto &v : m_isotach) {
+      m_isotachRadiiCache[quad].push_back(v.isotachRadius().at(quad));
+    }
   }
-  return radii;
+  return &m_isotachRadiiCache[quad];
 }
 
 const std::vector<Isotach> *AtcfLine::isotachs() const { return &m_isotach; }

@@ -33,22 +33,26 @@ namespace Gahm {
 class ParameterPack {
  public:
   constexpr ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b)
-      : m_data{vmaxbl, rmax, rmaxtrue, b} {}
+      : m_vmaxbl(vmaxbl), m_rmax(rmax), m_rmaxtrue(rmaxtrue), m_b(b) {}
 
-  constexpr double vmaxBoundaryLayer() const { return m_data[0]; }
-  constexpr double radiusToMaxWinds() const { return m_data[1]; }
-  constexpr double radiusToMaxWindsTrue() const { return m_data[2]; }
-  constexpr double hollandB() const { return m_data[3]; }
-  
+  constexpr double vmaxBoundaryLayer() const { return m_vmaxbl; }
+  constexpr double radiusToMaxWinds() const { return m_rmax; }
+  constexpr double radiusToMaxWindsTrue() const { return m_rmaxtrue; }
+  constexpr double hollandB() const { return m_b; }
+
   void printToScreen() const {
     std::cout << "   vmaxBoundaryLayer: " << vmaxBoundaryLayer() << std::endl;
     std::cout << "    radiusToMaxWinds: " << radiusToMaxWinds() << std::endl;
-    std::cout << "radiusToMaxWindsTrue: " << radiusToMaxWindsTrue() << std::endl;
+    std::cout << "radiusToMaxWindsTrue: " << radiusToMaxWindsTrue()
+              << std::endl;
     std::cout << "            hollandB: " << hollandB() << std::endl;
   }
 
  private:
-  const std::array<double, 4> m_data;
+  const double m_vmaxbl;
+  const double m_rmax;
+  const double m_rmaxtrue;
+  const double m_b;
 };
 }  // namespace Gahm
 #endif  // PARAMETERPACK_H

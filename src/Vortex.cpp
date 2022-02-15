@@ -213,30 +213,26 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
-  // angle = std::fmod(angle + Constants::twopi(), Constants::twopi());
-  // int quadrant = 4 - std::floor(angle / Constants::halfpi());
-  // double remainder =
-  //     Constants::halfpi() - std::fmod(angle, Constants::halfpi());
-  // return std::make_pair(quadrant, remainder);
+  const auto angle2 = std::fmod(angle, Constants::twopi());
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double angle_45 = 45.0 * deg2rad;
   constexpr double angle_135 = 135.0 * deg2rad;
   constexpr double angle_225 = 225.0 * deg2rad;
   constexpr double angle_315 = 315.0 * deg2rad;
-  angle = std::fmod(angle, Constants::twopi());
-  if (angle <= angle_45) {
-    return std::make_pair(4, angle_45 + angle);
-  } else if (angle <= angle_135) {
-    return std::make_pair(1, angle - angle_45);
-  } else if (angle <= angle_225) {
-    return std::make_pair(2, angle - angle_135);
-  } else if (angle <= angle_315) {
-    return std::make_pair(3, angle - angle_225);
-  } else if (angle > angle_315) {
-    return std::make_pair(4, angle - angle_315);
+  if (angle2 <= angle_45) {
+    return std::make_pair(4, angle_45 + angle2);
+  } else if (angle2 <= angle_135) {
+    return std::make_pair(1, angle2 - angle_45);
+  } else if (angle2 <= angle_225) {
+    return std::make_pair(2, angle2 - angle_135);
+  } else if (angle2 <= angle_315) {
+    return std::make_pair(3, angle2 - angle_225);
+  } else if (angle2 > angle_315) {
+    return std::make_pair(4, angle2 - angle_315);
+  } else {
+    gahm_throw_exception("Invalid angle");
+    return std::make_pair(0, 0.0);
   }
-  gahm_throw_exception("Invalid angle");
-  return std::make_pair(0, 0.0);
 }
 
 /**
@@ -283,7 +279,8 @@ Vortex::Root Vortex::findRoot(double aa, double bb,
   return {aa, bb, -1.0};
 }
 
-ParameterPack Vortex::getParameters(double angle, double distance) const {
+ParameterPack Vortex::getParameters(const double angle,
+                                    const double distance) const {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double m2km = Units::convert(Units::Meter, Units::Kilometer);
   constexpr double angle_1 = deg2rad;
@@ -320,39 +317,25 @@ ParameterPack Vortex::getParameters(double angle, double distance) const {
 
 ParameterPack Vortex::interpolateParameters(int quad, double distance,
                                             double angle) const {
-  auto iso = m_stormData->nIsotach();
-  if (iso == 0) {
+  const auto radii = m_stormData->isotachRadii(quad);
+
+  if (radii->empty()) {
     return {m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
             m_stormData->isotach(0).rmax().at(quad), m_stormData->hollandB()};
-  }
-
-  iso -= 1;
-
-  if (distance >= m_stormData->isotach(0).rmax().at(quad)) {
+  } else if (distance >= radii->front()) {
     return m_stormData->isotach(0).parameterPack(quad);
-  } else if (distance <= m_stormData->isotach(iso).rmax().at(quad)) {
-    return m_stormData->isotach(iso).parameterPack(quad);
+  } else if (distance <= radii->back()) {
+    return m_stormData->isotach(radii->size() - 1).parameterPack(quad);
   } else {
-    //    const auto radii = m_stormData->isotachRadii(quad);
-    //    const auto it = std::lower_bound(radii.begin(), radii.end(),
-    //    distance)- 1; const auto p = it - radii.begin(); const auto r1 =
-    //    *(it); const auto r2 = *(it + 1);
-
-    double r1 = 0;
-    double r2 = 0;
-    size_t p = 0;
-    for (size_t i = 0; i < m_stormData->isotachRadii(quad).size(); ++i) {
-      if (distance < m_stormData->isotachRadii(quad)[i]) {
-        r1 = m_stormData->isotachRadii(quad)[i];
-        r2 = m_stormData->isotachRadii(quad)[i + 1];
-        p = i;
-        break;
-      }
-    }
-
+    const auto it =
+        std::upper_bound(radii->rbegin(), radii->rend(), distance).base();
+    const auto pos1 = it - radii->begin();
+    const auto pos2 = pos1 - 1;
+    const auto r1 = *(it);
+    const auto r2 = *(it - 1);
     const double fac = (distance - r1) / (r2 - r1);
-    const auto p1 = m_stormData->isotach(p).parameterPack(quad);
-    const auto p2 = m_stormData->isotach(p + 1).parameterPack(quad);
+    const auto p1 = m_stormData->isotach(pos1).parameterPack(quad);
+    const auto p2 = m_stormData->isotach(pos2).parameterPack(quad);
     double vmbl = Interpolation::linearInterp(fac, p1.vmaxBoundaryLayer(),
                                               p2.vmaxBoundaryLayer());
     double rmax = Interpolation::linearInterp(fac, p1.radiusToMaxWinds(),

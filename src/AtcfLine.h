@@ -56,8 +56,8 @@ class AtcfLine {
   Gahm::Date referenceDatetime() const;
   void setReferenceDatetime(const Gahm::Date &datetime);
 
-//  int technum() const;
-//  void setTechnum(int technum);
+  //  int technum() const;
+  //  void setTechnum(int technum);
 
   std::string techstring() const;
   void setTechstring(const std::string &techstring);
@@ -175,7 +175,7 @@ class AtcfLine {
   const std::array<unsigned short, 4> &lastIsotach() const;
   void generateLastIsotach();
 
-  std::vector<double> isotachRadii(int quad) const;
+  const std::vector<double> *isotachRadii(int quad) const;
 
  private:
   static AtcfLine parseLine(const std::string &line, int formatid);
@@ -243,6 +243,9 @@ class AtcfLine {
   /// Vector of storm isotachs
   std::vector<Isotach> m_isotach;
 
+  /// Cache variable for isotachs
+  mutable CircularArray<std::vector<double>, 4> m_isotachRadiiCache;
+
   /// Cyclone number
   int m_cycloneNumber;
 
@@ -250,7 +253,7 @@ class AtcfLine {
   int m_tau;
 
   // Technique Number
-  //int m_technum;
+  // int m_technum;
 
   /// Basin
   std::string m_basin;

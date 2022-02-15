@@ -109,7 +109,7 @@ ParameterPack GahmVortex::generateStormParameterPackForLocation(
   return {vmaxbl, rmax, rmaxtrue, b};
 }
 
-Gahm::Uvp GahmVortex::getUvpr(const double distance, double angle,
+Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
                               const ParameterPack &pack, const double utrans,
                               const double vtrans, const StormParameters &s) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
