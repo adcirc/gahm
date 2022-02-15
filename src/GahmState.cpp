@@ -72,7 +72,8 @@ void GahmState::computeDistanceToStormCenter(const double stormCenterX,
                 std::cos(deg2rad * stormCenterY);
     double dy = deg2rad * rearth * (m_ypoints[i] - stormCenterY);
     m_distance[i] = gahm_sqrt(dx * dx + dy * dy);
-    m_azimuth[i] = std::atan2(dx, dy);
+    m_azimuth[i] = Constants::twopi() + std::atan2(dx, dy);
+    if (m_azimuth[i] > Constants::twopi()) m_azimuth[i] -= Constants::twopi();
   }
 }
 
