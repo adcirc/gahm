@@ -84,73 +84,59 @@ class Isotach {
   Isotach(RadiusCode code, double windSpeed, double r1, double r2, double r3,
           double r4);
 
-  [[nodiscard]] double windSpeed() const;
+  double windSpeed() const;
   void setWindSpeed(double windSpeed);
 
-  [[nodiscard]] Gahm::Isotach::RadiusCode code() const;
+  Gahm::Isotach::RadiusCode code() const;
   void setCode(Gahm::Isotach::RadiusCode code);
 
   void generateQuadFlag();
 
-  [[nodiscard]] static bool isNull(const Isotach &iso);
+  static bool isNull(const Isotach &iso);
 
-  [[nodiscard]] static Isotach::RadiusCode codeFromString(
-      const std::string &code);
-  [[nodiscard]] static std::string stringFromCode(
-      Gahm::Isotach::RadiusCode code);
+  static Isotach::RadiusCode codeFromString(const std::string &code);
+  static std::string stringFromCode(Gahm::Isotach::RadiusCode code);
 
-  [[nodiscard]] Gahm::Isotach::RadiusCode radiusCode() const;
+  Gahm::Isotach::RadiusCode radiusCode() const;
   void setRadiusCode(const Gahm::Isotach::RadiusCode &radiusCode);
 
-  [[nodiscard]] Gahm::ParameterPack parameterPack(int quad) const;
+  Gahm::ParameterPack parameterPack(int quad) const;
 
-  [[nodiscard]] decltype(auto) quadFlag() { return quadFlag_internal(this); }
+  decltype(auto) quadFlag() { return quadFlag_internal(this); }
 
-  [[nodiscard]] decltype(auto) quadFlag() const {
-    return quadFlag_internal(this);
-  }
+  decltype(auto) quadFlag() const { return quadFlag_internal(this); }
 
-  [[nodiscard]] decltype(auto) isotachRadius() {
-    return isotachRadius_internal(this);
-  }
+  decltype(auto) isotachRadius() { return isotachRadius_internal(this); }
 
-  [[nodiscard]] decltype(auto) isotachRadius() const {
-    return isotachRadius_internal(this);
-  }
+  decltype(auto) isotachRadius() const { return isotachRadius_internal(this); }
 
-  [[nodiscard]] decltype(auto) isotachRadiusNullInInput() {
+  decltype(auto) isotachRadiusNullInInput() {
     return isotachRadiusNullInInput_internal(this);
   }
 
-  [[nodiscard]] decltype(auto) isotachRadiusNullInInput() const {
+  decltype(auto) isotachRadiusNullInInput() const {
     return isotachRadiusNullInInput_internal(this);
   }
 
-  [[nodiscard]] decltype(auto) rmax() { return rmax_internal(this); }
+  decltype(auto) rmax() { return rmax_internal(this); }
 
-  [[nodiscard]] decltype(auto) rmax() const { return rmax_internal(this); }
+  decltype(auto) rmax() const { return rmax_internal(this); }
 
-  [[nodiscard]] decltype(auto) vmaxBl() { return vmaxBl_internal(this); }
+  decltype(auto) vmaxBl() { return vmaxBl_internal(this); }
 
-  [[nodiscard]] decltype(auto) vmaxBl() const { return vmaxBl_internal(this); }
+  decltype(auto) vmaxBl() const { return vmaxBl_internal(this); }
 
-  [[nodiscard]] decltype(auto) hollandB() { return hollandB_internal(this); }
+  decltype(auto) hollandB() { return hollandB_internal(this); }
 
-  [[nodiscard]] decltype(auto) hollandB() const {
-    return hollandB_internal(this);
-  }
+  decltype(auto) hollandB() const { return hollandB_internal(this); }
 
-  [[nodiscard]] decltype(auto) phi() { return phi_internal(this); }
+  decltype(auto) phi() { return phi_internal(this); }
 
-  [[nodiscard]] decltype(auto) phi() const { return phi_internal(this); }
+  decltype(auto) phi() const { return phi_internal(this); }
 
-  [[nodiscard]] decltype(auto) quadrantVr() {
-    return quadrantVr_internal(this);
-  }
+  decltype(auto) quadrantVr() { return quadrantVr_internal(this); }
 
-  [[nodiscard]] decltype(auto) quadrantVr() const {
-    return quadrantVr_internal(this);
-  }
+  decltype(auto) quadrantVr() const { return quadrantVr_internal(this); }
 
  private:
   double m_windSpeed;
