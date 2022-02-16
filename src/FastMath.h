@@ -48,9 +48,9 @@ class FastMath {
   template <typename T>
   static T fast_sqrt(const T x) noexcept {
     if (std::is_same<T, float>()) {
-      return FastMath::float_fastInverseSquareRoot(x);
+      return 1.0f / FastMath::float_fastInverseSquareRoot(x);
     } else if (std::is_same<T, double>()) {
-      return FastMath::double_fastInverseSquareRoot(x);
+      return 1.0 / FastMath::double_fastInverseSquareRoot(x);
     } else {
       return T(0);
     }

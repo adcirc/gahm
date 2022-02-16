@@ -33,7 +33,9 @@
 #include "Constants.h"
 #include "Interpolation.h"
 #include "Logging.h"
-#include "boost/format.hpp"
+
+#define FMT_HEADER_ONLY
+#include "fmt/core.h"
 
 using namespace Gahm;
 
@@ -266,110 +268,106 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
   std::ofstream f(filename);
   size_t cycleNumber = 0;
   for (const auto &a : m_atcfData) {
-    const std::string lat = boost::str(boost::format("%3i") %
-                                       (std::floor(std::abs(a.lat() * 10.0)))) +
-                            (a.lat() > 0 ? "N" : "S");
-    const std::string lon = boost::str(boost::format("%3i") %
-                                       (std::floor(std::abs(a.lon() * 10.0)))) +
-                            (a.lon() > 0 ? "E" : "W");
-    const std::string vmax =
-        boost::str(boost::format("%3i") %
-                   (std::round(a.vmax() * Units::convert(Units::MetersPerSecond,
-                                                         Units::Knot))));
+    const std::string lat =
+        fmt::format("{:3d}",
+                    static_cast<int>(std::floor(std::abs(a.lat() * 10.0)))) +
+        (a.lat() > 0 ? "N" : "S");
+    const std::string lon =
+        fmt::format("{:3d}",
+                    static_cast<int>(std::floor(std::abs(a.lon() * 10.0)))) +
+        (a.lon() > 0 ? "E" : "W");
+    const std::string vmax = fmt::format(
+        "{:3d}",
+        static_cast<int>(std::round(
+            a.vmax() * Units::convert(Units::MetersPerSecond, Units::Knot))));
     const std::string mslp =
-        boost::str(boost::format("%4i") % (std::round(a.centralPressure())));
-    const std::string backgroundPressure = boost::str(
-        boost::format("%4i") % std::round(Physical::backgroundPressure()));
-    const std::string rmax = boost::str(
-        boost::format("%4i") %
-        (std::round(a.radiusMaxWinds() *
-                    Units::convert(Units::Kilometer, Units::NauticalMile))));
+        fmt::format("{:4d}", static_cast<int>(std::round(a.centralPressure())));
+    const std::string backgroundPressure = fmt::format(
+        "{:4d}", static_cast<int>(std::round(Physical::backgroundPressure())));
+    const std::string rmax = fmt::format(
+        "{:4d}", static_cast<int>(std::round(
+                     a.radiusMaxWinds() *
+                     Units::convert(Units::Kilometer, Units::NauticalMile))));
 
     std::string heading =
-        boost::str(boost::format("%3i") % (std::round(a.stormDirection())));
+        fmt::format("{:3d}", static_cast<int>(std::round(a.stormDirection())));
     if (heading == " -0") heading = "  0";  //...Check for signed zero
 
-    const std::string forwardSpeed = boost::str(
-        boost::format("%3i") %
-        (std::round(a.stormSpeed() *
-                    Units::convert(Units::MetersPerSecond, Units::Knot))));
-    const std::string forecastHour =
-        boost::str(boost::format("%4i") %
-                   std::round((a.datetime().toSeconds() -
-                               m_atcfData.begin()->datetime().toSeconds()) /
-                              3600));
+    const std::string forwardSpeed = fmt::format(
+        "{:4d}", static_cast<int>(std::round(
+                     a.stormSpeed() *
+                     Units::convert(Units::MetersPerSecond, Units::Knot))));
+    const std::string forecastHour = fmt::format(
+        "{:4d}", static_cast<int>(
+                     std::round((a.datetime().toSeconds() -
+                                 m_atcfData.begin()->datetime().toSeconds()) /
+                                3600)));
     cycleNumber++;
     for (size_t i = 0; i < a.nIsotach(); ++i) {
-      const std::string isoWindSpeed = boost::str(
-          boost::format("%4i") %
-          (std::round(a.isotach(i).windSpeed() *
-                      Units::convert(Units::MetersPerSecond, Units::Knot))));
-      const std::string isospd = boost::str(
-          boost::format("%7.1f") %
-          (std::round(a.isotach(i).windSpeed() *
-                      Units::convert(Units::MetersPerSecond, Units::Knot))));
-      const std::string ir1 = boost::str(
-          boost::format("%7.1f") %
-          (std::round(a.isotach(i).isotachRadius().at(0) *
-                      Units::convert(Units::Kilometer, Units::NauticalMile))));
-      const std::string ir2 = boost::str(
-          boost::format("%7.1f") %
-          (std::round(a.isotach(i).isotachRadius().at(1) *
-                      Units::convert(Units::Kilometer, Units::NauticalMile))));
-      const std::string ir3 = boost::str(
-          boost::format("%7.1f") %
-          (std::round(a.isotach(i).isotachRadius().at(2) *
-                      Units::convert(Units::Kilometer, Units::NauticalMile))));
-      const std::string ir4 = boost::str(
-          boost::format("%7.1f") %
-          (std::round(a.isotach(i).isotachRadius().at(4) *
-                      Units::convert(Units::Kilometer, Units::NauticalMile))));
-      const std::string bbase =
-          boost::str(boost::format("%9.4f") % a.hollandB());
+      const std::string isoWindSpeed = fmt::format(
+          "{:4d}", static_cast<int>(std::round(
+                       a.isotach(i).windSpeed() *
+                       Units::convert(Units::MetersPerSecond, Units::Knot))));
+      const std::string isospd = fmt::format(
+          "{:7.1f}",
+          std::round(a.isotach(i).windSpeed() *
+                     Units::convert(Units::MetersPerSecond, Units::Knot)));
+      const std::string ir1 = fmt::format(
+          "{:7.1f}",
+          std::round(a.isotach(i).isotachRadius().at(0) *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)));
+      const std::string ir2 = fmt::format(
+          "{:7.1f}",
+          std::round(a.isotach(i).isotachRadius().at(1) *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)));
+      const std::string ir3 = fmt::format(
+          "{:7.1f}",
+          std::round(a.isotach(i).isotachRadius().at(2) *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)));
+      const std::string ir4 = fmt::format(
+          "{:7.1f}",
+          std::round(a.isotach(i).isotachRadius().at(4) *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)));
+      const std::string bbase = fmt::format("{:9.4f}", a.hollandB());
       const std::string b1 =
-          boost::str(boost::format("%9.4f") % a.isotach(i).hollandB().at(0));
+          fmt::format("{:9.4f}", a.isotach(i).hollandB().at(0));
       const std::string b2 =
-          boost::str(boost::format("%9.4f") % a.isotach(i).hollandB().at(1));
+          fmt::format("{:9.4f}", a.isotach(i).hollandB().at(1));
       const std::string b3 =
-          boost::str(boost::format("%9.4f") % a.isotach(i).hollandB().at(2));
+          fmt::format("{:9.4f}", a.isotach(i).hollandB().at(2));
       const std::string b4 =
-          boost::str(boost::format("%9.4f") % a.isotach(i).hollandB().at(3));
+          fmt::format("{:9.4f}", a.isotach(i).hollandB().at(3));
 
-      const std::string vmax1 =
-          boost::str(boost::format("%9.4f") %
-                     (a.isotach(i).vmaxBl().at(0) *
+      const std::string vmax1 = fmt::format(
+          "{:9.4f}", (a.isotach(i).vmaxBl().at(0) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
-      const std::string vmax2 =
-          boost::str(boost::format("%9.4f") %
-                     (a.isotach(i).vmaxBl().at(1) *
+      const std::string vmax2 = fmt::format(
+          "{:9.4f}", (a.isotach(i).vmaxBl().at(1) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
-      const std::string vmax3 =
-          boost::str(boost::format("%9.4f") %
-                     (a.isotach(i).vmaxBl().at(2) *
+      const std::string vmax3 = fmt::format(
+          "{:9.4f}", (a.isotach(i).vmaxBl().at(2) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
-      const std::string vmax4 =
-          boost::str(boost::format("%9.4f") %
-                     (a.isotach(i).vmaxBl().at(3) *
+      const std::string vmax4 = fmt::format(
+          "{:9.4f}", (a.isotach(i).vmaxBl().at(3) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
 
-      f << boost::str(
-          boost::format(
-              "%3s, %02i, %04i%02i%02i%02i,   "
-              ",%5s,%4s,%5s,%5s,%4s,%5s,   "
-              ",%5s,%5s,%5s,%5s,%4s,%4s,%5s,     ,%4s,     ,    , "
-              "   ,    ,    "
-              ",%3s,%4s,%12s,%4i,%5i,%2i,%2i,%2i,%2i,%9s,%9s,%9s,%9s,%9s,"
-              "%9s,%9s,%9s,%9s,%9s,%9s,%9s,%9s\n") %
-          a.basin() % a.cycloneNumber() % a.datetime().year() %
-          a.datetime().month() % a.datetime().day() % a.datetime().hour() %
-          a.techstring() % forecastHour % lat % lon % vmax % mslp %
-          isoWindSpeed % Isotach::stringFromCode(Isotach::RadiusCode::NEQ) %
-          ir1 % ir2 % ir3 % ir4 % backgroundPressure % rmax % heading %
-          forwardSpeed % a.stormName() % cycleNumber % a.nIsotach() %
-          a.isotach(i).quadFlag().at(0) % a.isotach(i).quadFlag().at(1) %
-          a.isotach(i).quadFlag().at(2) % a.isotach(i).quadFlag().at(3) % ir1 %
-          ir2 % ir3 % ir4 % bbase % b1 % b2 % b3 % b4 % vmax1 % vmax2 % vmax3 %
-          vmax4);
+      f << fmt::format(
+          "{:>3s}, {:>02d}, {:>04d}{:>02d}{:>02d}{:>02d},   "
+          ",{:>5s},{:>4s},{:>5s},{:>5s},{:>4s},{:>5s},   "
+          ",{:>5s},{:>5s},{:>5s},{:>5s},{:>4s},{:>4s},{:>5s},     ,{:>4s},     "
+          ",    ,    ,    ,    "
+          ",{:>3s},{:>4s},{:>12s},{:>4d},{:>5d},{:>2d},{:>2d},{:>2d},{:>2d},{:>"
+          "9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{"
+          ":>9s},{:>9s},{:>9s}\n",
+          a.basin(), a.cycloneNumber(), a.datetime().year(),
+          a.datetime().month(), a.datetime().day(), a.datetime().hour(),
+          a.techstring(), forecastHour, lat, lon, vmax, mslp, isoWindSpeed,
+          Isotach::stringFromCode(Isotach::RadiusCode::NEQ), ir1, ir2, ir3, ir4,
+          backgroundPressure, rmax, heading, forwardSpeed, a.stormName(),
+          cycleNumber, a.nIsotach(), a.isotach(i).quadFlag().at(0),
+          a.isotach(i).quadFlag().at(1), a.isotach(i).quadFlag().at(2),
+          a.isotach(i).quadFlag().at(3), ir1, ir2, ir3, ir4, bbase, b1, b2, b3,
+          b4, vmax1, vmax2, vmax3, vmax4);
     }
   }
   f.close();
