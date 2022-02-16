@@ -13,9 +13,9 @@ class Uvp {
 
   Uvp(double u, double v, double p) : m_u(u), m_v(v), m_p(p) {}
 
-  constexpr double u() const { return m_u; }
-  constexpr double v() const { return m_v; }
-  constexpr double p() const { return m_p; }
+  double u() const { return m_u; }
+  double v() const { return m_v; }
+  double p() const { return m_p; }
 
   void set(double u, double v, double p) {
     m_u = u;
