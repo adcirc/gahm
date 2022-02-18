@@ -62,14 +62,15 @@ void GahmState::computeDistanceToStormCenter(const double stormCenterX,
                                              const double stormCenterY) {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double rotation = Constants::pi() + Constants::quarterpi();
-  double rearth = Physical::radiusEarth();
+  const double rearth = Physical::radiusEarth();
+  const double cosStormCenterY = std::cos(deg2rad * stormCenterY);
   for (auto i = 0; i < m_xpoints.size(); ++i) {
-//     m_distance[i] =
-//     Physical::geodesic_distance(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY);
-//     m_azimuth[i] =
-//     Physical::azimuthEarth(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY)+rotation;
-    double dx = deg2rad * rearth * (m_xpoints[i] - stormCenterX) *
-                std::cos(deg2rad * stormCenterY);
+    //     m_distance[i] =
+    //     Physical::geodesic_distance(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY);
+    //     m_azimuth[i] =
+    //     Physical::azimuthEarth(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY)+rotation;
+    double dx =
+        deg2rad * rearth * (m_xpoints[i] - stormCenterX) * cosStormCenterY;
     double dy = deg2rad * rearth * (m_ypoints[i] - stormCenterY);
     m_distance[i] = gahm_sqrt(dx * dx + dy * dy);
     m_azimuth[i] = Constants::twopi() + std::atan2(dx, dy);

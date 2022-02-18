@@ -68,7 +68,7 @@ class Vortex {
   void setCurrentIsotach(unsigned currentIsotach);
 
   static std::pair<double, double> rotateWinds(double x, double y, double angle,
-                                               double whichWay) noexcept;
+                                               double latitude) noexcept;
 
   constexpr static double default_inner_radius() {
     return 1.0 *

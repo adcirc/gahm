@@ -189,8 +189,8 @@ int Vortex::computeRadiusToWind() {
 
 std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               double angle,
-                                              const double whichWay) noexcept {
-  if (whichWay < 0.0) angle *= -1.0;
+                                              const double latitude) noexcept {
+  if (latitude < 0.0) angle *= -1.0;
   const double cosA = std::cos(angle);
   const double sinA = std::sin(angle);
   return std::make_pair(x * cosA - y * sinA, x * sinA + y * cosA);
@@ -213,26 +213,11 @@ unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
 void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
-  const auto angle2 = std::fmod(angle, Constants::twopi());
-  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  constexpr double angle_45 = 45.0 * deg2rad;
-  constexpr double angle_135 = 135.0 * deg2rad;
-  constexpr double angle_225 = 225.0 * deg2rad;
-  constexpr double angle_315 = 315.0 * deg2rad;
-  if (angle2 <= angle_45) {
-    return std::make_pair(4, angle_45 + angle2);
-  } else if (angle2 <= angle_135) {
-    return std::make_pair(1, angle2 - angle_45);
-  } else if (angle2 <= angle_225) {
-    return std::make_pair(2, angle2 - angle_135);
-  } else if (angle2 <= angle_315) {
-    return std::make_pair(3, angle2 - angle_225);
-  } else if (angle2 > angle_315) {
-    return std::make_pair(4, angle2 - angle_315);
-  } else {
-    gahm_throw_exception("Invalid angle");
-    return std::make_pair(0, 0.0);
-  }
+  auto angle2 = angle + Constants::quarterpi();
+  if(angle2 > Constants::twopi()) angle2 -= Constants::twopi();
+  auto quad = std::fmod(angle2 / Constants::halfpi(), 4);
+  const double rem = angle2 - quad * Constants::halfpi();
+  return {quad, rem};
 }
 
 /**
@@ -321,7 +306,7 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
 
   if (radii->empty()) {
     return {m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
-            m_stormData->isotach(0).rmax().at(quad), m_stormData->hollandB()};
+            m_stormData->radiusMaxWinds(), m_stormData->hollandB()};
   } else if (distance >= radii->front()) {
     return m_stormData->isotach(0).parameterPack(quad);
   } else if (distance <= radii->back()) {

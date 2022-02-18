@@ -46,6 +46,7 @@ GahmVortex::GahmVortex(std::string filename, const std::vector<double> &x,
   }
   this->m_preprocessor = std::make_unique<Preprocessor>(m_atcf.get());
   if (format == Atcf::AtcfFormat::BEST_TRACK) this->m_preprocessor->run();
+  m_atcf->prep_cache();
 }
 
 std::string GahmVortex::filename() const { return m_filename; }
@@ -113,7 +114,6 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
                               const ParameterPack &pack, const double utrans,
                               const double vtrans, const StormParameters &s) {
   constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
-  constexpr double deg2rad = Units::convert(Units::Radian, Units::Degree);
   constexpr double thresholdRadius =
       1.0 * Units::convert(Units::NauticalMile, Units::Meter);
 
@@ -126,12 +126,11 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
   const double vmaxsq = pack.vmaxBoundaryLayer() * pack.vmaxBoundaryLayer();
   const double vmaxrmax = pack.vmaxBoundaryLayer() * rmaxmeters * s.corio();
   const double c = (distance * s.corio()) / 2.0;
-  const double csq = c * c;
   const double rmaxdisb = std::pow(rmaxmeters / distance, pack.hollandB());
 
   double speed = std::sqrt((vmaxsq + vmaxrmax) * rmaxdisb *
                                std::exp(phi * (1.0 - rmaxdisb)) +
-                           csq) -
+                           c * c) -
                  c;
 
   const double speedOverVmax = std::abs(speed / pack.vmaxBoundaryLayer());
