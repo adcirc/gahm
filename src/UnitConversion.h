@@ -36,7 +36,7 @@ class UnitInternal {
  public:
   class UnitType {
    protected:
-    constexpr UnitType(const double v) : m_value(v) {}
+    constexpr explicit UnitType(const double v) : m_value(v) {}
 
    public:
     constexpr auto operator()() const { return m_value; }
@@ -47,22 +47,22 @@ class UnitInternal {
 
   class Length : public UnitType {
    public:
-    constexpr Length(const double v) : UnitType(v) {}
+    constexpr explicit Length(const double v) : UnitType(v) {}
   };
 
   class Speed : public UnitType {
    public:
-    constexpr Speed(const double v) : UnitType(v) {}
+    constexpr explicit Speed(const double v) : UnitType(v) {}
   };
 
   class Pressure : public UnitType {
    public:
-    constexpr Pressure(const double v) : UnitType(v) {}
+    constexpr explicit Pressure(const double v) : UnitType(v) {}
   };
 
   class Angle : public UnitType {
    public:
-    constexpr Angle(const double v) : UnitType(v) {}
+    constexpr explicit Angle(const double v) : UnitType(v) {}
   };
 };
 

@@ -127,7 +127,7 @@ static constexpr double frictionAngle(double r, double rmx) noexcept {
   constexpr double degree10 = 10.0 * deg2rad;
   constexpr double degree25 = 25.0 * deg2rad;
   constexpr double degree75 = 75.0 * deg2rad;
-  if (0.0 < r && r < rmx) {
+  if (r > 0.0 && r < rmx) {
     return degree10 * r / rmx;
   } else if (rmx <= r && r < 1.2 * rmx) {
     return degree10 + degree75 * (r / rmx - degree1);
