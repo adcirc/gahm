@@ -86,6 +86,8 @@ class Atcf {
 
   std::shared_ptr<Assumptions> assumptions_sharedptr();
 
+  void prep_cache();
+
  private:
   AtcfLine parseNextLine(std::ifstream &f);
   void computeAswipDatetime(const Date &referenceDate);

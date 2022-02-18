@@ -177,6 +177,8 @@ class AtcfLine {
 
   const std::vector<double> *isotachRadii(int quad) const;
 
+  void generateIsotachCache();
+
  private:
   static AtcfLine parseLine(const std::string &line, int formatid);
 
@@ -244,7 +246,7 @@ class AtcfLine {
   std::vector<Isotach> m_isotach;
 
   /// Cache variable for isotachs
-  mutable CircularArray<std::vector<double>, 4> m_isotachRadiiCache;
+  CircularArray<std::vector<double>, 4> m_isotachRadiiCache;
 
   /// Cyclone number
   int m_cycloneNumber;

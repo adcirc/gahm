@@ -381,3 +381,9 @@ Assumptions *Atcf::assumptions() { return m_assumptions.get(); }
 std::shared_ptr<Assumptions> Atcf::assumptions_sharedptr() {
   return m_assumptions;
 }
+
+void Atcf::prep_cache() {
+  for (auto &a : m_atcfData) {
+    a.generateIsotachCache();
+  }
+}
