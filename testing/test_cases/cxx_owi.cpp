@@ -23,12 +23,10 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-//#define CATCH_CONFIG_MAIN
 #include "Gahm.h"
 #include "catch.hpp"
 
-// TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
-int main() {
+TEST_CASE("GAHM-Oceanweather", "[gahm-owi]") {
   Gahm::Date start_date(2005, 8, 27, 0, 0, 0);
   Gahm::Date end_date(2005, 8, 28, 0, 0, 0);
   const unsigned dt = 1800;

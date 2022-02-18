@@ -23,7 +23,6 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#define CATCH_CONFIG_MAIN
 #include <memory>
 
 #include "Atcf.h"

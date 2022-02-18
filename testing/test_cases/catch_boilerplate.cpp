@@ -23,36 +23,5 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#include "Physical.h"
+#define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-
-TEST_CASE("Physical - Radius Earth", "[RadiusEarth]") {
-  auto radiusEarthAt35 = Gahm::Physical::radiusEarth(35.0);
-  REQUIRE(radiusEarthAt35 == Approx(6371141.2260278296));
-
-  auto radiusEarthAt352 = Gahm::Physical::radiusEarth(30.0, 40.0);
-  REQUIRE(radiusEarthAt35 == Approx(radiusEarthAt352));
-}
-
-TEST_CASE("Physical - Distance", "[distance]") {
-  auto cdis = Gahm::Physical::cartesian_distance(1.0, 2.0, 3.0, 4.0);
-  REQUIRE(cdis == Approx(2.828427));
-
-  auto gdis = Gahm::Physical::geodesic_distance(-90.0, 20.0, -74.0, 40.0);
-  REQUIRE(gdis == Approx(2696551.5700955666));
-
-  auto sdis = Gahm::Physical::sphericalDx(-90.0, 20.0, -74.0, 40.0);
-  REQUIRE(std::get<0>(sdis) == Approx(1539944.325839015));
-  REQUIRE(std::get<1>(sdis) == Approx(2224535.3744850801));
-  REQUIRE(std::get<2>(sdis) == gdis);
-}
-
-TEST_CASE("Physical - Azimuth", "[azimuth]") {
-  auto azi = Gahm::Physical::azimuthEarth(-90.0, 20.0, -74.0, 40.0);
-  REQUIRE(azi == Approx(-0.5401034501));
-}
-
-TEST_CASE("Physical - Coriolis", "[coriolis]") {
-  auto c = Gahm::Physical::coriolis(30.0);
-  REQUIRE(c == Approx(0.0000763628));
-}
