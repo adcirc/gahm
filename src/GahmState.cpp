@@ -54,8 +54,8 @@ void GahmState::query(const Date &d) {
   m_direction = std::atan2(m_stormParametersQuery.utrans(),
                            m_stormParametersQuery.vtrans());
 
-  m_stormMotionU = std::sin(m_direction) * m_stormMotion;
-  m_stormMotionV = std::cos(m_direction) * m_stormMotion;
+  m_stormMotionU = gahm_sin(m_direction) * m_stormMotion;
+  m_stormMotionV = gahm_cos(m_direction) * m_stormMotion;
 }
 
 void GahmState::computeDistanceToStormCenter(const double stormCenterX,
@@ -63,7 +63,7 @@ void GahmState::computeDistanceToStormCenter(const double stormCenterX,
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double rotation = Constants::pi() + Constants::quarterpi();
   const double rearth = Physical::radiusEarth();
-  const double cosStormCenterY = std::cos(deg2rad * stormCenterY);
+  const double cosStormCenterY = gahm_cos(deg2rad * stormCenterY);
   for (auto i = 0; i < m_xpoints.size(); ++i) {
     //     m_distance[i] =
     //     Physical::geodesic_distance(m_xpoints[i],m_ypoints[i],stormCenterX,stormCenterY);

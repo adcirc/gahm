@@ -50,8 +50,10 @@ if(GAHM_ENABLE_FORTRAN)
   enable_language(Fortran)
 endif()
 
-option(GAHM_USE_FASTMATH OFF
-       "Build the code to use approximations to trancendental functions")
+option(GAHM_USE_FASTMATH_EXP "Build the code to use approximations to std::exp" OFF)
+option(GAHM_USE_FASTMATH_SQRT "Build the code to use approximations to std::sqrt" OFF)
+option(GAHM_USE_FASTMATH_SINCOS "Build the code to use approximations to std::sin and std::cos" OFF)
+mark_as_advanced(GAHM_USE_FASTMATH_EXP GAHM_USE_FASTMATH_SQRT GAHM_USE_FASTMATH_SINCOS)
 
 option(GAHM_BUILD_SHARED_LIB OFF "Build the GAHM library as a shared object")
 set(GAHM_LIBRARY_TYPE STATIC)
@@ -162,8 +164,14 @@ target_include_directories(
           ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/boost_1_76_0)
 
 # ...Fast Math
-if(GAHM_USE_FASTMATH)
-  target_compile_definitions(gahm PRIVATE GAHM_USE_FASTMATH)
+if(GAHM_USE_FASTMATH_EXP)
+  target_compile_definitions(gahm PRIVATE GAHM_USE_FASTMATH_EXP)
+endif()
+if(GAHM_USE_FASTMATH_SQRT)
+  target_compile_definitions(gahm PRIVATE GAHM_USE_FASTMATH_SQRT)
+endif()
+if(GAHM_USE_FASTMATH_SINCOS)
+  target_compile_definitions(gahm PRIVATE GAHM_USE_FASTMATH_SINCOS)
 endif()
 
 write_basic_package_version_file(

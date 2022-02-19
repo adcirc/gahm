@@ -26,6 +26,8 @@
 #ifndef GAHM_SRC_INTERPOLATION_H_
 #define GAHM_SRC_INTERPOLATION_H_
 
+#include "FastMath.h"
+
 namespace Gahm {
 namespace Interpolation {
 /**
@@ -54,10 +56,10 @@ static double angleInterp(const double weight, const double v1,
     assert(v < Constants::twopi());
     return v;
   } else {
-    double v1x = std::cos(v1);
-    double v1y = std::sin(v1);
-    double v2x = std::cos(v2);
-    double v2y = std::sin(v2);
+    double v1x = gahm_cos(v1);
+    double v1y = gahm_sin(v1);
+    double v2x = gahm_cos(v2);
+    double v2y = gahm_sin(v2);
     double v3x = Interpolation::linearInterp(weight, v1x, v2x);
     double v3y = Interpolation::linearInterp(weight, v1y, v2y);
     double v = std::atan2(v3y, v3x);

@@ -30,6 +30,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <type_traits>
+#include "Logging.h"
 
 namespace Gahm {
 class FastMath {
@@ -41,6 +42,7 @@ class FastMath {
     } else if (std::is_same<T, double>()) {
       return FastMath::double_fastExp(x);
     } else {
+      gahm_throw_exception("Invalid type");
       return T(0);
     }
   }
@@ -52,8 +54,33 @@ class FastMath {
     } else if (std::is_same<T, double>()) {
       return 1.0 / FastMath::double_fastInverseSquareRoot(x);
     } else {
+      gahm_throw_exception("Invalid type");
       return T(0);
     }
+  }
+
+  template<typename T>
+  static constexpr T cos(T x) noexcept {
+    constexpr T tp = 1./(2.*M_PI);
+    constexpr T A = 0.25;
+    constexpr T B = 16.0;
+    constexpr T C = 0.5; 
+    constexpr T D = 0.225;
+    constexpr T E = 1.0;
+    x *= tp;
+    x -= A + std::floor(x + A);
+    x *= B * (std::abs(x) - C);
+    return x + D * x * (std::abs(x) - E);
+  }
+
+  template<typename T>
+  static constexpr T sin(T x) noexcept {
+    constexpr T B = 4.0 / M_PI;
+    constexpr T C = -4.0 / (M_PI*M_PI);
+    constexpr T Q = 0.775;
+    constexpr T P = 0.225;
+    T y = B * x + C * x * std::abs(x);
+    return P * (y * abs(y) - y) + y;
   }
 
  private:
@@ -64,12 +91,26 @@ class FastMath {
 };
 }  // namespace Gahm
 
-#ifdef GAHM_USE_FASTMATH
+
+// ifdefs to enable the different fast trancendental functions
+#ifdef GAHM_USE_FASTMATH_SQRT
 #define gahm_sqrt Gahm::FastMath::fast_sqrt
-#define gahm_exp Gahm::FastMath::fast_exp
 #else
 #define gahm_sqrt std::sqrt
+#endif
+
+#ifdef GAHM_USE_FASTMATH_EXP
+#define gahm_exp Gahm::FastMath::fast_exp
+#else
 #define gahm_exp std::exp
+#endif
+
+#ifdef GAHM_USE_FASTMATH_SINCOS
+#define gahm_sin Gahm::FastMath::sin
+#define gahm_cos Gahm::FastMath::cos
+#else
+#define gahm_sin std::sin
+#define gahm_cos std::cos
 #endif
 
 #endif  // GAHM_SRC_FASTMATH_H_

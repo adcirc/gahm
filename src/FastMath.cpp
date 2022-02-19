@@ -78,3 +78,5 @@ double FastMath::double_fastInverseSquareRoot(double number) noexcept {
   //      removed
   return number;
 }
+
+

@@ -129,7 +129,7 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
   const double rmaxdisb = std::pow(rmaxmeters / distance, pack.hollandB());
 
   double speed = std::sqrt((vmaxsq + vmaxrmax) * rmaxdisb *
-                               std::exp(phi * (1.0 - rmaxdisb)) +
+                               gahm_exp(phi * (1.0 - rmaxdisb)) +
                            c * c) -
                  c;
 
@@ -137,8 +137,8 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
   const double tsx = speedOverVmax * utrans;
   const double tsy = speedOverVmax * vtrans;
   speed *= Physical::windReduction();
-  const double u = -speed * std::cos(angle);
-  const double v = speed * std::sin(angle);
+  const double u = -speed * gahm_cos(angle);
+  const double v = speed * gahm_sin(angle);
 
   const double friction_angle =
       Physical::frictionAngle(distance, pack.radiusToMaxWindsTrue() * km2m);
@@ -151,7 +151,7 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
 
   const double p =
       s.centralPressure() + (s.backgroundPressure() - s.centralPressure()) *
-                                std::exp(-phi * rmaxdisb);
+                                gahm_exp(-phi * rmaxdisb);
   return {uf, vf, p};
 }
 

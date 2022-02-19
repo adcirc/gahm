@@ -53,10 +53,10 @@ static double radiusEarth(
   const double l =
       Gahm::Units::convert(Gahm::Units::Degree, Gahm::Units::Radian) * latitude;
   return gahm_sqrt(
-      (std::pow(equatorialRadius(), 4.0) * std::cos(l) * std::cos(l) +
-       std::pow(polarRadius(), 4.0) * std::sin(l) * std::sin(l)) /
-      (std::pow(equatorialRadius(), 2.0) * std::cos(l) * std::cos(l) +
-       std::pow(polarRadius(), 2.0) * std::sin(l) * std::sin(l)));
+      (std::pow(equatorialRadius(), 4.0) * gahm_cos(l) * gahm_cos(l) +
+       std::pow(polarRadius(), 4.0) * gahm_sin(l) * gahm_sin(l)) /
+      (std::pow(equatorialRadius(), 2.0) * gahm_cos(l) * gahm_cos(l) +
+       std::pow(polarRadius(), 2.0) * gahm_sin(l) * gahm_sin(l)));
 }
 
 static double radiusEarth(const double y1, const double y2) {
@@ -75,9 +75,9 @@ static double geodesic_distance(const double x1, const double y1,
   const double lat2 = Units::convert(Units::Degree, Units::Radian) * y2;
   const double lon2 = Units::convert(Units::Degree, Units::Radian) * x2;
   return 2.0 * radiusEarth(y1, y2) *
-         std::asin(gahm_sqrt(std::pow(std::sin((lat2 - lat1) / 2.0), 2.0) +
-                             std::cos(lat1) * std::cos(lat2) *
-                                 std::pow(std::sin((lon2 - lon1) / 2.0), 2.0)));
+         std::asin(gahm_sqrt(std::pow(gahm_sin((lat2 - lat1) / 2.0), 2.0) +
+                             gahm_cos(lat1) * gahm_cos(lat2) *
+                                 std::pow(gahm_sin((lon2 - lon1) / 2.0), 2.0)));
 }
 
 static std::tuple<double, double, double> sphericalDx(const double x1,
@@ -104,9 +104,9 @@ static double azimuthEarth(double x1, double y1, double x2, double y2) {
   x2 *= deg2rad;
   y2 *= deg2rad;
   double dx = x1 - x2;
-  double cy2 = std::cos(y2);
-  double x = std::cos(y1) * std::sin(y2) - std::sin(y1) * cy2 * std::cos(dx);
-  double y = std::sin(dx) * cy2;
+  double cy2 = gahm_cos(y2);
+  double x = gahm_cos(y1) * gahm_sin(y2) - gahm_sin(y1) * cy2 * gahm_cos(dx);
+  double y = gahm_sin(dx) * cy2;
   return std::atan2(y, x);
 }
 

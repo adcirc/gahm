@@ -191,8 +191,8 @@ std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               double angle,
                                               const double latitude) noexcept {
   if (latitude < 0.0) angle *= -1.0;
-  const double cosA = std::cos(angle);
-  const double sinA = std::sin(angle);
+  const double cosA = gahm_cos(angle);
+  const double sinA = gahm_sin(angle);
   return std::make_pair(x * cosA - y * sinA, x * sinA + y * cosA);
 }
 

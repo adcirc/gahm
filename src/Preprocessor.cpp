@@ -418,8 +418,8 @@ double Preprocessor::computeQuadrantVrValue(const double vmaxBL,
   const double epsilonAngle = Preprocessor::computeEpsilonAngle(
       vmaxBL, quadrantVectorAngles, stormMotion);
 
-  const double uvr = vr * std::cos(epsilonAngle);
-  const double vvr = vr * std::sin(epsilonAngle);
+  const double uvr = vr * gahm_cos(epsilonAngle);
+  const double vvr = vr * gahm_sin(epsilonAngle);
 
   const double gamma =
       Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
@@ -453,8 +453,8 @@ void Preprocessor::recomputeQuadrantVrLoop(
         isotach.vmaxBl().set(k, qvr);
       } else {
         isotach.vmaxBl().set(k, vmaxBL);
-        const double uvr = vr * std::cos(stormDirection * deg2rad);
-        const double vvr = vr * std::sin(stormDirection * deg2rad);
+        const double uvr = vr * gahm_cos(stormDirection * deg2rad);
+        const double vvr = vr * gahm_sin(stormDirection * deg2rad);
         const double gamma =
             Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
         const double qvr2 =
@@ -472,8 +472,8 @@ double Preprocessor::computeQuadrantVrValue(const double quadrantVectorAngle,
                                             const double vr) {
   constexpr double mps2kt = Units::convert(Units::MetersPerSecond, Units::Knot);
 
-  const double qvr_1 = (stormMotion.u * mps2kt * std::cos(quadrantVectorAngle) +
-                        stormMotion.v * mps2kt * std::sin(quadrantVectorAngle));
+  const double qvr_1 = (stormMotion.u * mps2kt * gahm_cos(quadrantVectorAngle) +
+                        stormMotion.v * mps2kt * gahm_sin(quadrantVectorAngle));
   const double qvr =
       (-2.0 * qvr_1 + std::sqrt(4.0 * std::pow(qvr_1, 2.0) -
                                 4.0 * (std::pow(stormMotion.uv * mps2kt, 2.0) -
@@ -511,8 +511,8 @@ double Preprocessor::computeEpsilonAngle(const double velocity,
                                          const StormMotion &stormMotion) {
   double e =
       Constants::twopi() +
-      std::atan2(velocity * std::sin(quadrantVectorAngle) + stormMotion.v,
-                 velocity * std::cos(quadrantVectorAngle) + stormMotion.u);
+      std::atan2(velocity * gahm_sin(quadrantVectorAngle) + stormMotion.v,
+                 velocity * gahm_cos(quadrantVectorAngle) + stormMotion.u);
   if (e > Constants::twopi()) e -= Constants::twopi();
   return e;
 }
@@ -525,10 +525,10 @@ Preprocessor::StormMotion Preprocessor::computeStormMotion(
                0.63) *
       Units::convert(Units::Knot, Units::MetersPerSecond);
   double stormMotionU =
-      std::sin(direction * Units::convert(Units::Degree, Units::Radian)) *
+      gahm_sin(direction * Units::convert(Units::Degree, Units::Radian)) *
       stormMotion;
   double stormMotionV =
-      std::cos(direction * Units::convert(Units::Degree, Units::Radian)) *
+      gahm_cos(direction * Units::convert(Units::Degree, Units::Radian)) *
       stormMotion;
   return {stormMotionU, stormMotionV, stormMotion};
 }
