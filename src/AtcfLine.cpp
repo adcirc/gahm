@@ -357,8 +357,8 @@ void AtcfLine::setStormName(const std::string &storm_name) {
 }
 
 Isotach &AtcfLine::isotach(size_t index) {
-  return const_cast<Isotach &>(
-      static_cast<const AtcfLine &>(*this).isotach(index));
+  assert(index < m_isotach.size());
+  return m_isotach[index];
 }
 
 const Isotach &AtcfLine::isotach(size_t index) const {

@@ -144,9 +144,7 @@ double Vortex::iterateRadius() const {
   double dr = 1.0;
   for (auto root_iteration = 0; root_iteration < max_root_iterations;
        ++root_iteration) {
-    r = this->findRoot(r1, r2, dr);
-    r1 = r.left;
-    r2 = r.right;
+    r = this->findRoot(r.left, r.right, dr);
     dr *= zoom_size;
   }
   return r.root;
@@ -158,29 +156,21 @@ int Vortex::computeRadiusToWind() {
 
     for (size_t it = 0; it < m_max_it; ++it) {
       double root = this->iterateRadius();
-      if (root < 0.0) {
-        root = m_stormData->isotach(m_currentIsotach).isotachRadius().at(quad);
-        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
-        m_assumptions->add(generate_assumption(
-            Assumption::MAJOR,
-            "Root could not be found for record " +
-                std::to_string(m_currentRecord) +
-                ", Isotach: " + std::to_string(m_currentIsotach) +
-                ", Quadrant: " + std::to_string(quad)));
-      } else {
-        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
-      }
-
       const ShapeTerms st = this->iterateShapeTerms(root);
       if (st.converged) {
         Logging::debug("Radius iteration converged in " +
                        std::to_string(it + 1) + " iterations.");
         m_stormData->isotach(m_currentIsotach).hollandB().set(quad, st.b);
         m_stormData->isotach(m_currentIsotach).phi().set(quad, st.phi);
+        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
         break;
       }
       if (it == m_max_it - 1 && !st.converged) {
         Logging::debug("Radius iteration failed to converged.");
+        m_stormData->isotach(m_currentIsotach).hollandB().set(quad, st.b);
+        m_stormData->isotach(m_currentIsotach).phi().set(quad, st.phi);
+        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
+        break;
       }
     }
   }
@@ -214,7 +204,7 @@ void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
   auto angle2 = angle + Constants::quarterpi();
-  if(angle2 > Constants::twopi()) angle2 -= Constants::twopi();
+  if (angle2 > Constants::twopi()) angle2 -= Constants::twopi();
   auto quad = std::fmod(angle2 / Constants::halfpi(), 4);
   const double rem = angle2 - quad * Constants::halfpi();
   return {quad, rem};

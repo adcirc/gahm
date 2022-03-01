@@ -309,25 +309,47 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
                        a.isotach(i).windSpeed() *
                        Units::convert(Units::MetersPerSecond, Units::Knot))));
       const std::string isospd = fmt::format(
-          "{:7.1f}",
+          "{:5.0f}",
           std::round(a.isotach(i).windSpeed() *
                      Units::convert(Units::MetersPerSecond, Units::Knot)));
       const std::string ir1 = fmt::format(
-          "{:7.1f}",
+          "{:5.0f}",
           std::round(a.isotach(i).isotachRadius().at(0) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
       const std::string ir2 = fmt::format(
-          "{:7.1f}",
+          "{:5.0f}",
           std::round(a.isotach(i).isotachRadius().at(1) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
       const std::string ir3 = fmt::format(
-          "{:7.1f}",
+          "{:5.0f}",
           std::round(a.isotach(i).isotachRadius().at(2) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
       const std::string ir4 = fmt::format(
-          "{:7.1f}",
-          std::round(a.isotach(i).isotachRadius().at(4) *
+          "{:5.0f}",
+          std::round(a.isotach(i).isotachRadius().at(3) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
+
+      const std::string rm1 = fmt::format(
+          "{:6.1f}",
+          std::round(a.isotach(i).rmax().at(0) * 10.0 *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)) /
+              10.0);
+      const std::string rm2 = fmt::format(
+          "{:6.1f}",
+          std::round(a.isotach(i).rmax().at(1) * 10.0 *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)) /
+              10.0);
+      const std::string rm3 = fmt::format(
+          "{:6.1f}",
+          std::round(a.isotach(i).rmax().at(2) * 10.0 *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)) /
+              10.0);
+      const std::string rm4 = fmt::format(
+          "{:6.1f}",
+          std::round(a.isotach(i).rmax().at(3) * 10.0 *
+                     Units::convert(Units::Kilometer, Units::NauticalMile)) /
+              10.0);
+
       const std::string bbase = fmt::format("{:9.4f}", a.hollandB());
       const std::string b1 =
           fmt::format("{:9.4f}", a.isotach(i).hollandB().at(0));
@@ -352,12 +374,13 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
 
       f << fmt::format(
-          "{:>3s}, {:>02d}, {:>04d}{:>02d}{:>02d}{:>02d},   "
-          ",{:>5s},{:>4s},{:>5s},{:>5s},{:>4s},{:>5s},   "
-          ",{:>5s},{:>5s},{:>5s},{:>5s},{:>4s},{:>4s},{:>5s},     ,{:>4s},     "
+          "{:>2s}, {:>02d}, {:>04d}{:>02d}{:>02d}{:>02d},   "
+          ",{:>5s},{:>4s},{:>5s},{:>6s},{:>4s},{:>5s},   "
+          ",{:>4s},{:>4s},{:>5s},{:>5},{:>5s},{:>5s},{:>5s},     ,{:>4s},     "
           ",    ,    ,    ,    "
           ",{:>3s},{:>4s},{:>12s},{:>4d},{:>5d},{:>2d},{:>2d},{:>2d},{:>2d},{:>"
-          "9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},{"
+          "9s},{:>7s},{:>7s},{:>7s},{:>10s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},"
+          "{"
           ":>9s},{:>9s},{:>9s}\n",
           a.basin(), a.cycloneNumber(), a.datetime().year(),
           a.datetime().month(), a.datetime().day(), a.datetime().hour(),
@@ -366,7 +389,7 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
           backgroundPressure, rmax, heading, forwardSpeed, a.stormName(),
           cycleNumber, a.nIsotach(), a.isotach(i).quadFlag().at(0),
           a.isotach(i).quadFlag().at(1), a.isotach(i).quadFlag().at(2),
-          a.isotach(i).quadFlag().at(3), ir1, ir2, ir3, ir4, bbase, b1, b2, b3,
+          a.isotach(i).quadFlag().at(3), rm1, rm2, rm3, rm4, bbase, b1, b2, b3,
           b4, vmax1, vmax2, vmax3, vmax4);
     }
   }
