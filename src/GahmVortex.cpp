@@ -140,8 +140,8 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
   const double u = -speed * gahm_cos(angle);
   const double v = speed * gahm_sin(angle);
 
-  const double friction_angle =
-      Physical::frictionAngle(distance, pack.radiusToMaxWindsTrue() * km2m);
+  const double friction_angle = Physical::queenslandInflowAngle(
+      distance, pack.radiusToMaxWindsTrue() * km2m);
 
   double uf, vf;
   std::tie(uf, vf) = Vortex::rotateWinds(u, v, friction_angle, s.latitude());

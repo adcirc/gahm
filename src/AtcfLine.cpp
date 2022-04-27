@@ -143,13 +143,13 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto null1 = AtcfLine::readValueCheckBlank<bool>(split[31]);
     auto null2 = AtcfLine::readValueCheckBlank<bool>(split[32]);
     auto null3 = AtcfLine::readValueCheckBlank<bool>(split[33]);
-    i.isotachRadiusNullInInput() = {null0, null1, null2, null3};
+    i.isotach_radius_null_input()->set({null0, null1, null2, null3});
 
     auto ir0 = AtcfLine::readValueCheckBlank<double>(split[34]) * nm2km;
     auto ir1 = AtcfLine::readValueCheckBlank<double>(split[35]) * nm2km;
     auto ir2 = AtcfLine::readValueCheckBlank<double>(split[36]) * nm2km;
     auto ir3 = AtcfLine::readValueCheckBlank<double>(split[37]) * nm2km;
-    i.rmax() = {ir0, ir1, ir2, ir3};
+    i.quadrant_radius_to_max_winds()->set({ir0, ir1, ir2, ir3});
 
     a.setHollandB(AtcfLine::readValueCheckBlank<double>(split[38]));
 
@@ -157,13 +157,13 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto b1 = AtcfLine::readValueCheckBlank<double>(split[40]);
     auto b2 = AtcfLine::readValueCheckBlank<double>(split[41]);
     auto b3 = AtcfLine::readValueCheckBlank<double>(split[42]);
-    i.hollandB() = {b0, b1, b2, b3};
+    i.quadrant_holland_b()->set({b0, b1, b2, b3});
 
     auto v0 = AtcfLine::readValueCheckBlank<double>(split[43]) * kt2ms;
     auto v1 = AtcfLine::readValueCheckBlank<double>(split[44]) * kt2ms;
     auto v2 = AtcfLine::readValueCheckBlank<double>(split[45]) * kt2ms;
     auto v3 = AtcfLine::readValueCheckBlank<double>(split[46]) * kt2ms;
-    i.vmaxBl() = {v0, v1, v2, v3};
+    i.quadrant_vmax_boundary_layer()->set({v0, v1, v2, v3});
   }
 
   a.addIsotach(i);
@@ -356,14 +356,14 @@ void AtcfLine::setStormName(const std::string &storm_name) {
   m_stormName = storm_name;
 }
 
-Isotach &AtcfLine::isotach(size_t index) {
+Isotach *AtcfLine::isotach(size_t index) {
   assert(index < m_isotach.size());
-  return m_isotach[index];
+  return &m_isotach[index];
 }
 
-const Isotach &AtcfLine::isotach(size_t index) const {
+const Isotach *AtcfLine::isotach(size_t index) const {
   assert(index < m_isotach.size());
-  return m_isotach[index];
+  return &m_isotach[index];
 }
 
 void AtcfLine::addIsotach(const Isotach &iso) {
@@ -392,9 +392,7 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
      << "\n";
   os << "                Reference Date: "
      << atcf.referenceDatetime().toString() << "\n";
-  os << "                     Technique: "
-     << atcf.techstring();  //<< "("
-                            //<< atcf.technum() << ")\n";
+  os << "                     Technique: " << atcf.techstring() << "\n";
   os << "                 Forecast Hour: " << atcf.tau() << " hours\n";
   os << "                     Longitude: " << atcf.lon() << " degrees east\n";
   os << "                      Latitude: " << atcf.lat() << " degrees north\n";
@@ -409,6 +407,10 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
       os << "; [NULL]";
     }
     os << "\n";
+    os << "                     GAHM Holland B: " << *(iso.quadrant_holland_b())
+       << "\n";
+    os << "                          GAHM RMax: "
+       << *(iso.quadrant_radius_to_max_winds()) << "\n";
     ++n;
   }
   os << "            Last Closed Isobar: " << atcf.lastClosedIsobar()
@@ -428,7 +430,7 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
 bool AtcfLine::isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2) {
   if (a1.basin() == a2.basin() && a1.cycloneNumber() == a2.cycloneNumber() &&
       a1.datetime() == a2.datetime() &&
-      a1.isotach(0).windSpeed() != a2.isotach(0).windSpeed()) {
+      a1.isotach(0)->windSpeed() != a2.isotach(0)->windSpeed()) {
     return true;
   } else {
     return false;
@@ -479,7 +481,7 @@ void AtcfLine::generateLastIsotach() {
   std::array<unsigned short, 4> last_iso = {0, 0, 0, 0};
   for (auto iso = m_isotach.begin(); iso != m_isotach.end(); ++iso) {
     for (auto j = 0; j < 4; ++j) {
-      if (iso->quadFlag().at(j)) {
+      if (iso->quadrant_flag()->at(j)) {
         last_iso[j] = static_cast<unsigned short>(iso - m_isotach.begin());
       }
     }
@@ -491,7 +493,7 @@ void AtcfLine::generateIsotachCache() {
   for (auto i = 0; i < 4; ++i) {
     m_isotachRadiiCache[i].reserve(m_isotach.size());
     for (const auto &v : m_isotach) {
-      m_isotachRadiiCache[i].push_back(v.isotachRadius().at(i));
+      m_isotachRadiiCache[i].push_back(v.isotach_radius()->at(i));
     }
   }
 }

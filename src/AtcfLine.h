@@ -80,8 +80,8 @@ class AtcfLine {
   std::string maxDevelopmentLevel() const;
   void setMaxDevelopmentLevel(const std::string &maxDevelopmentLevel);
 
-  Gahm::Isotach &isotach(size_t index);
-  const Gahm::Isotach &isotach(size_t index) const;
+  Gahm::Isotach *isotach(size_t index);
+  const Gahm::Isotach *isotach(size_t index) const;
 
   void addIsotach(const Gahm::Isotach &iso);
   void removeIsotach(size_t pos);
@@ -134,7 +134,7 @@ class AtcfLine {
     if (this->nIsotach() == 0 && a.nIsotach() == 0) return false;
     if (this->nIsotach() > 0 && a.nIsotach() == 0) return true;
     if (this->nIsotach() == 0 && a.nIsotach() > 0) return false;
-    if (this->isotach(0).windSpeed() < a.isotach(0).windSpeed()) {
+    if (this->isotach(0)->windSpeed() < a.isotach(0)->windSpeed()) {
       return true;
     }
     return false;

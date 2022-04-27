@@ -57,6 +57,7 @@ class CircularArray {
 
   auto at(int index) const noexcept { return m_data[mod_floor(index)]; }
   void set(int index, T value) noexcept { m_data[mod_floor(index)] = value; }
+  void set(const std::array<T, array_size> &array) { m_data = array; }
 
   auto front() noexcept { return m_data.front(); }
   auto back() noexcept { return m_data.back(); }
@@ -115,4 +116,17 @@ class CircularArray {
   }
 };
 }  // namespace Gahm
+
+template <typename T, size_t array_size>
+std::ostream &operator<<(std::ostream &os,
+                         const Gahm::CircularArray<T, array_size> &array) {
+  for (auto b = array.cbegin(); b != array.cend(); ++b) {
+    os << *(b);
+    if (b != array.cend() - 1) {
+      os << ", ";
+    }
+  }
+  return os;
+}
+
 #endif  // CIRCULARARRAY_H

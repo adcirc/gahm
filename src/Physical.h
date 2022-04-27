@@ -33,14 +33,17 @@ namespace Gahm {
 namespace Physical {
 
 static constexpr double rotation_earth() { return 3600.0 * 7.2921 * 10e-5; }
-
 static constexpr double backgroundPressure() { return 1013.0; }
 static constexpr double windReduction() { return 0.9; }
 static constexpr double rhoAir() { return 1.293; }
 static constexpr double g() { return 9.80665; }
-static constexpr double omega() {
-  return 2.0 * Gahm::Constants::pi() / 86164.20;
-}
+
+/**
+ * Return the earth rotational speed
+ * @return earth rotation speed
+ */
+static constexpr double omega() noexcept { return 3600.0 * 7.2921 * 1e-5; }
+
 static constexpr double rhoWat0() { return 1000.0; }
 static constexpr double one2ten() { return 0.8928; }
 
@@ -110,18 +113,16 @@ static double azimuthEarth(double x1, double y1, double x2, double y2) {
   return std::atan2(y, x);
 }
 
-static constexpr double coriolis(double lat) noexcept {
-  return 2.0 * Physical::omega() *
-         Units::convert(Units::Degree, Units::Radian) * lat;
+/**
+ * Compute the coriolis force
+ * @param lat latitude to return force for
+ * @return coriolis force
+ */
+static double coriolis(double lat) noexcept {
+  return 2.0 * omega() * std::sin((M_PI / 180.0) * lat);
 }
 
-static constexpr double calcHollandB(double vmax, double p0, double pinf) {
-  assert(p0 != pinf);
-  return (vmax * vmax * Physical::rhoAir() * Constants::e()) /
-         (Units::convert(Units::Millibar, Units::Pascal) * (pinf - p0));
-}
-
-static constexpr double frictionAngle(double r, double rmx) noexcept {
+static constexpr double queenslandInflowAngle(double r, double rmx) noexcept {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   constexpr double degree1 = deg2rad;
   constexpr double degree10 = 10.0 * deg2rad;
@@ -136,6 +137,19 @@ static constexpr double frictionAngle(double r, double rmx) noexcept {
   } else {
     return 0.0;
   }
+}
+
+/**
+ * Computes the traditional Holland B parameter
+ * @param vmax maximum storm wind velocity
+ * @param p0 minimum storm pressure
+ * @param pinf background pressure
+ * @return Holland B
+ */
+constexpr double calcHollandB(const double vmax, const double p0,
+                                        const double pinf) {
+  assert(p0 != pinf);
+  return (vmax * vmax * Physical::rhoAir() * M_E) / (100.0 * (pinf - p0));
 }
 
 }  // namespace Physical

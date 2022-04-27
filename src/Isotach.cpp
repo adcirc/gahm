@@ -36,12 +36,12 @@ Isotach::Isotach()
     : m_windSpeed(0.0),
       m_isotachRadius({0.0, 0.0, 0.0, 0.0}),
       m_isotachRadiusNullInInput({true, true, true, true}),
-      m_rmax({0.0, 0.0, 0.0, 0.0}),
-      m_hollandB({1.0, 1.0, 1.0, 1.0}),
-      m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
-      m_quadFlag({false, false, false, false}),
-      m_quadrantVr({0.0, 0.0, 0.0, 0.0}),
-      m_phi({1.0, 1.0, 1.0, 1.0}),
+      m_quadrant_radius_max_winds({0.0, 0.0, 0.0, 0.0}),
+      m_quadrant_holland_b({1.0, 1.0, 1.0, 1.0}),
+      m_quadrant_vmax_boundary_layer({0.0, 0.0, 0.0, 0.0}),
+      m_quadrant_flag({false, false, false, false}),
+      m_quadrant_velocity({0.0, 0.0, 0.0, 0.0}),
+      m_quadrant_phi({1.0, 1.0, 1.0, 1.0}),
       m_radiusCode(NONE) {}
 
 Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
@@ -49,12 +49,12 @@ Isotach::Isotach(Isotach::RadiusCode code, double windSpeed, double r1,
     : m_windSpeed(windSpeed),
       m_isotachRadius({r1, r2, r3, r4}),
       m_isotachRadiusNullInInput({r1 == 0.0, r2 == 0.0, r3 == 0.0, r4 == 0.0}),
-      m_rmax({0.0, 0.0, 0.0, 0.0}),
-      m_hollandB({1.0, 1.0, 1.0, 1.0}),
-      m_vmaxBL({0.0, 0.0, 0.0, 0.0}),
-      m_quadFlag({false, false, false, false}),
-      m_quadrantVr({0.0, 0.0, 0.0, 0.0}),
-      m_phi({1.0, 1.0, 1.0, 1.0}),
+      m_quadrant_radius_max_winds({0.0, 0.0, 0.0, 0.0}),
+      m_quadrant_holland_b({1.0, 1.0, 1.0, 1.0}),
+      m_quadrant_vmax_boundary_layer({0.0, 0.0, 0.0, 0.0}),
+      m_quadrant_flag({false, false, false, false}),
+      m_quadrant_velocity({0.0, 0.0, 0.0, 0.0}),
+      m_quadrant_phi({1.0, 1.0, 1.0, 1.0}),
       m_radiusCode(code) {}
 
 double Isotach::windSpeed() const { return m_windSpeed; }
@@ -65,15 +65,16 @@ Isotach::RadiusCode Isotach::code() const { return m_radiusCode; }
 void Isotach::setCode(RadiusCode code) { m_radiusCode = code; }
 
 void Isotach::generateQuadFlag() {
-  for (size_t i = 0; i < m_quadFlag.size(); ++i) {
-    m_quadFlag[i] = m_isotachRadius.at(i) > 0;
+  for (size_t i = 0; i < m_quadrant_flag.size(); ++i) {
+    m_quadrant_flag[i] = m_isotachRadius.at(i) > 0;
   }
 }
 
 bool Isotach::isNull(const Isotach &iso) {
   if (iso.windSpeed() == 0.0) return true;
-  if (iso.isotachRadius().at(0) <= 0.0 && iso.isotachRadius().at(1) <= 0.0 &&
-      iso.isotachRadius().at(2) <= 0.0 && iso.isotachRadius().at(3) <= 0.0)
+  if (iso.isotach_radius()->at(0) <= 0.0 &&
+      iso.isotach_radius()->at(1) <= 0.0 &&
+      iso.isotach_radius()->at(2) <= 0.0 && iso.isotach_radius()->at(3) <= 0.0)
     return true;
   if (iso.code() == RadiusCode::NONE) return true;
   return false;
@@ -99,13 +100,13 @@ void Isotach::setRadiusCode(const RadiusCode &radiusCode) {
 }
 
 Gahm::ParameterPack Isotach::parameterPack(int quad) const {
-  return {m_vmaxBL[quad], m_rmax[quad], m_rmax[quad], m_hollandB[quad]};
+  return {m_quadrant_vmax_boundary_layer[quad],
+          m_quadrant_radius_max_winds[quad], m_quadrant_radius_max_winds[quad],
+          m_quadrant_holland_b[quad]};
 }
 
 std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso) {
   os << Isotach::stringFromCode(iso.code()) << ", " << iso.windSpeed()
-     << " m/s, [" << iso.isotachRadius().at(0) << ", "
-     << iso.isotachRadius().at(1) << ", " << iso.isotachRadius().at(2) << ", "
-     << iso.isotachRadius().at(3) << "]";
+     << " m/s, [" << *(iso.isotach_radius()) << "]";
   return os;
 }

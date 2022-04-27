@@ -106,7 +106,6 @@ set(GAHM_LIBRARY_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/CircularArray.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/UnitConversion.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Interpolation.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/StormParameters.h
@@ -116,7 +115,10 @@ set(GAHM_LIBRARY_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/FastMath.h)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/FastMath.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolverPrivate.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolver.h)
 
 set(GAHM_LIBRARY_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmVortex.cpp
@@ -130,21 +132,22 @@ set(GAHM_LIBRARY_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumptions.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Assumption.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Preprocessor.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmState.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAscii.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/OwiAsciiDomain.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/FastMath.cpp)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/FastMath.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolver.cpp )
 
 # ... Fortran sources
 if(GAHM_ENABLE_FORTRAN)
   set(GAHM_LIBRARY_SOURCES
       ${GAHM_LIBRARY_SOURCES}
       ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm_fortran.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm.F90)
+      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm.F90 src/Atmospheric.cpp src/Atmospheric.h)
 endif()
 
 # ...Generate the library

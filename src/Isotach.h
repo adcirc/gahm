@@ -35,47 +35,6 @@
 #include "ParameterPack.h"
 namespace Gahm {
 class Isotach {
- private:
-  template <typename S>
-  static decltype(auto) quadFlag_internal(S *s) {
-    return (s->m_quadFlag);
-  }
-
-  template <typename S>
-  static decltype(auto) isotachRadius_internal(S *s) {
-    return (s->m_isotachRadius);
-  }
-
-  template <typename S>
-  static decltype(auto) isotachRadiusNullInInput_internal(S *s) {
-    return (s->m_isotachRadiusNullInInput);
-  }
-
-  template <typename S>
-  static decltype(auto) rmax_internal(S *s) {
-    return (s->m_rmax);
-  }
-
-  template <typename S>
-  static decltype(auto) vmaxBl_internal(S *s) {
-    return (s->m_vmaxBL);
-  }
-
-  template <typename S>
-  static decltype(auto) hollandB_internal(S *s) {
-    return (s->m_hollandB);
-  }
-
-  template <typename S>
-  static decltype(auto) phi_internal(S *s) {
-    return (s->m_phi);
-  }
-
-  template <typename S>
-  static decltype(auto) quadrantVr_internal(S *s) {
-    return (s->m_quadrantVr);
-  }
-
  public:
   enum RadiusCode { AAA, NEQ, SEQ, SWQ, NWQ, NONE };
 
@@ -102,51 +61,65 @@ class Isotach {
 
   Gahm::ParameterPack parameterPack(int quad) const;
 
-  decltype(auto) quadFlag() { return quadFlag_internal(this); }
-
-  decltype(auto) quadFlag() const { return quadFlag_internal(this); }
-
-  decltype(auto) isotachRadius() { return isotachRadius_internal(this); }
-
-  decltype(auto) isotachRadius() const { return isotachRadius_internal(this); }
-
-  decltype(auto) isotachRadiusNullInInput() {
-    return isotachRadiusNullInInput_internal(this);
+  Gahm::CircularArray<bool, 4> *quadrant_flag() { return &m_quadrant_flag; }
+  const Gahm::CircularArray<bool, 4> *quadrant_flag() const {
+    return &m_quadrant_flag;
   }
 
-  decltype(auto) isotachRadiusNullInInput() const {
-    return isotachRadiusNullInInput_internal(this);
+  Gahm::CircularArray<double, 4> *isotach_radius() { return &m_isotachRadius; }
+  const Gahm::CircularArray<double, 4> *isotach_radius() const {
+    return &m_isotachRadius;
   }
 
-  decltype(auto) rmax() { return rmax_internal(this); }
+  Gahm::CircularArray<bool, 4> *isotach_radius_null_input() {
+    return &m_isotachRadiusNullInInput;
+  }
+  const Gahm::CircularArray<bool, 4> *isotach_radius_null_input() const {
+    return &m_isotachRadiusNullInInput;
+  }
 
-  decltype(auto) rmax() const { return rmax_internal(this); }
+  Gahm::CircularArray<double, 4> *quadrant_radius_to_max_winds() {
+    return &m_quadrant_radius_max_winds;
+  }
+  const Gahm::CircularArray<double, 4> *quadrant_radius_to_max_winds() const {
+    return &m_quadrant_radius_max_winds;
+  }
 
-  decltype(auto) vmaxBl() { return vmaxBl_internal(this); }
+  Gahm::CircularArray<double, 4> *quadrant_vmax_boundary_layer() {
+    return &m_quadrant_vmax_boundary_layer;
+  }
+  const Gahm::CircularArray<double, 4> *quadrant_vmax_boundary_layer() const {
+    return &m_quadrant_vmax_boundary_layer;
+  }
 
-  decltype(auto) vmaxBl() const { return vmaxBl_internal(this); }
+  Gahm::CircularArray<double, 4> *quadrant_holland_b() {
+    return &m_quadrant_holland_b;
+  }
+  const Gahm::CircularArray<double, 4> *quadrant_holland_b() const {
+    return &m_quadrant_holland_b;
+  }
 
-  decltype(auto) hollandB() { return hollandB_internal(this); }
+  Gahm::CircularArray<double, 4> *quadrant_phi() { return &m_quadrant_phi; }
+  const Gahm::CircularArray<double, 4> *quadrant_phi() const {
+    return &m_quadrant_phi;
+  }
 
-  decltype(auto) hollandB() const { return hollandB_internal(this); }
-
-  decltype(auto) phi() { return phi_internal(this); }
-
-  decltype(auto) phi() const { return phi_internal(this); }
-
-  decltype(auto) quadrantVr() { return quadrantVr_internal(this); }
-
-  decltype(auto) quadrantVr() const { return quadrantVr_internal(this); }
+  Gahm::CircularArray<double, 4> *quadrant_isotach_wind_speed() {
+    return &m_quadrant_velocity;
+  }
+  const Gahm::CircularArray<double, 4> *quadrant_isotach_wind_speed() const {
+    return &m_quadrant_velocity;
+  }
 
  private:
   double m_windSpeed;
   Gahm::CircularArray<double, 4> m_isotachRadius;
-  Gahm::CircularArray<double, 4> m_rmax;
-  Gahm::CircularArray<double, 4> m_hollandB;
-  Gahm::CircularArray<double, 4> m_vmaxBL;
-  Gahm::CircularArray<double, 4> m_phi;
-  Gahm::CircularArray<double, 4> m_quadrantVr;
-  Gahm::CircularArray<bool, 4> m_quadFlag;
+  Gahm::CircularArray<double, 4> m_quadrant_radius_max_winds;
+  Gahm::CircularArray<double, 4> m_quadrant_holland_b;
+  Gahm::CircularArray<double, 4> m_quadrant_vmax_boundary_layer;
+  Gahm::CircularArray<double, 4> m_quadrant_phi;
+  Gahm::CircularArray<double, 4> m_quadrant_velocity;
+  Gahm::CircularArray<bool, 4> m_quadrant_flag;
   Gahm::CircularArray<bool, 4> m_isotachRadiusNullInInput;
   Gahm::Isotach::RadiusCode m_radiusCode;
 };

@@ -59,7 +59,7 @@ class Vortex {
 
   Gahm::ParameterPack getParameters(double angle, double distance) const;
 
-  int computeRadiusToWind();
+  int computeRadiusToMaxWind();
 
   unsigned currentQuadrant() const;
   void setCurrentQuadrant(unsigned quad);

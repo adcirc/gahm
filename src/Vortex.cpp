@@ -29,10 +29,10 @@
 #include <cassert>
 #include <utility>
 
+#include "GahmSolver.h"
 #include "Interpolation.h"
 #include "Logging.h"
 #include "Physical.h"
-#include "VortexSolver.h"
 
 using namespace Gahm;
 
@@ -57,125 +57,6 @@ Vortex::Vortex(AtcfLine *atcf, const size_t currentRecord,
 }
 
 void Vortex::setStormData(AtcfLine *atcf) { m_stormData = atcf; }
-
-/**
- * Computes the GAHM b_g parameter
- * @param vmaxBoundaryLayer max wind speed for stationary storm at top of
- * boundary layer
- * @param radiusToMaxWinds radius from storm center to vmaxBoundaryLayer
- * @param phi Correction factor
- * @param dp central pressure deficit
- * @param coriolis Coriolis parameter
- * @param rho density of air
- * @return GAHM b_g parameter
- */
-double Vortex::computeBg(const double vmaxBoundaryLayer,
-                         const double radiusToMaxWinds, const double phi,
-                         const double dp, const double coriolis,
-                         const double rho) {
-  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
-  constexpr double mb2pa = Units::convert(Units::Millibar, Units::Pascal);
-  return (std::pow(vmaxBoundaryLayer, 2.0) +
-          vmaxBoundaryLayer * radiusToMaxWinds * km2m * coriolis) *
-         rho * std::exp(phi) / (phi * (dp * mb2pa));
-}
-
-/**
- * Compute the Phi parameter in the GAHM
- * @param vmaxBoundaryLayer max wind speed for stationary storm at top of
- * boundary layer
- * @param radiusToMaxWinds radius from storm center to vmaxBoundaryLayer
- * @param b GAHM b_g parameter, similar to Holland's B parameter
- * @param coriolis Coriolis parameter
- * @return phi
- */
-constexpr double Vortex::computePhi(const double vmaxBoundaryLayer,
-                                    const double radiusToMaxWinds,
-                                    const double b, const double coriolis) {
-  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
-  return 1.0 + (vmaxBoundaryLayer * radiusToMaxWinds * km2m * coriolis) /
-                   (b * vmaxBoundaryLayer * vmaxBoundaryLayer +
-                    vmaxBoundaryLayer * radiusToMaxWinds * km2m * coriolis);
-}
-
-std::tuple<double, double> Vortex::computeBandPhi(double vmax, double root,
-                                                  double b, double cor,
-                                                  double dp) {
-  double phi_new = Vortex::computePhi(vmax, root, b, cor);
-  double b_new =
-      Vortex::computeBg(vmax, root, phi_new, dp, cor, Physical::rhoAir());
-  return std::make_tuple(phi_new, b_new);
-}
-
-Vortex::ShapeTerms Vortex::iterateShapeTerms(const double root) const {
-  constexpr double accuracy = 0.01;
-
-  double vmax =
-      m_stormData->isotach(m_currentIsotach).vmaxBl().at(m_currentQuadrant);
-  double b =
-      m_stormData->isotach(m_currentIsotach).hollandB().at(m_currentQuadrant);
-  double cor = m_stormData->coriolis();
-  double dp = Physical::backgroundPressure() - m_stormData->centralPressure();
-
-  double phi_new, b_new;
-  std::tie(phi_new, b_new) = Vortex::computeBandPhi(vmax, root, b, cor, dp);
-
-  for (auto i = 0; i < m_max_it; ++i) {
-    double b_new1 = b_new;
-
-    std::tie(phi_new, b_new) =
-        Vortex::computeBandPhi(vmax, root, b_new1, cor, dp);
-
-    if (std::abs(b_new1 - b_new) < accuracy) {
-      Logging::debug("Shape iteration converged in " + std::to_string(i + 1) +
-                     " iterations.");
-      return {b_new, phi_new, true};
-    }
-  }
-  return {b_new, phi_new, false};
-}
-
-double Vortex::iterateRadius() const {
-  constexpr size_t max_root_iterations = 3;
-  constexpr double zoom_size = 0.01;
-  double r1 = Vortex::default_inner_radius();
-  double r2 = Vortex::default_outer_radius();
-  Root r(r1, r2, 0.0);
-  double dr = 1.0;
-  for (auto root_iteration = 0; root_iteration < max_root_iterations;
-       ++root_iteration) {
-    r = this->findRoot(r.left, r.right, dr);
-    dr *= zoom_size;
-  }
-  return r.root;
-}
-
-int Vortex::computeRadiusToWind() {
-  for (auto quad = 0; quad < 4; quad++) {
-    this->setCurrentQuadrant(quad);
-
-    for (size_t it = 0; it < m_max_it; ++it) {
-      double root = this->iterateRadius();
-      const ShapeTerms st = this->iterateShapeTerms(root);
-      if (st.converged) {
-        Logging::debug("Radius iteration converged in " +
-                       std::to_string(it + 1) + " iterations.");
-        m_stormData->isotach(m_currentIsotach).hollandB().set(quad, st.b);
-        m_stormData->isotach(m_currentIsotach).phi().set(quad, st.phi);
-        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
-        break;
-      }
-      if (it == m_max_it - 1 && !st.converged) {
-        Logging::debug("Radius iteration failed to converged.");
-        m_stormData->isotach(m_currentIsotach).hollandB().set(quad, st.b);
-        m_stormData->isotach(m_currentIsotach).phi().set(quad, st.phi);
-        m_stormData->isotach(m_currentIsotach).rmax().set(quad, root);
-        break;
-      }
-    }
-  }
-  return 0;
-}
 
 std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
                                               double angle,
@@ -208,50 +89,6 @@ std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
   auto quad = std::fmod(angle2 / Constants::halfpi(), 4);
   const double rem = angle2 - quad * Constants::halfpi();
   return {quad, rem};
-}
-
-/**
- * Computes the estimate of the Rossby number in a tropical cyclone
- * @param vmaxBoundaryLayer max wind speed for stationary storm at top of
- * boundary layer
- * @param radiusToMaxWinds radius from storm center to vmaxBoundaryLayer
- * @param coriolis Coriolis parameter
- * @return estimate to Rossby number
- */
-constexpr double Vortex::rossbyNumber(const double vmaxBoundaryLayer,
-                                      const double radiusToMaxWinds,
-                                      const double coriolis) {
-  assert(coriolis > 0.0);
-  assert(radiusToMaxWinds > 0.0);
-  return vmaxBoundaryLayer / (coriolis * radiusToMaxWinds);
-}
-
-Vortex::Root Vortex::findRoot(double aa, double bb,
-                              const double zoom_window) const {
-  constexpr size_t max_iterations = 400;
-  auto vortex_function = VortexSolver<VortexSolverType::NoDerivative>(
-      m_stormData, m_currentIsotach, m_currentQuadrant);
-  double fa = vortex_function(aa);
-
-  for (auto it = 0; it < max_iterations; ++it) {
-    bb = aa + static_cast<double>(it + 1) * zoom_window;
-    double fb = vortex_function(bb);
-
-    if (fa * fb < 0.0 || (std::abs(fb) > std::abs(fa))) {
-      Logging::debug("Bracket solver converged in " + std::to_string(it + 1) +
-                     " iterations.");
-      if (std::abs(fb) > std::abs(fa)) {
-        return {aa, bb, aa};
-      } else {
-        return {bb, aa, bb};
-      }
-    }
-    aa = bb;
-    fa = fb;
-  }
-  Logging::debug("Bracket solver failed to converge in" +
-                 std::to_string(max_iterations));
-  return {aa, bb, -1.0};
 }
 
 ParameterPack Vortex::getParameters(const double angle,
@@ -298,9 +135,9 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     return {m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
             m_stormData->radiusMaxWinds(), m_stormData->hollandB()};
   } else if (distance >= radii->front()) {
-    return m_stormData->isotach(0).parameterPack(quad);
+    return m_stormData->isotach(0)->parameterPack(quad);
   } else if (distance <= radii->back()) {
-    return m_stormData->isotach(radii->size() - 1).parameterPack(quad);
+    return m_stormData->isotach(radii->size() - 1)->parameterPack(quad);
   } else {
     const auto it =
         std::upper_bound(radii->rbegin(), radii->rend(), distance).base();
@@ -309,8 +146,8 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     const auto r1 = *(it);
     const auto r2 = *(it - 1);
     const double fac = (distance - r1) / (r2 - r1);
-    const auto p1 = m_stormData->isotach(pos1).parameterPack(quad);
-    const auto p2 = m_stormData->isotach(pos2).parameterPack(quad);
+    const auto p1 = m_stormData->isotach(pos1)->parameterPack(quad);
+    const auto p2 = m_stormData->isotach(pos2)->parameterPack(quad);
     double vmbl = Interpolation::linearInterp(fac, p1.vmaxBoundaryLayer(),
                                               p2.vmaxBoundaryLayer());
     double rmax = Interpolation::linearInterp(fac, p1.radiusToMaxWinds(),
@@ -323,3 +160,23 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
 }
 
 Date Vortex::datetime() const { return m_stormData->datetime(); }
+
+int Vortex::computeRadiusToMaxWind() {
+  for (auto iso = 0; iso < m_stormData->nIsotach(); ++iso) {
+    for (auto quad = 0; quad < 4; ++quad) {
+      GahmSolver g(
+          m_stormData->isotach(iso)->isotach_radius()->at(quad),
+          // m_stormData->isotach(iso)->quadrant_isotach_wind_speed()->at(quad),
+          m_stormData->isotach(iso)->windSpeed(),
+          //m_stormData->isotach(iso)->quadrant_vmax_boundary_layer()->at(quad),
+          m_stormData->vmax(),
+          m_stormData->centralPressure(), Physical::backgroundPressure(),
+          m_stormData->lat());
+      g.solve();
+      m_stormData->isotach(iso)->quadrant_radius_to_max_winds()->set(quad,
+                                                                     g.rmax());
+      m_stormData->isotach(iso)->quadrant_holland_b()->set(quad, g.bg());
+    }
+  }
+  return 0;
+}
