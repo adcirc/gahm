@@ -26,6 +26,7 @@
 #include <utility>
 
 #include "Assumptions.h"
+#include "Atmospheric.h"
 #include "Constants.h"
 #include "Gahm.h"
 #include "Interpolation.h"
@@ -77,8 +78,8 @@ WindData GahmVortex::get(const Date &d) {
   for (auto i = 0; i < m_state->size(); ++i) {
     auto param = this->generateStormParameterPackForLocation(sp, v1, v2, i);
     auto uvp = GahmVortex::getUvpr(m_state->distance(i), m_state->azimuth(i),
-                                   param, m_state->stormMotionU(),
-                                   m_state->stormMotionV(), sp);
+                                   param, m_state->stormMotion().u(),
+                                   m_state->stormMotion().v(), sp);
     g.set(i, uvp);
   }
 
@@ -140,7 +141,7 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
   const double u = -speed * gahm_cos(angle);
   const double v = speed * gahm_sin(angle);
 
-  const double friction_angle = Physical::queenslandInflowAngle(
+  const double friction_angle = Atmospheric::queenslandInflowAngle(
       distance, pack.radiusToMaxWindsTrue() * km2m);
 
   double uf, vf;

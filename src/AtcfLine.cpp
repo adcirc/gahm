@@ -46,6 +46,7 @@ AtcfLine::AtcfLine()
       m_lat(0.0),
       m_lon(0.0),
       m_vmax(0.0),
+      m_vmax_at_boundary_layer(0.0),
       m_centralPressure(1013.0),
       m_maxDevelopmentLevel("NA"),
       m_lastClosedIsobar(1013.0),
@@ -55,17 +56,12 @@ AtcfLine::AtcfLine()
       m_gusts(0.0),
       m_subregion('N'),
       m_initials("NA"),
-      m_stormDirection(0.0),
-      m_stormSpeed(0.0),
       m_stormName("NONE"),
       m_systemDepth("NA"),
       m_coriolis(0.0),
-      m_uv(0.0),
-      m_u(0.0),
-      m_v(0.0),
       m_null(true),
-      m_vmaxbl(0.0),
       m_hollandB(1.0),
+      m_stormTranslationSpeeds(0.0, 0.0),
       m_lastIsotach({0, 0, 0, 0}) {}
 
 /**
@@ -131,8 +127,8 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) * nm2km);
   a.setSubregion(split[22][0]);
   a.setInitials(split[24]);
-  a.setStormDirection(AtcfLine::readValueCheckBlank<double>(split[25]));
-  a.setStormSpeed(AtcfLine::readValueCheckBlank<double>(split[26]) * kt2ms);
+  a.setStormMotion(AtcfLine::readValueCheckBlank<double>(split[26]) * kt2ms,
+                   AtcfLine::readValueCheckBlank<double>(split[25]));
   a.setStormName(split[27]);
   a.setCoriolis(Physical::coriolis(a.lat()));
 
@@ -143,13 +139,13 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto null1 = AtcfLine::readValueCheckBlank<bool>(split[31]);
     auto null2 = AtcfLine::readValueCheckBlank<bool>(split[32]);
     auto null3 = AtcfLine::readValueCheckBlank<bool>(split[33]);
-    i.isotach_radius_null_input()->set({null0, null1, null2, null3});
+    i.isotach_radius_null_input().set({null0, null1, null2, null3});
 
     auto ir0 = AtcfLine::readValueCheckBlank<double>(split[34]) * nm2km;
     auto ir1 = AtcfLine::readValueCheckBlank<double>(split[35]) * nm2km;
     auto ir2 = AtcfLine::readValueCheckBlank<double>(split[36]) * nm2km;
     auto ir3 = AtcfLine::readValueCheckBlank<double>(split[37]) * nm2km;
-    i.quadrant_radius_to_max_winds()->set({ir0, ir1, ir2, ir3});
+    i.quadrant_radius_to_max_winds().set({ir0, ir1, ir2, ir3});
 
     a.setHollandB(AtcfLine::readValueCheckBlank<double>(split[38]));
 
@@ -157,13 +153,13 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto b1 = AtcfLine::readValueCheckBlank<double>(split[40]);
     auto b2 = AtcfLine::readValueCheckBlank<double>(split[41]);
     auto b3 = AtcfLine::readValueCheckBlank<double>(split[42]);
-    i.quadrant_holland_b()->set({b0, b1, b2, b3});
+    i.quadrant_holland_b().set({b0, b1, b2, b3});
 
     auto v0 = AtcfLine::readValueCheckBlank<double>(split[43]) * kt2ms;
     auto v1 = AtcfLine::readValueCheckBlank<double>(split[44]) * kt2ms;
     auto v2 = AtcfLine::readValueCheckBlank<double>(split[45]) * kt2ms;
     auto v3 = AtcfLine::readValueCheckBlank<double>(split[46]) * kt2ms;
-    i.quadrant_vmax_boundary_layer()->set({v0, v1, v2, v3});
+    i.quadrant_vmax_boundary_layer().set({v0, v1, v2, v3});
   }
 
   a.addIsotach(i);
@@ -334,15 +330,15 @@ void AtcfLine::setInitials(const std::string &initials) {
   m_initials = initials;
 }
 
-double AtcfLine::stormDirection() const { return m_stormDirection; }
+StormMotion AtcfLine::stormMotion() const { return m_stormTranslationSpeeds; }
 
-void AtcfLine::setStormDirection(double stormDirection) {
-  m_stormDirection = stormDirection;
+void AtcfLine::setStormMotion(double stormSpeed, double direction) {
+  m_stormTranslationSpeeds = StormMotion(stormSpeed, direction, true);
 }
 
-double AtcfLine::stormSpeed() const { return m_stormSpeed; }
-
-void AtcfLine::setStormSpeed(double stormSpeed) { m_stormSpeed = stormSpeed; }
+void AtcfLine::setStormMotion(const StormMotion &s) {
+  m_stormTranslationSpeeds = s;
+}
 
 std::string AtcfLine::systemDepth() const { return m_systemDepth; }
 
@@ -399,18 +395,18 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
   os << "                      Max Wind: " << atcf.vmax() << " m/s\n";
   os << "                     Max Gusts: " << atcf.gusts() << " m/s\n";
   os << "                  Min Pressure: " << atcf.centralPressure() << " mb\n";
-  os << "  Number of specified isotachs: " << atcf.isotachs()->size() << "\n";
+  os << "  Number of specified isotachs: " << atcf.isotachs().size() << "\n";
   size_t n = 0;
-  for (const auto &iso : *(atcf.isotachs())) {
+  for (const auto &iso : atcf.isotachs()) {
     os << "                        Isotach " << n << ": " << iso << " km";
     if (Isotach::isNull(iso)) {
       os << "; [NULL]";
     }
     os << "\n";
-    os << "                     GAHM Holland B: " << *(iso.quadrant_holland_b())
+    os << "                     GAHM Holland B: " << iso.quadrant_holland_b()
        << "\n";
     os << "                          GAHM RMax: "
-       << *(iso.quadrant_radius_to_max_winds()) << "\n";
+       << iso.quadrant_radius_to_max_winds() << "\n";
     ++n;
   }
   os << "            Last Closed Isobar: " << atcf.lastClosedIsobar()
@@ -419,8 +415,10 @@ std::ostream &operator<<(std::ostream &os, const Gahm::AtcfLine &atcf) {
      << " km\n";
   os << "       Radius to Maximum Winds: " << atcf.radiusMaxWinds() << " km\n";
   os << "                  Eye Diameter: " << atcf.eyeDiameter() << " km\n";
-  os << "               Storm Direction: " << atcf.stormDirection() << " deg\n";
-  os << "                   Storm Speed: " << atcf.stormSpeed() << " m/s\n";
+  os << "               Storm Direction: " << atcf.stormMotion().direction()
+     << " deg\n";
+  os << "                   Storm Speed: " << atcf.stormMotion().speed()
+     << " m/s\n";
   os << "|---------------------------------------------------------------------"
         "---|\n";
   os << "\n";
@@ -437,30 +435,6 @@ bool AtcfLine::isSameForecastPeriod(const AtcfLine &a1, const AtcfLine &a2) {
   }
 }
 
-void AtcfLine::setStormTranslationVelocities(const double u, const double v,
-                                             const double uv) {
-  m_u = u;
-  m_v = v;
-  m_uv = uv;
-}
-
-std::tuple<double, double, double> AtcfLine::stormTranslationVelocities()
-    const {
-  return std::make_tuple(m_u, m_v, m_uv);
-}
-
-double AtcfLine::uvTrans() const { return m_uv; }
-
-void AtcfLine::setUvTrans(double uv) { m_uv = uv; }
-
-double AtcfLine::uTrans() const { return m_u; }
-
-void AtcfLine::setUTrans(double u) { m_u = u; }
-
-double AtcfLine::vTrans() const { return m_v; }
-
-void AtcfLine::setVTrans(double v) { m_v = v; }
-
 double AtcfLine::coriolis() const { return m_coriolis; }
 
 void AtcfLine::setCoriolis(double coriolis) { m_coriolis = coriolis; }
@@ -469,9 +443,13 @@ double AtcfLine::hollandB() const { return m_hollandB; }
 
 void AtcfLine::setHollandB(double b) { m_hollandB = b; }
 
-double AtcfLine::vmaxBl() const { return m_vmaxbl; }
+double AtcfLine::vmaxAtBoundaryLayer() const {
+  return m_vmax_at_boundary_layer;
+}
 
-void AtcfLine::setVmaxBl(double v) { m_vmaxbl = v; }
+void AtcfLine::setVmaxAtBoundaryLayer(double vmax) {
+  m_vmax_at_boundary_layer = vmax;
+}
 
 const std::array<unsigned short, 4> &AtcfLine::lastIsotach() const {
   return m_lastIsotach;
@@ -481,7 +459,7 @@ void AtcfLine::generateLastIsotach() {
   std::array<unsigned short, 4> last_iso = {0, 0, 0, 0};
   for (auto iso = m_isotach.begin(); iso != m_isotach.end(); ++iso) {
     for (auto j = 0; j < 4; ++j) {
-      if (iso->quadrant_flag()->at(j)) {
+      if (iso->quadrant_flag().at(j)) {
         last_iso[j] = static_cast<unsigned short>(iso - m_isotach.begin());
       }
     }
@@ -493,7 +471,7 @@ void AtcfLine::generateIsotachCache() {
   for (auto i = 0; i < 4; ++i) {
     m_isotachRadiiCache[i].reserve(m_isotach.size());
     for (const auto &v : m_isotach) {
-      m_isotachRadiiCache[i].push_back(v.isotach_radius()->at(i));
+      m_isotachRadiiCache[i].push_back(v.isotach_radius().at(i));
     }
   }
 }
@@ -502,4 +480,5 @@ const std::vector<double> *AtcfLine::isotachRadii(int quad) const {
   return &m_isotachRadiiCache[quad];
 }
 
-const std::vector<Isotach> *AtcfLine::isotachs() const { return &m_isotach; }
+std::vector<Isotach> &AtcfLine::isotachs() { return m_isotach; }
+const std::vector<Isotach> &AtcfLine::isotachs() const { return m_isotach; }

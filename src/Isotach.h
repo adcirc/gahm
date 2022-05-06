@@ -61,54 +61,54 @@ class Isotach {
 
   Gahm::ParameterPack parameterPack(int quad) const;
 
-  Gahm::CircularArray<bool, 4> *quadrant_flag() { return &m_quadrant_flag; }
-  const Gahm::CircularArray<bool, 4> *quadrant_flag() const {
-    return &m_quadrant_flag;
+  Gahm::CircularArray<bool, 4> &quadrant_flag() { return m_quadrant_flag; }
+  const Gahm::CircularArray<bool, 4> &quadrant_flag() const {
+    return m_quadrant_flag;
   }
 
-  Gahm::CircularArray<double, 4> *isotach_radius() { return &m_isotachRadius; }
-  const Gahm::CircularArray<double, 4> *isotach_radius() const {
-    return &m_isotachRadius;
+  Gahm::CircularArray<double, 4> &isotach_radius() { return m_isotachRadius; }
+  const Gahm::CircularArray<double, 4> &isotach_radius() const {
+    return m_isotachRadius;
   }
 
-  Gahm::CircularArray<bool, 4> *isotach_radius_null_input() {
-    return &m_isotachRadiusNullInInput;
+  Gahm::CircularArray<bool, 4> &isotach_radius_null_input() {
+    return m_isotachRadiusNullInInput;
   }
-  const Gahm::CircularArray<bool, 4> *isotach_radius_null_input() const {
-    return &m_isotachRadiusNullInInput;
-  }
-
-  Gahm::CircularArray<double, 4> *quadrant_radius_to_max_winds() {
-    return &m_quadrant_radius_max_winds;
-  }
-  const Gahm::CircularArray<double, 4> *quadrant_radius_to_max_winds() const {
-    return &m_quadrant_radius_max_winds;
+  const Gahm::CircularArray<bool, 4> &isotach_radius_null_input() const {
+    return m_isotachRadiusNullInInput;
   }
 
-  Gahm::CircularArray<double, 4> *quadrant_vmax_boundary_layer() {
-    return &m_quadrant_vmax_boundary_layer;
+  Gahm::CircularArray<double, 4> &quadrant_radius_to_max_winds() {
+    return m_quadrant_radius_max_winds;
   }
-  const Gahm::CircularArray<double, 4> *quadrant_vmax_boundary_layer() const {
-    return &m_quadrant_vmax_boundary_layer;
-  }
-
-  Gahm::CircularArray<double, 4> *quadrant_holland_b() {
-    return &m_quadrant_holland_b;
-  }
-  const Gahm::CircularArray<double, 4> *quadrant_holland_b() const {
-    return &m_quadrant_holland_b;
+  const Gahm::CircularArray<double, 4> &quadrant_radius_to_max_winds() const {
+    return m_quadrant_radius_max_winds;
   }
 
-  Gahm::CircularArray<double, 4> *quadrant_phi() { return &m_quadrant_phi; }
-  const Gahm::CircularArray<double, 4> *quadrant_phi() const {
-    return &m_quadrant_phi;
+  Gahm::CircularArray<double, 4> &quadrant_vmax_boundary_layer() {
+    return m_quadrant_vmax_boundary_layer;
+  }
+  const Gahm::CircularArray<double, 4> &quadrant_vmax_boundary_layer() const {
+    return m_quadrant_vmax_boundary_layer;
   }
 
-  Gahm::CircularArray<double, 4> *quadrant_isotach_wind_speed() {
-    return &m_quadrant_velocity;
+  Gahm::CircularArray<double, 4> &quadrant_holland_b() {
+    return m_quadrant_holland_b;
   }
-  const Gahm::CircularArray<double, 4> *quadrant_isotach_wind_speed() const {
-    return &m_quadrant_velocity;
+  const Gahm::CircularArray<double, 4> &quadrant_holland_b() const {
+    return m_quadrant_holland_b;
+  }
+
+  Gahm::CircularArray<double, 4> &quadrant_phi() { return m_quadrant_phi; }
+  const Gahm::CircularArray<double, 4> &quadrant_phi() const {
+    return m_quadrant_phi;
+  }
+
+  Gahm::CircularArray<double, 4> &quadrant_isotach_wind_speed() {
+    return m_quadrant_velocity;
+  }
+  const Gahm::CircularArray<double, 4> &quadrant_isotach_wind_speed() const {
+    return m_quadrant_velocity;
   }
 
  private:

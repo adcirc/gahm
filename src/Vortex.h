@@ -41,11 +41,8 @@
 namespace Gahm {
 class Vortex {
  public:
-  Vortex(Gahm::AtcfLine *atcf, size_t currentRecord, size_t currentIsotach,
+  Vortex(Gahm::AtcfLine *atcf,
          std::shared_ptr<Gahm::Assumptions> assumptions = nullptr);
-
-  explicit Vortex(Gahm::AtcfLine *atcf,
-                  std::shared_ptr<Gahm::Assumptions> assumptions = nullptr);
 
   void setStormData(Gahm::AtcfLine *atcf);
 
@@ -61,33 +58,12 @@ class Vortex {
 
   int computeRadiusToMaxWind();
 
-  unsigned currentQuadrant() const;
-  void setCurrentQuadrant(unsigned quad);
-
-  unsigned currentIsotach() const;
-  void setCurrentIsotach(unsigned currentIsotach);
-
   static std::pair<double, double> rotateWinds(double x, double y, double angle,
                                                double latitude) noexcept;
-
-  constexpr static double default_inner_radius() {
-    return 1.0 *
-           Units::convert(Gahm::Units::NauticalMile, Gahm::Units::Kilometer);
-  }
-
-  constexpr static double default_outer_radius() {
-    return 400.0 * Gahm::Units::convert(Gahm::Units::NauticalMile,
-                                        Gahm::Units::Kilometer);
-  }
-
-  size_t currentRecord() const;
-  void setCurrentRecord(const size_t &currentRecord);
 
   Gahm::Date datetime() const;
 
  private:
-  unsigned m_currentQuadrant;
-  unsigned m_currentIsotach;
   size_t m_currentRecord;
   Gahm::AtcfLine *m_stormData;
   std::shared_ptr<Gahm::Assumptions> m_assumptions;
@@ -96,46 +72,8 @@ class Vortex {
 
   static std::pair<int, double> getBaseQuadrant(double angle);
 
-  static constexpr double rossbyNumber(double vmaxBoundaryLayer,
-                                       double radiusToMaxWinds,
-                                       double coriolis);
-
-  static constexpr double computePhi(double vmaxBoundaryLayer,
-                                     double radiusToMaxWinds, double b,
-                                     double coriolis);
-
-  static double computeBg(double vmaxBoundaryLayer, double radiusToMaxWinds,
-                          double phi, double dp, double coriolis, double rho);
-
-  static std::tuple<double, double> computeBandPhi(double vmax, double root,
-                                                   double b, double cor,
-                                                   double dp);
-
   Gahm::ParameterPack interpolateParameters(int quad, double distance,
                                             double angle) const;
-
-  double iterateRadius() const;
-
-  struct ShapeTerms {
-    double b;
-    double phi;
-    bool converged;
-    ShapeTerms(double b, double phi, bool converged)
-        : b(b), phi(phi), converged(converged) {}
-  };
-
-  ShapeTerms iterateShapeTerms(double root) const;
-
-  struct Root {
-    double root;
-    double left;
-    double right;
-    Root() = default;
-    Root(double left, double right, double root)
-        : left(left), right(right), root(root){};
-  };
-
-  Root findRoot(double aa, double bb, double zoom_window) const;
 };
 }  // namespace Gahm
 #endif  // VORTEX_H

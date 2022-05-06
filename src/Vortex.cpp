@@ -37,22 +37,7 @@
 using namespace Gahm;
 
 Vortex::Vortex(AtcfLine *atcf, std::shared_ptr<Assumptions> assumptions)
-    : m_stormData(atcf),
-      m_assumptions(std::move(assumptions)),
-      m_currentQuadrant(0),
-      m_currentIsotach(0),
-      m_currentRecord(0) {
-  if (!m_assumptions) m_assumptions = std::make_shared<Assumptions>();
-}
-
-Vortex::Vortex(AtcfLine *atcf, const size_t currentRecord,
-               const size_t currentIsotach,
-               std::shared_ptr<Assumptions> assumptions)
-    : m_currentQuadrant(0),
-      m_currentIsotach(currentIsotach),
-      m_currentRecord(currentRecord),
-      m_stormData(atcf),
-      m_assumptions(std::move(assumptions)) {
+    : m_stormData(atcf), m_assumptions(std::move(assumptions)) {
   if (!m_assumptions) m_assumptions = std::make_shared<Assumptions>();
 }
 
@@ -66,22 +51,6 @@ std::pair<double, double> Vortex::rotateWinds(const double x, const double y,
   const double sinA = gahm_sin(angle);
   return std::make_pair(x * cosA - y * sinA, x * sinA + y * cosA);
 }
-
-size_t Vortex::currentRecord() const { return m_currentRecord; }
-
-void Vortex::setCurrentRecord(const size_t &currentRecord) {
-  m_currentRecord = currentRecord;
-}
-
-unsigned Vortex::currentIsotach() const { return m_currentIsotach; }
-
-void Vortex::setCurrentIsotach(const unsigned currentIsotach) {
-  m_currentIsotach = currentIsotach;
-}
-
-unsigned Vortex::currentQuadrant() const { return m_currentQuadrant; }
-
-void Vortex::setCurrentQuadrant(unsigned quad) { m_currentQuadrant = quad; }
 
 std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
   auto angle2 = angle + Constants::quarterpi();
@@ -132,7 +101,7 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
   const auto radii = m_stormData->isotachRadii(quad);
 
   if (radii->empty()) {
-    return {m_stormData->vmaxBl(), m_stormData->radiusMaxWinds(),
+    return {m_stormData->vmax(), m_stormData->radiusMaxWinds(),
             m_stormData->radiusMaxWinds(), m_stormData->hollandB()};
   } else if (distance >= radii->front()) {
     return m_stormData->isotach(0)->parameterPack(quad);
@@ -165,17 +134,15 @@ int Vortex::computeRadiusToMaxWind() {
   for (auto iso = 0; iso < m_stormData->nIsotach(); ++iso) {
     for (auto quad = 0; quad < 4; ++quad) {
       GahmSolver g(
-          m_stormData->isotach(iso)->isotach_radius()->at(quad),
-          // m_stormData->isotach(iso)->quadrant_isotach_wind_speed()->at(quad),
-          m_stormData->isotach(iso)->windSpeed(),
-          //m_stormData->isotach(iso)->quadrant_vmax_boundary_layer()->at(quad),
-          m_stormData->vmax(),
-          m_stormData->centralPressure(), Physical::backgroundPressure(),
-          m_stormData->lat());
+          m_stormData->isotach(iso)->isotach_radius().at(quad),
+          m_stormData->isotach(iso)->quadrant_isotach_wind_speed().at(quad),
+          m_stormData->vmaxAtBoundaryLayer(), m_stormData->centralPressure(),
+          Physical::backgroundPressure(), m_stormData->lat());
       g.solve();
-      m_stormData->isotach(iso)->quadrant_radius_to_max_winds()->set(quad,
-                                                                     g.rmax());
-      m_stormData->isotach(iso)->quadrant_holland_b()->set(quad, g.bg());
+      m_stormData->isotach(iso)->quadrant_radius_to_max_winds().set(quad,
+                                                                    g.rmax());
+      m_stormData->isotach(iso)->quadrant_holland_b().set(quad, g.bg());
+      m_stormData->isotach(iso)->quadrant_phi().set(quad, g.phi());
     }
   }
   return 0;

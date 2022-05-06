@@ -30,8 +30,10 @@
 
 #include "Atcf.h"
 #include "Date.h"
+#include "GahmState.h"
 #include "Interpolation.h"
 #include "StormParameters.h"
+
 namespace Gahm {
 class GahmState {
  public:
@@ -49,10 +51,7 @@ class GahmState {
   double azimuth(size_t index) const;
   Gahm::StormParameters stormParameters() const;
 
-  double stormDirection() const;
-  double stormMotion() const;
-  double stormMotionU() const;
-  double stormMotionV() const;
+  Gahm::StormMotion stormMotion() const;
 
  private:
   void computeDistanceToStormCenter(double stormCenterX, double stormCenterY);
@@ -67,10 +66,8 @@ class GahmState {
 
   Gahm::StormParameters m_stormParametersQuery;
 
-  double m_stormMotion;
-  double m_direction;
-  double m_stormMotionU;
-  double m_stormMotionV;
+  Gahm::StormMotion m_stormMotion;
+
 };
 }  // namespace Gahm
 #endif  // GAHM_SRC_GAHMSTATE_H_

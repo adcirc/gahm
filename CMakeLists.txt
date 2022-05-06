@@ -50,10 +50,14 @@ if(GAHM_ENABLE_FORTRAN)
   enable_language(Fortran)
 endif()
 
-option(GAHM_USE_FASTMATH_EXP "Build the code to use approximations to std::exp" OFF)
-option(GAHM_USE_FASTMATH_SQRT "Build the code to use approximations to std::sqrt" OFF)
-option(GAHM_USE_FASTMATH_SINCOS "Build the code to use approximations to std::sin and std::cos" OFF)
-mark_as_advanced(GAHM_USE_FASTMATH_EXP GAHM_USE_FASTMATH_SQRT GAHM_USE_FASTMATH_SINCOS)
+option(GAHM_USE_FASTMATH_EXP "Build the code to use approximations to std::exp"
+       OFF)
+option(GAHM_USE_FASTMATH_SQRT
+       "Build the code to use approximations to std::sqrt" OFF)
+option(GAHM_USE_FASTMATH_SINCOS
+       "Build the code to use approximations to std::sin and std::cos" OFF)
+mark_as_advanced(GAHM_USE_FASTMATH_EXP GAHM_USE_FASTMATH_SQRT
+                 GAHM_USE_FASTMATH_SINCOS)
 
 option(GAHM_BUILD_SHARED_LIB OFF "Build the GAHM library as a shared object")
 set(GAHM_LIBRARY_TYPE STATIC)
@@ -67,7 +71,7 @@ project(
   gahm
   LANGUAGES CXX
   VERSION ${GAHM_VERSION_STRING})
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS NO)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -118,7 +122,9 @@ set(GAHM_LIBRARY_HEADERS
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FastMath.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolver.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolverPrivate.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolver.h)
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolver.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Atmospheric.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/StormMotion.h)
 
 set(GAHM_LIBRARY_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmVortex.cpp
@@ -140,14 +146,17 @@ set(GAHM_LIBRARY_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/FastMath.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolver.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolver.cpp )
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmSolver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Atmospheric.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmRadiusSolverPrivate.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/StormMotion.cpp)
 
 # ... Fortran sources
 if(GAHM_ENABLE_FORTRAN)
   set(GAHM_LIBRARY_SOURCES
       ${GAHM_LIBRARY_SOURCES}
       ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm_fortran.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm.F90 src/Atmospheric.cpp src/Atmospheric.h)
+      ${CMAKE_CURRENT_SOURCE_DIR}/interfaces/fortran/gahm.F90)
 endif()
 
 # ...Generate the library

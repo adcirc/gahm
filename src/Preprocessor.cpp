@@ -28,6 +28,7 @@
 #include <numeric>
 #include <utility>
 
+#include "Atmospheric.h"
 #include "Constants.h"
 #include "Logging.h"
 #include "Vortex.h"
@@ -60,22 +61,25 @@ int Preprocessor::run() {
  * @param[out] uuvv uv-speed
  * @return error code
  */
-int Preprocessor::uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
-                          double &vv, double &uuvv) {
-  const auto dxdy =
+StormMotion Preprocessor::computeTranslationSpeed(const AtcfLine &d1,
+                                                  const AtcfLine &d2) {
+  const auto [udis, vdis, uvdis] =
       Physical::sphericalDx(d1.lon(), d1.lat(), d2.lon(), d2.lat());
+
   const double dt = static_cast<double>(d2.datetime().toSeconds() -
                                         d1.datetime().toSeconds());
 
-  uv = std::abs(std::get<0>(dxdy) / dt);
+  auto uv = std::abs(udis / dt);
   if (d2.lon() - d1.lon() <= 0.0) uv *= -1.0;
 
-  vv = std::abs(std::get<1>(dxdy) / dt);
+  auto vv = std::abs(vdis / dt);
   if (d2.lat() - d1.lat() <= 0.0) vv *= -1.0;
 
-  uuvv = std::get<2>(dxdy) / dt;
+  auto uuvv = uvdis / dt;
+  auto direction = std::atan2(vv, uv);
+  if (direction < 0) direction += Constants::twopi();
 
-  return 0;
+  return {uuvv, uv, vv, direction};
 }
 
 /**
@@ -87,31 +91,17 @@ int Preprocessor::calculateOverlandTranslationVelocity() {
        ++it) {
     auto r1 = *(it - 1);
     auto r2 = *(it);
-    double u, v, uv;
-    int ierr = Preprocessor::uvTrans(r1, r2, u, v, uv);
+    auto translation = Preprocessor::computeTranslationSpeed(r1, r2);
 
-    if (ierr != 0) {
-      gahm_throw_exception("Error calculating UVTrans");
-    }
-
-    if (uv * Units::convert(Units::MetersPerSecond, Units::Knot) < 1.0) {
-      uv = 1.0 * Units::convert(Units::Knot, Units::MetersPerSecond);
-      it->setStormDirection((it - 1)->stormDirection());
+    if (translation.speed() <
+        Units::convert(Units::Knot, Units::MetersPerSecond)) {
+      it->stormMotion().set((it - 1)->stormMotion());
     } else {
-      double dir = std::atan2(u, v);
-      if (dir < 0.0) dir += Constants::twopi();
-      it->setStormDirection(dir * Units::convert(Units::Radian, Units::Degree));
+      it->stormMotion().set(translation);
     }
-    it->setStormTranslationVelocities(u, v, uv);
-    it->setStormSpeed(uv);
   }
-  m_data->data()->begin()->setStormDirection(
-      (m_data->data()->begin() + 1)->stormDirection());
-  m_data->data()->begin()->setStormSpeed(
-      (m_data->data()->begin() + 1)->stormSpeed());
-  auto v = (m_data->data()->begin() + 1)->stormTranslationVelocities();
-  m_data->data()->begin()->setStormTranslationVelocities(
-      std::get<0>(v), std::get<1>(v), std::get<2>(v));
+  m_data->data()->begin()->setStormMotion(
+      (m_data->data()->begin() + 1)->stormMotion());
   return 0;
 }
 
@@ -123,12 +113,12 @@ int Preprocessor::calculateOverlandTranslationVelocity() {
  * @param[in] record record number
  * @param[in] isotach isotach number
  */
-void Preprocessor::setAllRadiiToRmax(CircularArray<double, 4> *radii,
-                                     CircularArray<bool, 4> *quadFlag,
+void Preprocessor::setAllRadiiToRmax(CircularArray<double, 4> &radii,
+                                     CircularArray<bool, 4> &quadFlag,
                                      const double rmax, const size_t record,
                                      const size_t isotach) {
-  std::fill(quadFlag->begin(), quadFlag->end(), 1);
-  std::fill(radii->begin(), radii->end(), rmax);
+  std::fill(quadFlag.begin(), quadFlag.end(), 1);
+  std::fill(radii.begin(), radii.end(), rmax);
   m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
       "No isotachs reported. Assuming a constant "
@@ -144,12 +134,12 @@ void Preprocessor::setAllRadiiToRmax(CircularArray<double, 4> *radii,
  * @param[in] isotach isotach number
  */
 void Preprocessor::setMissingRadiiToHalfNonzeroRadii(
-    CircularArray<double, 4> *radii, const double radiisum, const size_t record,
+    CircularArray<double, 4> &radii, const double radiisum, const size_t record,
     const size_t isotach) {
   Logging::debug("RADII:HALF:: " + std::to_string(radiisum) + " " +
                  std::to_string(radiisum * 0.5));
-  for (auto i = 0; i < radii->size(); ++i) {
-    if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.5);
+  for (auto i = 0; i < radii.size(); ++i) {
+    if (radii.at(i) == 0.0) radii.set(i, radiisum * 0.5);
   }
   m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
@@ -166,7 +156,7 @@ void Preprocessor::setMissingRadiiToHalfNonzeroRadii(
  * @param isotach isotach number
  */
 void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
-    CircularArray<double, 4> *radii, const double radiisum, size_t record,
+    CircularArray<double, 4> &radii, const double radiisum, size_t record,
     size_t isotach) {
   Logging::debug(
       "RADII:HALFAVERAGE:: " +
@@ -175,8 +165,8 @@ void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
       " " +
       std::to_string(radiisum * 0.25 *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
-  for (auto i = 0; i < radii->size(); ++i) {
-    if (radii->at(i) == 0.0) radii->set(i, radiisum * 0.25);
+  for (auto i = 0; i < radii.size(); ++i) {
+    if (radii.at(i) == 0.0) radii.set(i, radiisum * 0.25);
   }
   m_data->assumptions()->add(generate_assumption(
       Assumption::MAJOR,
@@ -193,14 +183,13 @@ void Preprocessor::setMissingRadiiToHalfOfAverageSpecifiedRadii(
  * @param isotach isotach number
  */
 void Preprocessor::setMissingRadiiToAverageOfAdjacentRadii(
-    CircularArray<double, 4> *radii, size_t record, size_t isotach) {
-  for (long j = 0; j < static_cast<long>(radii->size()); ++j) {
-    if (radii->at(j) == 0.0) {
-      Logging::debug(
-          "RADII:AVGADJACENT: " + std::to_string(radii->at(j - 1)) + ", " +
-          std::to_string(radii->at(j + 1)) + ", " +
-          std::to_string((radii->at(j - 1) + radii->at(j + 1)) * 0.5));
-      radii->set(j, (radii->at(j - 1) + radii->at(j + 1)) * 0.5);
+    CircularArray<double, 4> &radii, size_t record, size_t isotach) {
+  for (long j = 0; j < static_cast<long>(radii.size()); ++j) {
+    if (radii.at(j) == 0.0) {
+      Logging::debug("RADII:AVGADJACENT: " + std::to_string(radii.at(j - 1)) +
+                     ", " + std::to_string(radii.at(j + 1)) + ", " +
+                     std::to_string((radii.at(j - 1) + radii.at(j + 1)) * 0.5));
+      radii.set(j, (radii.at(j - 1) + radii.at(j + 1)) * 0.5);
     }
   }
   m_data->assumptions()->add(generate_assumption(
@@ -221,8 +210,8 @@ int Preprocessor::calculateRadii() {
        ++ait) {
     for (size_t i = 0; i < ait->nIsotach(); ++i) {
       const double radiisum =
-          std::accumulate(ait->isotach(i)->isotach_radius()->begin(),
-                          ait->isotach(i)->isotach_radius()->end(), 0.0);
+          std::accumulate(ait->isotach(i)->isotach_radius().begin(),
+                          ait->isotach(i)->isotach_radius().end(), 0.0);
       ait->isotach(i)->generateQuadFlag();
 
       const unsigned int numNonzero =
@@ -230,10 +219,10 @@ int Preprocessor::calculateRadii() {
 
       Logging::debug(
           "NumNonzero Isotachs: " + std::to_string(numNonzero) + " " +
-          std::to_string(ait->isotach(i)->quadrant_flag()->at(0)) + " " +
-          std::to_string(ait->isotach(i)->quadrant_flag()->at(1)) + " " +
-          std::to_string(ait->isotach(i)->quadrant_flag()->at(2)) + " " +
-          std::to_string(ait->isotach(i)->quadrant_flag()->at(3)));
+          std::to_string(ait->isotach(i)->quadrant_flag().at(0)) + " " +
+          std::to_string(ait->isotach(i)->quadrant_flag().at(1)) + " " +
+          std::to_string(ait->isotach(i)->quadrant_flag().at(2)) + " " +
+          std::to_string(ait->isotach(i)->quadrant_flag().at(3)));
 
       const size_t record = ait - m_data->data()->begin();
 
@@ -272,7 +261,7 @@ unsigned Preprocessor::countNonzeroIsotachs(
     const std::vector<AtcfLine>::iterator &ait, size_t i) {
   unsigned numNonzero = 0;
   for (auto j = 0; j < 4; ++j) {
-    if (ait->isotach(i)->quadrant_flag()->at(j)) {
+    if (ait->isotach(i)->quadrant_flag().at(j)) {
       numNonzero++;
     }
   }
@@ -303,7 +292,7 @@ int Preprocessor::generateMissingPressureData(
       } else {
         it->setCentralPressure(hp.computePressure(
             it->vmax(), vmax_global, (it - 1)->vmax(),
-            (it - 1)->centralPressure(), it->lat(), it->uvTrans()));
+            (it - 1)->centralPressure(), it->lat(), it->stormMotion().speed()));
         m_data->assumptions()->add(generate_assumption(
             Assumption::MINOR,
             "Pressure was computed as " +
@@ -312,8 +301,9 @@ int Preprocessor::generateMissingPressureData(
                 "m/s, vmax_global=" + std::to_string(vmax_global) +
                 "m/s, previous_pressure=" +
                 std::to_string((it - 1)->centralPressure()) +
-                "mb, lat=" + std::to_string(it->lat()) + ", speed=" +
-                std::to_string(it->uvTrans()) + "m/s, with method=" +
+                "mb, lat=" + std::to_string(it->lat()) +
+                ", speed=" + std::to_string(it->stormMotion().speed()) +
+                "m/s, with method=" +
                 HurricanePressure::pressureMethodString(hp.pressureMethod()) +
                 " for record " + std::to_string(it - m_data->data()->begin())));
       }
@@ -323,224 +313,69 @@ int Preprocessor::generateMissingPressureData(
 }
 
 int Preprocessor::computeParameters() {
-  size_t rec_counter = 0;
   for (auto &a : *(m_data->data())) {
     //...Compute the global parameters for this period in the storm
-    const auto stormMotion =
-        Preprocessor::computeStormMotion(a.stormSpeed(), a.stormDirection());
-    a.setVmaxBl(Preprocessor::computeVMaxBL(a.vmax(), stormMotion.uv));
+    const StormMotion s(a.stormMotion().speed(), a.stormMotion().direction());
+    a.setVmaxAtBoundaryLayer(
+        Preprocessor::computeVmaxAtBoundaryLayer(a.vmax(), s.speed()));
+    a.setHollandB(Atmospheric::calcHollandB(a.vmaxAtBoundaryLayer(),
+                                            a.centralPressure(),
+                                            Physical::backgroundPressure()));
 
-    a.setHollandB(Physical::calcHollandB(a.vmaxBl(), a.centralPressure(),
-                                         Physical::backgroundPressure()));
-    for (size_t i = 0; i < a.nIsotach(); ++i) {
-      rec_counter++;
-
-      //...Check if the isotach is zero
-      const double vr = a.isotach(i)->windSpeed() == 0.0
-                            ? a.vmax()
-                            : a.isotach(i)->windSpeed();
-
-      //...Compute the inward rotation angles
-      const std::array<double, 4> quadRotateAngle =
-          Preprocessor::computeQuadRotateAngle(a, i);
-
-      //...Initialize the flag that checks for violations in vmax vs vmaxbl
-      std::array<bool, 4> vmwBLflag = {false, false, false, false};
-
-      //...Fill the holland b and phi in all quadrants for this isotach
-      a.isotach(i)->quadrant_holland_b()->fill(a.hollandB());
-      a.isotach(i)->quadrant_phi()->fill(1.0);
-
-      //...Converge inward rotation angle
-      Preprocessor::convergeInwardRotationAngle(rec_counter, i, a, stormMotion,
-                                                vr, quadRotateAngle, vmwBLflag);
+    // Compute the de-translated wind speeds for each isotach and quadrant
+    for (auto &iso : a.isotachs()) {
+      for (auto quadrant = 0; quadrant < 4; ++quadrant) {
+        iso.quadrant_isotach_wind_speed().set(
+            quadrant, Preprocessor::computeIsotachDeTranslatedWindSpeed(
+                          a, iso, quadrant));
+        iso.quadrant_vmax_boundary_layer().set(quadrant,
+                                               a.vmaxAtBoundaryLayer());
+      }
     }
+    Vortex v(&a, m_data->assumptions_sharedptr());
+    v.computeRadiusToMaxWind();
   }
   return 0;
 }
 
-void Preprocessor::convergeInwardRotationAngle(
-    size_t rec_counter, size_t i, AtcfLine &a,
-    const Preprocessor::StormMotion &stormMotion, const double vr,
-    const std::array<double, 4> &quadRotateAngle,
-    std::array<bool, 4> &vmwBLflag) const {
-  const size_t iter = i == 0 ? 300 : 1;
-  for (auto j = 0; j < iter; ++j) {
-    Preprocessor::computeQuadrantVrLoop(j, quadRotateAngle, vmwBLflag,
-                                        a.vmaxBl(), vr, stormMotion,
-                                        a.isotach(i));
-    Preprocessor::recomputeQuadrantVrLoop(j, quadRotateAngle, vmwBLflag,
-                                          a.vmaxBl(), vr, a.stormDirection(),
-                                          stormMotion, a.isotach(i));
-  }
-  Vortex v(&a, rec_counter, i, m_data->assumptions_sharedptr());
-  v.computeRadiusToMaxWind();
-  std::cout << a << std::endl;
+double Preprocessor::computeIsotachDeTranslatedWindSpeed(
+    const AtcfLine &atcfData, const Isotach &iso, int quadrant) {
+  const auto u_vr =
+      iso.windSpeed() * std::cos(Constants::quadrantAngle(quadrant));
+  const auto v_vr =
+      iso.windSpeed() * std::sin(Constants::quadrantAngle(quadrant));
+  const auto gamma =
+      Preprocessor::computeGamma(atcfData.stormMotion(), u_vr, v_vr,
+                                 atcfData.vmaxAtBoundaryLayer(), iso, quadrant);
+  return std::sqrt(std::pow(u_vr - gamma * atcfData.stormMotion().u(), 2.0) +
+                   std::pow(v_vr - gamma * atcfData.stormMotion().v(), 2.0)) /
+         Physical::windReduction();
 }
 
-std::array<double, 4> Preprocessor::computeQuadRotateAngle(const AtcfLine &a,
-                                                           size_t i) {
-  constexpr double initial_quadRotateAngle =
-      25.0 * Units::convert(Units::Degree, Units::Radian);
-  std::array<double, 4> quadRotateAngle{
-      initial_quadRotateAngle, initial_quadRotateAngle, initial_quadRotateAngle,
-      initial_quadRotateAngle};
-  if (i > 0) {
-    for (auto j = 0; j < 4; ++j) {
-      quadRotateAngle[j] = Physical::queenslandInflowAngle(
-          a.isotach(i)->isotach_radius()->at(j),
-          a.isotach(i)->quadrant_radius_to_max_winds()->at(j));
-    }
-  }
-  return quadRotateAngle;
+double Preprocessor::computeVmaxAtBoundaryLayer(
+    const double vmax, const double stormForwardSpeed) {
+  assert(stormForwardSpeed > 0.0);
+  assert(vmax > 0.0);
+  return (vmax - stormForwardSpeed) / Physical::windReduction();
 }
 
-void Preprocessor::computeQuadrantVrLoop(
-    const size_t quadrotindex, const std::array<double, 4> &quadRotateAngle,
-    const std::array<bool, 4> &vmwBLflag, const double vmaxBL, const double vr,
-    const StormMotion &stormMotion, Isotach *isotach) {
-  for (auto k = 0; k < 4; ++k) {
-    const double quadrantVectorAngle =
-        Preprocessor::computeQuadrantVectorAngle(k, quadRotateAngle);
-
-    if (quadrotindex == 0 || !vmwBLflag[k]) {
-      const double qvr = Preprocessor::computeQuadrantVrValue(
-          vmaxBL, quadrantVectorAngle, stormMotion, vr);
-      isotach->quadrant_isotach_wind_speed()->set(k, qvr);
-    }
-  }
-}
-
-double Preprocessor::computeQuadrantVrValue(const double vmaxBL,
-                                            const double quadrantVectorAngles,
-                                            const StormMotion &stormMotion,
-                                            const double vr) {
-  const double epsilonAngle = Preprocessor::computeEpsilonAngle(
-      vmaxBL, quadrantVectorAngles, stormMotion);
-
-  const double uvr = vr * gahm_cos(epsilonAngle);
-  const double vvr = vr * gahm_sin(epsilonAngle);
-
-  const double gamma =
-      Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
-
-  constexpr double mps2kt = Units::convert(Units::MetersPerSecond, Units::Knot);
-
-  const double qvr =
-      std::sqrt(std::pow(uvr * mps2kt - gamma * stormMotion.u * mps2kt, 2.0) +
-                std::pow(vvr * mps2kt - gamma * stormMotion.v * mps2kt, 2.0)) /
-      Physical::windReduction();
-  return qvr * Units::convert(Units::Knot, Units::MetersPerSecond);
-}
-
-void Preprocessor::recomputeQuadrantVrLoop(
-    const size_t quadrotindex, const std::array<double, 4> &quadRotateAngle,
-    std::array<bool, 4> &vmwBLflag, const double vmaxBL, const double vr,
-    const double stormDirection, const StormMotion &stormMotion,
-    Isotach *isotach) {
-  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  for (auto k = 0; k < 4; ++k) {
-    if (isotach->quadrant_isotach_wind_speed()->at(k) > vmaxBL ||
-        vmwBLflag[k]) {
-      if (quadrotindex == 1) vmwBLflag[k] = true;
-
-      if (!isotach->isotach_radius_null_input()->at(k)) {
-        const double quadrantVectorAngle =
-            Preprocessor::computeQuadrantVectorAngle(k, quadRotateAngle);
-        double qvr = Preprocessor::computeQuadrantVrValue(quadrantVectorAngle,
-                                                          stormMotion, vr);
-        qvr /= Physical::windReduction();
-        isotach->quadrant_isotach_wind_speed()->set(k, qvr);
-        isotach->quadrant_vmax_boundary_layer()->set(k, qvr);
-      } else {
-        isotach->quadrant_vmax_boundary_layer()->set(k, vmaxBL);
-        const double uvr = vr * gahm_cos(stormDirection * deg2rad);
-        const double vvr = vr * gahm_sin(stormDirection * deg2rad);
-        const double gamma =
-            Preprocessor::computeGamma(uvr, vvr, vr, stormMotion, vmaxBL);
-        const double qvr2 =
-            (vr - gamma * stormMotion.uv) / Physical::windReduction();
-        isotach->quadrant_isotach_wind_speed()->set(k, qvr2);
-      }
-    } else {
-      isotach->quadrant_vmax_boundary_layer()->set(k, vmaxBL);
-    }
-  }
-}
-
-double Preprocessor::computeQuadrantVrValue(const double quadrantVectorAngle,
-                                            const StormMotion &stormMotion,
-                                            const double vr) {
-  constexpr double mps2kt = Units::convert(Units::MetersPerSecond, Units::Knot);
-
-  const double qvr_1 = (stormMotion.u * mps2kt * gahm_cos(quadrantVectorAngle) +
-                        stormMotion.v * mps2kt * gahm_sin(quadrantVectorAngle));
-  const double qvr =
-      (-2.0 * qvr_1 + std::sqrt(4.0 * std::pow(qvr_1, 2.0) -
-                                4.0 * (std::pow(stormMotion.uv * mps2kt, 2.0) -
-                                       std::pow(vr * mps2kt, 2.0)))) /
-      2.0;
-  return qvr * Units::convert(Units::Knot, Units::MetersPerSecond);
-}
-
-double Preprocessor::computeGamma(const double uvr, const double vvr,
-                                  const double vr,
-                                  const StormMotion &stormMotion,
-                                  const double vmaxBL) {
-  constexpr double ms2kt = Units::convert(Units::MetersPerSecond, Units::Knot);
-
-  const double g0 = (2.0 * uvr * ms2kt * stormMotion.u * ms2kt +
-                     2.0 * vvr * ms2kt * stormMotion.v * ms2kt);
-  const double g1 = std::pow(g0, 2.0);
-  const double g2 =
-      4.0 * (std::pow(stormMotion.uv * ms2kt, 2.0) -
-             std::pow(vmaxBL * ms2kt, 2.0) * Physical::windReduction() *
-                 Physical::windReduction());
-  const double g3 = std::pow(vr * ms2kt, 2.0);
-  const double g4 =
-      2.0 * (std::pow(stormMotion.uv * ms2kt, 2.0) -
-             std::pow(vmaxBL * ms2kt, 2.0) * Physical::windReduction() *
-                 Physical::windReduction());
-
-  const double g = (g0 - std::sqrt(g1 - g2 * g3)) / g4;
-  return std::max(std::min(g, 1.0), 0.0);
-}
-
-double Preprocessor::computeEpsilonAngle(const double velocity,
-                                         const double quadrantVectorAngle,
-                                         const StormMotion &stormMotion) {
-  double e =
-      Constants::twopi() +
-      std::atan2(velocity * gahm_sin(quadrantVectorAngle) + stormMotion.v,
-                 velocity * gahm_cos(quadrantVectorAngle) + stormMotion.u);
-  if (e > Constants::twopi()) e -= Constants::twopi();
-  return e;
-}
-
-Preprocessor::StormMotion Preprocessor::computeStormMotion(
-    const double speed, const double direction) {
-  double stormMotion =
-      1.5 *
-      std::pow(speed * Units::convert(Units::MetersPerSecond, Units::Knot),
-               0.63) *
-      Units::convert(Units::Knot, Units::MetersPerSecond);
-  double stormMotionU =
-      gahm_sin(direction * Units::convert(Units::Degree, Units::Radian)) *
-      stormMotion;
-  double stormMotionV =
-      gahm_cos(direction * Units::convert(Units::Degree, Units::Radian)) *
-      stormMotion;
-  return {stormMotionU, stormMotionV, stormMotion};
-}
-
-double Preprocessor::computeVMaxBL(const double vmax,
-                                   const double stormMotion) {
-  return (vmax - stormMotion) / Physical::windReduction();
-}
-
-double Preprocessor::computeQuadrantVectorAngle(
-    const size_t index, const std::array<double, 4> quadRotateAngle) {
-  assert(index < 4);
-  return Constants::quadrantAngle(index) +
-         (Constants::halfpi() + quadRotateAngle[index]);
+double Preprocessor::computeGamma(const StormMotion &storm_motion,
+                                  const double u_vr, const double v_vr,
+                                  const double vmax_boundary_layer,
+                                  const Isotach &iso, const size_t quadrant) {
+  constexpr double windReductionSquared =
+      Physical::windReduction() * Physical::windReduction();
+  double gamma =
+      ((2.0 * u_vr * storm_motion.u() + 2.0 * v_vr * storm_motion.v()) -
+       std::sqrt(
+           std::pow(
+               2.0 * u_vr * storm_motion.u() + 2.0 * v_vr * storm_motion.v(),
+               2.0) -
+           4.0 *
+               (std::pow(storm_motion.speed(), 2.0) -
+                std::pow(vmax_boundary_layer, 2.0) * windReductionSquared) *
+               std::pow(iso.windSpeed(), 2.0))) /
+      (2.0 * (std::pow(storm_motion.speed(), 2.0) -
+              std::pow(vmax_boundary_layer, 2.0) * windReductionSquared));
+  return std::max(std::min(gamma, 1.0), 0.0);
 }

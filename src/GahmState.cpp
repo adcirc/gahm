@@ -37,7 +37,8 @@ GahmState::GahmState(Atcf *atcf, std::vector<double> x_points,
       m_xpoints(std::move(x_points)),
       m_ypoints(std::move(y_points)),
       m_distance(m_xpoints.size(), 0.0),
-      m_azimuth(m_xpoints.size(), 0.0) {
+      m_azimuth(m_xpoints.size(), 0.0),
+      m_stormMotion(0.0, 0.0) {
   assert(m_xpoints.size() == m_ypoints.size());
 }
 
@@ -45,17 +46,7 @@ void GahmState::query(const Date &d) {
   m_stormParametersQuery = m_atcf->getStormParameters(d);
   this->computeDistanceToStormCenter(m_stormParametersQuery.longitude(),
                                      m_stormParametersQuery.latitude());
-
-  m_stormMotion =
-      1.5 * std::pow(std::sqrt(std::pow(m_stormParametersQuery.utrans(), 2.0) +
-                               std::pow(m_stormParametersQuery.vtrans(), 2.0)),
-                     0.63);
-
-  m_direction = std::atan2(m_stormParametersQuery.utrans(),
-                           m_stormParametersQuery.vtrans());
-
-  m_stormMotionU = gahm_sin(m_direction) * m_stormMotion;
-  m_stormMotionV = gahm_cos(m_direction) * m_stormMotion;
+  m_stormMotion = m_stormParametersQuery.stormMotion();
 }
 
 void GahmState::computeDistanceToStormCenter(const double stormCenterX,
@@ -103,10 +94,4 @@ double GahmState::y(size_t index) const {
 
 size_t GahmState::size() { return m_xpoints.size(); }
 
-double GahmState::stormDirection() const { return m_direction; }
-
-double GahmState::stormMotion() const { return m_stormMotion; }
-
-double GahmState::stormMotionU() const { return m_stormMotionU; }
-
-double GahmState::stormMotionV() const { return m_stormMotionV; }
+StormMotion GahmState::stormMotion() const { return m_stormMotion; }

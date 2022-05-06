@@ -32,6 +32,7 @@
 
 #include "Assumptions.h"
 #include "Atcf.h"
+#include "StormMotion.h"
 
 namespace Gahm {
 class Preprocessor {
@@ -41,23 +42,24 @@ class Preprocessor {
   int run();
 
  private:
-  static int uvTrans(const AtcfLine &d1, const AtcfLine &d2, double &uv,
-                     double &vv, double &uuvv);
+  static StormMotion computeTranslationSpeed(const AtcfLine &d1,
+                                             const AtcfLine &d2);
+
   int calculateOverlandTranslationVelocity();
 
-  void setAllRadiiToRmax(CircularArray<double, 4> *radii,
-                         CircularArray<bool, 4> *quadFlag, double rmax,
+  void setAllRadiiToRmax(CircularArray<double, 4> &radii,
+                         CircularArray<bool, 4> &quadFlag, double rmax,
                          size_t record, size_t isotach);
 
-  void setMissingRadiiToHalfNonzeroRadii(CircularArray<double, 4> *radii,
+  void setMissingRadiiToHalfNonzeroRadii(CircularArray<double, 4> &radii,
                                          double radiisum, size_t record,
                                          size_t isotach);
 
   void setMissingRadiiToHalfOfAverageSpecifiedRadii(
-      CircularArray<double, 4> *radii, double radiisum, size_t record,
+      CircularArray<double, 4> &radii, double radiisum, size_t record,
       size_t isotach);
 
-  void setMissingRadiiToAverageOfAdjacentRadii(CircularArray<double, 4> *radii,
+  void setMissingRadiiToAverageOfAdjacentRadii(CircularArray<double, 4> &radii,
                                                size_t record, size_t isotach);
 
   int calculateRadii();
@@ -67,60 +69,19 @@ class Preprocessor {
   int generateMissingPressureData(const HurricanePressure::PressureMethod
                                       &method = HurricanePressure::KNAFFZEHR);
 
-  struct StormMotion {
-    double u;
-    double v;
-    double uv;
-    StormMotion(double ui, double vi, double uvi) : u(ui), v(vi), uv(uvi) {}
-    void write(const double unitconversion = 1.0) const {
-      std::cout << "U-velocity: " << u * unitconversion
-                << ", V-Velocity: " << v * unitconversion
-                << ", Speed: " << uv * unitconversion << std::endl;
-    }
-  };
+  static double computeIsotachDeTranslatedWindSpeed(const AtcfLine &atcfData,
+                                                    const Isotach &iso,
+                                                    int quadrant);
 
-  static StormMotion computeStormMotion(double speed, double direction);
+  static double computeGamma(const StormMotion &storm_motion, double u_vr,
+                             double v_vr, double vmax_boundary_layer,
+                             const Isotach &iso, size_t quadrant);
 
-  static double computeGamma(double uvr, double vvr, double vr,
-                             const StormMotion &stormMotion, double vmaxBL);
-
-  static double computeEpsilonAngle(double velocity, double quadrantVectorAngle,
-                                    const StormMotion &stormMotion);
-
-  static double computeQuadrantVrValue(double vmaxBL,
-                                       double quadrantVectorAngles,
-                                       const StormMotion &stormMotion,
-                                       double vr);
-
-  static double computeQuadrantVrValue(double quadrantVectorAngle,
-                                       const StormMotion &stormMotion,
-                                       double vr);
-
-  static double computeVMaxBL(double vmax, double stormMotion);
-
-  static double computeQuadrantVectorAngle(
-      size_t index, std::array<double, 4> quadRotateAngle);
-
-  static void computeQuadrantVrLoop(
-      size_t quadrotindex, const std::array<double, 4> &quadRotateAngle,
-      const std::array<bool, 4> &vmwBLflag, double vmaxBL, double vr,
-      const StormMotion &stormMotion, Isotach *isotach);
-
-  static void recomputeQuadrantVrLoop(
-      size_t quadrotindex, const std::array<double, 4> &quadRotateAngle,
-      std::array<bool, 4> &vmwBLflag, double vmaxBL, double vr,
-      double stormDirection, const StormMotion &stormMotion, Isotach *isotach);
+  static double computeVmaxAtBoundaryLayer(double vmax,
+                                           double stormForwardSpeed);
 
   static unsigned countNonzeroIsotachs(
       const std::vector<AtcfLine>::iterator &ait, size_t i);
-
-  static std::array<double, 4> computeQuadRotateAngle(const AtcfLine &a,
-                                                      size_t i);
-
-  void convergeInwardRotationAngle(size_t rec_counter, size_t i, AtcfLine &a,
-                                   const StormMotion &stormMotion, double vr,
-                                   const std::array<double, 4> &quadRotateAngle,
-                                   std::array<bool, 4> &vmwBLflag) const;
 
   Atcf *m_data;
 };

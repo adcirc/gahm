@@ -35,6 +35,7 @@
 #include "Constants.h"
 #include "Date.h"
 #include "Isotach.h"
+#include "StormMotion.h"
 namespace Gahm {
 class AtcfLine {
  public:
@@ -74,6 +75,9 @@ class AtcfLine {
   double vmax() const;
   void setVmax(double vmax);
 
+  double vmaxAtBoundaryLayer() const;
+  void setVmaxAtBoundaryLayer(double vmax);
+
   double centralPressure() const;
   void setCentralPressure(double centralPressure);
 
@@ -87,7 +91,8 @@ class AtcfLine {
   void removeIsotach(size_t pos);
   size_t nIsotach() const;
 
-  const std::vector<Gahm::Isotach> *isotachs() const;
+  std::vector<Gahm::Isotach> &isotachs();
+  const std::vector<Gahm::Isotach> &isotachs() const;
 
   double lastClosedIsobar() const;
   void setLastClosedIsobar(double lastClosedIsobar);
@@ -107,11 +112,9 @@ class AtcfLine {
   std::string initials() const;
   void setInitials(const std::string &initials);
 
-  double stormDirection() const;
-  void setStormDirection(double stormDirection);
-
-  double stormSpeed() const;
-  void setStormSpeed(double stormSpeed);
+  Gahm::StormMotion stormMotion() const;
+  void setStormMotion(double speed, double direction);
+  void setStormMotion(const Gahm::StormMotion &s);
 
   std::string stormName() const;
   void setStormName(const std::string &storm_name);
@@ -151,26 +154,11 @@ class AtcfLine {
   };
 #endif
 
-  void setStormTranslationVelocities(double u, double v, double uv);
-  std::tuple<double, double, double> stormTranslationVelocities() const;
-
-  double uvTrans() const;
-  void setUvTrans(double uv);
-
-  double uTrans() const;
-  void setUTrans(double u);
-
-  double vTrans() const;
-  void setVTrans(double v);
-
   double coriolis() const;
   void setCoriolis(double coriolis);
 
   double hollandB() const;
   void setHollandB(double b);
-
-  double vmaxBl() const;
-  void setVmaxBl(double v);
 
   const std::array<unsigned short, 4> &lastIsotach() const;
   void generateLastIsotach();
@@ -191,8 +179,8 @@ class AtcfLine {
   /// Storm maximum wind velocity
   double m_vmax;
 
-  /// Storm vmax at boundary layer
-  double m_vmaxbl;
+  /// Storm maximum wind velocity without translation velocity
+  double m_vmax_at_boundary_layer;
 
   /// Holland B
   double m_hollandB;
@@ -218,20 +206,8 @@ class AtcfLine {
   /// Maximum gust wind speed
   double m_gusts;
 
-  /// Storm direction in degrees
-  double m_stormDirection;
-
-  /// Storm speed in m/s
-  double m_stormSpeed;
-
   /// Translation speed
-  double m_uv;
-
-  /// Translation velocity (u-direction)
-  double m_u;
-
-  /// Translation velocity (v-direction)
-  double m_v;
+  Gahm::StormMotion m_stormTranslationSpeeds;
 
   /// Reference date/time
   Gahm::Date m_refDatetime;

@@ -23,29 +23,38 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#ifndef GAHM_H
-#define GAHM_H
+#ifndef GAHM_SRC_STORMMOTION_H_
+#define GAHM_SRC_STORMMOTION_H_
 
-#include "Assumption.h"
-#include "Assumptions.h"
-#include "Atcf.h"
-#include "AtcfLine.h"
-#include "Constants.h"
-#include "Date.h"
-#include "GahmState.h"
-#include "GahmVortex.h"
-#include "HurricanePressure.h"
-#include "Isotach.h"
-#include "Logging.h"
-#include "OwiAscii.h"
-#include "OwiAsciiDomain.h"
-#include "ParameterPack.h"
-#include "Point.h"
-#include "Preprocessor.h"
-#include "StormMotion.h"
-#include "StormParameters.h"
-#include "Vortex.h"
-#include "WindData.h"
-#include "WindGrid.h"
+namespace Gahm {
+class StormMotion {
+ public:
+  StormMotion() = default;
+  StormMotion(double uv, double u, double v, double direction,
+              bool degrees = false);
+  StormMotion(double uv, double direction, bool degrees = false);
 
-#endif  // GAHM_H
+  void setU(double u);
+  double u() const;
+
+  void setV(double v);
+  double v() const;
+
+  void setSpeed(double speed);
+  double speed() const;
+
+  void setDirection(double direction);
+  double direction() const;
+
+  void setExplicit(double uv, double u, double v, double direction);
+  void set(double uv, double direction, bool degrees = false);
+  void set(const StormMotion &s);
+
+ private:
+  double m_u;
+  double m_v;
+  double m_uv;
+  double m_direction;
+};
+}  // namespace Gahm
+#endif  // GAHM_SRC_STORMMOTION_H_

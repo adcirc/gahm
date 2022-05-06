@@ -25,6 +25,7 @@
 //
 #include "GahmSolver.h"
 
+#include "Atmospheric.h"
 #include "Physical.h"
 
 using namespace Gahm;
@@ -49,7 +50,7 @@ GahmSolver::GahmSolver(double isotach_radius, double isotach_speed, double vmax,
       m_fc(Physical::coriolis(m_latitude)),
       m_rmax_guess(estimateRmax(m_pbk - m_pc, latitude, isotach_radius)),
       m_rmax(std::numeric_limits<double>::max()),
-      m_bg(Physical::calcHollandB(m_vmax, m_pc, m_pbk)),
+      m_bg(Atmospheric::calcHollandB(m_vmax, m_pc, m_pbk)),
       m_max_it(100),
       m_it(0),
       m_phi(1.0),
@@ -69,7 +70,8 @@ void GahmSolver::solve() {
       m_rmax = new_rmax;
     }
     m_phi = GahmRadiusSolverPrivate::computePhi(m_vmax, m_rmax, m_bg, m_fc);
-    m_bg = GahmRadiusSolverPrivate::computeBg(m_vmax, m_rmax, dp, m_fc, m_phi);
+    m_bg = GahmRadiusSolverPrivate::computeBg(m_vmax, m_rmax, m_pc, m_pbk, m_fc,
+                                              m_phi);
     if (std::abs(m_bg - m_solver.bg()) < m_bg_tol) {
       m_it = i;
       break;
@@ -153,6 +155,8 @@ double GahmSolver::bg() const {
  * @return
  */
 size_t GahmSolver::it() const { return m_it; }
+
+double GahmSolver::phi() const { return m_phi; }
 
 /**
  * Estimates the rmax. Used as the initial guess for the solver

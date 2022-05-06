@@ -72,9 +72,8 @@ void Isotach::generateQuadFlag() {
 
 bool Isotach::isNull(const Isotach &iso) {
   if (iso.windSpeed() == 0.0) return true;
-  if (iso.isotach_radius()->at(0) <= 0.0 &&
-      iso.isotach_radius()->at(1) <= 0.0 &&
-      iso.isotach_radius()->at(2) <= 0.0 && iso.isotach_radius()->at(3) <= 0.0)
+  if (iso.isotach_radius().at(0) <= 0.0 && iso.isotach_radius().at(1) <= 0.0 &&
+      iso.isotach_radius().at(2) <= 0.0 && iso.isotach_radius().at(3) <= 0.0)
     return true;
   if (iso.code() == RadiusCode::NONE) return true;
   return false;
@@ -107,6 +106,6 @@ Gahm::ParameterPack Isotach::parameterPack(int quad) const {
 
 std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso) {
   os << Isotach::stringFromCode(iso.code()) << ", " << iso.windSpeed()
-     << " m/s, [" << *(iso.isotach_radius()) << "]";
+     << " m/s, [" << iso.isotach_radius() << "]";
   return os;
 }

@@ -56,6 +56,8 @@ class GahmSolver {
 
   double bg() const;
 
+  double phi() const;
+
   size_t it() const;
 
  private:

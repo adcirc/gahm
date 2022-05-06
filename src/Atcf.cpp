@@ -224,18 +224,14 @@ StormParameters Atcf::getStormParameters(const int cycle,
     s.setVmax(m_atcfData.front().vmax());
     s.setLatitude(m_atcfData.front().lat());
     s.setLongitude(m_atcfData.front().lon());
-    s.setUtrans(m_atcfData.front().uTrans());
-    s.setVtrans(m_atcfData.front().vTrans());
-    s.setUvtrans(m_atcfData.front().uvTrans());
+    s.setStormMotion(m_atcfData.front().stormMotion());
   } else if (cycle >= m_atcfData.size() - 1) {
     s.setCentralPressure(m_atcfData.back().centralPressure());
     s.setBackgroundPressure(m_atcfData.back().lastClosedIsobar());
     s.setVmax(m_atcfData.back().vmax());
     s.setLatitude(m_atcfData.back().lat());
     s.setLongitude(m_atcfData.back().lon());
-    s.setUtrans(m_atcfData.back().uTrans());
-    s.setVtrans(m_atcfData.back().vTrans());
-    s.setUvtrans(m_atcfData.back().uvTrans());
+    s.setStormMotion(m_atcfData.back().stormMotion());
   } else {
     s.setCentralPressure(Interpolation::linearInterp(
         s.wtratio(), m_atcfData[cycle].centralPressure(),
@@ -249,15 +245,17 @@ StormParameters Atcf::getStormParameters(const int cycle,
         s.wtratio(), m_atcfData[cycle].lat(), m_atcfData[cycle + 1].lat()));
     s.setLongitude(Interpolation::linearInterp(
         s.wtratio(), m_atcfData[cycle].lon(), m_atcfData[cycle + 1].lon()));
-    s.setUtrans(Interpolation::linearInterp(s.wtratio(),
-                                            m_atcfData[cycle].uTrans(),
-                                            m_atcfData[cycle + 1].uTrans()));
-    s.setVtrans(Interpolation::linearInterp(s.wtratio(),
-                                            m_atcfData[cycle].vTrans(),
-                                            m_atcfData[cycle + 1].vTrans()));
-    s.setUvtrans(Interpolation::linearInterp(s.wtratio(),
-                                             m_atcfData[cycle].uvTrans(),
-                                             m_atcfData[cycle + 1].uvTrans()));
+
+    s.setStormMotion({Interpolation::linearInterp(
+                          s.wtratio(), m_atcfData[cycle].stormMotion().speed(),
+                          m_atcfData[cycle + 1].stormMotion().speed()),
+                      Interpolation::linearInterp(
+                          s.wtratio(), m_atcfData[cycle].stormMotion().u(),
+                          m_atcfData[cycle + 1].stormMotion().u()),
+                      Interpolation::linearInterp(
+                          s.wtratio(), m_atcfData[cycle].stormMotion().v(),
+                          m_atcfData[cycle + 1].stormMotion().v()),
+                      false});
   }
   s.setCorio(Physical::coriolis(s.latitude()));
 
@@ -289,13 +287,13 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
                      a.radiusMaxWinds() *
                      Units::convert(Units::Kilometer, Units::NauticalMile))));
 
-    std::string heading =
-        fmt::format("{:3d}", static_cast<int>(std::round(a.stormDirection())));
+    std::string heading = fmt::format(
+        "{:3d}", static_cast<int>(std::round(a.stormMotion().direction())));
     if (heading == " -0") heading = "  0";  //...Check for signed zero
 
     const std::string forwardSpeed = fmt::format(
         "{:4d}", static_cast<int>(std::round(
-                     a.stormSpeed() *
+                     a.stormMotion().speed() *
                      Units::convert(Units::MetersPerSecond, Units::Knot))));
     const std::string forecastHour = fmt::format(
         "{:4d}", static_cast<int>(
@@ -314,67 +312,63 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
                      Units::convert(Units::MetersPerSecond, Units::Knot)));
       const std::string ir1 = fmt::format(
           "{:5.0f}",
-          std::round(a.isotach(i)->isotach_radius()->at(0) *
+          std::round(a.isotach(i)->isotach_radius().at(0) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
       const std::string ir2 = fmt::format(
           "{:5.0f}",
-          std::round(a.isotach(i)->isotach_radius()->at(1) *
+          std::round(a.isotach(i)->isotach_radius().at(1) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
       const std::string ir3 = fmt::format(
           "{:5.0f}",
-          std::round(a.isotach(i)->isotach_radius()->at(2) *
+          std::round(a.isotach(i)->isotach_radius().at(2) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
       const std::string ir4 = fmt::format(
           "{:5.0f}",
-          std::round(a.isotach(i)->isotach_radius()->at(3) *
+          std::round(a.isotach(i)->isotach_radius().at(3) *
                      Units::convert(Units::Kilometer, Units::NauticalMile)));
 
       const std::string rm1 = fmt::format(
           "{:6.1f}",
-          std::round(a.isotach(i)->quadrant_radius_to_max_winds()->at(0) *
-                     10.0 *
+          std::round(a.isotach(i)->quadrant_radius_to_max_winds().at(0) * 10.0 *
                      Units::convert(Units::Kilometer, Units::NauticalMile)) /
               10.0);
       const std::string rm2 = fmt::format(
           "{:6.1f}",
-          std::round(a.isotach(i)->quadrant_radius_to_max_winds()->at(1) *
-                     10.0 *
+          std::round(a.isotach(i)->quadrant_radius_to_max_winds().at(1) * 10.0 *
                      Units::convert(Units::Kilometer, Units::NauticalMile)) /
               10.0);
       const std::string rm3 = fmt::format(
           "{:6.1f}",
-          std::round(a.isotach(i)->quadrant_radius_to_max_winds()->at(2) *
-                     10.0 *
+          std::round(a.isotach(i)->quadrant_radius_to_max_winds().at(2) * 10.0 *
                      Units::convert(Units::Kilometer, Units::NauticalMile)) /
               10.0);
       const std::string rm4 = fmt::format(
           "{:6.1f}",
-          std::round(a.isotach(i)->quadrant_radius_to_max_winds()->at(3) *
-                     10.0 *
+          std::round(a.isotach(i)->quadrant_radius_to_max_winds().at(3) * 10.0 *
                      Units::convert(Units::Kilometer, Units::NauticalMile)) /
               10.0);
 
       const std::string bbase = fmt::format("{:9.4f}", a.hollandB());
       const std::string b1 =
-          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b()->at(0));
+          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b().at(0));
       const std::string b2 =
-          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b()->at(1));
+          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b().at(1));
       const std::string b3 =
-          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b()->at(2));
+          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b().at(2));
       const std::string b4 =
-          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b()->at(3));
+          fmt::format("{:9.4f}", a.isotach(i)->quadrant_holland_b().at(3));
 
       const std::string vmax1 = fmt::format(
-          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer()->at(0) *
+          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer().at(0) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
       const std::string vmax2 = fmt::format(
-          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer()->at(1) *
+          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer().at(1) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
       const std::string vmax3 = fmt::format(
-          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer()->at(2) *
+          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer().at(2) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
       const std::string vmax4 = fmt::format(
-          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer()->at(3) *
+          "{:9.4f}", (a.isotach(i)->quadrant_vmax_boundary_layer().at(3) *
                       Units::convert(Units::MetersPerSecond, Units::Knot)));
 
       f << fmt::format(
@@ -391,10 +385,10 @@ void Atcf::write(const std::string &filename, Atcf::AtcfFileTypes) const {
           a.techstring(), forecastHour, lat, lon, vmax, mslp, isoWindSpeed,
           Isotach::stringFromCode(Isotach::RadiusCode::NEQ), ir1, ir2, ir3, ir4,
           backgroundPressure, rmax, heading, forwardSpeed, a.stormName(),
-          cycleNumber, a.nIsotach(), a.isotach(i)->quadrant_flag()->at(0),
-          a.isotach(i)->quadrant_flag()->at(1),
-          a.isotach(i)->quadrant_flag()->at(2),
-          a.isotach(i)->quadrant_flag()->at(3), rm1, rm2, rm3, rm4, bbase, b1,
+          cycleNumber, a.nIsotach(), a.isotach(i)->quadrant_flag().at(0),
+          a.isotach(i)->quadrant_flag().at(1),
+          a.isotach(i)->quadrant_flag().at(2),
+          a.isotach(i)->quadrant_flag().at(3), rm1, rm2, rm3, rm4, bbase, b1,
           b2, b3, b4, vmax1, vmax2, vmax3, vmax4);
     }
   }
