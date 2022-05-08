@@ -80,12 +80,12 @@ class GahmRadiusSolverPrivate {
     return bg;
   }
 
- private:
   static double f(double radius_to_max_winds, double vmax, double isotach_speed,
                   double isotach_radius, double fc, double bg);
   static double f_prime(double radius_to_max_winds, double vmax,
                         double isotach_radius, double fc, double bg);
 
+ private:
   double m_isotachRadius;
   double m_isotachSpeed;
   double m_vmax;

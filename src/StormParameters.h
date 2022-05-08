@@ -52,7 +52,10 @@ class StormParameters {
   void setWtratio(double wtratio) { m_wtratio = wtratio; }
 
   double latitude() const { return m_latitude; }
-  void setLatitude(double latitude) { m_latitude = latitude; }
+  void setLatitude(double latitude) {
+    m_latitude = latitude;
+    m_corio = Physical::coriolis(m_latitude);
+  }
 
   double longitude() const { return m_longitude; }
   void setLongitude(double longitude) { m_longitude = longitude; }
@@ -71,7 +74,6 @@ class StormParameters {
   void setVmax(double vmax) { m_vmax = vmax; }
 
   double corio() const { return m_corio; }
-  void setCorio(double corio) { m_corio = corio; }
 
   Gahm::StormMotion stormMotion() const { return m_stormMotion; }
   void setStormMotion(const Gahm::StormMotion &s) { m_stormMotion = s; }

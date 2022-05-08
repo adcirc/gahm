@@ -100,8 +100,11 @@ void Isotach::setRadiusCode(const RadiusCode &radiusCode) {
 
 Gahm::ParameterPack Isotach::parameterPack(int quad) const {
   return {m_quadrant_vmax_boundary_layer[quad],
-          m_quadrant_radius_max_winds[quad], m_quadrant_radius_max_winds[quad],
-          m_quadrant_holland_b[quad]};
+          m_quadrant_radius_max_winds[quad],
+          m_quadrant_radius_max_winds[quad],
+          m_quadrant_holland_b[quad],
+          m_windSpeed,
+          m_isotachRadius[quad]};
 }
 
 std::ostream &operator<<(std::ostream &os, const Gahm::Isotach &iso) {

@@ -68,8 +68,6 @@ class GahmVortex {
       const StormParameters &sp, const Gahm::Vortex &v1, const Gahm::Vortex &v2,
       int i) const;
 
-  static constexpr double computePhi(const Gahm::ParameterPack &p,
-                                     double corio);
 };
 }  // namespace Gahm
 #endif  // GAHMVORTEX_H

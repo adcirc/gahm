@@ -29,6 +29,7 @@
 #include "Atmospheric.h"
 #include "Constants.h"
 #include "Gahm.h"
+#include "GahmRadiusSolverPrivate.h"
 #include "Interpolation.h"
 #include "Logging.h"
 #include "Vortex.h"
@@ -76,23 +77,15 @@ WindData GahmVortex::get(const Date &d) {
   const Vortex v2(m_atcf->record(cycle2), m_assumptions);
 
   for (auto i = 0; i < m_state->size(); ++i) {
-    auto param = this->generateStormParameterPackForLocation(sp, v1, v2, i);
-    auto uvp = GahmVortex::getUvpr(m_state->distance(i), m_state->azimuth(i),
-                                   param, m_state->stormMotion().u(),
-                                   m_state->stormMotion().v(), sp);
+    const auto param =
+        this->generateStormParameterPackForLocation(sp, v1, v2, i);
+    const auto uvp = GahmVortex::getUvpr(
+        m_state->distance(i), m_state->azimuth(i), param,
+        m_state->stormMotion().u(), m_state->stormMotion().v(), sp);
     g.set(i, uvp);
   }
 
   return g;
-}
-
-constexpr double GahmVortex::computePhi(const ParameterPack &p,
-                                        const double corio) {
-  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
-  return 1.0 +
-         (p.vmaxBoundaryLayer() * p.radiusToMaxWinds() * km2m * corio) /
-             (p.hollandB() * p.vmaxBoundaryLayer() * p.vmaxBoundaryLayer() +
-              p.vmaxBoundaryLayer() * p.radiusToMaxWinds() * km2m * corio);
 }
 
 ParameterPack GahmVortex::generateStormParameterPackForLocation(
@@ -108,13 +101,14 @@ ParameterPack GahmVortex::generateStormParameterPackForLocation(
                                          pack2.hollandB());
   double vmaxbl = Interpolation::linearInterp(
       sp.wtratio(), pack1.vmaxBoundaryLayer(), pack2.vmaxBoundaryLayer());
-  return {vmaxbl, rmax, rmaxtrue, b};
+  double isorad = Interpolation::linearInterp(
+      sp.wtratio(), pack1.isotachRadius(), pack2.isotachRadius());
+  return {vmaxbl, rmax, rmaxtrue, b, pack1.isotachSpeed(), isorad};
 }
 
 Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
                               const ParameterPack &pack, const double utrans,
                               const double vtrans, const StormParameters &s) {
-  constexpr double km2m = Units::convert(Units::Kilometer, Units::Meter);
   constexpr double thresholdRadius =
       1.0 * Units::convert(Units::NauticalMile, Units::Meter);
 
@@ -122,17 +116,13 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
     return {0.0, 0.0, s.centralPressure()};
   }
 
-  const double phi = GahmVortex::computePhi(pack, s.corio());
-  const double rmaxmeters = pack.radiusToMaxWinds() * km2m;
-  const double vmaxsq = pack.vmaxBoundaryLayer() * pack.vmaxBoundaryLayer();
-  const double vmaxrmax = pack.vmaxBoundaryLayer() * rmaxmeters * s.corio();
-  const double c = (distance * s.corio()) / 2.0;
-  const double rmaxdisb = std::pow(rmaxmeters / distance, pack.hollandB());
+  auto speed = GahmRadiusSolverPrivate::f(
+      pack.radiusToMaxWinds(), pack.vmaxBoundaryLayer(), pack.isotachSpeed(),
+      pack.isotachRadius(), s.corio(), pack.hollandB());
 
-  double speed = std::sqrt((vmaxsq + vmaxrmax) * rmaxdisb *
-                               gahm_exp(phi * (1.0 - rmaxdisb)) +
-                           c * c) -
-                 c;
+  const auto phi = GahmRadiusSolverPrivate::computePhi(
+      pack.vmaxBoundaryLayer(), pack.radiusToMaxWinds(), pack.hollandB(),
+      s.corio());
 
   const double speedOverVmax = std::abs(speed / pack.vmaxBoundaryLayer());
   const double tsx = speedOverVmax * utrans;
@@ -141,18 +131,18 @@ Gahm::Uvp GahmVortex::getUvpr(const double distance, const double angle,
   const double u = -speed * gahm_cos(angle);
   const double v = speed * gahm_sin(angle);
 
-  const double friction_angle = Atmospheric::queenslandInflowAngle(
-      distance, pack.radiusToMaxWindsTrue() * km2m);
+  const double friction_angle =
+      Atmospheric::queenslandInflowAngle(distance, pack.radiusToMaxWindsTrue());
 
-  double uf, vf;
-  std::tie(uf, vf) = Vortex::rotateWinds(u, v, friction_angle, s.latitude());
-
+  auto [uf, vf] = Vortex::rotateWinds(u, v, friction_angle, s.latitude());
   uf = (uf + tsx) * Physical::one2ten();
   vf = (vf + tsy) * Physical::one2ten();
 
   const double p =
-      s.centralPressure() + (s.backgroundPressure() - s.centralPressure()) *
-                                gahm_exp(-phi * rmaxdisb);
+      s.centralPressure() +
+      (s.backgroundPressure() - s.centralPressure()) *
+          gahm_exp(-phi * std::exp(std::pow(pack.radiusToMaxWinds() / distance,
+                                            pack.hollandB())));
   return {uf, vf, p};
 }
 

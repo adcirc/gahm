@@ -32,20 +32,29 @@
 namespace Gahm {
 class ParameterPack {
  public:
-  constexpr ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b)
-      : m_vmaxbl(vmaxbl), m_rmax(rmax), m_rmaxtrue(rmaxtrue), m_b(b) {}
+  constexpr ParameterPack(double vmaxbl, double rmax, double rmaxtrue, double b,
+                          double isotachSpeed, double isotachRadius)
+      : m_vmaxbl(vmaxbl),
+        m_rmax(rmax),
+        m_rmaxtrue(rmaxtrue),
+        m_b(b),
+        m_isotachSpeed(isotachSpeed),
+        m_isotachRadius(isotachRadius) {}
 
   constexpr double vmaxBoundaryLayer() const { return m_vmaxbl; }
   constexpr double radiusToMaxWinds() const { return m_rmax; }
   constexpr double radiusToMaxWindsTrue() const { return m_rmaxtrue; }
   constexpr double hollandB() const { return m_b; }
+  constexpr double isotachSpeed() const { return m_isotachSpeed; }
+  constexpr double isotachRadius() const { return m_isotachRadius; }
 
   void printToScreen() const {
-    std::cout << "   vmaxBoundaryLayer: " << vmaxBoundaryLayer() << std::endl;
-    std::cout << "    radiusToMaxWinds: " << radiusToMaxWinds() << std::endl;
-    std::cout << "radiusToMaxWindsTrue: " << radiusToMaxWindsTrue()
-              << std::endl;
-    std::cout << "            hollandB: " << hollandB() << std::endl;
+    std::cout << "   vmaxBoundaryLayer: " << vmaxBoundaryLayer() << "\n";
+    std::cout << "    radiusToMaxWinds: " << radiusToMaxWinds() << "\n";
+    std::cout << "radiusToMaxWindsTrue: " << radiusToMaxWindsTrue() << "\n";
+    std::cout << "            hollandB: " << hollandB() << "\n";
+    std::cout << "        isotachSpeed: " << isotachSpeed() << "\n";
+    std::cout << "       isotachRadius: " << isotachRadius() << std::endl;
   }
 
  private:
@@ -53,6 +62,8 @@ class ParameterPack {
   const double m_rmax;
   const double m_rmaxtrue;
   const double m_b;
+  const double m_isotachSpeed;
+  const double m_isotachRadius;
 };
 }  // namespace Gahm
 #endif  // PARAMETERPACK_H

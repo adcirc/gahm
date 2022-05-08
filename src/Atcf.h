@@ -74,7 +74,7 @@ class Atcf {
   Gahm::StormParameters getStormParameters(const Gahm::Date &d) const;
   Gahm::StormParameters getStormParameters(int cycle, double weight) const;
 
-  std::pair<int, double> getCycleNumber(const Gahm::Date &d) const;
+  std::tuple<int, double> getCycleNumber(const Gahm::Date &d) const;
 
   enum AtcfFileTypes { FormatAtcf, FormatNWS20 };
   void write(const std::string &filename, AtcfFileTypes = FormatNWS20) const;

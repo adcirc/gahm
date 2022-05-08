@@ -72,8 +72,7 @@ AtcfLine::AtcfLine()
  */
 AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   constexpr double kt2ms = Units::convert(Units::Knot, Units::MetersPerSecond);
-  constexpr double nm2km =
-      Units::convert(Units::NauticalMile, Units::Kilometer);
+  constexpr double nm2m = Units::convert(Units::NauticalMile, Units::Meter);
 
   if (line.size() < 150) return {};
   AtcfLine a;
@@ -110,10 +109,10 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
   a.setVmax(AtcfLine::readValueCheckBlank<double>(split[8]) * kt2ms);
   a.setCentralPressure(AtcfLine::readValueCheckBlank<double>(split[9]));
 
-  auto r1 = AtcfLine::readValueCheckBlank<double>(split[13]) * nm2km;
-  auto r2 = AtcfLine::readValueCheckBlank<double>(split[14]) * nm2km;
-  auto r3 = AtcfLine::readValueCheckBlank<double>(split[15]) * nm2km;
-  auto r4 = AtcfLine::readValueCheckBlank<double>(split[16]) * nm2km;
+  auto r1 = AtcfLine::readValueCheckBlank<double>(split[13]) * nm2m;
+  auto r2 = AtcfLine::readValueCheckBlank<double>(split[14]) * nm2m;
+  auto r3 = AtcfLine::readValueCheckBlank<double>(split[15]) * nm2m;
+  auto r4 = AtcfLine::readValueCheckBlank<double>(split[16]) * nm2m;
 
   Isotach i(Isotach::codeFromString(split[12]),
             AtcfLine::readValueCheckBlank<double>(split[11]) * kt2ms, r1, r2,
@@ -121,10 +120,10 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
 
   a.setLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[17]));
   a.setRadiusLastClosedIsobar(AtcfLine::readValueCheckBlank<double>(split[18]) *
-                              nm2km);
-  a.setRadiusMaxWinds(AtcfLine::readValueCheckBlank<double>(split[19]) * nm2km);
+                              nm2m);
+  a.setRadiusMaxWinds(AtcfLine::readValueCheckBlank<double>(split[19]) * nm2m);
   a.setGusts(AtcfLine::readValueCheckBlank<double>(split[20]) * kt2ms);
-  a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) * nm2km);
+  a.setEyeDiameter(AtcfLine::readValueCheckBlank<double>(split[21]) * nm2m);
   a.setSubregion(split[22][0]);
   a.setInitials(split[24]);
   a.setStormMotion(AtcfLine::readValueCheckBlank<double>(split[26]) * kt2ms,
@@ -141,10 +140,10 @@ AtcfLine AtcfLine::parseLine(const std::string &line, int formatid) {
     auto null3 = AtcfLine::readValueCheckBlank<bool>(split[33]);
     i.isotach_radius_null_input().set({null0, null1, null2, null3});
 
-    auto ir0 = AtcfLine::readValueCheckBlank<double>(split[34]) * nm2km;
-    auto ir1 = AtcfLine::readValueCheckBlank<double>(split[35]) * nm2km;
-    auto ir2 = AtcfLine::readValueCheckBlank<double>(split[36]) * nm2km;
-    auto ir3 = AtcfLine::readValueCheckBlank<double>(split[37]) * nm2km;
+    auto ir0 = AtcfLine::readValueCheckBlank<double>(split[34]) * nm2m;
+    auto ir1 = AtcfLine::readValueCheckBlank<double>(split[35]) * nm2m;
+    auto ir2 = AtcfLine::readValueCheckBlank<double>(split[36]) * nm2m;
+    auto ir3 = AtcfLine::readValueCheckBlank<double>(split[37]) * nm2m;
     i.quadrant_radius_to_max_winds().set({ir0, ir1, ir2, ir3});
 
     a.setHollandB(AtcfLine::readValueCheckBlank<double>(split[38]));

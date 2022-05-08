@@ -62,9 +62,9 @@ GahmSolver::GahmSolver(double isotach_radius, double isotach_speed, double vmax,
  */
 void GahmSolver::solve() {
   const auto guess = m_rmax_guess;
-  const auto dp = m_pbk - m_pc;
   for (auto i = 0; i < m_max_it; ++i) {
     auto new_rmax = m_solver.solve(1.0, m_isotachRadius, guess);
+    std::cout << new_rmax << std::endl;
     if (new_rmax != NAN && new_rmax != INFINITY &&
         new_rmax != std::numeric_limits<double>::max()) {
       m_rmax = new_rmax;

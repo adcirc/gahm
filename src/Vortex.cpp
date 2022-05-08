@@ -62,25 +62,24 @@ std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
 
 ParameterPack Vortex::getParameters(const double angle,
                                     const double distance) const {
-  constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  constexpr double m2km = Units::convert(Units::Meter, Units::Kilometer);
-  constexpr double angle_1 = deg2rad;
-  constexpr double angle_89 = 89.0 * deg2rad;
-  constexpr double angle_90 = 90.0 * deg2rad;
-  const double dis = distance * m2km;
+  static constexpr double deg2rad =
+      Units::convert(Units::Degree, Units::Radian);
+  static constexpr double angle_1 = deg2rad;
+  static constexpr double angle_89 = 89.0 * deg2rad;
+  static constexpr double angle_90 = 90.0 * deg2rad;
 
-  int base_quadrant = -2;
-  double delta_angle = 0.0;
-  std::tie(base_quadrant, delta_angle) = Vortex::getBaseQuadrant(angle);
+  const auto [base_quadrant, delta_angle] = Vortex::getBaseQuadrant(angle);
 
   if (delta_angle < angle_1) {
-    return this->interpolateParameters(base_quadrant - 1, dis, delta_angle);
+    return this->interpolateParameters(base_quadrant - 1, distance,
+                                       delta_angle);
   } else if (delta_angle > angle_89) {
-    return this->interpolateParameters(base_quadrant, dis, delta_angle);
+    return this->interpolateParameters(base_quadrant, distance, delta_angle);
   } else {
     auto pack1 =
-        this->interpolateParameters(base_quadrant - 1, dis, delta_angle);
-    auto pack2 = this->interpolateParameters(base_quadrant, dis, delta_angle);
+        this->interpolateParameters(base_quadrant - 1, distance, delta_angle);
+    auto pack2 =
+        this->interpolateParameters(base_quadrant, distance, delta_angle);
     auto d1 = 1.0 / (delta_angle * delta_angle);
     auto d2 = 1.0 / ((angle_90 - delta_angle) * (angle_90 - delta_angle));
 
@@ -92,7 +91,9 @@ ParameterPack Vortex::getParameters(const double angle,
         d1, d2, pack1.vmaxBoundaryLayer(), pack2.vmaxBoundaryLayer());
     double b = Interpolation::quadrantInterp(d1, d2, pack1.hollandB(),
                                              pack2.hollandB());
-    return {vmaxbl, rmax, rmaxtrue, b};
+    double isorad = Interpolation::quadrantInterp(d1, d2, pack1.isotachRadius(),
+                                                  pack2.isotachRadius());
+    return {vmaxbl, rmax, rmaxtrue, b, pack1.isotachSpeed(), isorad};
   }
 }
 
@@ -101,8 +102,9 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
   const auto radii = m_stormData->isotachRadii(quad);
 
   if (radii->empty()) {
-    return {m_stormData->vmax(), m_stormData->radiusMaxWinds(),
-            m_stormData->radiusMaxWinds(), m_stormData->hollandB()};
+    return {m_stormData->vmax(),           m_stormData->radiusMaxWinds(),
+            m_stormData->radiusMaxWinds(), m_stormData->hollandB(),
+            m_stormData->vmax(),           m_stormData->radiusMaxWinds()};
   } else if (distance >= radii->front()) {
     return m_stormData->isotach(0)->parameterPack(quad);
   } else if (distance <= radii->back()) {
@@ -124,13 +126,15 @@ ParameterPack Vortex::interpolateParameters(int quad, double distance,
     double b = Interpolation::linearInterp(fac, p1.hollandB(), p2.hollandB());
     double rmaxtrue = Interpolation::linearInterp(
         fac, p1.radiusToMaxWindsTrue(), p2.radiusToMaxWindsTrue());
-    return {vmbl, rmax, rmaxtrue, b};
+    double isorad = Interpolation::linearInterp(fac, p1.isotachRadius(),
+                                                p2.isotachRadius());
+    return {vmbl, rmax, rmaxtrue, b, p1.isotachSpeed(), isorad};
   }
 }
 
 Date Vortex::datetime() const { return m_stormData->datetime(); }
 
-int Vortex::computeRadiusToMaxWind() {
+void Vortex::computeRadiusToMaxWind() {
   for (auto iso = 0; iso < m_stormData->nIsotach(); ++iso) {
     for (auto quad = 0; quad < 4; ++quad) {
       GahmSolver g(
@@ -145,5 +149,4 @@ int Vortex::computeRadiusToMaxWind() {
       m_stormData->isotach(iso)->quadrant_phi().set(quad, g.phi());
     }
   }
-  return 0;
 }

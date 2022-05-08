@@ -41,8 +41,8 @@
 namespace Gahm {
 class Vortex {
  public:
-  Vortex(Gahm::AtcfLine *atcf,
-         std::shared_ptr<Gahm::Assumptions> assumptions = nullptr);
+  explicit Vortex(Gahm::AtcfLine *atcf,
+                  std::shared_ptr<Gahm::Assumptions> assumptions = nullptr);
 
   void setStormData(Gahm::AtcfLine *atcf);
 
@@ -56,7 +56,7 @@ class Vortex {
 
   Gahm::ParameterPack getParameters(double angle, double distance) const;
 
-  int computeRadiusToMaxWind();
+  void computeRadiusToMaxWind();
 
   static std::pair<double, double> rotateWinds(double x, double y, double angle,
                                                double latitude) noexcept;
