@@ -29,7 +29,6 @@ add_library(gahm SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/src/StormQuadrant.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmEquations.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmEquations.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/PositionWeights.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/PositionWeights.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/StringUtilities.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Atcf.cpp
@@ -37,7 +36,17 @@ add_library(gahm SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmVortex.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/GahmVortex.h
         ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.h)
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Vortex.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolution.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/VortexSolution.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/WindData.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Uvp.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/WindGrid.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Geometry.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.h
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/Point.cpp)
 
 target_include_directories(gahm PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh

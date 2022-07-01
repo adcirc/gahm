@@ -78,6 +78,9 @@ void ForecastPeriod::addIsotach(const StormIsotach &isotach) {
 
   //...Put the isotachs in order (They probably are, but this isn't done often)
   std::sort(m_isotachs.begin(), m_isotachs.end(), std::greater<>());
+
+  //...Save out the list of radii for later use, again, this isn't done a lot
+  this->compute_radii();
 }
 
 StormIsotach &ForecastPeriod::isotach(size_t index) {
@@ -119,32 +122,48 @@ std::tuple<double, double> ForecastPeriod::distanceAndAzimuth(
 PositionWeights ForecastPeriod::selectIsotachAndQuadrant(double distance,
                                                          double angle) const {
   const auto [quadrant, delta_angle] = StormQuadrant::getBaseQuadrant(angle);
-  const auto [isotach, isotach_weight] =
+  const auto [isotach_it, isotach_it_next, isotach, isotach_weight] =
       ForecastPeriod::selectIsotach(distance, quadrant);
-  return {isotach, isotach_weight, quadrant, delta_angle};
+
+  const auto quadrant_it_this_1 = isotach_it->quadrants().iterator_at(quadrant);
+  const auto quadrant_it_this_2 =
+      isotach_it->quadrants().iterator_at(quadrant + 1);
+
+  const auto quadrant_it_next_1 =
+      isotach_it_next->quadrants().iterator_at(quadrant);
+  const auto quadrant_it_next_2 =
+      isotach_it_next->quadrants().iterator_at(quadrant + 1);
+
+  return {isotach,
+          isotach_weight,
+          quadrant,
+          delta_angle,
+          {quadrant_it_this_1, quadrant_it_this_2},
+          {quadrant_it_next_1, quadrant_it_next_2}};
 }
 
-std::tuple<int, double> ForecastPeriod::selectIsotach(double distance,
-                                                      int quadrant) const {
+std::tuple<StormIsotach::isotach_it, StormIsotach::isotach_it, int, double>
+ForecastPeriod::selectIsotach(double distance, int quadrant) const {
   if (this->m_isotachs.empty()) {
-    return {-1, 0.0};
+    return {m_isotachs.end(), m_isotachs.end(), -1, 0.0};
   } else if (distance >=
              m_isotachs.front().quadrant(quadrant).isotach_radius()) {
-    return {0, 1.0};
+    return {m_isotachs.begin(), m_isotachs.begin(), 0, 1.0};
   } else if (distance <=
              m_isotachs.back().quadrant(quadrant).isotach_radius()) {
-    return {static_cast<int>(m_isotachs.size()) - 1, 1.0};
+    return {m_isotachs.end() - 1, m_isotachs.end() - 1,
+            static_cast<int>(m_isotachs.size()) - 1, 1.0};
   } else {
-    for (auto i = 0; i < m_isotachs.size() - 1; ++i) {
-      const double r1 = m_isotachs[i].quadrant(quadrant).isotach_radius();
-      const double r2 = m_isotachs[i + 1].quadrant(quadrant).isotach_radius();
+    for (auto it = m_isotachs.begin(); it != m_isotachs.end() - 1; ++it) {
+      const double r1 = it->quadrant(quadrant).isotach_radius();
+      const double r2 = (it + 1)->quadrant(quadrant).isotach_radius();
       if (distance <= r1 && distance >= r2) {
         const double weight = (distance - r1) / (r2 - r1);
-        return {i, weight};
+        return {it, it + 1, it - m_isotachs.begin(), weight};
       }
     }
   }
-  return {-1, 0.0};
+  return {m_isotachs.end(), m_isotachs.end(), -1, 0.0};
 }
 
 std::vector<StormIsotach> &ForecastPeriod::isotachs() { return m_isotachs; }
@@ -210,4 +229,21 @@ std::string ForecastPeriod::stormName() const { return m_stormName; }
 
 double ForecastPeriod::vmaxAtBoundaryLayer() const {
   return m_vmax_at_boundary_layer;
+}
+
+void ForecastPeriod::compute_radii() {
+  std::array<std::vector<double>, 4> new_radii;
+  for (size_t i = 0; i < 4; ++i) {
+    new_radii[i].reserve(m_isotachs.size());
+    for (const auto &iso : m_isotachs) {
+      new_radii[i].push_back(iso.quadrant(i).isotach_radius());
+    }
+  }
+
+  m_radii = new_radii;
+}
+
+const std::vector<double> &ForecastPeriod::radii(int quadrant) const {
+  assert(quadrant < 4);
+  return m_radii[quadrant];
 }

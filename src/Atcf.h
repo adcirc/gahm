@@ -19,8 +19,10 @@ class Atcf {
 
   explicit Atcf(std::string filename,
                 Gahm::Atcf::FORMAT format = Gahm::Atcf::FORMAT::NHC);
-
   void read();
+
+  void write(const std::string &filename,
+             Gahm::Atcf::FORMAT format = Gahm::Atcf::ASWIP) const;
 
   [[nodiscard]] std::string filename() const;
 
@@ -37,6 +39,8 @@ class Atcf {
   [[nodiscard]] std::vector<Gahm::ForecastPeriod>::const_iterator
   selectForecastPeriod(const Date &d) const;
 
+  [[nodiscard]] size_t size() const { return m_forecastData.size(); }
+
  private:
   [[nodiscard]] static ForecastPeriod generateForecastPeriodFromAtcfLine(
       const std::vector<std::string> &tokens, const Date &date,
@@ -49,6 +53,8 @@ class Atcf {
       const std::vector<std::string> &tokens);
 
   void computeTranslationVelocities();
+
+  void writeAswip(const std::string &filename) const;
 
   struct ForecastPeriodTimeComparison {
     explicit ForecastPeriodTimeComparison(const Date &d) : m_d(d) {}

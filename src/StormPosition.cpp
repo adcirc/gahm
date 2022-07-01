@@ -8,6 +8,15 @@
 
 using namespace Gahm;
 
+StormPosition::StormPosition()
+    : m_longitude(0.0),
+      m_latitude(0.0),
+      m_forward_speed(0.0),
+      m_transit_speed(0.0),
+      m_transit_speed_u(0.0),
+      m_transit_speed_v(0.0),
+      m_transit_direction(0.0) {}
+
 StormPosition::StormPosition(double longitude, double latitude,
                              double forwardSpeed, double transitDirection)
     : m_longitude(longitude),
@@ -19,6 +28,18 @@ StormPosition::StormPosition(double longitude, double latitude,
       m_transit_direction(transitDirection) {
   this->computeStormTransitSpeeds();
 }
+
+StormPosition::StormPosition(const StormPosition& s) {
+  m_transit_direction = s.m_transit_direction;
+  m_transit_speed = s.m_transit_speed;
+  m_transit_speed_u = s.m_transit_speed_u;
+  m_transit_speed_v = s.m_transit_speed_v;
+  m_forward_speed = s.m_forward_speed;
+  m_longitude = s.m_longitude;
+  m_latitude = s.m_latitude;
+}
+
+StormPosition& StormPosition::operator=(const StormPosition& s) = default;
 
 /**
  * Computes the storm transit speeds consistent with NOAA technical report

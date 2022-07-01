@@ -10,10 +10,14 @@
 namespace Gahm {
 class StormPosition {
  public:
-  StormPosition() = default;
+  StormPosition();
 
   StormPosition(double longitude, double latitude, double forwardSpeed,
                 double transitDirection);
+
+  StormPosition(const StormPosition &s);
+
+  StormPosition &operator=(const StormPosition &s);
 
   [[nodiscard]] double longitude() const;
   void setLongitude(double longitude);

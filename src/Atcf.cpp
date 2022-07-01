@@ -185,3 +185,17 @@ void Atcf::computeTranslationVelocities() {
       m_forecastData[1].stormPosition().forwardSpeed(),
       m_forecastData[1].stormPosition().transitDirection());
 }
+
+void Atcf::write(const std::string& filename, Gahm::Atcf::FORMAT format) const {
+  switch (format) {
+    case ASWIP:
+      return this->writeAswip(filename);
+    default:
+      Logging::throwError("Invalid output format selected");
+      return;
+  }
+}
+
+void Atcf::writeAswip(const std::string& filename) const {
+
+}

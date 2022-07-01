@@ -20,6 +20,8 @@ class StormIsotach {
                     StormQuadrant(2, radii[2], 0, 0, 0),
                     StormQuadrant(3, radii[3], 0, 0, 0)}) {}
 
+  using isotach_it = std::vector<Gahm::StormIsotach>::const_iterator;
+
   [[nodiscard]] double windSpeed() const { return m_wind_speed; }
 
   [[nodiscard]] const CircularArray<Gahm::StormQuadrant, 4> &quadrants() const {

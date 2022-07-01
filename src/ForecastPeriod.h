@@ -5,6 +5,7 @@
 #ifndef GAHM2__FORECASTPERIOD_H_
 #define GAHM2__FORECASTPERIOD_H_
 
+#include <array>
 #include <cstdlib>
 #include <vector>
 
@@ -74,13 +75,18 @@ class ForecastPeriod {
 
   [[nodiscard]] std::string stormName() const;
 
+  [[nodiscard]] const std::vector<double> &radii(int quadrant) const;
+
   static Gahm::ForecastPeriod::BASIN stringToBasinId(const std::string &basin);
 
   static std::string basinIdToString(const Gahm::ForecastPeriod::BASIN &basin);
 
+  [[nodiscard]] std::tuple<StormIsotach::isotach_it, StormIsotach::isotach_it,
+                           int, double>
+  selectIsotach(double distance, int quadrant) const;
+
  private:
-  [[nodiscard]] std::tuple<int, double> selectIsotach(double distance,
-                                                      int quadrant) const;
+  void compute_radii();
 
   StormPosition m_stormPosition;
   double m_central_pressure;
@@ -93,6 +99,7 @@ class ForecastPeriod {
   ForecastPeriod::BASIN m_basin;
   std::string m_stormName;
   std::vector<StormIsotach> m_isotachs;
+  CircularArray<std::vector<double>, 4> m_radii;
 };
 }  // namespace Gahm
 

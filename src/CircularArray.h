@@ -56,6 +56,11 @@ class CircularArray {
     return *this;
   }
 
+  auto iterator_at(int position) const {
+    auto p = mod_floor(position);
+    return m_data.begin() + p;
+  }
+
   auto at(int index) const noexcept { return m_data[mod_floor(index)]; }
   void set(int index, T value) noexcept { m_data[mod_floor(index)] = value; }
   void set(const std::array<T, array_size> &array) { m_data = array; }

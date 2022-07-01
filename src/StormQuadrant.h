@@ -5,7 +5,9 @@
 #ifndef GAHM2_SRC_STORMQUADRANT_H_
 #define GAHM2_SRC_STORMQUADRANT_H_
 
+#include <array>
 #include <tuple>
+#include <vector>
 
 namespace Gahm {
 class StormQuadrant {
@@ -27,6 +29,9 @@ class StormQuadrant {
         m_gahm_holland_b(holland_b),
         m_vmax_at_boundary_layer(vmax_at_boundary_layer),
         m_isotach_speed_at_boundary_layer(0.0) {}
+
+  template <std::size_t SIZE>
+  using quadrant_it = typename std::array<StormQuadrant, SIZE>::const_iterator;
 
   void set_vmax_at_boundary_layer(const double vmax) {
     m_vmax_at_boundary_layer = vmax;

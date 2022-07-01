@@ -69,6 +69,7 @@ class Date {
   bool operator<(const Date &d) const;
   bool operator>(const Date &d) const;
   bool operator<=(const Date &d) const;
+  bool operator>=(const Date &d) const;
   bool operator==(const Date &d) const;
   bool operator!=(const Date &d) const;
 
@@ -149,7 +150,7 @@ class Date {
   void set(int year, unsigned month = 1, unsigned day = 1, unsigned hour = 0,
            unsigned minute = 0, unsigned second = 0, unsigned millisecond = 0);
 
-  void fromSeconds(long seconds);
+  static Date fromSeconds(long seconds);
 
   void fromMSeconds(long long mseconds);
 

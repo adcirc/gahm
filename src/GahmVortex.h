@@ -17,6 +17,9 @@ class GahmVortex : public Vortex {
   void solve() override;
 
  private:
+  static void computeQuadrantSolution(const Gahm::ForecastPeriod &period,
+                                      const Gahm::StormIsotach &isotach,
+                                      Gahm::StormQuadrant &quadrant);
 };
 }  // namespace Gahm
 #endif  // GAHM2_SRC_GAHMVORTEX_H_

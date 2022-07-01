@@ -125,6 +125,10 @@ bool Date::operator<=(const Date &d) const {
   return this->time_point() <= d.time_point();
 }
 
+bool Date::operator>=(const Date &d) const {
+  return this->time_point() >= d.time_point();
+}
+
 bool Date::operator!=(const Date &d) const { return !(*(this) == d); }
 
 std::ostream &operator<<(std::ostream &os, const Gahm::Date &dt) {
@@ -210,8 +214,10 @@ void Date::set(const std::chrono::system_clock::time_point &t) {
 
 void Date::set(const Date &v) { this->set(v.time_point()); }
 
-void Date::fromSeconds(long seconds) {
-  this->m_datetime = date::sys_days(c_epoch()) + std::chrono::seconds(seconds);
+Date Date::fromSeconds(long seconds) {
+  Date d;
+  d.m_datetime = date::sys_days(c_epoch()) + std::chrono::seconds(seconds);
+  return d;
 }
 
 void Date::fromMSeconds(long long mseconds) {
