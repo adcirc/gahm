@@ -53,9 +53,9 @@ class GahmRadiusSolverPrivate {
                         double isotach_radius, double fc, double bg);
 
   double m_isotachRadius;
-  double m_isotachSpeed;
   double m_vmax;
   double m_fc;
+  double m_isotachSpeed;
   double m_bg;
 };
 }  // namespace Gahm::Solver

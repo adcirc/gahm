@@ -33,7 +33,7 @@
 #include "physical/Units.h"
 #include "util/StringUtilities.h"
 
-using namespace Gahm::Atcf;
+namespace Gahm::Atcf {
 
 /*
  * Constructor
@@ -288,6 +288,7 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
   auto snap =
       AtcfSnap(basin, p_min, Gahm::Physical::Constants::backgroundPressure(),
                r_max, v_max, v_max, date, storm_id, storm_name);
+  snap.setPosition({lat, lon});
 
   auto isotach = AtcfSnap::parseIsotach(tokens);
   snap.addIsotach(isotach);
@@ -347,3 +348,18 @@ Gahm::Datatypes::Date AtcfSnap::parseDate(const std::string& date_str,
 bool AtcfSnap::operator<(const AtcfSnap& other) const {
   return m_date < other.m_date;
 }
+
+/*
+ * Returns the current position of the storm
+ * @return Current position of the storm
+ */
+const StormPosition& AtcfSnap::position() const { return m_position; }
+
+/*
+ * Sets the current position of the storm
+ * @param position Current position of the storm
+ */
+void AtcfSnap::setPosition(const StormPosition& position) {
+  m_position = position;
+}
+}  // namespace Gahm::Atcf

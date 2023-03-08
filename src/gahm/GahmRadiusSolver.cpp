@@ -27,7 +27,7 @@
 
 #include "boost/math/tools/roots.hpp"
 
-using namespace Gahm::Solver;
+namespace Gahm::Solver {
 
 /**
  * Constructor for the Radius solver object
@@ -39,9 +39,7 @@ using namespace Gahm::Solver;
  */
 GahmRadiusSolver::GahmRadiusSolver(double isotach_radius, double isotach_speed,
                                    double vmax, double fc, double bg)
-    : m_solver(isotach_radius, isotach_speed, vmax, fc, bg),
-      m_max_it(200),
-      m_solver_type(false) {}
+    : m_solver(isotach_radius, isotach_speed, vmax, fc, bg), m_max_it(200) {}
 
 /**
  * Runs the solver
@@ -74,3 +72,4 @@ void GahmRadiusSolver::setBg(double bg) { m_solver.setBg(bg); }
  * @return GAHM Holland B
  */
 double GahmRadiusSolver::bg() const { return m_solver.bg(); }
+}  // namespace Gahm::Solver

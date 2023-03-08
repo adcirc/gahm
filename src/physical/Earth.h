@@ -37,13 +37,13 @@ namespace Gahm::Physical::Earth {
  * Rotational rate of the earth in radians/s
  * @return Rotational rate of the earth in radians/s
  */
-static constexpr double omega() { return 7.292115e-5; }
+constexpr double omega() { return 7.292115e-5; }
 
 /*
  * Earth's angular velocity in radians per second
  * @return Earth's angular velocity in radians per second
  */
-static double coriolis(const double lat) {
+double coriolis(const double lat) {
   return 2.0 * omega() * std::sin(lat * Constants::deg2rad());
 }
 
@@ -51,13 +51,13 @@ static double coriolis(const double lat) {
  * Earth equatorial radius in meters
  * @return Earth equatorial radius in meters
  */
-static constexpr double equatorialRadius() { return 6378137.0; }
+constexpr double equatorialRadius() { return 6378137.0; }
 
 /*
  * Earth polar radius in meters
  * @return Earth polar radius in meters
  */
-static constexpr double polarRadius() { return 6356752.3; }
+constexpr double polarRadius() { return 6356752.3; }
 
 /*
  * Earth radius in meters at a given latitude
@@ -68,8 +68,7 @@ static constexpr double polarRadius() { return 6356752.3; }
  * @param latitude Latitude in degrees
  * @return Earth radius in meters
  */
-static double radius(
-    const double latitude = std::numeric_limits<double>::max()) {
+double radius(const double latitude = std::numeric_limits<double>::max()) {
   if (latitude == std::numeric_limits<double>::max()) return 6378135.0;
   const double l = Constants::deg2rad() * latitude;
   return std::sqrt(
@@ -87,7 +86,7 @@ static double radius(
  * @param y2 Latitude 2 in degrees
  * @return Earth radius in meters
  */
-static double radius(const double y1, const double y2) {
+double radius(const double y1, const double y2) {
   return Earth::radius((y1 + y2) / 2.0);
 }
 

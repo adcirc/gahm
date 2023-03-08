@@ -27,7 +27,7 @@
 
 #include <iostream>
 
-using namespace Gahm;
+namespace Gahm {
 
 /**
  * Constructor for the preprocessor class
@@ -100,3 +100,5 @@ void Preprocessor::fillMissingAtcfData() {
     }
   }
 }
+
+}  // namespace Gahm

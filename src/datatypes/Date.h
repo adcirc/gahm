@@ -65,6 +65,8 @@ class Date {
 
   Date(const Date &d);
 
+
+
   //...operator overloads
   bool operator<(const Date &d) const;
   bool operator>(const Date &d) const;
@@ -72,6 +74,7 @@ class Date {
   bool operator>=(const Date &d) const;
   bool operator==(const Date &d) const;
   bool operator!=(const Date &d) const;
+  Date& operator=(const Date &d) = default;
 
   template <class T, typename std::enable_if<std::is_integral<T>::value>::type
                          * = nullptr>

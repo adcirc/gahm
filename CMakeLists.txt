@@ -6,28 +6,14 @@ set(CMAKE_CXX_STANDARD 17)
 FIND_PACKAGE(Boost 1.75.0 REQUIRED)
 
 add_library(gahm SHARED
-        src/datatypes/CircularArray.h
-        src/datatypes/Date.h
         src/datatypes/Date.cpp
-        src/physical/Constants.h
-        src/physical/Earth.h
-        src/physical/Units.h
         src/atcf/AtcfSnap.cpp
-        src/atcf/AtcfSnap.h
-        src/atcf/AtcfIsotach.h
-        src/atcf/AtcfQuadrant.h
         src/atcf/AtcfFile.cpp
-        src/atcf/AtcfFile.h
-        src/util/StringUtilities.h
         src/preprocessor/Preprocessor.cpp
         src/gahm/GahmEquations.cpp
-        src/gahm/GahmEquations.h
         src/gahm/GahmRadiusSolver.cpp
-        src/gahm/GahmRadiusSolver.h
         src/gahm/GahmSolver.cpp
-        src/gahm/GahmSolver.h
-        src/gahm/GahmRadiusSolverPrivate.cpp
-        src/gahm/GahmRadiusSolverPrivate.h)
+        src/gahm/GahmRadiusSolverPrivate.cpp)
 
 
 target_include_directories(gahm PRIVATE

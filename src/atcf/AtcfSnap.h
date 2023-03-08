@@ -29,6 +29,7 @@
 #include <optional>
 
 #include "atcf/AtcfIsotach.h"
+#include "atcf/StormPosition.h"
 #include "datatypes/CircularArray.h"
 #include "datatypes/Date.h"
 
@@ -86,6 +87,9 @@ class AtcfSnap {
 
   [[nodiscard]] size_t numberOfIsotachs() const;
 
+  [[nodiscard]] const StormPosition& position() const;
+  void setPosition(const StormPosition& position);
+
   void addIsotach(const AtcfIsotach& isotach);
 
   bool operator<(const AtcfSnap& other) const;
@@ -105,6 +109,7 @@ class AtcfSnap {
   Gahm::Datatypes::Date m_date;
   int m_storm_id;
   BASIN m_basin;
+  StormPosition m_position;
   std::string m_storm_name;
   std::vector<AtcfIsotach> m_isotachs;
   Datatypes::CircularArray<double, 4> m_radii;

@@ -63,19 +63,19 @@ class GahmSolver {
  private:
   static double estimateRmax(double dp, double lat, double isorad);
 
-  const double m_isotachRadius;
-  const double m_vmax;
-  const double m_latitude;
-  const double m_fc;
-  const double m_isotachSpeed;
-  const double m_pc;
-  const double m_pbk;
-  const double m_rmax_guess;
-  const size_t m_max_it;
-  const double m_bg_tol;
-  double m_bg;
+  double m_isotachRadius;
+  double m_isotachSpeed;
+  double m_vmax;
+  double m_pc;
+  double m_pbk;
+  double m_latitude;
+  double m_fc;
+  double m_rmax_guess;
   double m_rmax;
+  double m_bg;
+  double m_bg_tol;
   double m_phi;
+  size_t m_max_it;
   size_t m_it;
   GahmRadiusSolver m_solver;
 };

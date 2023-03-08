@@ -30,7 +30,7 @@
 #include <memory>
 #include <utility>
 
-using namespace Gahm::Atcf;
+namespace Gahm::Atcf {
 
 /*
  * Constructor
@@ -83,3 +83,4 @@ void AtcfFile::addAtcfSnap(const AtcfSnap& snap) {
  * @return Number of snaps
  */
 size_t AtcfFile::size() const { return m_atcfSnaps.size(); }
+}  // namespace Gahm::Atcf

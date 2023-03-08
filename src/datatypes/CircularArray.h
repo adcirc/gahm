@@ -31,8 +31,6 @@
 
 namespace Gahm::Datatypes {
 
-template <typename T, size_t array_size>
-
 /**
  * @brief Circular array class
  * The circular array class is a wrapper around the std::array class that
@@ -42,8 +40,11 @@ template <typename T, size_t array_size>
  * @tparam T Type of data to store in the array
  * @tparam array_size The size of the array
  */
+template <typename T, int array_size>
 class CircularArray {
  public:
+  static_assert(array_size > 0, "Array size must be greater than 0");
+
   /**
    * @brief Default constructor
    */
@@ -140,6 +141,11 @@ class CircularArray {
   /* @brief Returns a reverse iterator to the end of the array */
   auto rend() const noexcept { return m_data.crend(); }
 
+  /* @brief Copy constructor
+   * @param[in] arr The array to copy
+   */
+  CircularArray(const CircularArray<T, array_size> &arr) noexcept = default;
+
   /* @brief Equality operator */
   bool operator==(const CircularArray<T, array_size> &b) const {
     return m_data == b.m_data;
@@ -183,11 +189,12 @@ class CircularArray {
     }
   }
 };
-}  // namespace Gahm::detail
+}  // namespace Gahm::Datatypes
 
 template <typename T, size_t array_size>
 std::ostream &operator<<(
-    std::ostream &os, const Gahm::Datatypes::CircularArray<T, array_size> &array) {
+    std::ostream &os,
+    const Gahm::Datatypes::CircularArray<T, array_size> &array) {
   for (auto b = array.cbegin(); b != array.cend(); ++b) {
     os << *(b);
     if (b != array.cend() - 1) {

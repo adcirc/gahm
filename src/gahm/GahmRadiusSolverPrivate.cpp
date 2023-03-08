@@ -27,7 +27,7 @@
 
 #include "gahm/GahmEquations.h"
 
-using namespace Gahm::Solver;
+namespace Gahm::Solver {
 
 GahmRadiusSolverPrivate::GahmRadiusSolverPrivate(double isotachRadius,
                                                  double isotachSpeed,
@@ -79,8 +79,8 @@ double GahmRadiusSolverPrivate::bg() const { return m_bg; }
 double GahmRadiusSolverPrivate::f(double rmax, double vmax,
                                   double isotach_speed, double isotach_radius,
                                   double fc, double bg) {
-  return GahmEquations::GahmFunction(rmax, vmax, isotach_speed, isotach_radius,
-                                     fc, bg);
+  return Gahm::Solver::GahmEquations::GahmFunction(rmax, vmax, isotach_speed,
+                                                   isotach_radius, fc, bg);
 }
 
 /**
@@ -95,6 +95,7 @@ double GahmRadiusSolverPrivate::f(double rmax, double vmax,
 double GahmRadiusSolverPrivate::f_prime(double rmax, double vmax,
                                         double isotach_radius, double fc,
                                         double bg) {
-  return GahmEquations::GahmFunctionDerivative(rmax, vmax, isotach_radius, fc,
-                                               bg);
+  return Gahm::Solver::GahmEquations::GahmFunctionDerivative(
+      rmax, vmax, isotach_radius, fc, bg);
 }
+}  // namespace Gahm::Solver

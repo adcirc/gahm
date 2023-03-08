@@ -29,7 +29,9 @@
 
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
+#include "gahm/GahmEquations.h"
 #include "gahm/GahmSolver.h"
+#include "physical/Earth.h"
 #include "preprocessor/Preprocessor.h"
 
 TEST_CASE("FillMissingData", "[Preprocessor]") {
@@ -50,24 +52,33 @@ TEST_CASE("FillMissingData", "[Preprocessor]") {
 }
 
 TEST_CASE("GahmSolver", "[Preprocessor]") {
-  constexpr double kt2ms = 1.94384;
-  constexpr double nmi2m = 1852;
+  constexpr double kt2ms = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::Knot, Gahm::Physical::Units::MetersPerSecond);
+  constexpr double nmi2m = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::NauticalMile, Gahm::Physical::Units::Meter);
+
   // clang-format off
-  std::array<double, 4> vmax = {100/kt2ms,100/kt2ms,100/kt2ms,100/kt2ms};
+  std::array<double, 4> vmax = {100*kt2ms,100*kt2ms,100*kt2ms,100*kt2ms};
   std::array<double, 4> isorad = {65*nmi2m,65*nmi2m,65*nmi2m,65*nmi2m};
-  std::array<double, 4> isospd = {64/kt2ms,64/kt2ms,64/kt2ms,64/kt2ms};
+  std::array<double, 4> isospd = {64*kt2ms,64*kt2ms,64*kt2ms,64*kt2ms};
   // clang-format on
-  auto p0 = 979.0;
-  auto pinf = 1013.0;
-  auto latitude = 40.0;
+
+  double p0 = 979.0;
+  double pinf = 1013.0;
+  double latitude = 40.0;
 
   auto solver = std::make_unique<Gahm::Solver::GahmSolver>(
       isorad[0], isospd[0], vmax[0], p0, pinf, latitude);
   solver->solve();
-  auto solution_rmax = solver->rmax();
-  auto solution_b = solver->bg();
+  double solution_rmax = solver->rmax();
+  double solution_b = solver->bg();
 
   REQUIRE(solution_rmax / nmi2m ==
           Catch::Approx(39.5956715406));  // Solution checked in nmi
   REQUIRE(solution_b == Catch::Approx(3.1036266587));
+
+  double v = Gahm::Solver::GahmEquations::GahmFunction(
+      solution_rmax, vmax[0], isospd[0], isorad[0],
+      Gahm::Physical::Earth::coriolis(latitude), solution_b);
+  REQUIRE(v == Catch::Approx(0.0).margin(1e-8));
 }

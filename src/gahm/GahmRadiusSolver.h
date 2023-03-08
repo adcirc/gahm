@@ -44,8 +44,7 @@ class GahmRadiusSolver {
 
  private:
   GahmRadiusSolverPrivate m_solver;
-  const size_t m_max_it;
-  const bool m_solver_type;
+  size_t m_max_it;
 };
 }  // namespace Gahm::Solver
 #endif  // GAHM_SRC_GAHMRADIUSSOLVER_H_

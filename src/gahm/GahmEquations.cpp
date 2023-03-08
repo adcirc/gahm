@@ -25,8 +25,6 @@
 //
 #include "GahmEquations.h"
 
-using namespace Gahm::Solver;
-
 /**
  * Function to compute radius to max wind \f$V_g(r)\f$
  * \f[
@@ -46,11 +44,10 @@ using namespace Gahm::Solver;
  * @param gahm_holland_b GAHM Holland B
  * @return Solution to gradient wind
  */
-double GahmEquations::GahmFunction(double radius_to_max_wind,
-                                   double vmax_at_boundary_layer,
-                                   double isotach_windspeed_at_boundary_layer,
-                                   double distance, double coriolis_force,
-                                   double gahm_holland_b, double phi) {
+double Gahm::Solver::GahmEquations::GahmFunction(
+    double radius_to_max_wind, double vmax_at_boundary_layer,
+    double isotach_windspeed_at_boundary_layer, double distance,
+    double coriolis_force, double gahm_holland_b, double phi) {
   const auto ro = Gahm::Physical::Atmospheric::rossbyNumber(
       vmax_at_boundary_layer, radius_to_max_wind, coriolis_force);
   const auto rmbg = std::pow(radius_to_max_wind / distance, gahm_holland_b);
@@ -61,11 +58,10 @@ double GahmEquations::GahmFunction(double radius_to_max_wind,
          isotach_windspeed_at_boundary_layer;
 }
 
-double GahmEquations::GahmFunction(double radius_to_max_wind,
-                                   double vmax_at_boundary_layer,
-                                   double isotach_windspeed_at_boundary_layer,
-                                   double distance, double coriolis_force,
-                                   double gahm_holland_b) {
+double Gahm::Solver::GahmEquations::GahmFunction(
+    double radius_to_max_wind, double vmax_at_boundary_layer,
+    double isotach_windspeed_at_boundary_layer, double distance,
+    double coriolis_force, double gahm_holland_b) {
   const auto phi =
       GahmEquations::phi(vmax_at_boundary_layer, radius_to_max_wind,
                          gahm_holland_b, coriolis_force);
@@ -92,12 +88,10 @@ double GahmEquations::GahmFunction(double radius_to_max_wind,
  * @param gahm_holland_b GAHM Holland B parameter
  * @return Solution to first derivative
  */
-double GahmEquations::GahmFunctionDerivative(double radius_to_max_wind,
-                                             double vmax_at_boundary_layer,
-                                             double isotach_radius,
-                                             double coriolis_force,
-                                             double gahm_holland_b,
-                                             double phi) {
+double Gahm::Solver::GahmEquations::GahmFunctionDerivative(
+    double radius_to_max_wind, double vmax_at_boundary_layer,
+    double isotach_radius, double coriolis_force, double gahm_holland_b,
+    double phi) {
   const auto f3 = std::pow(radius_to_max_wind / isotach_radius, gahm_holland_b);
   const auto f4 =
       std::pow(radius_to_max_wind / isotach_radius, gahm_holland_b - 1.0);
@@ -120,11 +114,9 @@ double GahmEquations::GahmFunctionDerivative(double radius_to_max_wind,
   return (a + b - c) / d;
 }
 
-double GahmEquations::GahmFunctionDerivative(double radius_to_max_wind,
-                                             double vmax_at_boundary_layer,
-                                             double isotach_radius,
-                                             double coriolis_force,
-                                             double gahm_holland_b) {
+double Gahm::Solver::GahmEquations::GahmFunctionDerivative(
+    double radius_to_max_wind, double vmax_at_boundary_layer,
+    double isotach_radius, double coriolis_force, double gahm_holland_b) {
   const auto phi =
       GahmEquations::phi(vmax_at_boundary_layer, radius_to_max_wind,
                          gahm_holland_b, coriolis_force);
@@ -133,10 +125,9 @@ double GahmEquations::GahmFunctionDerivative(double radius_to_max_wind,
                                 phi);
 }
 
-double GahmEquations::GahmPressure(double central_pressure,
-                                   double background_pressure, double distance,
-                                   double radius_to_max_winds,
-                                   double gahm_holland_b, double phi) {
+double Gahm::Solver::GahmEquations::GahmPressure(
+    double central_pressure, double background_pressure, double distance,
+    double radius_to_max_winds, double gahm_holland_b, double phi) {
   return central_pressure +
          (background_pressure - central_pressure) *
              std::exp(-phi *

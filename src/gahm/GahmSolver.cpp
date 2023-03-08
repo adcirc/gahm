@@ -33,7 +33,7 @@
 #include "physical/Atmospheric.h"
 #include "physical/Earth.h"
 
-using namespace Gahm::Solver;
+namespace Gahm::Solver {
 
 /**
  * Construct a GAHM solver object
@@ -57,10 +57,10 @@ GahmSolver::GahmSolver(double isotach_radius, double isotach_speed, double vmax,
           GahmSolver::estimateRmax(m_pbk - m_pc, latitude, isotach_radius)),
       m_rmax(std::numeric_limits<double>::max()),
       m_bg(Gahm::Physical::Atmospheric::calcHollandB(m_vmax, m_pc, m_pbk)),
-      m_max_it(100),
-      m_it(0),
+      m_bg_tol(1e-9),
       m_phi(1.0),
-      m_bg_tol(1e-6),
+      m_max_it(200),
+      m_it(0),
       m_solver(m_isotachRadius, m_isotachSpeed, m_vmax, m_fc, m_bg) {}
 
 /**
@@ -68,8 +68,7 @@ GahmSolver::GahmSolver(double isotach_radius, double isotach_speed, double vmax,
  */
 void GahmSolver::solve() {
   const auto guess = m_rmax_guess;
-  const auto dp = m_pbk - m_pc;
-  for (auto i = 0; i < m_max_it; ++i) {
+  for (size_t i = 0; i < m_max_it; ++i) {
     auto new_rmax = m_solver.solve(1.0, m_isotachRadius, guess);
     if (new_rmax != NAN && new_rmax != INFINITY &&
         new_rmax != std::numeric_limits<double>::max()) {
@@ -178,3 +177,4 @@ double GahmSolver::estimateRmax(const double dp, const double lat,
   auto r2 = 0.99 * isorad;
   return std::min(r1, r2);
 }
+}  // namespace Gahm::Solver

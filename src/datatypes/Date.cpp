@@ -30,7 +30,7 @@
 
 #include "date.hpp"
 
-using namespace Gahm::Datatypes;
+namespace Gahm::Datatypes {
 
 struct s_date {
  private:
@@ -130,11 +130,6 @@ bool Date::operator>=(const Date &d) const {
 }
 
 bool Date::operator!=(const Date &d) const { return !(*(this) == d); }
-
-std::ostream &operator<<(std::ostream &os, const Gahm::Datatypes::Date &dt) {
-  os << dt.toString();
-  return os;
-}
 
 Date &Date::operator-=(const Date::months &rhs) {
   s_datetime d(this->m_datetime);
@@ -319,3 +314,9 @@ std::chrono::system_clock::time_point Date::time_point() const {
 }
 
 Date Date::now() { return Date(std::chrono::system_clock::now()); }
+}  // namespace Gahm::Datatypes
+
+std::ostream &operator<<(std::ostream &os, const Gahm::Datatypes::Date &dt) {
+  os << dt.toString();
+  return os;
+}
