@@ -56,7 +56,6 @@ double GahmRadiusSolver::solve(double lower, double upper, double guess) const {
   } catch (const std::exception &e) {
     throw std::runtime_error("Unable to solve for radius to maximum winds: " +
                              std::string(e.what()));
-    return std::numeric_limits<double>::max();
   }
 }
 

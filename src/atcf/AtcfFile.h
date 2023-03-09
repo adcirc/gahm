@@ -36,6 +36,7 @@ namespace Gahm::Atcf {
 
 class AtcfFile {
  public:
+
   explicit AtcfFile(std::string filename);
 
   void read();
@@ -64,8 +65,13 @@ class AtcfFile {
 
   [[nodiscard]] bool isRead() const { return m_isRead; }
 
+  void write(const std::string& filename);
+
+  [[nodiscard]] std::string filename() const { return m_filename; }
+
  private:
   void addAtcfSnap(const AtcfSnap& snap);
+
 
   std::string m_filename;
   bool m_isRead{false};

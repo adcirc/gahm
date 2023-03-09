@@ -27,6 +27,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <stdexcept>
 
 #include "gahm/GahmEquations.h"
@@ -164,16 +165,17 @@ double GahmSolver::phi() const { return m_phi; }
 
 /**
  * Estimates the rmax. Used as the initial guess for the solver
- * @param dp pressure deficit
+ * @param dp pressure deficit in Pascals
  * @param lat latitude of the storm center
  * @param isorad isotach radius that we are solving for (upper bound)
  * @return estimate of rmax
  */
 double GahmSolver::estimateRmax(const double dp, const double lat,
                                 const double isorad) {
-  assert(dp >= 0);
-  assert(isorad > 0);
-  auto r1 = std::exp(3.015 - 6.291e-5 * std::pow(dp, 2.0) + 0.337 * lat);
+  assert(dp >= 0.0);
+  assert(isorad > 0.0);
+  auto r1 =
+      std::exp(3.015 - 6.291e-5 * std::pow(dp / 100.0, 2.0) + 0.337 * lat);
   auto r2 = 0.99 * isorad;
   return std::min(r1, r2);
 }

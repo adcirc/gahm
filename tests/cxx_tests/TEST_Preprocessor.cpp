@@ -39,15 +39,16 @@ TEST_CASE("FillMissingData", "[Preprocessor]") {
       std::make_unique<Gahm::Atcf::AtcfFile>("test_files/bal122005.dat");
   auto preprocessor = std::make_unique<Gahm::Preprocessor>(atcf.get());
 
-  REQUIRE((*atcf)[6].isotachs()[1].getQuadrants()[1].getIsotachRadius() == 0.0);
-  REQUIRE((*atcf)[6].isotachs()[1].getQuadrants()[0].getIsotachRadius() ==
+  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[1].getIsotachRadius() ==
+          0.0);
+  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[0].getIsotachRadius() ==
           Catch::Approx(27779.9));
 
-  preprocessor->fillMissingAtcfData();
+  preprocessor->prepareAtcfData();
 
-  REQUIRE((*atcf)[6].isotachs()[1].getQuadrants()[1].getIsotachRadius() ==
+  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[1].getIsotachRadius() ==
           Catch::Approx(27779.9));
-  REQUIRE((*atcf)[6].isotachs()[1].getQuadrants()[0].getIsotachRadius() ==
+  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[0].getIsotachRadius() ==
           Catch::Approx(27779.9));
 }
 
@@ -63,8 +64,8 @@ TEST_CASE("GahmSolver", "[Preprocessor]") {
   std::array<double, 4> isospd = {64*kt2ms,64*kt2ms,64*kt2ms,64*kt2ms};
   // clang-format on
 
-  double p0 = 979.0;
-  double pinf = 1013.0;
+  double p0 = 97900.0;
+  double pinf = 101300.0;
   double latitude = 40.0;
 
   auto solver = std::make_unique<Gahm::Solver::GahmSolver>(
@@ -81,4 +82,16 @@ TEST_CASE("GahmSolver", "[Preprocessor]") {
       solution_rmax, vmax[0], isospd[0], isorad[0],
       Gahm::Physical::Earth::coriolis(latitude), solution_b);
   REQUIRE(v == Catch::Approx(0.0).margin(1e-8));
+}
+
+TEST_CASE("GahmAtcf", "[Preprocessor]") {
+  auto atcf =
+      std::make_unique<Gahm::Atcf::AtcfFile>("test_files/bal122005.dat");
+  auto preprocessor = std::make_unique<Gahm::Preprocessor>(atcf.get());
+  preprocessor->prepareAtcfData();
+  preprocessor->solve();
+
+  auto line =
+      (*atcf)[6].to_string(0, Gahm::Datatypes::Date(2005, 8, 15, 0, 0, 0), 0);
+  atcf->write("gahm_test.dat");
 }

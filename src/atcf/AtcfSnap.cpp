@@ -29,6 +29,9 @@
 #include <optional>
 #include <utility>
 
+#include "fmt/compile.h"
+#include "fmt/core.h"
+#include "physical/Atmospheric.h"
 #include "physical/Constants.h"
 #include "physical/Units.h"
 #include "util/StringUtilities.h"
@@ -58,6 +61,8 @@ AtcfSnap::AtcfSnap(AtcfSnap::BASIN basin, double central_pressure,
       m_radius_to_max_winds(radius_to_max_winds),
       m_vmax(vmax),
       m_vmax_boundary_layer(vmax_boundary_layer),
+      m_holland_b(Gahm::Physical::Atmospheric::calcHollandB(
+          vmax, central_pressure, background_pressure)),
       m_date(date),
       m_storm_id(storm_id),
       m_basin(basin),
@@ -86,6 +91,32 @@ AtcfSnap::BASIN AtcfSnap::basinFromString(const std::string& basin) {
     return AtcfSnap::BASIN::SL;
   } else {
     return AtcfSnap::BASIN::NONE;
+  }
+}
+
+/*
+ * Converts a basin enum to a string
+ * @param basin Basin enum
+ * @return String representation of the basin
+ */
+std::string AtcfSnap::basinToString(AtcfSnap::BASIN basin) {
+  switch (basin) {
+    case AtcfSnap::BASIN::WP:
+      return "WP";
+    case AtcfSnap::BASIN::IO:
+      return "IO";
+    case AtcfSnap::BASIN::SH:
+      return "SH";
+    case AtcfSnap::BASIN::CP:
+      return "CP";
+    case AtcfSnap::BASIN::EP:
+      return "EP";
+    case AtcfSnap::BASIN::AL:
+      return "AL";
+    case AtcfSnap::BASIN::SL:
+      return "SL";
+    default:
+      return "XX";
   }
 }
 
@@ -212,15 +243,15 @@ void AtcfSnap::setStormName(const std::string& stormName) {
  * Returns the isotachs of the storm
  * @return Isotachs of the storm
  */
-const std::vector<AtcfIsotach>& AtcfSnap::isotachs() const {
+const std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() const {
   return m_isotachs;
 }
 
 /**
- * Returns the isotachs of the snap
+ * Returns the getIsotachs of the snap
  * @return Isotachs of the snap
  */
-std::vector<AtcfIsotach>& AtcfSnap::isotachs() { return m_isotachs; }
+std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() { return m_isotachs; }
 
 /*
  * Returns the radii of the storm in the form of a circular array
@@ -285,10 +316,10 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
   const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
   const auto storm_name = boost::trim_copy(tokens[27]);
 
-  auto snap =
-      AtcfSnap(basin, p_min, Gahm::Physical::Constants::backgroundPressure(),
-               r_max, v_max, v_max, date, storm_id, storm_name);
-  snap.setPosition({lat, lon});
+  auto snap = AtcfSnap(basin, p_min,
+                       Gahm::Physical::Constants::backgroundPressure() * 100.0,
+                       r_max, v_max, v_max, date, storm_id, storm_name);
+  snap.setPosition({lon, lat});
 
   auto isotach = AtcfSnap::parseIsotach(tokens);
   snap.addIsotach(isotach);
@@ -362,4 +393,134 @@ const StormPosition& AtcfSnap::position() const { return m_position; }
 void AtcfSnap::setPosition(const StormPosition& position) {
   m_position = position;
 }
+
+/*
+ * Returns if the snap has a valid set of data
+ */
+bool AtcfSnap::isValid() const {
+  if (m_isotachs.empty()) {
+    return false;
+  }
+  if (m_position.x() == 0.0 && m_position.y() == 0.0) {
+    return false;
+  }
+  if (m_date == Gahm::Datatypes::Date()) {
+    return false;
+  }
+  if (std::any_of(
+          m_isotachs.begin(), m_isotachs.end(),
+          [](const auto& isotach) { return isotach.getWindSpeed() == 0.0; })) {
+    return false;
+  }
+  return true;
+}
+
+/*
+ * Returns the storm translation for the snap
+ * @return Storm translation for the snap
+ */
+const StormTranslation& AtcfSnap::translation() const { return m_translation; }
+
+/*
+ * Sets the storm translation for the snap
+ * @param translation Storm translation for the snap
+ */
+void AtcfSnap::setTranslation(const StormTranslation& translation) {
+  m_translation = translation;
+}
+
+/*
+ * Returns a string representation of the snap in GAHM format
+ */
+std::string AtcfSnap::to_string(size_t cycle,
+                                const Gahm::Datatypes::Date& start_date,
+                                size_t isotach_index) const {
+  constexpr double ms2kt = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::MetersPerSecond, Gahm::Physical::Units::Knot);
+  constexpr double m2nmi = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::Meter, Gahm::Physical::Units::NauticalMile);
+
+  auto isotach = m_isotachs[isotach_index];
+  auto date = m_date.toString("%Y%m%d%H");
+  auto basin = AtcfSnap::basinToString(m_basin);
+  auto lat = fmt::format(
+      "{:3d}", static_cast<int>(std::floor(std::abs(m_position.y() * 10.0))));
+  if (m_position.y() <= 0.0) {
+    lat = fmt::format("{}S", lat);
+  } else {
+    lat = fmt::format("{}N", lat);
+  }
+  auto lon = fmt::format(
+      "{:4d}", static_cast<int>(std::floor(std::abs(m_position.x() * 10.0))));
+  if (m_position.x() <= 0.0) {
+    lon = fmt::format("{}W", lon);
+  } else {
+    lon = fmt::format("{}E", lon);
+  }
+  auto vmax =
+      fmt::format("{:3d}", static_cast<int>(std::round(m_vmax * ms2kt)));
+  auto mslp = fmt::format(
+      "{:4d}", static_cast<int>(std::round(m_central_pressure / 100.0)));
+  auto prbk = fmt::format(
+      "{:4d}", static_cast<int>(std::round(m_background_pressure / 100.0)));
+  auto rmax = fmt::format(
+      "{:4d}", static_cast<int>(std::round(m_radius_to_max_winds * m2nmi)));
+  auto heading = fmt::format(
+      "{:3d}", static_cast<int>(m_translation.translationDirection() *
+                                Physical::Constants::rad2deg()));
+  if (heading == " -0") heading = "  0";
+  auto speed = fmt::format(
+      "{:4d}", static_cast<int>(m_translation.translationSpeed() * ms2kt));
+  auto forecast_hour = fmt::format(
+      "{:3d}", (m_date.toSeconds() - start_date.toSeconds()) / 3600);
+  auto isotach_wind_speed =
+      fmt::format("{:5.0f}", std::round(isotach.getWindSpeed() * ms2kt));
+  auto isotach_radius_0 = fmt::format(
+      "{:5.0f}", std::round(isotach.getQuadrant(0).getIsotachRadius() * m2nmi));
+  auto isotach_radius_1 = fmt::format(
+      "{:5.0f}", std::round(isotach.getQuadrant(1).getIsotachRadius() * m2nmi));
+  auto isotach_radius_2 = fmt::format(
+      "{:5.0f}", std::round(isotach.getQuadrant(2).getIsotachRadius() * m2nmi));
+  auto isotach_radius_3 = fmt::format(
+      "{:5.0f}", std::round(isotach.getQuadrant(3).getIsotachRadius() * m2nmi));
+
+  auto rmx0 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(0).getRadiusToMaxWindSpeed() * m2nmi);
+  auto rmx1 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(1).getRadiusToMaxWindSpeed() * m2nmi);
+  auto rmx2 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(2).getRadiusToMaxWindSpeed() * m2nmi);
+  auto rmx3 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(3).getRadiusToMaxWindSpeed() * m2nmi);
+
+  auto b = fmt::format("{:9.4f}", m_holland_b);
+  auto bg0 = fmt::format("{:9.4f}", isotach.getQuadrant(0).getGahmHollandB());
+  auto bg1 = fmt::format("{:9.4f}", isotach.getQuadrant(1).getGahmHollandB());
+  auto bg2 = fmt::format("{:9.4f}", isotach.getQuadrant(2).getGahmHollandB());
+  auto bg3 = fmt::format("{:9.4f}", isotach.getQuadrant(3).getGahmHollandB());
+
+  auto vmbl0 =
+      fmt::format("{:9.4f}", isotach.getQuadrant(0).getVmaxAtBoundaryLayer());
+  auto vmbl1 =
+      fmt::format("{:9.4f}", isotach.getQuadrant(1).getVmaxAtBoundaryLayer());
+  auto vmbl2 =
+      fmt::format("{:9.4f}", isotach.getQuadrant(2).getVmaxAtBoundaryLayer());
+  auto vmbl3 =
+      fmt::format("{:9.4f}", isotach.getQuadrant(3).getVmaxAtBoundaryLayer());
+
+  return fmt::format(
+      FMT_COMPILE(
+          "{:>2s}, {:>02d}, {:>10s},   ,     "
+          ",{:>4s},{:>5s},{:>6s},{:>4s},{:>5s},{:>4s},{:>4s},{:>5s},{:>5s},{:>"
+          "5s},{:>5s},{:>5s},     ,{:>4s},     ,    ,    ,    ,    "
+          ",{:>3s},{:>4s},{:>12s},{:>4d},{:>5d},{:>2d},{:>2d},{:>2d},{:>2d},{:>"
+          "9s},{:>7s},{:>7s},{:>7s},{:>10s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},"
+          "{:>9s},{:>9s},{:>9s}"),
+      basin, m_storm_id, date, forecast_hour, lat, lon, vmax, mslp,
+      isotach_wind_speed, std::string("NEQ"), isotach_radius_0,
+      isotach_radius_1, isotach_radius_2, isotach_radius_3, prbk, rmax, heading,
+      speed, m_storm_name, cycle, numberOfIsotachs(), 1, 1, 1, 1, rmx0, rmx1,
+      rmx2, rmx3, b, bg0, bg1, bg2, bg3, vmbl0, vmbl1, vmbl2, vmbl3);
+}
+
 }  // namespace Gahm::Atcf

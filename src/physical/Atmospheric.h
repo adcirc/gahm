@@ -44,7 +44,7 @@ constexpr double calcHollandB(const double vmax, const double p0,
                               const double pinf) {
   assert(p0 != pinf);
   return (vmax * vmax * Gahm::Physical::Constants::rhoAir() * M_E) /
-         (100.0 * (pinf - p0));
+         (pinf - p0);
 }
 
 /**

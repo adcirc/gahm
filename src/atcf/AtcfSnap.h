@@ -30,6 +30,7 @@
 
 #include "atcf/AtcfIsotach.h"
 #include "atcf/StormPosition.h"
+#include "atcf/StormTranslation.h"
 #include "datatypes/CircularArray.h"
 #include "datatypes/Date.h"
 
@@ -77,22 +78,33 @@ class AtcfSnap {
   [[nodiscard]] const std::string& stormName() const;
   void setStormName(const std::string& stormName);
 
-  [[nodiscard]] const std::vector<AtcfIsotach>& isotachs() const;
-  std::vector<AtcfIsotach>& isotachs();
+  [[nodiscard]] const std::vector<AtcfIsotach>& getIsotachs() const;
+  std::vector<AtcfIsotach>& getIsotachs();
 
   [[nodiscard]] const Datatypes::CircularArray<double, 4>& radii() const;
 
   [[nodiscard]] static AtcfSnap::BASIN basinFromString(
       const std::string& basin);
 
+  [[nodiscard]] static std::string basinToString(AtcfSnap::BASIN basin);
+
   [[nodiscard]] size_t numberOfIsotachs() const;
 
   [[nodiscard]] const StormPosition& position() const;
   void setPosition(const StormPosition& position);
 
+  [[nodiscard]] const StormTranslation& translation() const;
+  void setTranslation(const StormTranslation& translation);
+
   void addIsotach(const AtcfIsotach& isotach);
 
   bool operator<(const AtcfSnap& other) const;
+
+  [[nodiscard]] bool isValid() const;
+
+  [[nodiscard]] std::string to_string(size_t cycle,
+                                      const Gahm::Datatypes::Date& start_date,
+                                      size_t isotach_index) const;
 
  private:
   static Gahm::Datatypes::Date parseDate(const std::string& date_str,
@@ -106,10 +118,12 @@ class AtcfSnap {
   double m_radius_to_max_winds;
   double m_vmax;
   double m_vmax_boundary_layer;
+  double m_holland_b;
   Gahm::Datatypes::Date m_date;
   int m_storm_id;
   BASIN m_basin;
   StormPosition m_position;
+  StormTranslation m_translation;
   std::string m_storm_name;
   std::vector<AtcfIsotach> m_isotachs;
   Datatypes::CircularArray<double, 4> m_radii;

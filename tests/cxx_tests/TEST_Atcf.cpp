@@ -84,8 +84,8 @@ TEST_CASE("Construct AtcfSnap Manually", "[AtcfSnap]") {
   REQUIRE(snap.vmaxBoundaryLayer() == 35.0);
   REQUIRE(snap.stormId() == 1);
   REQUIRE(snap.stormName() == "Test");
-  REQUIRE(snap.isotachs()[0].getWindSpeed() == 20.0);
-  REQUIRE(snap.isotachs()[1].getWindSpeed() == 40.0);
+  REQUIRE(snap.getIsotachs()[0].getWindSpeed() == 20.0);
+  REQUIRE(snap.getIsotachs()[1].getWindSpeed() == 40.0);
 }
 
 TEST_CASE("Construct AtcfSnap from string", "[AtcfSnap]") {
@@ -96,12 +96,12 @@ TEST_CASE("Construct AtcfSnap from string", "[AtcfSnap]") {
   auto snap = Gahm::Atcf::AtcfSnap::parseAtcfSnap(line).value();
   REQUIRE(snap.basin() == Gahm::Atcf::AtcfSnap::BASIN::AL);
   REQUIRE(snap.centralPressure() == 909.0 * 100.0);
-  REQUIRE(snap.backgroundPressure() == 1013.0);
+  REQUIRE(snap.backgroundPressure() == 101300.0);
   REQUIRE(snap.date() == Gahm::Datatypes::Date(2005, 8, 28, 12, 0, 0));
   REQUIRE(snap.vmax() == 145.0 * Gahm::Physical::Units::convert(
                                      Gahm::Physical::Units::Knot,
                                      Gahm::Physical::Units::MetersPerSecond));
-  REQUIRE(snap.isotachs()[0].getWindSpeed() ==
+  REQUIRE(snap.getIsotachs()[0].getWindSpeed() ==
           50.0 * Gahm::Physical::Units::convert(
                      Gahm::Physical::Units::Knot,
                      Gahm::Physical::Units::MetersPerSecond));

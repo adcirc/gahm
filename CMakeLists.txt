@@ -5,6 +5,8 @@ set(CMAKE_CXX_STANDARD 17)
 
 FIND_PACKAGE(Boost 1.75.0 REQUIRED)
 
+add_subdirectory(thirdparty/fmt-9.1.0 EXCLUDE_FROM_ALL)
+
 add_library(gahm SHARED
         src/datatypes/Date.cpp
         src/atcf/AtcfSnap.cpp
@@ -15,11 +17,14 @@ add_library(gahm SHARED
         src/gahm/GahmSolver.cpp
         src/gahm/GahmRadiusSolverPrivate.cpp)
 
-
 target_include_directories(gahm PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/src
         ${Boost_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh)
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
+        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/fmt-9.1.0/include)
+
+target_link_libraries(gahm PRIVATE fmt::fmt)
+add_dependencies(gahm fmt::fmt)
 
 option(BUILD_TESTS "Build tests" ON)
 if (BUILD_TESTS)
@@ -35,7 +40,7 @@ if (BUILD_TESTS)
 
     foreach (test ${TestList})
         get_filename_component(test_name ${test} NAME_WE)
-        add_executable(${test_name} ${test} src/physical/Atmospheric.h)
+        add_executable(${test_name} ${test})
         add_test(NAME ${test_name} COMMAND ${test_name}
                  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests)
         target_include_directories(${test_name} PRIVATE
