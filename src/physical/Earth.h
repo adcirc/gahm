@@ -27,6 +27,7 @@
 #define GAHM_SRC_EARTH_H_
 
 #include <cmath>
+#include <tuple>
 
 #include "physical/Constants.h"
 #include "physical/Units.h"
