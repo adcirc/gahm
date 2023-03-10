@@ -48,9 +48,10 @@ double GahmRadiusSolver::solve(double lower, double upper, double guess) const {
   try {
     return boost::math::tools::newton_raphson_iterate(
         m_solver, guess, lower, upper, std::numeric_limits<double>::digits, it);
-  } catch (const std::exception &e) {
-    throw std::runtime_error("Unable to solve for radius to maximum winds: " +
-                             std::string(e.what()));
+  } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
+    throw boost::wrapexcept<boost::math::evaluation_error>(
+        "Unable to solve for radius to maximum winds: " +
+        std::string(e.what()));
   }
 }
 

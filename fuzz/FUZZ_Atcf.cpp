@@ -5,6 +5,8 @@
 
 #include "atcf/AtcfFile.h"
 #include "atcf/AtcfSnap.h"
+#include "boost/math/tools/roots.hpp"
+#include "boost/throw_exception.hpp"
 #include "preprocessor/Preprocessor.h"
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
@@ -40,6 +42,14 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
   auto prep = Gahm::Preprocessor(&atcf);
   prep.prepareAtcfData();
+
+  try {
+    prep.solve();
+  } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
+    // All math errors intentionally will throw the above. Anything else is an
+    // unknown
+    return 0;
+  }
 
   return 0;
 }
