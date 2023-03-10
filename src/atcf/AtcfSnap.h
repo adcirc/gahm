@@ -37,7 +37,7 @@ namespace Gahm::Atcf {
  */
 class AtcfSnap {
  public:
-  enum BASIN { NONE, WP, IO, SH, CP, EP, AL, SL };
+  enum BASIN { NONE, WP, IO, SH, CP, EP, AL, SL, kMaxValue = SL };
 
   AtcfSnap(BASIN basin, double central_pressure, double background_pressure,
            double radius_to_max_winds, double vmax, double vmax_boundary_layer,

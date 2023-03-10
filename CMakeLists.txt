@@ -10,7 +10,7 @@
 # ##############################################################################
 # Set up the project
 # ##############################################################################
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.18)
 project(gahm CXX)
 
 # Warnings, Sanitizers, etc
@@ -38,7 +38,7 @@ option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 # ##############################################################################
 # Dependencies
 # ##############################################################################
-find_package(Boost 1.75.0 REQUIRED)
+find_package(Boost 1.74.0 REQUIRED)
 add_subdirectory(thirdparty/fmt-9.1.0 EXCLUDE_FROM_ALL)
 mark_as_advanced(
   FMT_CUDA_TEST

@@ -31,6 +31,7 @@ namespace Gahm::Atcf {
 
 class AtcfFile {
  public:
+  AtcfFile() = default;
 
   explicit AtcfFile(std::string filename);
 
@@ -58,18 +59,14 @@ class AtcfFile {
                         [&](const auto& val) { return val.date() == date; });
   }
 
-  [[nodiscard]] bool isRead() const { return m_isRead; }
-
   void write(const std::string& filename);
 
   [[nodiscard]] std::string filename() const { return m_filename; }
 
- private:
   void addAtcfSnap(const AtcfSnap& snap);
 
-
+ private:
   std::string m_filename;
-  bool m_isRead{false};
   std::vector<AtcfSnap> m_atcfSnaps;
 };
 

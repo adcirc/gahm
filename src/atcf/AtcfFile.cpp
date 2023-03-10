@@ -59,7 +59,6 @@ void AtcfFile::read() {
                 << std::endl;
     }
   }
-  m_isRead = true;
 }
 
 /*

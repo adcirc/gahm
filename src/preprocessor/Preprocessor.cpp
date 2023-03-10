@@ -29,11 +29,7 @@ namespace Gahm {
  * Constructor for the preprocessor class
  * @param atcf Pointer to the AtcfFile object
  */
-Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf) : m_atcf(atcf) {
-  if (!m_atcf->isRead()) {
-    m_atcf->read();
-  }
-}
+Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf) : m_atcf(atcf) {}
 
 /*
  * Prepares the ATCF data for the solver

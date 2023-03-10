@@ -31,6 +31,7 @@
 TEST_CASE("FillMissingData", "[Preprocessor]") {
   auto atcf =
       std::make_unique<Gahm::Atcf::AtcfFile>("test_files/bal122005.dat");
+  atcf->read();
   auto preprocessor = std::make_unique<Gahm::Preprocessor>(atcf.get());
 
   REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[1].getIsotachRadius() ==
@@ -81,6 +82,7 @@ TEST_CASE("GahmSolver", "[Preprocessor]") {
 TEST_CASE("GahmAtcf", "[Preprocessor]") {
   auto atcf =
       std::make_unique<Gahm::Atcf::AtcfFile>("test_files/bal122005.dat");
+  atcf->read();
   auto preprocessor = std::make_unique<Gahm::Preprocessor>(atcf.get());
   preprocessor->prepareAtcfData();
   preprocessor->solve();
