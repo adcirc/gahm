@@ -45,21 +45,18 @@ TEST_CASE("Construct AtcfQuadrant", "[AtcfQuadrant] ") {
   REQUIRE(quadrant.getIsotachRadius() == 0.0);
   REQUIRE(quadrant.getRadiusToMaxWindSpeed() == 0.0);
   REQUIRE(quadrant.getGahmHollandB() == 0.0);
-  REQUIRE(quadrant.getVmaxAtBoundaryLayer() == 0.0);
   REQUIRE(quadrant.getIsotachSpeedAtBoundaryLayer() == 0.0);
 
   quadrant.setQuadrantIndex(1);
   quadrant.setIsotachRadius(10.0);
   quadrant.setRadiusToMaxWindSpeed(20.0);
   quadrant.setGahmHollandB(0.5);
-  quadrant.setVmaxAtBoundaryLayer(30.0);
   quadrant.setIsotachSpeedAtBoundaryLayer(40.0);
 
   REQUIRE(quadrant.getQuadrantIndex() == 1);
   REQUIRE(quadrant.getIsotachRadius() == 10.0);
   REQUIRE(quadrant.getRadiusToMaxWindSpeed() == 20.0);
   REQUIRE(quadrant.getGahmHollandB() == 0.5);
-  REQUIRE(quadrant.getVmaxAtBoundaryLayer() == 30.0);
   REQUIRE(quadrant.getIsotachSpeedAtBoundaryLayer() == 40.0);
 }
 

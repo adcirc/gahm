@@ -40,7 +40,7 @@ namespace Gahm::Datatypes {
  * @tparam T Type of data to store in the array
  * @tparam array_size The size of the array
  */
-template <typename T, int array_size>
+template <typename T, unsigned array_size>
 class CircularArray {
  public:
   static_assert(array_size > 0, "Array size must be greater than 0");
@@ -48,19 +48,21 @@ class CircularArray {
   /**
    * @brief Default constructor
    */
-  CircularArray() = default;
+  constexpr CircularArray() = default;
 
   /*
    * @brief Constructor from std::array
    */
-  explicit CircularArray(std::array<T, array_size> arr)
+  constexpr explicit CircularArray(std::array<T, array_size> arr)
       : m_data(std::move(arr)) {}
 
   /* @brief Indexing operator */
-  T &operator[](int index) noexcept { return m_data[mod_floor(index)]; }
+  constexpr T &operator[](int index) noexcept {
+    return m_data[mod_floor(index)];
+  }
 
   /* @brief Indexing operator */
-  const T &operator[](int index) const noexcept {
+  constexpr const T &operator[](int index) const noexcept {
     return m_data[mod_floor(index)];
   }
 
@@ -79,100 +81,105 @@ class CircularArray {
   }
 
   /* @brief Returns an iterator to the mod_floor of the index */
-  auto iterator_at(int position) const noexcept {
+  constexpr auto iterator_at(int position) const noexcept {
     auto p = mod_floor(position);
     return m_data.begin() + p;
   }
 
   /* @brief Returns the value at the mod_floor of the index */
-  auto at(int index) const noexcept { return m_data[mod_floor(index)]; }
+  constexpr auto at(int index) const noexcept {
+    return m_data[mod_floor(index)];
+  }
 
   /* @brief Sets the value at the mod_floor of the index */
-  void set(int index, T value) noexcept { m_data[mod_floor(index)] = value; }
+  constexpr void set(int index, T value) noexcept {
+    m_data[mod_floor(index)] = value;
+  }
 
   /* @brief Sets the values of the array using a std::array */
-  void set(const std::array<T, array_size> &array) { m_data = array; }
+  constexpr void set(const std::array<T, array_size> &array) { m_data = array; }
 
   /* @brief Returns the front of the array */
-  auto front() noexcept { return m_data.front(); }
+  constexpr auto front() noexcept { return m_data.front(); }
 
   /* @brief Returns the back of the array */
-  auto back() noexcept { return m_data.back(); }
+  constexpr auto back() noexcept { return m_data.back(); }
 
   /* @brief Returns a pointer to the data */
-  auto data() noexcept { return &m_data; }
+  constexpr auto data() noexcept { return &m_data; }
 
   /* @brief Returns a const pointer to the data */
-  auto data() const noexcept { return &m_data; }
+  constexpr auto data() const noexcept { return &m_data; }
 
   /* @brief returns true if the array is empty */
-  auto empty() const noexcept { return m_data.empty(); }
+  constexpr auto empty() const noexcept { return m_data.empty(); }
 
   /* @brief returns the max size of the array */
-  auto max_size() const noexcept { return m_data.max_size(); }
+  constexpr auto max_size() const noexcept { return m_data.max_size(); }
 
   /* @brief returns the size of the array */
   constexpr auto size() const noexcept { return array_size; }
 
   /* @brief Fills the array with a value */
-  void fill(const T value) { m_data.fill(value); }
+  constexpr void fill(const T value) { m_data.fill(value); }
 
   /* @brief Returns an iterator to the beginning of the array */
-  auto begin() noexcept { return m_data.begin(); }
+  constexpr auto begin() noexcept { return m_data.begin(); }
 
   /* @brief Returns an iterator to the end of the array */
-  auto end() noexcept { return m_data.end(); }
+  constexpr auto end() noexcept { return m_data.end(); }
 
   /* @brief Returns a reverse iterator to the beginning of the array */
-  auto rbegin() noexcept { return m_data.rbegin(); }
+  constexpr auto rbegin() noexcept { return m_data.rbegin(); }
 
   /* @brief Returns a reverse iterator to the end of the array */
-  auto rend() noexcept { return m_data.rend(); }
+  constexpr auto rend() noexcept { return m_data.rend(); }
 
   /* @brief Returns an iterator to the beginning of the array */
-  auto begin() const noexcept { return m_data.cbegin(); }
+  constexpr auto begin() const noexcept { return m_data.cbegin(); }
 
   /* @brief Returns an iterator to the end of the array */
-  auto end() const noexcept { return m_data.cend(); }
+  constexpr auto end() const noexcept { return m_data.cend(); }
 
   /* @brief Returns a reverse iterator to the beginning of the array */
-  auto rbegin() const noexcept { return m_data.crbegin(); }
+  constexpr auto rbegin() const noexcept { return m_data.crbegin(); }
 
   /* @brief Returns a reverse iterator to the end of the array */
-  auto rend() const noexcept { return m_data.crend(); }
+  constexpr auto rend() const noexcept { return m_data.crend(); }
 
   /* @brief Copy constructor
    * @param[in] arr The array to copy
    */
-  CircularArray(const CircularArray<T, array_size> &arr) noexcept = default;
+  constexpr CircularArray(const CircularArray<T, array_size> &arr) noexcept =
+      default;
 
   /* @brief Equality operator */
-  bool operator==(const CircularArray<T, array_size> &b) const {
+  constexpr bool operator==(const CircularArray<T, array_size> &b) const {
     return m_data == b.m_data;
   }
 
   /* @brief Not equal operator */
-  bool operator!=(const CircularArray<T, array_size> &b) const {
+  constexpr bool operator!=(const CircularArray<T, array_size> &b) const {
     return m_data != b.m_data;
   }
 
   /* @brief Less than operator */
-  bool operator<(const CircularArray<T, array_size> &b) const {
+  constexpr bool operator<(const CircularArray<T, array_size> &b) const {
     return m_data < b.m_data;
   }
 
   /* @brief Greater than operator */
-  bool operator>(const CircularArray<T, array_size> &b) const {
+  constexpr bool operator>(const CircularArray<T, array_size> &b) const {
     return m_data > b.m_data;
   }
 
   /* @brief Less than or equal to operator */
-  bool operator<=(const CircularArray<T, array_size> &b) const {
+  constexpr bool operator<=(const CircularArray<T, array_size> &b) const {
     return m_data <= b.m_data;
   }
 
   /* @brief Greater than or equal to operator */
-  bool operator>=(const CircularArray<T, array_size> &b) const {
+  constexpr bool operator>=(const CircularArray<T, array_size> &b) const {
     return m_data >= b.m_data;
   }
 
@@ -180,18 +187,23 @@ class CircularArray {
   std::array<T, array_size> m_data;
 
   /* @brief Returns the mod_floor of the index */
-  static size_t mod_floor(int position) noexcept {
-    if (position >= 0 && position < array_size) {
-      return position;
+  static constexpr unsigned mod_floor(int position) noexcept {
+    if (position >= 0 && position < static_cast<long>(array_size)) {
+      return static_cast<unsigned>(position);
     } else {
-      if (position < 0) position += array_size;
-      return position % array_size;
+      if (position < 0) {
+        auto arr = static_cast<long long>(array_size);
+        auto p = static_cast<long long>(position) + arr;
+        return static_cast<unsigned>(p % arr);
+      } else {
+        return static_cast<unsigned>(position) % array_size;
+      }
     }
   }
 };
 }  // namespace Gahm::Datatypes
 
-template <typename T, size_t array_size>
+template <typename T, unsigned array_size>
 std::ostream &operator<<(
     std::ostream &os,
     const Gahm::Datatypes::CircularArray<T, array_size> &array) {

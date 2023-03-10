@@ -300,15 +300,15 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
   const auto date = AtcfSnap::parseDate(tokens[2], tokens[5]);
 
   const auto lat = [&]() {
-    double lat = stod(tokens[6].substr(0, tokens[6].size() - 1)) / 10.0;
-    if (*(tokens[6].rbegin()) == 'S') lat *= -1.0;
-    return lat;
+    double l = stod(tokens[6].substr(0, tokens[6].size() - 1)) / 10.0;
+    if (*(tokens[6].rbegin()) == 'S') l *= -1.0;
+    return l;
   }();
 
   const auto lon = [&]() {
-    double lon = stod(tokens[7].substr(0, tokens[7].size() - 1)) / 10.0;
-    if (*(tokens[7].rbegin()) == 'W') lon *= -1.0;
-    return lon;
+    double l = stod(tokens[7].substr(0, tokens[7].size() - 1)) / 10.0;
+    if (*(tokens[7].rbegin()) == 'W') l *= -1.0;
+    return l;
   }();
 
   const auto v_max = readValueCheckBlank<double>(tokens[8]) * kt2ms;
@@ -499,14 +499,14 @@ std::string AtcfSnap::to_string(size_t cycle,
   auto bg2 = fmt::format("{:9.4f}", isotach.getQuadrant(2).getGahmHollandB());
   auto bg3 = fmt::format("{:9.4f}", isotach.getQuadrant(3).getGahmHollandB());
 
-  auto vmbl0 =
-      fmt::format("{:9.4f}", isotach.getQuadrant(0).getVmaxAtBoundaryLayer());
-  auto vmbl1 =
-      fmt::format("{:9.4f}", isotach.getQuadrant(1).getVmaxAtBoundaryLayer());
-  auto vmbl2 =
-      fmt::format("{:9.4f}", isotach.getQuadrant(2).getVmaxAtBoundaryLayer());
-  auto vmbl3 =
-      fmt::format("{:9.4f}", isotach.getQuadrant(3).getVmaxAtBoundaryLayer());
+  auto vmbl0 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(0).getIsotachSpeedAtBoundaryLayer());
+  auto vmbl1 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(1).getIsotachSpeedAtBoundaryLayer());
+  auto vmbl2 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(2).getIsotachSpeedAtBoundaryLayer());
+  auto vmbl3 = fmt::format(
+      "{:9.4f}", isotach.getQuadrant(3).getIsotachSpeedAtBoundaryLayer());
 
   return fmt::format(
       FMT_COMPILE(

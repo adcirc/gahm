@@ -71,7 +71,7 @@ void GahmSolver::solve() {
   const auto guess = m_rmax_guess;
   for (size_t i = 0; i < m_max_it; ++i) {
     auto new_rmax = m_solver.solve(1.0, m_isotachRadius, guess);
-    if (new_rmax != NAN && new_rmax != INFINITY &&
+    if (!std::isnan(new_rmax) && !std::isinf(new_rmax) &&
         new_rmax != std::numeric_limits<double>::max()) {
       m_rmax = new_rmax;
     }
@@ -81,8 +81,8 @@ void GahmSolver::solve() {
       m_it = i;
       break;
     }
-    if (new_rmax == NAN || new_rmax == INFINITY || m_bg == NAN ||
-        m_bg == INFINITY || m_phi == NAN || m_phi == INFINITY) {
+    if (std::isnan(new_rmax) || std::isinf(new_rmax) || std::isnan(m_bg) ||
+        std::isinf(m_bg) || std::isnan(m_phi) || std::isinf(m_phi)) {
       throw std::runtime_error("ERROR: Solution did not converge");
     }
     m_solver.setBg(m_bg);

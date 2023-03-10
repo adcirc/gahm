@@ -186,16 +186,38 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
 }
 
 /*
+ * Computes the simple relative isotach wind speed
+ * @param wind_speed Wind speed of the isotach
+ * @param transit Storm translation object
+ * @param quadrant Quadrant number
+ *
+ * Take the quadrant angle (45, 135, 225, 315) and add the storm translation
+ * direction. Then, generate the u and v components of the wind speed. Add the
+ * storm translation u and v components to the u and v components of the wind
+ * speed. Then, compute the relative isotach wind speed by dividing the
+ * magnitude of the u and v components by the wind reduction factor.
+ *
+ */
+double Preprocessor::computeSimpleRelativeIsotachWindspeed(
+    double wind_speed, Atcf::StormTranslation transit, int quadrant) {
+  double theta = Atcf::AtcfQuadrant::quadrant_angle(quadrant) +
+                 transit.translationDirection();
+  double u = wind_speed * std::cos(theta) + transit.transitSpeedU();
+  double v = wind_speed * std::sin(theta) + transit.transitSpeedV();
+  return std::sqrt(u * u + v * v) / Gahm::Physical::Constants::windReduction();
+}
+
+/*
  * Computes the boundary layer windspeed for each snap
  */
 void Preprocessor::computeBoundaryLayerWindspeed() {
   for (auto &snap : *m_atcf) {
-    auto transit_speed = snap.translation().transitSpeed();
     for (auto &iso : snap.getIsotachs()) {
       for (auto &quad : iso.getQuadrants()) {
-        quad.setVmaxAtBoundaryLayer(
-            Preprocessor::compute_simple_vmax_at_boundary_layer(snap.vmax(),
-                                                                transit_speed));
+        quad.setIsotachSpeedAtBoundaryLayer(
+            Preprocessor::computeSimpleRelativeIsotachWindspeed(
+                iso.getWindSpeed(), snap.translation(),
+                quad.getQuadrantIndex()));
       }
     }
   }

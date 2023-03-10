@@ -27,6 +27,8 @@
 #define GAHM_SRC_PREPROCESSOR_PREPROCESSOR_H_
 
 #include "atcf/AtcfFile.h"
+#include "atcf/AtcfQuadrant.h"
+#include "atcf/StormTranslation.h"
 
 namespace Gahm {
 class Preprocessor {
@@ -40,14 +42,11 @@ class Preprocessor {
   void fillMissingAtcfData();
   void computeStormTranslationVelocities();
   void computeBoundaryLayerWindspeed();
-  Gahm::Atcf::StormTranslation getTranslation(const Gahm::Atcf::AtcfSnap &now,
+  static Gahm::Atcf::StormTranslation getTranslation(const Gahm::Atcf::AtcfSnap &now,
                                               const Gahm::Atcf::AtcfSnap &next);
 
-  static constexpr double compute_simple_vmax_at_boundary_layer(
-      double wind_speed, double transit_speed) {
-    return (wind_speed - transit_speed) /
-           Gahm::Physical::Constants::windReduction();
-  }
+  static double computeSimpleRelativeIsotachWindspeed(
+      double wind_speed, Atcf::StormTranslation transit, int quadrant);
 
   Gahm::Atcf::AtcfFile *m_atcf{nullptr};
 };

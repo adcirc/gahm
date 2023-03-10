@@ -1,54 +1,81 @@
+# ##############################################################################
+# GAHM - Generalized Asymmetric Holland Model
+#
+# Authors: - Zach Cobell - Rick Luettich
+#
+# Derivative of work by: Jie Gao
+#
+# License: MIT
+#
+# ##############################################################################
+# Set up the project
+# ##############################################################################
 cmake_minimum_required(VERSION 3.24)
-project(gahm)
+project(gahm CXX)
 
+# Warnings, Sanitizers, etc
+add_library(project_options INTERFACE)
+add_library(project_warnings INTERFACE)
+include(cmake/StandardProjectSettings.cmake)
+include(cmake/PreventInSourceBuilds.cmake)
+include(cmake/Cache.cmake)
+include(cmake/CompilerWarnings.cmake)
 set(CMAKE_CXX_STANDARD 17)
+target_compile_features(project_options INTERFACE cxx_std_17)
+set_project_warnings(project_warnings)
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
 
-FIND_PACKAGE(Boost 1.75.0 REQUIRED)
+mark_as_advanced(CLEAR CMAKE_BUILD_TYPE)
+mark_as_advanced(CLEAR CMAKE_CXX_COMPILER)
+mark_as_advanced(CLEAR CMAKE_CXX_FLAGS)
+mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_RELEASE)
+mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+# ##############################################################################
+
+# ##############################################################################
+# Dependencies
+# ##############################################################################
+find_package(Boost 1.75.0 REQUIRED)
 add_subdirectory(thirdparty/fmt-9.1.0 EXCLUDE_FROM_ALL)
+mark_as_advanced(
+  FMT_CUDA_TEST
+  FMT_DEBUG_POSTFIX
+  FMT_DOC
+  FMT_FUZZ
+  FMT_INC_DIR
+  FMT_INSTALL
+  FMT_MODULE
+  FMT_OS
+  FMT_PEDANTIC
+  FMT_SYSTEM_HEADERS
+  FMT_TEST
+  FMT_WERROR)
+# ##############################################################################
 
-add_library(gahm SHARED
-        src/datatypes/Date.cpp
-        src/atcf/AtcfSnap.cpp
-        src/atcf/AtcfFile.cpp
-        src/preprocessor/Preprocessor.cpp
-        src/gahm/GahmEquations.cpp
-        src/gahm/GahmRadiusSolver.cpp
-        src/gahm/GahmSolver.cpp
-        src/gahm/GahmRadiusSolverPrivate.cpp)
+# ##############################################################################
+# Source
+# ##############################################################################
+add_subdirectory(src)
+# ##############################################################################
 
-target_include_directories(gahm PRIVATE
-        ${CMAKE_CURRENT_SOURCE_DIR}/src
-        ${Boost_INCLUDE_DIRS}
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/date_hh
-        ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/fmt-9.1.0/include)
+# ##############################################################################
+# Tests
+# ##############################################################################
+option(GAHM_BUILD_TESTS "Build tests" OFF)
+if(GAHM_BUILD_TESTS)
+  message("Building GAHM tests")
+  enable_testing()
+  add_subdirectory(tests)
 
-target_link_libraries(gahm PRIVATE fmt::fmt)
-add_dependencies(gahm fmt::fmt)
-
-option(BUILD_TESTS "Build tests" ON)
-if (BUILD_TESTS)
-    enable_testing()
-    Include(FetchContent)
-    FetchContent_Declare(
-            Catch2
-            GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-            GIT_TAG        v3.3.2
-    )
-    FetchContent_MakeAvailable(Catch2)
-    FILE(GLOB_RECURSE TestList ${CMAKE_CURRENT_SOURCE_DIR}/tests/cxx_tests/TEST_*.cpp)
-
-    foreach (test ${TestList})
-        get_filename_component(test_name ${test} NAME_WE)
-        add_executable(${test_name} ${test})
-        add_test(NAME ${test_name} COMMAND ${test_name}
-                 WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/tests)
-        target_include_directories(${test_name} PRIVATE
-                ${CMAKE_CURRENT_SOURCE_DIR}/src
-                ${catch2_SOURCE_DIR}
-                )
-        target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain)
-        set_target_properties(${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/tests)
-        add_dependencies(${test_name} gahm Catch2::Catch2WithMain)
-    endforeach ()
-endif ()
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    option(GAHM_FUZZ "Build Fuzzing" OFF)
+    if(GAHM_FUZZ)
+      message("Building Fuzz tests")
+      add_subdirectory(fuzz)
+    endif()
+  endif()
+endif()
+# ##############################################################################

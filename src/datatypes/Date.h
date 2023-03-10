@@ -57,15 +57,13 @@ class Date {
 
   explicit Date(const std::chrono::system_clock::time_point &t);
 
-  explicit Date(const std::vector<int> &v);
+  explicit Date(const std::vector<long long> &v);
 
-  explicit Date(int year, unsigned month, unsigned day, unsigned hour = 0,
-                unsigned minute = 0, unsigned second = 0,
-                unsigned millisecond = 0);
+  explicit Date(int year, unsigned month, unsigned day, long long hour = 0,
+                long long minute = 0, long long second = 0,
+                long long millisecond = 0);
 
   Date(const Date &d);
-
-
 
   //...operator overloads
   bool operator<(const Date &d) const;
@@ -74,7 +72,7 @@ class Date {
   bool operator>=(const Date &d) const;
   bool operator==(const Date &d) const;
   bool operator!=(const Date &d) const;
-  Date& operator=(const Date &d) = default;
+  Date &operator=(const Date &d) = default;
 
   template <class T, typename std::enable_if<std::is_integral<T>::value>::type
                          * = nullptr>
@@ -145,13 +143,14 @@ class Date {
   static Date maxDate() { return Date(3000, 1, 1, 0, 0, 0); }
   static Date minDate() { return Date(1900, 1, 1, 0, 0, 0); }
 
-  [[nodiscard]] std::vector<int> get() const;
+  [[nodiscard]] std::vector<long long> get() const;
 
-  void set(const std::vector<int> &v);
+  void set(const std::vector<long long> &v);
   void set(const std::chrono::system_clock::time_point &t);
   void set(const Date &v);
-  void set(int year, unsigned month = 1, unsigned day = 1, unsigned hour = 0,
-           unsigned minute = 0, unsigned second = 0, unsigned millisecond = 0);
+  void set(int year, unsigned month = 1, unsigned day = 1, long long hour = 0,
+           long long minute = 0, long long second = 0,
+           long long millisecond = 0);
 
   static Date fromSeconds(long seconds);
 
@@ -170,17 +169,17 @@ class Date {
   [[nodiscard]] unsigned day() const;
   void setDay(unsigned day);
 
-  [[nodiscard]] unsigned hour() const;
-  void setHour(unsigned hour);
+  [[nodiscard]] long long hour() const;
+  void setHour(long long hour);
 
-  [[nodiscard]] unsigned minute() const;
-  void setMinute(unsigned minute);
+  [[nodiscard]] long long minute() const;
+  void setMinute(long long minute);
 
-  [[nodiscard]] unsigned second() const;
-  void setSecond(unsigned second);
+  [[nodiscard]] long long second() const;
+  void setSecond(long long second);
 
-  [[nodiscard]] unsigned millisecond() const;
-  void setMillisecond(unsigned milliseconds);
+  [[nodiscard]] long long millisecond() const;
+  void setMillisecond(long long milliseconds);
 
   [[nodiscard]] static Date fromString(
       const std::string &datestr,

@@ -39,9 +39,9 @@ struct s_date {
  public:
   explicit s_date(const std::chrono::system_clock::time_point &t)
       : dd(date::year_month_day(date::floor<date::days>(t))) {}
-  int year() const { return int(dd.year()); }
-  unsigned month() const { return unsigned(dd.month()); }
-  unsigned day() const { return unsigned(dd.day()); }
+  [[nodiscard]] int year() const { return int(dd.year()); }
+  [[nodiscard]] unsigned month() const { return unsigned(dd.month()); }
+  [[nodiscard]] unsigned day() const { return unsigned(dd.day()); }
 };
 
 struct s_datetime {
@@ -51,18 +51,18 @@ struct s_datetime {
   date::hh_mm_ss<std::chrono::system_clock::duration> tt;
 
  public:
-  explicit s_datetime(const std::chrono::system_clock::time_point &t)
-      : t(t),
+  explicit s_datetime(const std::chrono::system_clock::time_point &tp)
+      : t(tp),
         dd(date::year_month_day(date::floor<date::days>(t))),
         tt(date::make_time(t - date::sys_days(dd))) {}
   date::year_month_day ymd() { return dd; }
-  int year() const { return int(dd.year()); }
-  unsigned month() const { return unsigned(dd.month()); }
-  unsigned day() const { return unsigned(dd.day()); }
-  int hour() const { return tt.hours().count(); }
-  int minute() const { return tt.minutes().count(); }
-  int second() const { return tt.seconds().count(); }
-  int milliseconds() const {
+  [[nodiscard]] int year() const { return int(dd.year()); }
+  [[nodiscard]] unsigned month() const { return unsigned(dd.month()); }
+  [[nodiscard]] unsigned day() const { return unsigned(dd.day()); }
+  [[nodiscard]] long long hour() const { return tt.hours().count(); }
+  [[nodiscard]] long long minute() const { return tt.minutes().count(); }
+  [[nodiscard]] long long second() const { return tt.seconds().count(); }
+  [[nodiscard]] long long milliseconds() const {
     Date c(year(), month(), day(), hour(), minute(), second());
     return std::chrono::duration_cast<std::chrono::milliseconds>(t -
                                                                  c.time_point())
@@ -79,19 +79,20 @@ date::year_month_day normalize(date::year_month_day ymd) {
 constexpr date::year_month_day c_epoch() { return {date::year(1970) / 1 / 1}; }
 
 Date::Date(const long long secondsSinceEpoch) {
-  this->fromSeconds(secondsSinceEpoch);
+  Date d = Date::fromSeconds(secondsSinceEpoch);
+  m_datetime = d.m_datetime;
 }
 
 Date::Date() { this->set(1970, 1, 1, 0, 0, 0, 0); }
 
 Date::Date(const std::chrono::system_clock::time_point &t) { this->set(t); }
 
-Date::Date(const std::vector<int> &v) { this->set(v); }
+Date::Date(const std::vector<long long> &v) { this->set(v); }
 
 Date::Date(const Date &d) { this->set(d.get()); }
 
-Date::Date(int year, unsigned month, unsigned day, unsigned hour,
-           unsigned minute, unsigned second, unsigned millisecond) {
+Date::Date(int year, unsigned month, unsigned day, long long hour,
+           long long minute, long long second, long long millisecond) {
   this->set(year, month, day, hour, minute, second, millisecond);
 }
 
@@ -171,8 +172,8 @@ Date &Date::operator+=(const Date::years &rhs) {
   return *this;
 }
 
-void Date::set(int year, unsigned month, unsigned day, unsigned hour,
-               unsigned minute, unsigned second, unsigned millisecond) {
+void Date::set(int year, unsigned month, unsigned day, long long hour,
+               long long minute, long long second, long long millisecond) {
   auto ymd = date::year(year) / date::month(month) / date::day(day);
   if (!ymd.ok()) {
     throw std::runtime_error("Invalid date");
@@ -183,9 +184,9 @@ void Date::set(int year, unsigned month, unsigned day, unsigned hour,
                      std::chrono::milliseconds(millisecond);
 }
 
-std::vector<int> Date::get() const {
+std::vector<long long> Date::get() const {
   s_datetime time(this->m_datetime);
-  std::vector<int> v(7);
+  std::vector<long long> v(7);
   v[0] = time.year();
   v[1] = time.month();
   v[2] = time.day();
@@ -196,11 +197,12 @@ std::vector<int> Date::get() const {
   return v;
 }
 
-void Date::set(const std::vector<int> &v) {
-  std::vector<int> v2(7);
+void Date::set(const std::vector<long long> &v) {
+  std::vector<long long> v2(7);
   std::copy(v.begin(), v.end(), v2.begin());
 
-  this->set(v[0], v[1], v[2], v[3], v[4], v[5], v[6]);
+  this->set(static_cast<int>(v[0]), static_cast<unsigned>(v[1]),
+            static_cast<unsigned>(v[2]), v[3], v[4], v[5], v[6]);
 }
 
 void Date::set(const std::chrono::system_clock::time_point &t) {
@@ -257,45 +259,44 @@ void Date::setDay(unsigned day) {
   this->set(d.year(), d.month(), day, d.hour(), d.minute(), d.second());
 }
 
-unsigned Date::hour() const {
+long long Date::hour() const {
   s_datetime d(this->m_datetime);
   return d.hour();
 }
 
-void Date::setHour(unsigned hour) {
+void Date::setHour(long long hour) {
   s_datetime d(this->m_datetime);
   this->set(d.year(), d.month(), d.day(), hour, d.minute(), d.second());
 }
 
-unsigned Date::minute() const {
+long long Date::minute() const {
   s_datetime d(this->m_datetime);
   return d.minute();
 }
 
-void Date::setMinute(unsigned minute) {
+void Date::setMinute(long long minute) {
   s_datetime d(this->m_datetime);
   this->set(d.year(), d.month(), d.day(), d.hour(), minute, d.second());
 }
 
-unsigned Date::second() const {
+long long Date::second() const {
   s_datetime d(this->m_datetime);
   return d.second();
 }
 
-void Date::setSecond(unsigned second) {
+void Date::setSecond(long long second) {
   s_datetime d(this->m_datetime);
   this->set(d.year(), d.month(), d.day(), d.hour(), d.minute(), second);
 }
 
-unsigned Date::millisecond() const {
+long long Date::millisecond() const {
   s_datetime d(this->m_datetime);
   return d.milliseconds();
 }
 
-void Date::setMillisecond(unsigned milliseconds) {
+void Date::setMillisecond(long long ms) {
   s_datetime d(this->m_datetime);
-  this->set(d.year(), d.month(), d.day(), d.hour(), d.minute(), d.second(),
-            milliseconds);
+  this->set(d.year(), d.month(), d.day(), d.hour(), d.minute(), d.second(), ms);
 }
 
 Date Date::fromString(const std::string &datestr, const std::string &format) {
