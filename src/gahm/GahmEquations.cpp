@@ -55,13 +55,26 @@ double Gahm::Solver::GahmEquations::GahmFunction(
          isotach_windspeed_at_boundary_layer;
 }
 
+/*
+ * @overload GahmFunction
+ *
+ * @param radius_to_max_wind radius to max winds
+ * @param vmax_at_boundary_layer maximum wind speed
+ * @param isotach_windspeed_at_boundary_layer speed of the current isotach
+ * @param distance radius of the current isotach
+ * @param coriolis_force coriolis force
+ * @param gahm_holland_b GAHM Holland B
+ * @return Solution to gradient wind
+ *
+ * @see GahmFunction
+ *
+ * This function is called when the phi value is not known and must be
+ * computed
+ */
 double Gahm::Solver::GahmEquations::GahmFunction(
     double radius_to_max_wind, double vmax_at_boundary_layer,
     double isotach_windspeed_at_boundary_layer, double distance,
     double coriolis_force, double gahm_holland_b) {
-//  std::cout << radius_to_max_wind << " " << vmax_at_boundary_layer << " "
-//            << isotach_windspeed_at_boundary_layer << " " << distance << " "
-//            << coriolis_force << " " << gahm_holland_b << std::endl;
   const auto phi =
       GahmEquations::phi(vmax_at_boundary_layer, radius_to_max_wind,
                          gahm_holland_b, coriolis_force);
