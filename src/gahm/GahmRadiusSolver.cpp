@@ -21,6 +21,7 @@
 #include "gahm/GahmRadiusSolver.h"
 
 #include "boost/math/tools/roots.hpp"
+#include "boost/throw_exception.hpp"
 
 namespace Gahm::Solver {
 
@@ -49,9 +50,8 @@ double GahmRadiusSolver::solve(double lower, double upper, double guess) const {
     return boost::math::tools::newton_raphson_iterate(
         m_solver, guess, lower, upper, std::numeric_limits<double>::digits, it);
   } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
-    throw boost::wrapexcept<boost::math::evaluation_error>(
-        "Unable to solve for radius to maximum winds: " +
-        std::string(e.what()));
+    auto error = std::string("Unable to solve for radius to maximum winds: " +std::string(e.what()));
+    boost::throw_with_location(boost::math::evaluation_error(error));
   }
 }
 
