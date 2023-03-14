@@ -45,7 +45,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
   try {
     prep.solve();
-  } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
+  } catch (const boost::math::evaluation_error &e) {
     // All math errors intentionally will throw the above. Anything else is an
     // unknown
     return 0;

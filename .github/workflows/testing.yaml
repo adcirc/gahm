@@ -1,0 +1,23 @@
+name: Testing
+on: 
+    push:
+jobs:
+    Testing:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v2
+      - name: Install Dependencies
+        run: sudo apt install -y clang-15 llvm-15 libfuzzer-15-dev libnetcdf-dev cmake libboost-all-dev
+      - name: Make directories
+        run: mkdir build
+      - name: CMake
+        run: cmake .. -DGAHM_BUILD_TESTS=ON -DGAHM_FUZZ=ON -DCMAKE_CXX_COMPILER=clang++ -DENABLE_SANITIZER_ADDRESS=ON -DENABLE_SANITIZER_LEAK=ON -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON
+        working-directory: ./build
+      - name: Build
+        run: make -j
+        working-directory: ./build
+      - name: Run Tests
+        run: ctest --output-on-failure
+        working-directory: ./build
+
+
