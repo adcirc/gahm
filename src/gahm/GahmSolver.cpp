@@ -26,6 +26,7 @@
 #include <stdexcept>
 
 #include "boost/math/policies/error_handling.hpp"
+#include "boost/throw_exception.hpp"
 #include "gahm/GahmEquations.h"
 #include "physical/Atmospheric.h"
 #include "physical/Earth.h"
@@ -79,8 +80,7 @@ void GahmSolver::solve() {
     }
     if (std::isnan(new_rmax) || std::isinf(new_rmax) || std::isnan(m_bg) ||
         std::isinf(m_bg) || std::isnan(m_phi) || std::isinf(m_phi)) {
-      throw boost::wrapexcept<boost::math::evaluation_error>(
-          std::string("Solution did not converge."));
+      boost::throw_with_location(boost::math::evaluation_error(std::string("Solution did not converge.")));
     }
     m_solver.setBg(m_bg);
   }
