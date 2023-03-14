@@ -66,7 +66,7 @@ add_subdirectory(src)
 # ##############################################################################
 option(GAHM_BUILD_TESTS "Build tests" OFF)
 if(GAHM_BUILD_TESTS)
-  message("Building GAHM tests")
+  message(STATUS "GAHM tests enabled")
   enable_testing()
   add_subdirectory(tests)
 
