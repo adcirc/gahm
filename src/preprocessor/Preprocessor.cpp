@@ -35,16 +35,18 @@ Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf) : m_atcf(atcf) {}
  * Prepares the ATCF data for the solver
  */
 void Preprocessor::prepareAtcfData() {
+  this->orderIsotachs();
   this->fillMissingAtcfData();
   this->computeStormTranslationVelocities();
   this->computeBoundaryLayerWindspeed();
+  this->processIsotachRadii();
 }
 
 /**
  * Fills in missing quadrant data in the Isotach objects
  */
 void Preprocessor::fillMissingAtcfData() {
-  for (auto &snap : *m_atcf) {
+  for (auto &snap : m_atcf->data()) {
     for (auto &isotach : snap.getIsotachs()) {
       const auto n_missing = [&]() {
         return std::count_if(
@@ -106,7 +108,7 @@ void Preprocessor::fillMissingAtcfData() {
  * Calculates the radius to maximum wind speed and GAHM B for each quadrant
  */
 void Preprocessor::solve() {
-  for (auto &snap : *m_atcf) {
+  for (auto &snap : m_atcf->data()) {
     for (auto &isotach : snap.getIsotachs()) {
       for (auto &quadrant : isotach.getQuadrants()) {
         double isotach_radius = quadrant.getIsotachRadius();
@@ -122,6 +124,9 @@ void Preprocessor::solve() {
         double solution_gahm_rmax = solver.rmax();
         double solution_gahm_b = solver.bg();
 
+        assert(solution_gahm_rmax > 0.0);
+        assert(solution_gahm_b > 0.0);
+
         quadrant.setRadiusToMaxWindSpeed(solution_gahm_rmax);
         quadrant.setGahmHollandB(solution_gahm_b);
       }
@@ -133,10 +138,10 @@ void Preprocessor::solve() {
  * Computes the storm translation velocities
  */
 void Preprocessor::computeStormTranslationVelocities() {
-  for (auto it = m_atcf->begin(); it != m_atcf->end(); ++it) {
-    if (it == m_atcf->begin()) {
+  for (auto it = m_atcf->data().begin(); it != m_atcf->data().end(); ++it) {
+    if (it == m_atcf->data().begin()) {
       auto next = std::next(it);
-      if (next == m_atcf->end()) {
+      if (next == m_atcf->data().end()) {
         it->setTranslation({0.0, 0.0});
       } else {
         auto translation = Preprocessor::getTranslation(*it, *next);
@@ -202,15 +207,37 @@ double Preprocessor::computeSimpleRelativeIsotachWindspeed(
  * Computes the boundary layer windspeed for each snap
  */
 void Preprocessor::computeBoundaryLayerWindspeed() {
-  for (auto &snap : *m_atcf) {
+  for (auto &snap : m_atcf->data()) {
     for (auto &iso : snap.getIsotachs()) {
       for (auto &quad : iso.getQuadrants()) {
         quad.setIsotachSpeedAtBoundaryLayer(
             Preprocessor::computeSimpleRelativeIsotachWindspeed(
                 iso.getWindSpeed(), snap.translation(),
                 quad.getQuadrantIndex()));
+        quad.setVmaxAtBoundaryLayer(
+            Preprocessor::computeSimpleRelativeIsotachWindspeed(
+                snap.vmax(), snap.translation(), quad.getQuadrantIndex()));
       }
     }
+  }
+}
+
+/**
+ * Orders the isotachs by wind speed. This makes them
+ * easier to work with later on.
+ */
+void Preprocessor::orderIsotachs() {
+  for (auto &snap : m_atcf->data()) {
+    snap.orderIsotachs();
+  }
+}
+
+/**
+ * Compute a prebuilt array for radii in each quadrant
+ */
+void Preprocessor::processIsotachRadii() {
+  for (auto &snap : m_atcf->data()) {
+    snap.processIsotachRadii();
   }
 }
 

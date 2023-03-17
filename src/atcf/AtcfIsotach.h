@@ -48,13 +48,19 @@ class AtcfIsotach {
 
   [[nodiscard]] const Gahm::Atcf::AtcfQuadrant &getQuadrant(
       int quadrant_index) const {
-    assert(quadrant_index >= 0 && quadrant_index < 4);
     return m_quadrants[quadrant_index];
   }
 
   [[nodiscard]] Gahm::Atcf::AtcfQuadrant &getQuadrant(int quadrant_index) {
-    assert(quadrant_index >= 0 && quadrant_index < 4);
     return m_quadrants[quadrant_index];
+  }
+
+  [[nodiscard]] Gahm::Datatypes::CircularArray<double, 4> radii() const {
+    Gahm::Datatypes::CircularArray<double, 4> r{};
+    for (int i = 0; i < 4; ++i) {
+      r[i] = m_quadrants[i].getIsotachRadius();
+    }
+    return r;
   }
 
  private:

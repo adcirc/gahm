@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 3.18)
 project(gahm CXX)
 
 # Warnings, Sanitizers, etc
-add_library(project_options INTERFACE)
+add_library(project_options INTERFACE tests/cxx_tests/TEST_Vortex.cpp)
 add_library(project_warnings INTERFACE)
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
@@ -33,6 +33,7 @@ mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_RELEASE)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
+option(GAHM_ENABLE_WARNINGS "Enable verbose compiler warnings" OFF)
 # ##############################################################################
 
 # ##############################################################################

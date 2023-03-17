@@ -30,12 +30,14 @@ class AtcfQuadrant {
   explicit AtcfQuadrant(int quadrant_index = 0, double isotach_radius = 0.0,
                         double radius_to_max_wind_speed = 0.0,
                         double gahm_holland_b = 0.0,
-                        double isotach_speed_at_boundary_layer = 0.0)
+                        double isotach_speed_at_boundary_layer = 0.0,
+                        double vmax_at_boundary_layer = 0.0)
       : m_quadrant_index(quadrant_index),
         m_isotach_radius(isotach_radius),
         m_radius_to_max_wind_speed(radius_to_max_wind_speed),
         m_gahm_holland_b(gahm_holland_b),
-        m_isotach_speed_at_boundary_layer(isotach_speed_at_boundary_layer) {}
+        m_isotach_speed_at_boundary_layer(isotach_speed_at_boundary_layer),
+        m_vmax_at_boundary_layer(vmax_at_boundary_layer) {}
 
   [[nodiscard]] double getIsotachRadius() const { return m_isotach_radius; }
   [[nodiscard]] double getRadiusToMaxWindSpeed() const {
@@ -46,6 +48,10 @@ class AtcfQuadrant {
     return m_isotach_speed_at_boundary_layer;
   }
   [[nodiscard]] int getQuadrantIndex() const { return m_quadrant_index; }
+
+  [[nodiscard]] double getVmaxAtBoundaryLayer() const {
+    return m_vmax_at_boundary_layer;
+  }
 
   void setIsotachRadius(double isotach_radius) {
     m_isotach_radius = isotach_radius;
@@ -63,6 +69,10 @@ class AtcfQuadrant {
     m_quadrant_index = quadrant_index;
   }
 
+  void setVmaxAtBoundaryLayer(double vmax_at_boundary_layer) {
+    m_vmax_at_boundary_layer = vmax_at_boundary_layer;
+  }
+
   static constexpr double quadrant_angle(int quadrant_index) {
     return s_quadrant_angles[quadrant_index];
   }
@@ -73,6 +83,7 @@ class AtcfQuadrant {
   double m_radius_to_max_wind_speed;
   double m_gahm_holland_b;
   double m_isotach_speed_at_boundary_layer;
+  double m_vmax_at_boundary_layer;
 
   static constexpr auto s_quadrant_angles = Datatypes::CircularArray<double, 4>(
       {45.0 * Gahm::Physical::Constants::deg2rad(),
@@ -81,4 +92,17 @@ class AtcfQuadrant {
        315.0 * Gahm::Physical::Constants::deg2rad()});
 };
 }  // namespace Gahm::Atcf
+
+static std::ostream &operator<<(std::ostream &os,
+                                const Gahm::Atcf::AtcfQuadrant &q) {
+  os << "[Quadrant]: " << q.getQuadrantIndex() << std::endl;
+  os << "   Isotach Radius: " << q.getIsotachRadius() << std::endl;
+  os << "   Radius to Max Wind Speed: " << q.getRadiusToMaxWindSpeed()
+     << std::endl;
+  os << "   GAHM Holland B: " << q.getGahmHollandB() << std::endl;
+  os << "   Isotach Speed at Boundary Layer: "
+     << q.getIsotachSpeedAtBoundaryLayer() << std::endl;
+  return os;
+}
+
 #endif  // GAHM3_SRC_ATCF_ATCFQUADRANT_H_

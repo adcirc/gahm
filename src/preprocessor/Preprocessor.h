@@ -34,6 +34,8 @@ class Preprocessor {
   void solve();
 
  private:
+  void orderIsotachs();
+  void processIsotachRadii();
   void fillMissingAtcfData();
   void computeStormTranslationVelocities();
   void computeBoundaryLayerWindspeed();
