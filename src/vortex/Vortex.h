@@ -1,7 +1,23 @@
+// GNU General Public License v3.0
 //
-// Created by Zach Cobell on 3/16/23.
+// This file is part of the GAHM model (https://github.com/adcirc/gahm).
+// Copyright (c) 2023 ADCIRC Development Group.
 //
-
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// Author: Zach Cobell
+// Contact: zcobell@thewaterinstitute.org
+//
 #ifndef GAHM_VORTEX_H
 #define GAHM_VORTEX_H
 
@@ -30,14 +46,15 @@ class Vortex {
     int quadrant;
     double isotach_weight;
     double quadrant_weight;
-    double distance;
-    double azimuth;
+//    double distance;
+//    double azimuth;
     int isotach_adjacent;
     double isotach_adjacent_weight;
   };
-  static t_point_position getPointPosition(
-      const Datatypes::Point &point, const Atcf::StormPosition &storm_position,
-      const Atcf::AtcfSnap &snap);
+  static t_point_position getPointPosition(const Datatypes::Point &p0,
+                                           const Datatypes::Point &p1,
+                                           const Atcf::AtcfSnap &snap,
+                                           double distance, double azimuth);
 
   static std::pair<int, double> getBaseQuadrant(double angle);
   static std::pair<int, double> getBaseIsotach(double distance, int quadrant,

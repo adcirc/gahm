@@ -24,6 +24,7 @@
 #include <cmath>
 #include <tuple>
 
+#include "datatypes/Point.h"
 #include "physical/Constants.h"
 #include "physical/Units.h"
 
@@ -110,6 +111,16 @@ static double distance(const double x1, const double y1, const double x2,
   return radius(y1, y2) * c;
 }
 
+/**
+ * @brief Distance between two points on the earth's surface
+ * @param p0 Point 0
+ * @param p1 Point 1
+ * @return Distance between two points on the earth's surface in meters
+ */
+static double distance(const Datatypes::Point &p0, const Datatypes::Point &p1) {
+  return distance(p0.x(), p0.y(), p1.x(), p1.y());
+}
+
 /*
  * Azimuth between two points on the earth's surface
  * @param x1 Longitude 1 in degrees
@@ -129,6 +140,16 @@ static double azimuth(double x1, double y1, double x2, double y2) {
   auto azi = std::atan2(ay, ax);
   if (azi < 0.0) azi += Physical::Constants::twoPi();
   return azi;
+}
+
+/**
+ * @brief Azimuth between two points on the earth's surface
+ * @param p0 Point 0
+ * @param p1 Point 1
+ * @return Azimuth between two points on the earth's surface in meters
+ */
+static double azimuth(const Datatypes::Point &p0, const Datatypes::Point &p1) {
+  return azimuth(p0.x(), p0.y(), p1.x(), p1.y());
 }
 
 /*

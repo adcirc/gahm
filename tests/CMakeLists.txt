@@ -71,6 +71,8 @@ mark_as_advanced(
 
 file(GLOB_RECURSE TestList ${CMAKE_CURRENT_SOURCE_DIR}/cxx_tests/TEST_*.cpp)
 
+find_package(OpenSSL REQUIRED)
+
 foreach(test ${TestList})
   get_filename_component(test_name ${test} NAME_WE)
   add_executable(${test_name} ${test})
@@ -82,11 +84,11 @@ foreach(test ${TestList})
   target_include_directories(${test_name}
                              PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src)
   include_directories(
-    ${test_name} SYSTEM ${catch2_SOURCE_DIR}
+    ${test_name} SYSTEM ${catch2_SOURCE_DIR} ${OPENSSL_INCLUDE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
 
   target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain
-                                             fmt::fmt)
+                                             fmt::fmt OpenSSL::SSL)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)

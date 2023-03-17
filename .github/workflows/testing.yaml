@@ -7,7 +7,7 @@ jobs:
       steps:
       - uses: actions/checkout@v2
       - name: Install Dependencies
-        run: sudo apt install -y clang-15 llvm-15 libfuzzer-15-dev libnetcdf-dev cmake libboost-all-dev
+        run: sudo apt install -y clang-15 llvm-15 libfuzzer-15-dev libnetcdf-dev cmake libboost-all-dev libssl-dev
       - name: Make directories
         run: mkdir build
       - name: CMake

@@ -1,5 +1,22 @@
+// GNU General Public License v3.0
 //
-// Created by Zach Cobell on 3/16/23.
+// This file is part of the GAHM model (https://github.com/adcirc/gahm).
+// Copyright (c) 2023 ADCIRC Development Group.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// Author: Zach Cobell
+// Contact: zcobell@thewaterinstitute.org
 //
 
 #include "Vortex.h"
@@ -61,10 +78,17 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     // point position is the position of the point relative to the storm at the
     // current time, not the position of the point relative to the storm at the
     // time of the specified snap
-    auto point_position_0 =
-        Vortex::getPointPosition(point, current_storm_position, *time_it);
+    double distance = Physical::Earth::distance(
+        point.x(), point.y(), current_storm_position.point().x(),
+        current_storm_position.point().y());
+    double azimuth = Physical::Earth::azimuth(
+        point.x(), point.y(), current_storm_position.point().x(),
+        current_storm_position.point().y());
+    auto point_position_0 = Vortex::getPointPosition(
+        current_storm_position.point(), point, *time_it, distance, azimuth);
     auto point_position_1 =
-        Vortex::getPointPosition(point, current_storm_position, *time_it_next);
+        Vortex::getPointPosition(current_storm_position.point(), point,
+                                 *time_it_next, distance, azimuth);
 
     //...Get the coriolis force
     auto fc = Gahm::Physical::Earth::coriolis(point.y());
@@ -83,25 +107,23 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
 
     //...Solve for the wind speed
     auto wind_speed = Gahm::Solver::GahmEquations::GahmWindSpeed(
-        pack.radius_to_max_wind, pack.vmax_at_boundary_layer,
-        point_position_0.distance, fc, pack.holland_b);
+        pack.radius_to_max_wind, pack.vmax_at_boundary_layer, distance, fc,
+        pack.holland_b);
 
     //...Solve for the pressure value
     auto pressure = Gahm::Solver::GahmEquations::GahmPressure(
-        central_pressure, background_pressure,
-        point_position_0.distance, pack.radius_to_max_wind,
-        pack.holland_b, phi) / 100.0;
+                        central_pressure, background_pressure, distance,
+                        pack.radius_to_max_wind, pack.holland_b, phi) /
+                    100.0;
 
     //...Decompose the wind into its u/v components
     auto speed_over_vmax = wind_speed / pack.vmax_at_boundary_layer;
     auto tsx = speed_over_vmax * current_storm_translation.transitSpeedU();
     auto tsy = speed_over_vmax * current_storm_translation.transitSpeedV();
-    auto u = -wind_speed * std::cos(point_position_0.azimuth);
-    auto v = wind_speed * std::sin(point_position_0.azimuth);
+    auto u = wind_speed * std::cos(azimuth);
+    auto v = -wind_speed * std::sin(azimuth);
     auto [uf, vf] = Vortex::rotate_winds(
-        u, v,
-        Vortex::friction_angle(point_position_0.distance,
-                               pack.radius_to_max_wind_true),
+        u, v, Vortex::friction_angle(distance, pack.radius_to_max_wind_true),
         current_storm_position.y());
     u = uf + tsx;
     v = vf + tsy;
@@ -148,48 +170,33 @@ Vortex::selectTime(const Datatypes::Date &date) const {
 }
 
 /**
- * Find the position of a point in the vortex
- * @param point Point to find the position of
+ * Find the position of a p0 in the vortex
+ * @param p0 Point to find the position of
  * @param time_it Iterator to the time snap
  * @param time_weight Time weight
  * @return Point position
  */
-Vortex::t_point_position Vortex::getPointPosition(
-    const Datatypes::Point &point, const Atcf::StormPosition &storm_position,
-    const Atcf::AtcfSnap &snap) {
-  double distance = Physical::Earth::distance(
-      point.x(), point.y(), storm_position.x(), storm_position.y());
-  double azimuth = Physical::Earth::azimuth(
-      point.x(), point.y(), storm_position.x(), storm_position.y());
+Vortex::t_point_position Vortex::getPointPosition(const Datatypes::Point &p0,
+                                                  const Datatypes::Point &p1,
+                                                  const Atcf::AtcfSnap &snap,
+                                                  const double distance,
+                                                  const double azimuth) {
   auto [base_quadrant, quadrant_weight] = Vortex::getBaseQuadrant(azimuth);
   auto [isotach, isotach_weight] =
       Vortex::getBaseIsotach(distance, base_quadrant, snap);
   auto [isotach_adjacent, isotach_adjacent_weight] =
       Vortex::getBaseIsotach(distance, base_quadrant - 1, snap);
-  return {isotach,  base_quadrant, isotach_weight,   quadrant_weight,
-          distance, azimuth,       isotach_adjacent, isotach_adjacent_weight};
+  return {isotach,         base_quadrant,    isotach_weight,
+          quadrant_weight, isotach_adjacent, isotach_adjacent_weight};
 }
 
 /**
  * Get the base quadrant for a given angle
  * @param angle Angle to get the base quadrant for in radians
- * @return Base quadrant and weight for the angle
+ * @return Base quadrant and remainder (delta angle) for the specified input
+ * angle
  */
 std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
-  //  if (angle < 0.0) {
-  //    angle += Physical::Constants::twoPi();
-  //  } else if (angle > Physical::Constants::twoPi()) {
-  //    angle -= Physical::Constants::twoPi();
-  //  }
-  //
-  //  double base_quadrant =
-  //      std::floor(std::fmod(angle / Physical::Constants::halfPi(), 4.0));
-  //  double rem = angle - (base_quadrant * Physical::Constants::halfPi());
-  //  if (rem >= Physical::Constants::twoPi()) {
-  //    rem -= Physical::Constants::twoPi();
-  //  }
-  //  double weight = rem / Physical::Constants::halfPi();
-  //  return {static_cast<int>(base_quadrant), weight};
   constexpr double deg2rad = Physical::Constants::deg2rad();
   constexpr double angle_45 = 45.0 * deg2rad;
   constexpr double angle_135 = 135.0 * deg2rad;
@@ -226,16 +233,15 @@ std::pair<int, double> Vortex::getBaseQuadrant(double angle) {
  */
 std::pair<int, double> Vortex::getBaseIsotach(double distance, int quadrant,
                                               const Atcf::AtcfSnap &snap) {
-  auto radii = snap.radii()[quadrant];
-  assert(!radii.empty());
-  auto radii_min = radii.front();
-  auto radii_max = radii.back();
-  auto max_isotach_index = snap.numberOfIsotachs() - 1;
+  const auto radii = snap.radii()[quadrant];
+  const auto radii_min = radii.front();
+  const auto radii_max = radii.back();
+  const auto max_isotach_index = snap.numberOfIsotachs() - 1;
 
-  if (distance <= radii_min) {
-    return {0, 0.0};
-  } else if (distance >= radii_max) {
+  if (distance >= radii_max) {
     return {max_isotach_index, 1.0};
+  } else if (distance <= radii_min) {
+    return {0, 0.0};
   } else {
     auto isotach_it =
         std::lower_bound(radii.begin(), radii.end(), distance,
