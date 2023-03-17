@@ -135,7 +135,7 @@ double GahmSolver::vmax() const { return m_vmax; }
  */
 double GahmSolver::rmax() const {
   if (m_it == 0) {
-    throw std::runtime_error("GAHM Solver WARNING: Solver has not run");
+    throw boost::math::evaluation_error("GAHM Solver ERROR: Solver has not run");
   }
   return m_rmax;
 }
@@ -147,7 +147,7 @@ double GahmSolver::rmax() const {
  */
 double GahmSolver::bg() const {
   if (m_it == 0) {
-    throw std::runtime_error("GAHM Solver WARNING: Solver has not run");
+    throw boost::math::evaluation_error("GAHM Solver ERROR: Solver has not run");
   }
   return m_bg;
 }
