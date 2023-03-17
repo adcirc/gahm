@@ -9,6 +9,7 @@
 
 # Build directories
 build
+cmake-build-*
 
 # Precompiled Headers
 *.gch
