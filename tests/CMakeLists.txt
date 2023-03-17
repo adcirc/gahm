@@ -74,12 +74,19 @@ file(GLOB_RECURSE TestList ${CMAKE_CURRENT_SOURCE_DIR}/cxx_tests/TEST_*.cpp)
 foreach(test ${TestList})
   get_filename_component(test_name ${test} NAME_WE)
   add_executable(${test_name} ${test})
-  add_test(NAME ${test_name} COMMAND ${test_name} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+  add_test(
+    NAME ${test_name}
+    COMMAND ${test_name}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-  target_include_directories(${test_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src)
-  include_directories(${test_name} SYSTEM ${catch2_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
+  target_include_directories(${test_name}
+                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src)
+  include_directories(
+    ${test_name} SYSTEM ${catch2_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
 
-  target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain fmt::fmt)
+  target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain
+                                             fmt::fmt)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)
