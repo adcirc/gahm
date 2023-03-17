@@ -70,6 +70,7 @@ void GahmSolver::solve() {
         new_rmax != std::numeric_limits<double>::max()) {
       m_rmax = new_rmax;
     }
+    assert(new_rmax > 0.0);
     m_phi = GahmEquations::phi(m_vmax, m_rmax, m_bg, m_fc);
     m_bg = GahmEquations::bg(m_vmax, m_rmax, m_pc, m_pbk, m_fc, m_phi);
     if (std::abs(m_bg - m_solver.bg()) < m_bg_tol) {
@@ -157,6 +158,10 @@ double GahmSolver::bg() const {
  */
 size_t GahmSolver::it() const { return m_it; }
 
+/*
+ * Returns the solution to the GAHM phi parameter. Note that when the
+ * solver has not run, the solution is 1.0
+ */
 double GahmSolver::phi() const { return m_phi; }
 
 /**

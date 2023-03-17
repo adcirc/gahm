@@ -146,3 +146,13 @@ double Gahm::Solver::GahmEquations::GahmPressure(
              std::exp(-phi *
                       std::pow(radius_to_max_winds / distance, gahm_holland_b));
 }
+
+double Gahm::Solver::GahmEquations::GahmWindSpeed(double radius_to_max_wind,
+                                                  double vmax_at_boundary_layer,
+                                                  double distance,
+                                                  double coriolis,
+                                                  double gahm_holland_b) {
+  return Gahm::Solver::GahmEquations::GahmFunction(
+      radius_to_max_wind, vmax_at_boundary_layer, 0.0, distance, coriolis,
+      gahm_holland_b);
+}

@@ -23,6 +23,7 @@
 #include "physical/Constants.h"
 #include "physical/Earth.h"
 #include "physical/Units.h"
+#include "util/Interpolation.h"
 
 TEST_CASE("Check Physical Constants", "[Constants]") {
   REQUIRE(Gahm::Physical::Constants::g() == 9.80665);
@@ -76,4 +77,29 @@ TEST_CASE("Unit Conversions", "[UnitConversion]") {
   REQUIRE(Gahm::Physical::Units::convert(Gahm::Physical::Units::Meter,
                                          Gahm::Physical::Units::NauticalMile) ==
           Catch::Approx(1.0 / 1852.0));
+}
+
+TEST_CASE("Interpolation", "[Interpolation]") {
+  auto v0 = Gahm::Interpolation::linear(1.0, 0.0, 0.25);
+  REQUIRE(v0 == Catch::Approx(0.75));
+  auto v1 = Gahm::Interpolation::linear(1.0, 0.0, 0.5);
+  REQUIRE(v1 == Catch::Approx(0.5));
+  auto v2 = Gahm::Interpolation::linear(1.0, 0.0, 0.75);
+  REQUIRE(v2 == Catch::Approx(0.25));
+
+  auto v3 =
+      Gahm::Interpolation::angle(0.0, Gahm::Physical::Constants::pi(), 0.50);
+  REQUIRE(v3 == Catch::Approx(Gahm::Physical::Constants::halfPi()));
+  auto v4 =
+      Gahm::Interpolation::angle(0.0, Gahm::Physical::Constants::pi(), 0.0);
+  REQUIRE(v4 == Catch::Approx(0.0));
+  auto v5 =
+      Gahm::Interpolation::angle(0.0, Gahm::Physical::Constants::pi(), 1.0);
+  REQUIRE(v5 == Catch::Approx(Gahm::Physical::Constants::pi()));
+
+  //...Checks the interpolation of angles that cross the 0/2pi boundary
+  auto v6 = Gahm::Interpolation::angle(Gahm::Physical::Constants::pi(), 0.0,
+                                       0.50, true);
+  REQUIRE(v6 == Catch::Approx(Gahm::Physical::Constants::pi() +
+                              Gahm::Physical::Constants::halfPi()));
 }

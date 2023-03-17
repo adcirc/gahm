@@ -50,6 +50,9 @@ double GahmPressure(double central_pressure, double background_pressure,
                     double distance, double radius_to_max_winds,
                     double gahm_holland_b, double phi);
 
+double GahmWindSpeed(double radius_to_max_wind, double vmax_at_boundary_layer,
+                     double distance, double coriolis, double gahm_holland_b);
+
 /**
  * Compute the GAHM phi parameter
  * @param vmax maximum storm wind velocity

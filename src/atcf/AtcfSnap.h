@@ -76,8 +76,6 @@ class AtcfSnap {
   [[nodiscard]] const std::vector<AtcfIsotach>& getIsotachs() const;
   std::vector<AtcfIsotach>& getIsotachs();
 
-  [[nodiscard]] const Datatypes::CircularArray<double, 4>& radii() const;
-
   [[nodiscard]] static AtcfSnap::BASIN basinFromString(
       const std::string& basin);
 
@@ -91,6 +89,9 @@ class AtcfSnap {
   [[nodiscard]] const StormTranslation& translation() const;
   void setTranslation(const StormTranslation& translation);
 
+  [[nodiscard]] double hollandB() const;
+  void setHollandB(double hollandB);
+
   void addIsotach(const AtcfIsotach& isotach);
 
   bool operator<(const AtcfSnap& other) const;
@@ -100,6 +101,13 @@ class AtcfSnap {
   [[nodiscard]] std::string to_string(size_t cycle,
                                       const Gahm::Datatypes::Date& start_date,
                                       size_t isotach_index) const;
+
+  void processIsotachRadii();
+
+  [[nodiscard]] const Datatypes::CircularArray<std::vector<double>, 4>& radii()
+      const;
+
+  void orderIsotachs();
 
  private:
   static Gahm::Datatypes::Date parseDate(const std::string& date_str,
@@ -121,7 +129,7 @@ class AtcfSnap {
   StormTranslation m_translation;
   std::string m_storm_name;
   std::vector<AtcfIsotach> m_isotachs;
-  Datatypes::CircularArray<double, 4> m_radii;
+  Datatypes::CircularArray<std::vector<double>, 4> m_radii;
 };
 
 }  // namespace Gahm::Atcf

@@ -66,7 +66,7 @@ constexpr double polarRadius() { return 6356752.3; }
  */
 static double radius(
     const double latitude = std::numeric_limits<double>::max()) {
-  if (latitude == std::numeric_limits<double>::max()) return 6378135.0;
+  if (latitude == std::numeric_limits<double>::max()) return equatorialRadius();
   const double l = Gahm::Physical::Constants::deg2rad() * latitude;
   return std::sqrt(
       (std::pow(equatorialRadius(), 4.0) * std::cos(l) * std::cos(l) +
@@ -102,10 +102,12 @@ static double distance(const double x1, const double y1, const double x2,
   const double lon1 = deg2rad * x1;
   const double lat2 = deg2rad * y2;
   const double lon2 = deg2rad * x2;
-  return 2.0 * radius(y1, y2) *
-         std::asin(std::sqrt(std::pow(std::sin((lat2 - lat1) / 2.0), 2.0) +
-                             std::cos(lat1) * std::cos(lat2) *
-                                 std::pow(std::sin((lon2 - lon1) / 2.0), 2.0)));
+  auto dx = lon2 - lon1;
+  auto dy = lat2 - lat1;
+  auto a = std::pow(std::sin(dy / 2.0), 2.0) +
+           std::cos(lat1) * std::cos(lat2) * std::pow(std::sin(dx / 2.0), 2.0);
+  auto c = 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
+  return radius(y1, y2) * c;
 }
 
 /*
@@ -118,15 +120,15 @@ static double distance(const double x1, const double y1, const double x2,
  */
 static double azimuth(double x1, double y1, double x2, double y2) {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  x1 *= deg2rad;
-  y1 *= deg2rad;
-  x2 *= deg2rad;
-  y2 *= deg2rad;
-  double dx = x1 - x2;
-  double cy2 = std::cos(y2);
-  double x = std::cos(y1) * std::sin(y2) - std::sin(y1) * cy2 * std::cos(dx);
-  double y = std::sin(dx) * cy2;
-  return std::atan2(y, x);
+  double dx = (x2 - x1) * deg2rad;
+  auto phi1 = y1 * deg2rad;
+  auto phi2 = y2 * deg2rad;
+  auto ay = std::sin(dx) * std::cos(phi2);
+  auto ax = std::cos(phi1) * std::sin(phi2) -
+            std::sin(phi1) * std::cos(phi2) * std::cos(dx);
+  auto azi = std::atan2(ay, ax);
+  if (azi < 0.0) azi += Physical::Constants::twoPi();
+  return azi;
 }
 
 /*

@@ -41,13 +41,13 @@ static constexpr double twoPi() { return 2.0 * M_PI; }
  * Pi/2 constant
  * @return Pi/2 constant
  */
-static constexpr double piOverTwo() { return M_PI_2; }
+static constexpr double halfPi() { return M_PI_2; }
 
 /*
  * Pi/4 constant
  * @return Pi/4 constant
  */
-static constexpr double piOverFour() { return M_PI_4; }
+static constexpr double quarterPi() { return M_PI_4; }
 
 /*
  * Pi/180 constant

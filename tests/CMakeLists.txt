@@ -76,11 +76,13 @@ foreach(test ${TestList})
   add_executable(${test_name} ${test})
   add_test(NAME ${test_name} COMMAND ${test_name} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-  target_include_directories(${test_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src ${catch2_SOURCE_DIR})
-  target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain)
+  target_include_directories(${test_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src)
+  include_directories(${test_name} SYSTEM ${catch2_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
+
+  target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain fmt::fmt)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)
-  add_dependencies(${test_name} gahm Catch2::Catch2WithMain)
+  add_dependencies(${test_name} gahm Catch2::Catch2WithMain fmt::fmt)
 endforeach()
 # ##############################################################################

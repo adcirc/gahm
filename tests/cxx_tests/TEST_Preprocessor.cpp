@@ -42,9 +42,9 @@ TEST_CASE("FillMissingData", "[Preprocessor]") {
   preprocessor->prepareAtcfData();
 
   REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[1].getIsotachRadius() ==
-          Catch::Approx(27779.9));
+          Catch::Approx(111119.72381124));
   REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[0].getIsotachRadius() ==
-          Catch::Approx(27779.9));
+          Catch::Approx(111119.72381124));
 }
 
 TEST_CASE("GahmSolver", "[Preprocessor]") {

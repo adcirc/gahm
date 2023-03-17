@@ -24,6 +24,7 @@
 #include <cmath>
 
 #include "physical/Constants.h"
+#include "util/Interpolation.h"
 
 namespace Gahm::Atcf {
 
@@ -78,6 +79,15 @@ class StormTranslation {
                         std::sin(m_raw_translation_direction *
                                  Gahm::Physical::Constants::deg2rad());
     m_transit_speed = m_raw_translation_speed;
+  }
+
+  static StormTranslation interpolate(const StormTranslation &a,
+                                      const StormTranslation &b,
+                                      const double &weight) {
+    return {Interpolation::linear(a.translationSpeed(), b.translationSpeed(),
+                                  weight),
+            Interpolation::angle(a.translationDirection(),
+                                 b.translationDirection(), weight)};
   }
 
  private:

@@ -43,15 +43,11 @@ class AtcfFile {
   AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
   const AtcfSnap& operator[](size_t index) const { return m_atcfSnaps[index]; }
 
-  //...Range-based for
-  [[nodiscard]] auto begin() const { return m_atcfSnaps.begin(); }
-  [[nodiscard]] auto end() const { return m_atcfSnaps.end(); }
-  [[nodiscard]] auto rbegin() const { return m_atcfSnaps.rbegin(); }
-  [[nodiscard]] auto rend() const { return m_atcfSnaps.rend(); }
-  auto begin() { return m_atcfSnaps.begin(); }
-  auto end() { return m_atcfSnaps.end(); }
-  auto rbegin() { return m_atcfSnaps.rbegin(); }
-  auto rend() { return m_atcfSnaps.rend(); }
+  std::vector<AtcfSnap>& data() { return m_atcfSnaps; }
+
+  [[nodiscard]] const std::vector<AtcfSnap>& data() const {
+    return m_atcfSnaps;
+  }
 
   //...Lookup
   auto find(const Gahm::Datatypes::Date& date) {

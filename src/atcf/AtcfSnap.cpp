@@ -26,7 +26,6 @@
 #include "fmt/compile.h"
 #include "fmt/core.h"
 #include "physical/Atmospheric.h"
-#include "physical/Constants.h"
 #include "physical/Units.h"
 #include "util/StringUtilities.h"
 
@@ -61,7 +60,9 @@ AtcfSnap::AtcfSnap(AtcfSnap::BASIN basin, double central_pressure,
       m_storm_id(storm_id),
       m_basin(basin),
       m_storm_name(std::move(storm_name)),
-      m_radii({0, 0, 0, 0}) {}
+      m_radii(std::array<std::vector<double>, 4>{}),
+      m_position(0.0, 0.0),
+      m_translation(0.0, 0.0) {}
 
 /*
  * Converts a string to a basin enum
@@ -241,8 +242,20 @@ const std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() const {
   return m_isotachs;
 }
 
+/*
+ * Returns the Holland B of the storm
+ * @return Holland B of the storm
+ */
+double AtcfSnap::hollandB() const { return m_holland_b; }
+
 /**
- * Returns the getIsotachs of the snap
+ * Sets the radius of the storm
+ * @param hollandB Holland B
+ */
+void AtcfSnap::setHollandB(double hollandB) { m_holland_b = hollandB; }
+
+/**
+ * Returns the isotachs of the snap
  * @return Isotachs of the snap
  */
 std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() { return m_isotachs; }
@@ -251,7 +264,8 @@ std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() { return m_isotachs; }
  * Returns the radii of the storm in the form of a circular array
  * @return Radii of the storm in the form of a circular array
  */
-const Gahm::Datatypes::CircularArray<double, 4>& AtcfSnap::radii() const {
+const Gahm::Datatypes::CircularArray<std::vector<double>, 4>& AtcfSnap::radii()
+    const {
   return m_radii;
 }
 
@@ -515,6 +529,30 @@ std::string AtcfSnap::to_string(size_t cycle,
       isotach_radius_1, isotach_radius_2, isotach_radius_3, prbk, rmax, heading,
       speed, m_storm_name, cycle, numberOfIsotachs(), 1, 1, 1, 1, rmx0, rmx1,
       rmx2, rmx3, b, bg0, bg1, bg2, bg3, vmbl0, vmbl1, vmbl2, vmbl3);
+}
+
+/**
+ * @brief Get the radii of the isotachs in each quadrant.
+ * This preprocessing allows all of the data to be ready
+ * for the solver in a friendly manner
+ */
+void AtcfSnap::processIsotachRadii() {
+  for (int i = 0; i < 4; ++i) {
+    for (auto& isotach : m_isotachs) {
+      m_radii[i].push_back(isotach.getQuadrant(i).getIsotachRadius());
+    }
+  }
+}
+
+/**
+ * @brief Order the isotachs by wind speed so they are
+ * more easily processed by the solver
+ */
+void AtcfSnap::orderIsotachs() {
+  std::sort(m_isotachs.begin(), m_isotachs.end(),
+            [](const AtcfIsotach& a, const AtcfIsotach& b) {
+              return a.getWindSpeed() > b.getWindSpeed();
+            });
 }
 
 }  // namespace Gahm::Atcf
