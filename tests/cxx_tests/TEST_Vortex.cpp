@@ -1,5 +1,22 @@
+// GNU General Public License v3.0
 //
-// Created by Zach Cobell on 3/14/23.
+// This file is part of the GAHM model (https://github.com/adcirc/gahm).
+// Copyright (c) 2023 ADCIRC Development Group.
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, version 3.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
+//
+// Author: Zach Cobell
+// Contact: zcobell@thewaterinstitute.org
 //
 
 #include <algorithm>
@@ -12,65 +29,33 @@
 #include "catch2/catch_test_macros.hpp"
 #include "datatypes/WindGrid.h"
 #include "fmt/core.h"
+#include "output/OwiOutput.h"
 #include "physical/Earth.h"
 #include "preprocessor/Preprocessor.h"
 #include "vortex/Vortex.h"
 
-//TEST_CASE("Quadrant Selection", "[Vortex]") {
-//  constexpr double deg2rad = M_PI / 180.0;
-//
-//  // clang-format off
-//   std::vector<double> azi = {0,    45,  90, 135, 180, 225, 270, 315, 360};
-//   std::vector<int> quad =   {0,     0,   1,   1,   2,   2,   3,   3,   0};
-//   std::vector<double> rem = {0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0, 0.5, 0.0};
-//  // clang-format on
-//
-//  for (size_t i = 0; i < azi.size(); ++i) {
-//    auto [quad0, rem0] = Gahm::Vortex::getBaseQuadrant(azi[i] * deg2rad);
-//    std::cout << "Testing that " << azi[i] << " is in quadrant " << quad[i]
-//              << " with quadrant weight " << rem[i] << std::endl;
-//    REQUIRE(quad0 == quad[i]);
-//    REQUIRE(rem0 == Catch::Approx(rem[i]));
-//  }
-//}
+TEST_CASE("Quadrant Selection", "[Vortex]") {
+  constexpr double deg2rad = M_PI / 180.0;
 
-// TEST_CASE("Isotach Selection", "[Vortex]") {
-//   const std::string filename = "test_files/bal122005.dat";
-//   auto atcf = Gahm::Atcf::AtcfFile(filename);
-//   atcf.read();
-//
-//   Gahm::Preprocessor prep(&atcf);
-//   prep.prepareAtcfData();
-//   prep.solve();
-//
-//   Gahm::Datatypes::Point p(-82.05, 25.2);
-//   auto pc = Gahm::Datatypes::PointCloud();
-//   pc.addPoint(p);
-//   auto v = Gahm::Vortex::Vortex(&atcf, pc);
-//
-//   auto [it, time_weight] =
-//       v.selectTimeIndex(Gahm::Datatypes::Date(2005, 8, 26, 12, 0, 0));
-//   auto snap = *it;
-//
-//
-//   auto da =
-//       Gahm::Vortex::Vortex::distanceAndAzimuth(p, snap.position().point());
-//   auto diso = Gahm::Vortex::Vortex::findQuadrantAndIsotach(snap, da);
-//
-//   REQUIRE(diso.quadrant == 1);
-//   REQUIRE(diso.isotach == 0);
-//
-//   std::cout << diso.isotach << " " << da.distance << std::endl;
-//   auto q= snap.getIsotachs()[0].getQuadrant(1);
-//   std::cout << q << std::endl;
-//
-//   REQUIRE(1==0);
-//
-// }
+  // clang-format off
+    std::vector<double> azi = {0,   45, 90, 135, 180, 225, 270, 315, 360};
+    std::vector<int> quad =   {0,    1,  1,   1,   2,   2,   3,   3,   0};
+    std::vector<double> rem = {45, 0.0, 45,  90,  45,  90,  45,  90,  45};
+  // clang-format on
+
+  for (size_t i = 0; i < azi.size(); ++i) {
+    auto [quad0, rem0] = Gahm::Vortex::getBaseQuadrant(azi[i] * deg2rad);
+    std::cout << "Testing that storm azimuth " << azi[i] << " is in quadrant "
+              << quad[i] << " with delta angle " << rem[i] << std::endl;
+    std::cout << "  Actual: " << quad0 << " " << rem0 * deg2rad << std::endl;
+    REQUIRE(quad0 == quad[i]);
+    REQUIRE(rem0 == Catch::Approx(rem[i] * deg2rad));
+  }
+}
 
 TEST_CASE("Vortex", "[vortex]") {
   Gahm::Datatypes::WindGrid wg = Gahm::Datatypes::WindGrid::fromCorners(
-      -87.0, 22.0, -78.0, 29.0, 0.01, 0.01);
+      -100.0, 22.0, -78.0, 32.0, 0.1, 0.1);
 
   const std::string filename = "test_files/bal122005.dat";
   auto atcf = Gahm::Atcf::AtcfFile(filename);
@@ -99,37 +84,57 @@ TEST_CASE("Vortex", "[vortex]") {
   REQUIRE(track_middle_it->date() == atcf.data()[10].date());
   REQUIRE(track_middle_weight == Catch::Approx(0.8333333));
 
-  auto check_time = Gahm::Datatypes::Date(2005, 8, 26, 12, 0, 0);
+  auto check_time = Gahm::Datatypes::Date(2005, 8, 29, 0, 0, 0);
   const auto [track_test_it, tack_test_weight] = v.selectTime(check_time);
 
   auto check_point = wg.points()[2];
-  auto point_position = Gahm::Vortex::getPointPosition(
-      check_point, track_test_it->position(), *track_test_it);
-  std::cout
-      << fmt::format(
-             "Checking distance and azimuth between {:f}, {:f} and {:f}, {:f}",
-             check_point.x(), check_point.y(),
-             track_test_it->position().point().x(),
-             track_test_it->position().point().y())
-      << std::endl;
-  REQUIRE(point_position.distance == Catch::Approx(691645.9377152371));
-  REQUIRE(point_position.azimuth * Gahm::Physical::Constants::rad2deg() ==
-          Catch::Approx(55.9489916919));
+  auto distance = Gahm::Physical::Earth::distance(
+      track_test_it->position().point(), check_point);
+  auto azimuth = Gahm::Physical::Earth::azimuth(
+      track_test_it->position().point(), check_point);
+  REQUIRE(distance == Catch::Approx(1242459.4171680384));
+  REQUIRE(azimuth * Gahm::Physical::Constants::rad2deg() ==
+          Catch::Approx(250.8907884234));
 
   auto solution = v.solve(check_time);
-
   REQUIRE(solution.uvp().size() == wg.points().size());
 
-  std::ofstream out("vortex_solution.txt");
-  size_t index = 0;
-  auto points = wg.points();
-  for (const auto &s : solution.uvp()) {
-    auto x = points[index].x();
-    auto y = points[index].y();
-    auto mag = std::sqrt(s.u * s.u + s.v * s.v);
-    out << fmt::format("{:f} {:f} {:f} {:f} {:f} {:f}\n", x, y, mag, s.u, s.v,
-                       s.p);
-    index++;
+  const std::vector<size_t> sampling_points = {
+      8388, 3140, 6198, 5268, 7132, 5813, 14660, 9560, 21931, 14990, 11451};
+  const std::vector<Gahm::Datatypes::VortexSolution::t_uvp> sampling_solution =
+      {{-4.645162, -8.131252, 1010.020649},
+       {1.620713, -1.946252, 1012.055274},
+       {-1.104336, -3.307435, 1011.654450},
+       {1.248558, -5.732596, 1011.122958},
+       {8.716328, -5.224886, 1010.218869},
+       {3.686932, -1.459382, 1011.777583},
+       {-6.582892, 9.597902, 1010.185487},
+       {-3.275348, -33.613207, 1000.841223},
+       {-0.076416, 0.625650, 1012.725300},
+       {-2.939382, 1.107471, 1012.110355},
+       {-7.498839, 71.424834, 955.991428}};
+
+  for (size_t i = 0; i < sampling_points.size(); ++i) {
+    auto index = sampling_points[i];
+    auto sol = solution.uvp()[index];
+    auto expected = sampling_solution[i];
+    REQUIRE(sol.u == Catch::Approx(expected.u));
+    REQUIRE(sol.v == Catch::Approx(expected.v));
+    REQUIRE(sol.p == Catch::Approx(expected.p));
   }
-  out.close();
+
+  //...Used when updating the solution to get the data back out
+  //  std::ofstream out("vortex_solution.txt");
+  //  size_t index = 0;
+  //  auto points = wg.points();
+  //  for (const auto &s : solution.uvp()) {
+  //    auto x = points[index].x();
+  //    auto y = points[index].y();
+  //    auto mag = std::sqrt(s.u * s.u + s.v * s.v);
+  //    out << fmt::format("{:f} {:f} {:f} {:f} {:f} {:f}\n", x, y, mag, s.u,
+  //    s.v,
+  //                       s.p);
+  //    index++;
+  //  }
+  //  out.close();
 }

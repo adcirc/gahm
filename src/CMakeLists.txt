@@ -12,7 +12,8 @@ add_library(
   gahm/GahmSolver.cpp
   gahm/GahmRadiusSolverPrivate.cpp
   vortex/Vortex.cpp
-  vortex/Vortex.cpp)
+  vortex/Vortex.cpp
+  output/OwiOutput.cpp )
 
 target_include_directories(gahm PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 

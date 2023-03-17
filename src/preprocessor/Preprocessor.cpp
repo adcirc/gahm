@@ -42,6 +42,44 @@ void Preprocessor::prepareAtcfData() {
   this->processIsotachRadii();
 }
 
+/*
+ * Calculates the radius to maximum wind speed and GAHM B for each quadrant
+ */
+void Preprocessor::solve() {
+  for (auto &snap : m_atcf->data()) {
+    for (auto &isotach : snap.getIsotachs()) {
+      for (auto &quadrant : isotach.getQuadrants()) {
+        double isotach_radius = quadrant.getIsotachRadius();
+
+        double isotach_speed = quadrant.getIsotachSpeedAtBoundaryLayer();
+        double vmax = quadrant.getVmaxAtBoundaryLayer();
+
+        //...Nudge the vmax to be greater than the isotach speed
+        // TODO: Confirm with Rick if this is necessary
+        if (vmax <= isotach_speed) {
+          vmax = isotach_speed + 1.0;
+        }
+
+        double p_min = snap.centralPressure();
+        double p_back = snap.backgroundPressure();
+        double latitude = snap.position().y();
+        Gahm::Solver::GahmSolver solver(isotach_radius, isotach_speed, vmax,
+                                        p_min, p_back, latitude);
+        solver.solve();
+
+        double solution_gahm_rmax = solver.rmax();
+        double solution_gahm_b = solver.bg();
+
+        assert(solution_gahm_rmax > 0.0);
+        assert(solution_gahm_b > 0.0);
+
+        quadrant.setRadiusToMaxWindSpeed(solution_gahm_rmax);
+        quadrant.setGahmHollandB(solution_gahm_b);
+      }
+    }
+  }
+}
+
 /**
  * Fills in missing quadrant data in the Isotach objects
  */
@@ -105,36 +143,6 @@ void Preprocessor::fillMissingAtcfData() {
 }
 
 /*
- * Calculates the radius to maximum wind speed and GAHM B for each quadrant
- */
-void Preprocessor::solve() {
-  for (auto &snap : m_atcf->data()) {
-    for (auto &isotach : snap.getIsotachs()) {
-      for (auto &quadrant : isotach.getQuadrants()) {
-        double isotach_radius = quadrant.getIsotachRadius();
-        double isotach_speed = isotach.getWindSpeed();
-        double vmax = snap.vmax();
-        double p_min = snap.centralPressure();
-        double p_back = snap.backgroundPressure();
-        double latitude = snap.position().y();
-        Gahm::Solver::GahmSolver solver(isotach_radius, isotach_speed, vmax,
-                                        p_min, p_back, latitude);
-        solver.solve();
-
-        double solution_gahm_rmax = solver.rmax();
-        double solution_gahm_b = solver.bg();
-
-        assert(solution_gahm_rmax > 0.0);
-        assert(solution_gahm_b > 0.0);
-
-        quadrant.setRadiusToMaxWindSpeed(solution_gahm_rmax);
-        quadrant.setGahmHollandB(solution_gahm_b);
-      }
-    }
-  }
-}
-
-/*
  * Computes the storm translation velocities
  */
 void Preprocessor::computeStormTranslationVelocities() {
@@ -190,8 +198,7 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
  * Take the quadrant angle (45, 135, 225, 315) and add the storm translation
  * direction. Then, generate the u and v components of the wind speed. Add the
  * storm translation u and v components to the u and v components of the wind
- * speed. Then, compute the relative isotach wind speed by dividing the
- * magnitude of the u and v components by the wind reduction factor.
+ * speed.
  *
  */
 double Preprocessor::computeSimpleRelativeIsotachWindspeed(
@@ -200,11 +207,11 @@ double Preprocessor::computeSimpleRelativeIsotachWindspeed(
                  transit.translationDirection();
   double u = wind_speed * std::cos(theta) + transit.transitSpeedU();
   double v = wind_speed * std::sin(theta) + transit.transitSpeedV();
-  return std::sqrt(u * u + v * v) / Gahm::Physical::Constants::windReduction();
+  return std::sqrt(u * u + v * v) / Physical::Constants::windReduction();
 }
 
 /*
- * Computes the boundary layer windspeed for each snap
+ * Computes the boundary layer wind speeds for each snap
  */
 void Preprocessor::computeBoundaryLayerWindspeed() {
   for (auto &snap : m_atcf->data()) {

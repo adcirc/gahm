@@ -6,6 +6,7 @@
 #define GAHM_POINTCLOUD_H
 
 #include <algorithm>
+#include <cassert>
 #include <vector>
 
 #include "datatypes/Point.h"
