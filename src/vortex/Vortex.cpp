@@ -50,6 +50,10 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
   //...Get the time iterator, next time iterator, and time weight. If the date
   // is after the last time snap, then use the last time snap
   auto [time_it, time_weight] = this->selectTime(date);
+  if (time_it == m_atcfFile->data().end()) {
+    time_it = std::prev(time_it);
+    time_weight = 1.0;
+  }
   auto time_it_next = std::next(time_it);
   if (time_it_next == m_atcfFile->data().end()) {
     time_it_next = time_it;
@@ -69,33 +73,48 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
       time_it->centralPressure(), std::next(time_it)->centralPressure(),
       time_weight);
 
-  //..Generate a solution object
-  Datatypes::VortexSolution solution;
-  solution.reserve(m_points.size());
+  struct t_point_data {
+    t_point_data(double distance, double azimuth, double fc,
+                 t_point_position p0, t_point_position p1)
+        : distance(distance), azimuth(azimuth), fc(fc), p0(p0), p1(p1) {}
+    double distance;
+    double azimuth;
+    double fc;
+    t_point_position p0;
+    t_point_position p1;
+  };
+  std::vector<t_point_data> point_data;
+  point_data.reserve(m_points.size());
 
-  for (const auto &point : m_points) {
-    //...Get the point position information at both time levels. Note that the
-    // point position is the position of the point relative to the storm at the
-    // current time, not the position of the point relative to the storm at the
-    // time of the specified snap
+  //...Get the point position information at both time levels. Note that the
+  // point position is the position of the point relative to the storm at the
+  // current time, not the position of the point relative to the storm at the
+  // time of the specified snap
+  for (auto &point : m_points) {
     double distance = Physical::Earth::distance(
         point.x(), point.y(), current_storm_position.point().x(),
         current_storm_position.point().y());
     double azimuth = Physical::Earth::azimuth(
         point.x(), point.y(), current_storm_position.point().x(),
         current_storm_position.point().y());
-    auto point_position_0 = Vortex::getPointPosition(
-        current_storm_position.point(), point, *time_it, distance, azimuth);
+    auto point_position_0 =
+        Vortex::getPointPosition(*time_it, distance, azimuth);
     auto point_position_1 =
-        Vortex::getPointPosition(current_storm_position.point(), point,
-                                 *time_it_next, distance, azimuth);
+        Vortex::getPointPosition(*time_it_next, distance, azimuth);
+    double fc = Gahm::Physical::Earth::coriolis(point.y());
 
-    //...Get the coriolis force
-    auto fc = Gahm::Physical::Earth::coriolis(point.y());
+    point_data.emplace_back(distance, azimuth, fc, point_position_0,
+                            point_position_1);
+  }
 
+  //..Generate a solution object
+  Datatypes::VortexSolution solution;
+  solution.reserve(m_points.size());
+
+  for (const auto &point : point_data) {
     //...Interpolate parameter packs in space at two time points
-    auto p0 = Vortex::getParameterPack(point_position_0, *time_it);
-    auto p1 = Vortex::getParameterPack(point_position_1, *time_it_next);
+    auto p0 = Vortex::getParameterPack(point.p0, *time_it);
+    auto p1 = Vortex::getParameterPack(point.p1, *time_it_next);
 
     //..Interpolate the parameter packs in time
     auto pack = Vortex::interpolateParameterPack(p0, p1, time_weight);
@@ -103,16 +122,17 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     //...Phi
     auto phi = Gahm::Solver::GahmEquations::phi(pack.vmax_at_boundary_layer,
                                                 pack.radius_to_max_wind,
-                                                pack.holland_b, fc);
+                                                pack.holland_b, point.fc);
 
     //...Solve for the wind speed
     auto wind_speed = Gahm::Solver::GahmEquations::GahmWindSpeed(
-        pack.radius_to_max_wind, pack.vmax_at_boundary_layer, distance, fc,
-        pack.holland_b);
+        pack.radius_to_max_wind, pack.vmax_at_boundary_layer, point.distance,
+        point.fc, pack.holland_b);
+    wind_speed *= Physical::Constants::windReduction();
 
     //...Solve for the pressure value
     auto pressure = Gahm::Solver::GahmEquations::GahmPressure(
-                        central_pressure, background_pressure, distance,
+                        central_pressure, background_pressure, point.distance,
                         pack.radius_to_max_wind, pack.holland_b, phi) /
                     100.0;
 
@@ -120,10 +140,11 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     auto speed_over_vmax = wind_speed / pack.vmax_at_boundary_layer;
     auto tsx = speed_over_vmax * current_storm_translation.transitSpeedU();
     auto tsy = speed_over_vmax * current_storm_translation.transitSpeedV();
-    auto u = wind_speed * std::cos(azimuth);
-    auto v = -wind_speed * std::sin(azimuth);
+    auto u = wind_speed * std::cos(point.azimuth);
+    auto v = -wind_speed * std::sin(point.azimuth);
     auto [uf, vf] = Vortex::rotate_winds(
-        u, v, Vortex::friction_angle(distance, pack.radius_to_max_wind_true),
+        u, v,
+        Vortex::friction_angle(point.distance, pack.radius_to_max_wind_true),
         current_storm_position.y());
     u = uf + tsx;
     v = vf + tsy;
@@ -131,10 +152,6 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     u *= Physical::Constants::oneToten();
     v *= Physical::Constants::oneToten();
 
-    //...Add the point to the solution
-    // solution.push_back({static_cast<double>(point_position_0.isotach),
-    //                    point_position_0.isotach_weight,
-    //                    static_cast<double>(point_position_0.quadrant)});
     solution.push_back({u, v, pressure});
   }
 
@@ -176,9 +193,7 @@ Vortex::selectTime(const Datatypes::Date &date) const {
  * @param time_weight Time weight
  * @return Point position
  */
-Vortex::t_point_position Vortex::getPointPosition(const Datatypes::Point &p0,
-                                                  const Datatypes::Point &p1,
-                                                  const Atcf::AtcfSnap &snap,
+Vortex::t_point_position Vortex::getPointPosition(const Atcf::AtcfSnap &snap,
                                                   const double distance,
                                                   const double azimuth) {
   auto [base_quadrant, quadrant_weight] = Vortex::getBaseQuadrant(azimuth);

@@ -33,7 +33,7 @@ class AtcfFile {
  public:
   AtcfFile() = default;
 
-  explicit AtcfFile(std::string filename);
+  explicit AtcfFile(std::string filename, bool quiet = false);
 
   void read();
 
@@ -64,6 +64,7 @@ class AtcfFile {
  private:
   std::string m_filename;
   std::vector<AtcfSnap> m_atcfSnaps;
+  bool m_quiet;
 };
 
 }  // namespace Gahm::Atcf

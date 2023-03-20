@@ -46,14 +46,10 @@ class Vortex {
     int quadrant;
     double isotach_weight;
     double quadrant_weight;
-//    double distance;
-//    double azimuth;
     int isotach_adjacent;
     double isotach_adjacent_weight;
   };
-  static t_point_position getPointPosition(const Datatypes::Point &p0,
-                                           const Datatypes::Point &p1,
-                                           const Atcf::AtcfSnap &snap,
+  static t_point_position getPointPosition(const Atcf::AtcfSnap &snap,
                                            double distance, double azimuth);
 
   static std::pair<int, double> getBaseQuadrant(double angle);
