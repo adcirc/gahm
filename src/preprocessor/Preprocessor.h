@@ -46,6 +46,7 @@ class Preprocessor {
       double wind_speed, Atcf::StormTranslation transit, int quadrant);
 
   Gahm::Atcf::AtcfFile *m_atcf{nullptr};
+  bool m_isotachsProcessed;
 };
 }  // namespace Gahm
 #endif  // GAHM_SRC_PREPROCESSOR_PREPROCESSOR_H_

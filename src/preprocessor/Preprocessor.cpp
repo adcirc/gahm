@@ -29,7 +29,8 @@ namespace Gahm {
  * Constructor for the preprocessor class
  * @param atcf Pointer to the AtcfFile object
  */
-Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf) : m_atcf(atcf) {}
+Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf)
+    : m_atcf(atcf), m_isotachsProcessed(false) {}
 
 /*
  * Prepares the ATCF data for the solver
@@ -40,12 +41,20 @@ void Preprocessor::prepareAtcfData() {
   this->computeStormTranslationVelocities();
   this->computeBoundaryLayerWindspeed();
   this->processIsotachRadii();
+  this->m_isotachsProcessed = true;
 }
 
 /*
  * Calculates the radius to maximum wind speed and GAHM B for each quadrant
  */
 void Preprocessor::solve() {
+  if (!m_isotachsProcessed) {
+    throw std::runtime_error(
+        "Isotach radii have not been processed. Please call "
+        "Preprocessor::prepareAtcfData() before calling "
+        "Preprocessor::solve().");
+  }
+
   for (auto &snap : m_atcf->data()) {
     for (auto &isotach : snap.getIsotachs()) {
       for (auto &quadrant : isotach.getQuadrants()) {

@@ -14,7 +14,7 @@ cmake_minimum_required(VERSION 3.18)
 project(gahm CXX)
 
 # Warnings, Sanitizers, etc
-add_library(project_options INTERFACE tests/cxx_tests/TEST_Vortex.cpp)
+add_library(project_options INTERFACE tests/cxx_tests/TEST_Vortex.cpp benchmark/gahm_benchmark.cpp)
 add_library(project_warnings INTERFACE)
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
@@ -80,3 +80,12 @@ if(GAHM_BUILD_TESTS)
   endif()
 endif()
 # ##############################################################################
+
+# ##############################################################################
+# Benchmark
+# ##############################################################################
+option(GAHM_BUILD_BENCHMARKS "Build benchmarks" OFF)
+if(GAHM_BUILD_BENCHMARKS)
+  message(STATUS "GAHM benchmarks enabled")
+  add_subdirectory(benchmark)
+endif()

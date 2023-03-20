@@ -89,30 +89,35 @@ TEST_CASE("Vortex", "[vortex]") {
 
   auto check_point = wg.points()[2];
   auto distance = Gahm::Physical::Earth::distance(
-      track_test_it->position().point(), check_point);
+      check_point, track_test_it->position().point());
   auto azimuth = Gahm::Physical::Earth::azimuth(
-      track_test_it->position().point(), check_point);
+      check_point, track_test_it->position().point());
   REQUIRE(distance == Catch::Approx(1242459.4171680384));
   REQUIRE(azimuth * Gahm::Physical::Constants::rad2deg() ==
-          Catch::Approx(250.8907884234));
+          Catch::Approx(66.1927110799));
 
   auto solution = v.solve(check_time);
   REQUIRE(solution.uvp().size() == wg.points().size());
 
   const std::vector<size_t> sampling_points = {
       8388, 3140, 6198, 5268, 7132, 5813, 14660, 9560, 21931, 14990, 11451};
+
+  // clang-format off
   const std::vector<Gahm::Datatypes::VortexSolution::t_uvp> sampling_solution =
-      {{-4.645162, -8.131252, 1010.020649},
-       {1.620713, -1.946252, 1012.055274},
-       {-1.104336, -3.307435, 1011.654450},
-       {1.248558, -5.732596, 1011.122958},
-       {8.716328, -5.224886, 1010.218869},
-       {3.686932, -1.459382, 1011.777583},
-       {-6.582892, 9.597902, 1010.185487},
-       {-3.275348, -33.613207, 1000.841223},
-       {-0.076416, 0.625650, 1012.725300},
-       {-2.939382, 1.107471, 1012.110355},
-       {-7.498839, 71.424834, 955.991428}};
+      {{-4.180646, -7.318127, 1010.020649},
+       {1.458642, -1.751627, 1012.055274},
+       {-0.993902, -2.976692, 1011.654450},
+       {1.123702, -5.159337, 1011.122958},
+       {7.844695, -4.702397, 1010.218869},
+       {3.318239, -1.313444, 1011.777583},
+       {-5.924603, 8.638112, 1010.185487},
+       {-2.947813, -30.251886, 1000.841223},
+       {-0.068774, 0.563085, 1012.725300},
+       {-2.645444, 0.996724, 1012.110355},
+       {-6.748955, 64.282351, 955.991428}};
+  // clang-format on
+
+  REQUIRE(sampling_points.size() == sampling_solution.size());
 
   for (size_t i = 0; i < sampling_points.size(); ++i) {
     auto index = sampling_points[i];
@@ -131,9 +136,9 @@ TEST_CASE("Vortex", "[vortex]") {
   //    auto x = points[index].x();
   //    auto y = points[index].y();
   //    auto mag = std::sqrt(s.u * s.u + s.v * s.v);
-  //    out << fmt::format("{:f} {:f} {:f} {:f} {:f} {:f}\n", x, y, mag, s.u,
-  //    s.v,
-  //                       s.p);
+  //    out << fmt::format("{:d} {:f} {:f} {:f} {:f} {:f} {:f}\n", index, x, y,
+  //    mag,
+  //                       s.u, s.v, s.p);
   //    index++;
   //  }
   //  out.close();

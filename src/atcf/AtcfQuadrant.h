@@ -105,4 +105,4 @@ static std::ostream &operator<<(std::ostream &os,
   return os;
 }
 
-#endif  // GAHM3_SRC_ATCF_ATCFQUADRANT_H_
+#endif  // GAHM_SRC_ATCF_ATCFQUADRANT_H_

@@ -33,7 +33,8 @@ namespace Gahm::Atcf {
  * Constructor
  * @param filename Name of the ATCF file
  */
-AtcfFile::AtcfFile(std::string filename) : m_filename(std::move(filename)) {}
+AtcfFile::AtcfFile(std::string filename, bool quiet)
+    : m_filename(std::move(filename)) {}
 
 /*
  * Reads the ATCF file
@@ -55,8 +56,9 @@ void AtcfFile::read() {
         this->addAtcfSnap(snap.value());
       }
     } else {
-      std::cerr << "[WARNING]: Invalid ATCF snap: " << snap->date().toString()
-                << std::endl;
+      if (!m_quiet)
+        std::cerr << "[WARNING]: Invalid ATCF snap: " << snap->date().toString()
+                  << std::endl;
     }
   }
 }
@@ -103,7 +105,5 @@ void AtcfFile::write(const std::string& filename) {
   }
   f->close();
 }
-
-
 
 }  // namespace Gahm::Atcf
