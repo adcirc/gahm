@@ -76,6 +76,11 @@ TEST_CASE("GahmSolver", "[Preprocessor]") {
   double v = Gahm::Solver::GahmEquations::GahmFunction(
       solution_rmax, vmax[0], isospd[0], isorad[0],
       Gahm::Physical::Earth::coriolis(latitude), solution_b);
+
+  //...This is the proof that the root is correctly found by the solver. Note
+  // that by increasing the number of iterations in the GahmSolver class,
+  // the solution is more accurate, but 1e-8 is good enough for anything we are
+  // going to do.
   REQUIRE(v == Catch::Approx(0.0).margin(1e-8));
 }
 
