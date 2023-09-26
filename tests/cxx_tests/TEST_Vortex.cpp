@@ -94,7 +94,7 @@ TEST_CASE("Vortex", "[vortex]") {
       check_point, track_test_it->position().point());
   REQUIRE(distance == Catch::Approx(1242459.4171680384));
   REQUIRE(azimuth * Gahm::Physical::Constants::rad2deg() ==
-          Catch::Approx(66.1927110799));
+          Catch::Approx(246.1927110799));
 
   auto solution = v.solve(check_time);
   REQUIRE(solution.uvp().size() == wg.points().size());
@@ -103,18 +103,18 @@ TEST_CASE("Vortex", "[vortex]") {
       8388, 3140, 6198, 5268, 7132, 5813, 14660, 9560, 21931, 14990, 11451};
 
   // clang-format off
-  const std::vector<Gahm::Datatypes::VortexSolution::t_uvp> sampling_solution =
-      {{-4.731162, -8.515960, 1008.380241},
-       {2.988083, -3.550579, 1010.836446},
-       {-1.414962, -4.421095, 1010.336714},
-       {1.677825, -7.312237, 1009.558008},
-       {13.536693, -8.067399, 1007.301498},
-       {6.872016, -2.706093, 1010.213670},
-       {-3.862754, 5.903235, 1009.951619},
-       {-2.460899, -29.107749, 999.550446},
-       {-0.127278, 1.255187, 1012.005093},
-       {-2.283131, 0.888254, 1011.487190},
-       {-6.910162, 41.828853, 983.829855}};
+  const std::vector<Gahm::Datatypes::Uvp> sampling_solution =
+      {{4.840865,   6.438821,  1009.456382},
+       {-1.077541,  1.705846,  1011.704127},
+       {1.614207,   3.240097,  1010.912514},
+       {-0.298262,  4.872933,  1010.530213},
+       {-4.125060,  3.020919,  1010.788160},
+       {-2.126935,  1.012477,  1011.713863},
+       {11.353433, -13.098189, 1006.263273},
+       {6.008535,   23.805840, 1002.827237},
+       {0.477927,   -1.764143, 1011.776616},
+       {7.929403,   -2.561266, 1009.484907},
+       {18.181881, -53.906207,  965.549211}};
   // clang-format on
 
   REQUIRE(sampling_points.size() == sampling_solution.size());
@@ -123,9 +123,13 @@ TEST_CASE("Vortex", "[vortex]") {
     auto index = sampling_points[i];
     auto sol = solution.uvp()[index];
     auto expected = sampling_solution[i];
-    REQUIRE(sol.u == Catch::Approx(expected.u));
-    REQUIRE(sol.v == Catch::Approx(expected.v));
-    REQUIRE(sol.p == Catch::Approx(expected.p));
+    REQUIRE(sol.u() == Catch::Approx(expected.u()));
+    REQUIRE(sol.v() == Catch::Approx(expected.v()));
+    REQUIRE(sol.p() == Catch::Approx(expected.p()));
+    //    std::cout << "{"
+    //              << fmt::format("{:f}, {:f}, {:f}", sol.u(), sol.v(),
+    //              sol.p())
+    //              << "}," << std::endl;
   }
 
   //...Used when updating the solution to get the data back out
@@ -135,9 +139,9 @@ TEST_CASE("Vortex", "[vortex]") {
   for (const auto &s : solution.uvp()) {
     auto x = points[index].x();
     auto y = points[index].y();
-    auto mag = std::sqrt(s.u * s.u + s.v * s.v);
+    auto mag = std::sqrt(s.u() * s.u() + s.v() * s.v());
     out << fmt::format("{:d} {:f} {:f} {:f} {:f} {:f} {:f}\n", index, x, y, mag,
-                       s.u, s.v, s.p);
+                       s.u(), s.v(), s.p());
     index++;
   }
   out.close();

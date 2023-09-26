@@ -138,7 +138,7 @@ static double azimuth(double x1, double y1, double x2, double y2) {
   auto ay = std::sin(dx) * std::cos(phi2);
   auto ax = std::cos(phi1) * std::sin(phi2) -
             std::sin(phi1) * std::cos(phi2) * std::cos(dx);
-  auto azi = std::atan2(ay, ax);
+  auto azi = std::atan2(-ay, -ax);
   if (azi < 0.0) azi += Physical::Constants::twoPi();
   return azi;
 }

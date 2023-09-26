@@ -77,6 +77,30 @@ class WindGrid {
     return points;
   }
 
+  [[nodiscard]] std::vector<std::vector<double>> x_grid() const {
+    std::vector<std::vector<double>> x_g;
+    x_g.reserve(m_nx);
+    for (size_t i = 0; i < m_nx; i++) {
+      x_g.emplace_back(m_ny);
+      for (size_t j = 0; j < m_ny; j++) {
+        x_g[i][j] = m_xll + static_cast<double>(i) * m_dx;
+      }
+    }
+    return x_g;
+  }
+
+  [[nodiscard]] std::vector<std::vector<double>> y_grid() const {
+    std::vector<std::vector<double>> y_g;
+    y_g.reserve(m_nx);
+    for (size_t i = 0; i < m_nx; i++) {
+      y_g.emplace_back(m_ny);
+      for (size_t j = 0; j < m_ny; j++) {
+        y_g[i][j] = m_yll + static_cast<double>(j) * m_dy;
+      }
+    }
+    return y_g;
+  }
+
  private:
   double m_xll;
   double m_yll;

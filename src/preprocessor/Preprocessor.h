@@ -28,7 +28,7 @@
 namespace Gahm {
 class Preprocessor {
  public:
-  explicit Preprocessor(Gahm::Atcf::AtcfFile *atcf);
+  explicit Preprocessor(Gahm::Atcf::AtcfFile *atcf, bool do_initialization = true);
 
   void prepareAtcfData();
   void solve();

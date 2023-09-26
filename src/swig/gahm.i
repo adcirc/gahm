@@ -19,6 +19,7 @@
 #include "datatypes/Date.h"
 #include "datatypes/Point.h"
 #include "datatypes/PointCloud.h"
+#include "datatypes/Uvp.h"
 #include "datatypes/VortexSolution.h"
 #include "datatypes/WindGrid.h"
 
@@ -52,6 +53,15 @@
   }
 }
 
+namespace std {
+    %template(IntVector) vector<int>;
+    %template(SizetVector) vector<size_t>;
+    %template(DoubleVector) vector<double>;
+    %template(DoubleDoubleVector) vector<vector<double>>;
+    %template(SizetSizetVector) vector<vector<size_t>>;
+}
+
+
 %include "physical/Constants.h"
 %include "physical/Earth.h"
 %include "physical/Atmospheric.h"
@@ -59,6 +69,7 @@
 %include "datatypes/Date.h"
 %include "datatypes/Point.h"
 %include "datatypes/PointCloud.h"
+%include "datatypes/Uvp.h"
 %include "datatypes/VortexSolution.h"
 %include "datatypes/WindGrid.h"
 

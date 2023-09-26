@@ -27,12 +27,6 @@
 
 #include "atcf/AtcfSnap.h"
 
-#ifndef SWIG
-#define NODISCARD [[nodiscard]]
-#else
-#define NODISCARD
-#endif
-
 namespace Gahm::Atcf {
 
 class AtcfFile {
@@ -43,7 +37,7 @@ class AtcfFile {
 
   void read();
 
-  NODISCARD size_t size() const;
+  [[nodiscard]] size_t size() const;
 
   //...Indexing
   Gahm::Atcf::AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
@@ -53,7 +47,7 @@ class AtcfFile {
 
   std::vector<Gahm::Atcf::AtcfSnap>& data() { return m_atcfSnaps; }
 
-  NODISCARD const std::vector<Gahm::Atcf::AtcfSnap>& data() const {
+  [[nodiscard]] const std::vector<Gahm::Atcf::AtcfSnap>& data() const {
     return m_atcfSnaps;
   }
 
@@ -67,14 +61,14 @@ class AtcfFile {
 
   void write(const std::string& filename);
 
-  NODISCARD std::string filename() const { return m_filename; }
+  [[nodiscard]] std::string filename() const { return m_filename; }
 
   void addAtcfSnap(const Gahm::Atcf::AtcfSnap& snap);
 
  private:
   std::string m_filename;
-  std::vector<Gahm::Atcf::AtcfSnap> m_atcfSnaps;
   bool m_quiet;
+  std::vector<Gahm::Atcf::AtcfSnap> m_atcfSnaps;
 };
 
 }  // namespace Gahm::Atcf

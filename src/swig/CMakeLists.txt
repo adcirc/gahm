@@ -4,14 +4,6 @@ find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
 
 if(SWIG_FOUND AND Python3_FOUND)
 
-    execute_process(
-            COMMAND ${Python3_EXECUTABLE} -m site --user-site
-            OUTPUT_VARIABLE temp_PYTHON_SITE_DIRECTORY
-            OUTPUT_STRIP_TRAILING_WHITESPACE)
-    set(Python3_INSTALL_DIRECTORY
-            ${temp_PYTHON_SITE_DIRECTORY}
-            CACHE STRING "Location where Python libraries will be installed")
-
     add_custom_command(
             OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
             COMMAND
@@ -43,9 +35,9 @@ if(SWIG_FOUND AND Python3_FOUND)
     
     set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
             ${CMAKE_CURRENT_BINARY_DIR})
-    install(TARGETS pygahm LIBRARY DESTINATION ${Python3_INSTALL_DIRECTORY})
+    install(TARGETS pygahm LIBRARY DESTINATION ${Python3_SITELIB})
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pygahm.py
-            DESTINATION ${Python3_INSTALL_DIRECTORY})
+            DESTINATION ${Python3_SITELIB})
 
     if(APPLE)
         set_target_properties(pygahm PROPERTIES SUFFIX ".so")

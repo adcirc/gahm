@@ -69,6 +69,9 @@ mark_as_advanced(
   FETCHCONTENT_UPDATES_DISCONNECTED
   FETCHCONTENT_UPDATES_DISCONNECTED_CATCH2)
 
+# ##############################################################################
+#...CXX TESTS
+# ##############################################################################
 file(GLOB_RECURSE TestList ${CMAKE_CURRENT_SOURCE_DIR}/cxx_tests/TEST_*.cpp)
 
 find_package(OpenSSL REQUIRED)
@@ -81,11 +84,11 @@ foreach(test ${TestList})
     COMMAND ${test_name}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-  target_include_directories(${test_name}
-                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src)
-  include_directories(
-    ${test_name} SYSTEM ${catch2_SOURCE_DIR} ${OPENSSL_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
+  target_include_directories(${test_name} PRIVATE
+          ${CMAKE_CURRENT_SOURCE_DIR}/../src
+          ${catch2_SOURCE_DIR}
+          ${OPENSSL_INCLUDE_DIR}
+          ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
 
   target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain
                                              fmt::fmt OpenSSL::SSL)
@@ -94,4 +97,26 @@ foreach(test ${TestList})
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)
   add_dependencies(${test_name} gahm Catch2::Catch2WithMain fmt::fmt)
 endforeach()
+# ##############################################################################
+
+# ##############################################################################
+#... Fortran TESTS
+# ##############################################################################
+if(GAHM_ENABLE_FORTRAN)
+  file(GLOB_RECURSE TestList ${CMAKE_CURRENT_SOURCE_DIR}/fortran_tests/TEST_*.F90)
+  foreach(test ${TestList})
+    get_filename_component(test_name ${test} NAME_WE)
+    add_executable(${test_name} ${test})
+    add_test(
+            NAME ${test_name}
+            COMMAND ${test_name}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+    target_include_directories(${test_name} PRIVATE ${CMAKE_BINARY_DIR}/fortran)
+    target_link_libraries(${test_name} PRIVATE gahm)
+    set_target_properties(
+            ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+            ${CMAKE_CURRENT_BINARY_DIR}/tests)
+    add_dependencies(${test_name} gahm)
+  endforeach()
+endif()
 # ##############################################################################

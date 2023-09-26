@@ -24,17 +24,12 @@
 #include <cstdlib>
 #include <vector>
 
+#include "Uvp.h"
 #include "physical/Constants.h"
 
 namespace Gahm::Datatypes {
 class VortexSolution {
  public:
-  struct t_uvp {
-    double u;
-    double v;
-    double p;
-  };
-
   VortexSolution() = default;
 
   explicit VortexSolution(size_t size)
@@ -42,26 +37,40 @@ class VortexSolution {
     m_uvp.resize(size);
   }
 
-  VortexSolution(size_t size, const t_uvp &value) : m_uvp(size, value) {}
+  VortexSolution(size_t size, const Gahm::Datatypes::Uvp &value)
+      : m_uvp(size, value) {}
 
   [[nodiscard]] size_t size() const { return m_uvp.size(); }
 
-  void resize(size_t size, const t_uvp &value) { m_uvp.resize(size, value); }
+  [[nodiscard]] bool empty() const { return m_uvp.empty(); }
+
+  void resize(size_t size, const Gahm::Datatypes::Uvp &value) {
+    m_uvp.resize(size, value);
+  }
 
   void reserve(size_t size) { m_uvp.reserve(size); }
 
-  t_uvp &operator[](size_t index) { return m_uvp[index]; }
-  const t_uvp &operator[](size_t index) const { return m_uvp[index]; }
+  Gahm::Datatypes::Uvp &operator[](size_t index) { return m_uvp[index]; }
+  [[nodiscard]] const Gahm::Datatypes::Uvp &operator[](size_t index) const {
+    return m_uvp[index];
+  }
 
-  [[nodiscard]] const std::vector<t_uvp> &uvp() const { return m_uvp; }
+  Gahm::Datatypes::Uvp &at(size_t index) { return this->operator[](index); }
+  [[nodiscard]] const Gahm::Datatypes::Uvp &at(size_t index) const {
+    return this->operator[](index);
+  }
 
-  void push_back(const t_uvp &value) { m_uvp.push_back(value); }
+  [[nodiscard]] const std::vector<Gahm::Datatypes::Uvp> &uvp() const {
+    return m_uvp;
+  }
+
+  void push_back(const Gahm::Datatypes::Uvp &value) { m_uvp.push_back(value); }
 
   [[nodiscard]] std::vector<double> u() const {
     std::vector<double> u;
     u.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
-      u.push_back(i.u);
+      u.push_back(i.u());
     }
     return u;
   }
@@ -70,7 +79,7 @@ class VortexSolution {
     std::vector<double> v;
     v.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
-      v.push_back(i.v);
+      v.push_back(i.v());
     }
     return v;
   }
@@ -79,13 +88,13 @@ class VortexSolution {
     std::vector<double> p;
     p.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
-      p.push_back(i.p);
+      p.push_back(i.p());
     }
     return p;
   }
 
  private:
-  std::vector<VortexSolution::t_uvp> m_uvp;
+  std::vector<Gahm::Datatypes::Uvp> m_uvp;
 };
 }  // namespace Gahm::Datatypes
 

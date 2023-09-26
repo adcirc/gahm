@@ -29,19 +29,23 @@ namespace Gahm {
  * Constructor for the preprocessor class
  * @param atcf Pointer to the AtcfFile object
  */
-Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf)
-    : m_atcf(atcf), m_isotachsProcessed(false) {}
+Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf, bool do_initialization)
+    : m_atcf(atcf), m_isotachsProcessed(false) {
+  if (do_initialization) this->prepareAtcfData();
+}
 
 /*
  * Prepares the ATCF data for the solver
  */
 void Preprocessor::prepareAtcfData() {
-  this->orderIsotachs();
-  this->fillMissingAtcfData();
-  this->computeStormTranslationVelocities();
-  this->computeBoundaryLayerWindspeed();
-  this->processIsotachRadii();
-  this->m_isotachsProcessed = true;
+  if (!m_isotachsProcessed) {
+    this->orderIsotachs();
+    this->fillMissingAtcfData();
+    this->computeStormTranslationVelocities();
+    this->computeBoundaryLayerWindspeed();
+    this->processIsotachRadii();
+    this->m_isotachsProcessed = true;
+  }
 }
 
 /*
