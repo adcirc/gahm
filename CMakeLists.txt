@@ -26,6 +26,8 @@ set_project_warnings(project_warnings)
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
 mark_as_advanced(CLEAR CMAKE_BUILD_TYPE)
 mark_as_advanced(CLEAR CMAKE_CXX_COMPILER)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS)
