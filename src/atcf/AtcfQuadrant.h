@@ -24,12 +24,6 @@
 #include "datatypes/CircularArray.h"
 #include "physical/Constants.h"
 
-#ifndef SWIG
-#define NODISCARD [[nodiscard]]
-#else
-#define NODISCARD
-#endif
-
 namespace Gahm::Atcf {
 class AtcfQuadrant {
  public:
@@ -45,17 +39,17 @@ class AtcfQuadrant {
         m_isotach_speed_at_boundary_layer(isotach_speed_at_boundary_layer),
         m_vmax_at_boundary_layer(vmax_at_boundary_layer) {}
 
-  NODISCARD double getIsotachRadius() const { return m_isotach_radius; }
-  NODISCARD double getRadiusToMaxWindSpeed() const {
+  [[nodiscard]] double getIsotachRadius() const { return m_isotach_radius; }
+  [[nodiscard]] double getRadiusToMaxWindSpeed() const {
     return m_radius_to_max_wind_speed;
   }
-  NODISCARD double getGahmHollandB() const { return m_gahm_holland_b; }
-  NODISCARD double getIsotachSpeedAtBoundaryLayer() const {
+  [[nodiscard]] double getGahmHollandB() const { return m_gahm_holland_b; }
+  [[nodiscard]] double getIsotachSpeedAtBoundaryLayer() const {
     return m_isotach_speed_at_boundary_layer;
   }
-  NODISCARD int getQuadrantIndex() const { return m_quadrant_index; }
+  [[nodiscard]] int getQuadrantIndex() const { return m_quadrant_index; }
 
-  NODISCARD double getVmaxAtBoundaryLayer() const {
+  [[nodiscard]] double getVmaxAtBoundaryLayer() const {
     return m_vmax_at_boundary_layer;
   }
 
@@ -83,6 +77,14 @@ class AtcfQuadrant {
     return s_quadrant_angles[quadrant_index];
   }
 
+  static constexpr int next_quadrant_angle_index(int quadrant_index) {
+    return s_quadrant_angle_index[quadrant_index + 1];
+  }
+
+  static constexpr int previous_quadrant_angle_index(int quadrant_index) {
+    return s_quadrant_angle_index[quadrant_index - 1];
+  }
+
  private:
   int m_quadrant_index;
   double m_isotach_radius;
@@ -92,6 +94,9 @@ class AtcfQuadrant {
   double m_vmax_at_boundary_layer;
 
 #ifndef SWIG
+  static constexpr auto s_quadrant_angle_index =
+      Datatypes::CircularArray<int, 4>({0, 3, 2, 1});
+
   static constexpr auto s_quadrant_angles = Datatypes::CircularArray<double, 4>(
       {45.0 * Gahm::Physical::Constants::deg2rad(),
        135.0 * Gahm::Physical::Constants::deg2rad(),

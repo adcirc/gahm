@@ -25,8 +25,6 @@
 #include <memory>
 #include <utility>
 
-#include "physical/Earth.h"
-
 namespace Gahm::Atcf {
 
 /*
@@ -34,7 +32,7 @@ namespace Gahm::Atcf {
  * @param filename Name of the ATCF file
  */
 AtcfFile::AtcfFile(std::string filename, bool quiet)
-    : m_filename(std::move(filename)) {}
+    : m_filename(std::move(filename)), m_quiet(quiet) {}
 
 /*
  * Reads the ATCF file
@@ -47,18 +45,17 @@ void AtcfFile::read() {
 
   std::string line;
   while (std::getline(*(f.get()), line)) {
-    if (line.empty()) {
-      continue;
-    }
-    auto snap = AtcfSnap::parseAtcfSnap(line);
-    if (snap.has_value()) {
-      if (snap->isValid()) {
-        this->addAtcfSnap(snap.value());
+    if (!line.empty()) {
+      auto snap = AtcfSnap::parseAtcfSnap(line);
+      if (snap.has_value()) {
+        if (snap->isValid()) {
+          this->addAtcfSnap(snap.value());
+        }
+      } else {
+        if (!m_quiet)
+          std::cerr << "[WARNING]: Invalid ATCF snap: "
+                    << snap->date().toString() << std::endl;
       }
-    } else {
-      if (!m_quiet)
-        std::cerr << "[WARNING]: Invalid ATCF snap: " << snap->date().toString()
-                  << std::endl;
     }
   }
 }

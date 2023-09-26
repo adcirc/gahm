@@ -1,7 +1,6 @@
 # ##############################################################################
 # GAHM library
 # ##############################################################################
-
 set(SOURCES
   datatypes/Date.cpp
   atcf/AtcfSnap.cpp
@@ -14,6 +13,16 @@ set(SOURCES
   vortex/Vortex.cpp
   vortex/Vortex.cpp
   output/OwiOutput.cpp)
+# ##############################################################################
+
+# ##############################################################################
+# Fortran
+# ##############################################################################
+if(GAHM_ENABLE_FORTRAN)
+    list(APPEND SOURCES fortran/gahm_fortran.cpp fortran/gahm.F90)
+    set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_BINARY_DIR}/fortran)
+endif()
+# ##############################################################################
 
 add_library(gahm_interface INTERFACE)
 add_library(gahm_objectlib OBJECT ${SOURCES})
@@ -21,12 +30,11 @@ add_library(gahm_objectlib OBJECT ${SOURCES})
 add_library(gahm_static STATIC $<TARGET_OBJECTS:gahm_objectlib>)
 add_library(gahm SHARED $<TARGET_OBJECTS:gahm_objectlib>)
 
-target_include_directories(gahm_objectlib PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-
-include_directories(
-  SYSTEM ${Boost_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/date_hh
-  ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
+target_include_directories(gahm_objectlib PRIVATE
+                ${CMAKE_CURRENT_SOURCE_DIR}
+                ${Boost_INCLUDE_DIRS}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/date_hh
+                ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
 
 if(GAHM_ENABLE_WARNINGS)
   target_link_libraries(gahm_objectlib INTERFACE project_warnings)

@@ -29,12 +29,6 @@
 #include "datatypes/CircularArray.h"
 #include "datatypes/Date.h"
 
-#ifdef SWIG
-#define NODISCARD
-#else
-#define NODISCARD [[nodiscard]]
-#endif
-
 namespace Gahm::Atcf {
 
 /*
@@ -52,65 +46,66 @@ class AtcfSnap {
 
   static std::optional<AtcfSnap> parseAtcfSnap(const std::string& line);
 
-  NODISCARD double centralPressure() const;
+  [[nodiscard]] double centralPressure() const;
   void setCentralPressure(double centralPressure);
 
-  NODISCARD double backgroundPressure() const;
+  [[nodiscard]] double backgroundPressure() const;
   void setBackgroundPressure(double backgroundPressure);
 
-  NODISCARD double radiusToMaxWinds() const;
+  [[nodiscard]] double radiusToMaxWinds() const;
   void setRadiusToMaxWinds(double radiusToMaxWinds);
 
-  NODISCARD double vmax() const;
+  [[nodiscard]] double vmax() const;
   void setVmax(double vmax);
 
-  NODISCARD double vmaxBoundaryLayer() const;
+  [[nodiscard]] double vmaxBoundaryLayer() const;
   void setVmaxBoundaryLayer(double vmaxBoundaryLayer);
 
-  NODISCARD const Gahm::Datatypes::Date& date() const;
+  [[nodiscard]] const Gahm::Datatypes::Date& date() const;
   void setDate(const Gahm::Datatypes::Date& date);
 
-  NODISCARD int stormId() const;
+  [[nodiscard]] int stormId() const;
   void setStormId(int stormId);
 
-  NODISCARD Gahm::Atcf::AtcfSnap::BASIN basin() const;
+  [[nodiscard]] Gahm::Atcf::AtcfSnap::BASIN basin() const;
   void setBasin(Gahm::Atcf::AtcfSnap::BASIN basin);
 
-  NODISCARD const std::string& stormName() const;
+  [[nodiscard]] const std::string& stormName() const;
   void setStormName(const std::string& stormName);
 
-  NODISCARD const std::vector<Gahm::Atcf::AtcfIsotach>& getIsotachs() const;
+  [[nodiscard]] const std::vector<Gahm::Atcf::AtcfIsotach>& getIsotachs() const;
   std::vector<Gahm::Atcf::AtcfIsotach>& getIsotachs();
 
-  NODISCARD static Gahm::Atcf::AtcfSnap::BASIN basinFromString(
+  [[nodiscard]] static Gahm::Atcf::AtcfSnap::BASIN basinFromString(
       const std::string& basin);
 
-  NODISCARD static std::string basinToString(Gahm::Atcf::AtcfSnap::BASIN basin);
+  [[nodiscard]] static std::string basinToString(
+      Gahm::Atcf::AtcfSnap::BASIN basin);
 
-  NODISCARD size_t numberOfIsotachs() const;
+  [[nodiscard]] size_t numberOfIsotachs() const;
 
-  NODISCARD const Gahm::Atcf::StormPosition& position() const;
+  [[nodiscard]] const Gahm::Atcf::StormPosition& position() const;
   void setPosition(const Gahm::Atcf::StormPosition& position);
 
-  NODISCARD const Gahm::Atcf::StormTranslation& translation() const;
+  [[nodiscard]] const Gahm::Atcf::StormTranslation& translation() const;
   void setTranslation(const Gahm::Atcf::StormTranslation& translation);
 
-  NODISCARD double hollandB() const;
+  [[nodiscard]] double hollandB() const;
   void setHollandB(double hollandB);
 
   void addIsotach(const Gahm::Atcf::AtcfIsotach& isotach);
 
   bool operator<(const Gahm::Atcf::AtcfSnap& other) const;
 
-  NODISCARD bool isValid() const;
+  [[nodiscard]] bool isValid() const;
 
-  NODISCARD std::string to_string(size_t cycle,
-                                  const Gahm::Datatypes::Date& start_date,
-                                  size_t isotach_index) const;
+  [[nodiscard]] std::string to_string(size_t cycle,
+                                      const Gahm::Datatypes::Date& start_date,
+                                      size_t isotach_index) const;
 
   void processIsotachRadii();
 
-  NODISCARD const Gahm::Datatypes::CircularArray<std::vector<double>, 4>&
+  [[nodiscard]] const Gahm::Datatypes::CircularArray<std::vector<double>, 4>&
   radii() const;
 
   void orderIsotachs();
