@@ -104,17 +104,17 @@ TEST_CASE("Vortex", "[vortex]") {
 
   // clang-format off
   const std::vector<Gahm::Datatypes::VortexSolution::t_uvp> sampling_solution =
-      {{-4.180646, -7.318127, 1010.020649},
-       {1.458642, -1.751627, 1012.055274},
-       {-0.993902, -2.976692, 1011.654450},
-       {1.123702, -5.159337, 1011.122958},
-       {7.844695, -4.702397, 1010.218869},
-       {3.318239, -1.313444, 1011.777583},
-       {-5.924603, 8.638112, 1010.185487},
-       {-2.947813, -30.251886, 1000.841223},
-       {-0.068774, 0.563085, 1012.725300},
-       {-2.645444, 0.996724, 1012.110355},
-       {-6.748955, 64.282351, 955.991428}};
+      {{-4.731162, -8.515960, 1008.380241},
+       {2.988083, -3.550579, 1010.836446},
+       {-1.414962, -4.421095, 1010.336714},
+       {1.677825, -7.312237, 1009.558008},
+       {13.536693, -8.067399, 1007.301498},
+       {6.872016, -2.706093, 1010.213670},
+       {-3.862754, 5.903235, 1009.951619},
+       {-2.460899, -29.107749, 999.550446},
+       {-0.127278, 1.255187, 1012.005093},
+       {-2.283131, 0.888254, 1011.487190},
+       {-6.910162, 41.828853, 983.829855}};
   // clang-format on
 
   REQUIRE(sampling_points.size() == sampling_solution.size());
@@ -129,17 +129,16 @@ TEST_CASE("Vortex", "[vortex]") {
   }
 
   //...Used when updating the solution to get the data back out
-  //  std::ofstream out("vortex_solution.txt");
-  //  size_t index = 0;
-  //  auto points = wg.points();
-  //  for (const auto &s : solution.uvp()) {
-  //    auto x = points[index].x();
-  //    auto y = points[index].y();
-  //    auto mag = std::sqrt(s.u * s.u + s.v * s.v);
-  //    out << fmt::format("{:d} {:f} {:f} {:f} {:f} {:f} {:f}\n", index, x, y,
-  //    mag,
-  //                       s.u, s.v, s.p);
-  //    index++;
-  //  }
-  //  out.close();
+  std::ofstream out("vortex_solution.txt");
+  size_t index = 0;
+  auto points = wg.points();
+  for (const auto &s : solution.uvp()) {
+    auto x = points[index].x();
+    auto y = points[index].y();
+    auto mag = std::sqrt(s.u * s.u + s.v * s.v);
+    out << fmt::format("{:d} {:f} {:f} {:f} {:f} {:f} {:f}\n", index, x, y, mag,
+                       s.u, s.v, s.p);
+    index++;
+  }
+  out.close();
 }

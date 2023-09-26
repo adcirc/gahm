@@ -214,9 +214,9 @@ double Preprocessor::computeSimpleRelativeIsotachWindspeed(
     double wind_speed, Atcf::StormTranslation transit, int quadrant) {
   double theta = Atcf::AtcfQuadrant::quadrant_angle(quadrant) +
                  transit.translationDirection();
-  double u = wind_speed * std::cos(theta) + transit.transitSpeedU();
-  double v = wind_speed * std::sin(theta) + transit.transitSpeedV();
-  return std::sqrt(u * u + v * v) / Physical::Constants::windReduction();
+  double u = wind_speed * std::cos(theta) - transit.transitSpeedU();
+  double v = wind_speed * std::sin(theta) - transit.transitSpeedV();
+  return std::sqrt(u * u + v * v) * Physical::Constants::windReduction();
 }
 
 /*

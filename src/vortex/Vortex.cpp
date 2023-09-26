@@ -107,7 +107,7 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
                             point_position_1);
   }
 
-  //..Generate a solution object
+  //...Generate a solution object
   Datatypes::VortexSolution solution;
   solution.reserve(m_points.size());
 
@@ -116,7 +116,7 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     auto p0 = Vortex::getParameterPack(point.p0, *time_it);
     auto p1 = Vortex::getParameterPack(point.p1, *time_it_next);
 
-    //..Interpolate the parameter packs in time
+    //...Interpolate the parameter packs in time
     auto pack = Vortex::interpolateParameterPack(p0, p1, time_weight);
 
     //...Phi
@@ -128,7 +128,6 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     auto wind_speed = Gahm::Solver::GahmEquations::GahmWindSpeed(
         pack.radius_to_max_wind, pack.vmax_at_boundary_layer, point.distance,
         point.fc, pack.holland_b);
-    wind_speed *= Physical::Constants::windReduction();
 
     //...Solve for the pressure value
     auto pressure = Gahm::Solver::GahmEquations::GahmPressure(
@@ -136,7 +135,7 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
                         pack.radius_to_max_wind, pack.holland_b, phi) /
                     100.0;
 
-    //...Decompose the wind into its u/v components
+    //...Decompose the wind into it's u/v components
     auto speed_over_vmax = wind_speed / pack.vmax_at_boundary_layer;
     auto tsx = speed_over_vmax * current_storm_translation.transitSpeedU();
     auto tsy = speed_over_vmax * current_storm_translation.transitSpeedV();
