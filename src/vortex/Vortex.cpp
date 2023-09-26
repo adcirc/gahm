@@ -75,13 +75,14 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
 
   struct t_point_data {
     t_point_data(double distance, double azimuth, double fc,
-                 t_point_position p0, t_point_position p1)
+                 Gahm::Datatypes::PointPosition p0,
+                 Gahm::Datatypes::PointPosition p1)
         : distance(distance), azimuth(azimuth), fc(fc), p0(p0), p1(p1) {}
     double distance;
     double azimuth;
     double fc;
-    t_point_position p0;
-    t_point_position p1;
+    Gahm::Datatypes::PointPosition p0;
+    Gahm::Datatypes::PointPosition p1;
   };
   std::vector<t_point_data> point_data;
   point_data.reserve(m_points.size());
@@ -192,9 +193,8 @@ Vortex::selectTime(const Datatypes::Date &date) const {
  * @param time_weight Time weight
  * @return Point position
  */
-Vortex::t_point_position Vortex::getPointPosition(const Atcf::AtcfSnap &snap,
-                                                  const double distance,
-                                                  const double azimuth) {
+Gahm::Datatypes::PointPosition Vortex::getPointPosition(
+    const Atcf::AtcfSnap &snap, const double distance, const double azimuth) {
   auto [base_quadrant, quadrant_weight] = Vortex::getBaseQuadrant(azimuth);
   auto [isotach, isotach_weight] =
       Vortex::getBaseIsotach(distance, base_quadrant, snap);
@@ -277,7 +277,8 @@ std::pair<int, double> Vortex::getBaseIsotach(double distance, int quadrant,
  * @return Parameter pack object
  */
 Vortex::t_parameter_pack Vortex::getParameterPack(
-    const t_point_position &point_position, const Atcf::AtcfSnap &snap) {
+    const Gahm::Datatypes::PointPosition &point_position,
+    const Atcf::AtcfSnap &snap) {
   return Vortex::interpolateParameterPackQuadrant(point_position, snap);
 }
 
@@ -306,17 +307,17 @@ Vortex::t_parameter_pack Vortex::isotachToParameterPack(
  * @return Parameter pack object
  */
 Vortex::t_parameter_pack Vortex::interpolateParameterPackIsotach(
-    const t_point_position &point_position, const Atcf::AtcfSnap &snap,
-    int quadrant_index) {
+    const Gahm::Datatypes::PointPosition &point_position,
+    const Atcf::AtcfSnap &snap, int quadrant_index) {
   auto [isotach, quadrant, weight] = [&]() {
     if (quadrant_index == 0) {
-      return std::make_tuple(point_position.isotach,
-                             point_position.quadrant + quadrant_index,
-                             point_position.isotach_weight);
+      return std::make_tuple(point_position.isotach(),
+                             point_position.quadrant() + quadrant_index,
+                             point_position.isotach_weight());
     } else {
-      return std::make_tuple(point_position.isotach_adjacent,
-                             point_position.quadrant + quadrant_index,
-                             point_position.isotach_adjacent_weight);
+      return std::make_tuple(point_position.isotach_adjacent(),
+                             point_position.quadrant() + quadrant_index,
+                             point_position.isotach_adjacent_weight());
     }
   }();
 
@@ -324,6 +325,7 @@ Vortex::t_parameter_pack Vortex::interpolateParameterPackIsotach(
     return Vortex::isotachToParameterPack(snap.getIsotachs()[isotach],
                                           quadrant);
   };
+
   auto i0 = snap.getIsotachs()[isotach];
   auto i1 = snap.getIsotachs()[isotach + 1];
   auto p0 = Vortex::isotachToParameterPack(i0, quadrant);
@@ -341,12 +343,12 @@ Vortex::t_parameter_pack Vortex::interpolateParameterPackIsotach(
  * @return Parameter pack object
  */
 Vortex::t_parameter_pack Vortex::interpolateParameterPackQuadrant(
-    const Vortex::t_point_position &point_position,
+    const Gahm::Datatypes::PointPosition &point_position,
     const Atcf::AtcfSnap &snap) {
   auto p0 = Vortex::interpolateParameterPackIsotach(point_position, snap, -1);
   auto p1 = Vortex::interpolateParameterPackIsotach(point_position, snap, 0);
-  return Vortex::interpolateParameterPackRadial(p0, p1,
-                                                point_position.quadrant_weight);
+  return Vortex::interpolateParameterPackRadial(
+      p0, p1, point_position.quadrant_weight());
 }
 
 /**

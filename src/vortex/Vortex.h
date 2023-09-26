@@ -28,7 +28,14 @@
 #include "atcf/AtcfFile.h"
 #include "datatypes/Date.h"
 #include "datatypes/PointCloud.h"
+#include "datatypes/PointPosition.h"
 #include "datatypes/VortexSolution.h"
+
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
 
 namespace Gahm {
 
@@ -38,30 +45,21 @@ class Vortex {
 
   Datatypes::VortexSolution solve(const Gahm::Datatypes::Date &date);
 
-  [[nodiscard]] std::tuple<std::vector<Atcf::AtcfSnap>::const_iterator, double>
+  NODISCARD std::tuple<std::vector<Atcf::AtcfSnap>::const_iterator, double>
   selectTime(const Datatypes::Date &date) const;
 
-  struct t_point_position {
-    int isotach;
-    int quadrant;
-    double isotach_weight;
-    double quadrant_weight;
-    int isotach_adjacent;
-    double isotach_adjacent_weight;
-  };
-  static t_point_position getPointPosition(const Atcf::AtcfSnap &snap,
-                                           double distance, double azimuth);
+  static Gahm::Datatypes::PointPosition getPointPosition(
+      const Atcf::AtcfSnap &snap, double distance, double azimuth);
 
   static std::pair<int, double> getBaseQuadrant(double angle);
   static std::pair<int, double> getBaseIsotach(double distance, int quadrant,
                                                const Atcf::AtcfSnap &snap);
 
-  [[nodiscard]] static double friction_angle(double radius,
-                                             double radius_to_max_winds);
-  [[nodiscard]] static std::tuple<double, double> rotate_winds(double u,
-                                                               double v,
-                                                               double angle,
-                                                               double latitude);
+  NODISCARD static double friction_angle(double radius,
+                                         double radius_to_max_winds);
+  NODISCARD static std::tuple<double, double> rotate_winds(double u, double v,
+                                                           double angle,
+                                                           double latitude);
 
  private:
   struct t_parameter_pack {
@@ -72,17 +70,19 @@ class Vortex {
     double holland_b;
   };
   static t_parameter_pack getParameterPack(
-      const t_point_position &point_position, const Atcf::AtcfSnap &snap);
+      const Gahm::Datatypes::PointPosition &point_position,
+      const Atcf::AtcfSnap &snap);
 
   static t_parameter_pack isotachToParameterPack(
       const Atcf::AtcfIsotach &isotach, int quadrant);
 
   static t_parameter_pack interpolateParameterPackIsotach(
-      const t_point_position &point_position, const Atcf::AtcfSnap &snap,
-      int quadrant_index);
+      const Gahm::Datatypes::PointPosition &point_position,
+      const Atcf::AtcfSnap &snap, int quadrant_index);
 
   static t_parameter_pack interpolateParameterPackQuadrant(
-      const t_point_position &point_position, const Atcf::AtcfSnap &snap);
+      const Gahm::Datatypes::PointPosition &point_position,
+      const Atcf::AtcfSnap &snap);
 
   static t_parameter_pack interpolateParameterPack(const t_parameter_pack &p0,
                                                    const t_parameter_pack &p1,

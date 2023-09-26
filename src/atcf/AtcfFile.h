@@ -27,6 +27,12 @@
 
 #include "atcf/AtcfSnap.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Atcf {
 
 class AtcfFile {
@@ -37,17 +43,11 @@ class AtcfFile {
 
   void read();
 
-  [[nodiscard]] size_t size() const;
-
-  //...Indexing
-  Gahm::Atcf::AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
-  const Gahm::Atcf::AtcfSnap& operator[](size_t index) const {
-    return m_atcfSnaps[index];
-  }
+  NODISCARD size_t size() const;
 
   std::vector<Gahm::Atcf::AtcfSnap>& data() { return m_atcfSnaps; }
 
-  [[nodiscard]] const std::vector<Gahm::Atcf::AtcfSnap>& data() const {
+  NODISCARD const std::vector<Gahm::Atcf::AtcfSnap>& data() const {
     return m_atcfSnaps;
   }
 
@@ -57,11 +57,17 @@ class AtcfFile {
     return std::find_if(m_atcfSnaps.begin(), m_atcfSnaps.end(),
                         [&](const auto& val) { return val.date() == date; });
   }
+
+  //...Indexing
+  Gahm::Atcf::AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
+  const Gahm::Atcf::AtcfSnap& operator[](size_t index) const {
+    return m_atcfSnaps[index];
+  }
 #endif
 
   void write(const std::string& filename);
 
-  [[nodiscard]] std::string filename() const { return m_filename; }
+  NODISCARD std::string filename() const { return m_filename; }
 
   void addAtcfSnap(const Gahm::Atcf::AtcfSnap& snap);
 
