@@ -117,7 +117,8 @@ static double distance(const double x1, const double y1, const double x2,
  * @param p1 Point 1
  * @return Distance between two points on the earth's surface in meters
  */
-static double distance(const Datatypes::Point &p0, const Datatypes::Point &p1) {
+static double distance(const Gahm::Datatypes::Point &p0,
+                       const Gahm::Datatypes::Point &p1) {
   return distance(p0.x(), p0.y(), p1.x(), p1.y());
 }
 
@@ -148,7 +149,8 @@ static double azimuth(double x1, double y1, double x2, double y2) {
  * @param p1 Point 1
  * @return Azimuth between two points on the earth's surface in meters
  */
-static double azimuth(const Datatypes::Point &p0, const Datatypes::Point &p1) {
+static double azimuth(const Gahm::Datatypes::Point &p0,
+                      const Gahm::Datatypes::Point &p1) {
   return azimuth(p0.x(), p0.y(), p1.x(), p1.y());
 }
 

@@ -26,6 +26,12 @@
 #include "atcf/AtcfQuadrant.h"
 #include "datatypes/CircularArray.h"
 
+#ifndef SWIG
+#define NODISCARD [[nodiscard]]
+#else
+#define NODISCARD
+#endif
+
 namespace Gahm::Atcf {
 
 class AtcfIsotach {
@@ -35,27 +41,27 @@ class AtcfIsotach {
         m_quadrants({AtcfQuadrant(0, radii[0]), AtcfQuadrant(1, radii[1]),
                      AtcfQuadrant(2, radii[2]), AtcfQuadrant(3, radii[3])}) {}
 
-  [[nodiscard]] double getWindSpeed() const { return m_wind_speed; }
+  NODISCARD double getWindSpeed() const { return m_wind_speed; }
 
-  [[nodiscard]] const Gahm::Datatypes::CircularArray<AtcfQuadrant, 4>
+  NODISCARD const Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4>
       &getQuadrants() const {
     return m_quadrants;
   }
 
-  Gahm::Datatypes::CircularArray<AtcfQuadrant, 4> &getQuadrants() {
+  Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4> &getQuadrants() {
     return m_quadrants;
   }
 
-  [[nodiscard]] const Gahm::Atcf::AtcfQuadrant &getQuadrant(
+  NODISCARD const Gahm::Atcf::AtcfQuadrant &getQuadrant(
       int quadrant_index) const {
     return m_quadrants[quadrant_index];
   }
 
-  [[nodiscard]] Gahm::Atcf::AtcfQuadrant &getQuadrant(int quadrant_index) {
+  NODISCARD Gahm::Atcf::AtcfQuadrant &getQuadrant(int quadrant_index) {
     return m_quadrants[quadrant_index];
   }
 
-  [[nodiscard]] Gahm::Datatypes::CircularArray<double, 4> radii() const {
+  NODISCARD Gahm::Datatypes::CircularArray<double, 4> radii() const {
     Gahm::Datatypes::CircularArray<double, 4> r{};
     for (int i = 0; i < 4; ++i) {
       r[i] = m_quadrants[i].getIsotachRadius();
@@ -65,7 +71,7 @@ class AtcfIsotach {
 
  private:
   double m_wind_speed;
-  Gahm::Datatypes::CircularArray<AtcfQuadrant, 4> m_quadrants;
+  Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4> m_quadrants;
 };
 
 }  // namespace Gahm::Atcf

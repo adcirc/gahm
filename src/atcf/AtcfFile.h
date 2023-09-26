@@ -27,6 +27,12 @@
 
 #include "atcf/AtcfSnap.h"
 
+#ifndef SWIG
+#define NODISCARD [[nodiscard]]
+#else
+#define NODISCARD
+#endif
+
 namespace Gahm::Atcf {
 
 class AtcfFile {
@@ -37,33 +43,37 @@ class AtcfFile {
 
   void read();
 
-  [[nodiscard]] size_t size() const;
+  NODISCARD size_t size() const;
 
   //...Indexing
-  AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
-  const AtcfSnap& operator[](size_t index) const { return m_atcfSnaps[index]; }
+  Gahm::Atcf::AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
+  const Gahm::Atcf::AtcfSnap& operator[](size_t index) const {
+    return m_atcfSnaps[index];
+  }
 
-  std::vector<AtcfSnap>& data() { return m_atcfSnaps; }
+  std::vector<Gahm::Atcf::AtcfSnap>& data() { return m_atcfSnaps; }
 
-  [[nodiscard]] const std::vector<AtcfSnap>& data() const {
+  NODISCARD const std::vector<Gahm::Atcf::AtcfSnap>& data() const {
     return m_atcfSnaps;
   }
 
   //...Lookup
+#ifndef SWIG
   auto find(const Gahm::Datatypes::Date& date) {
     return std::find_if(m_atcfSnaps.begin(), m_atcfSnaps.end(),
                         [&](const auto& val) { return val.date() == date; });
   }
+#endif
 
   void write(const std::string& filename);
 
-  [[nodiscard]] std::string filename() const { return m_filename; }
+  NODISCARD std::string filename() const { return m_filename; }
 
-  void addAtcfSnap(const AtcfSnap& snap);
+  void addAtcfSnap(const Gahm::Atcf::AtcfSnap& snap);
 
  private:
   std::string m_filename;
-  std::vector<AtcfSnap> m_atcfSnaps;
+  std::vector<Gahm::Atcf::AtcfSnap> m_atcfSnaps;
   bool m_quiet;
 };
 
