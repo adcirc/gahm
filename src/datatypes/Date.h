@@ -28,6 +28,13 @@
 #include <string>
 #include <type_traits>
 #include <vector>
+
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Datatypes {
 class Date {
  public:
@@ -61,6 +68,7 @@ class Date {
   Date(const Date &d);
 
   //...operator overloads
+#ifndef SWIG
   bool operator<(const Date &d) const;
   bool operator>(const Date &d) const;
   bool operator<=(const Date &d) const;
@@ -127,6 +135,8 @@ class Date {
   Date &operator-=(const Date::years &rhs);
   Date &operator-=(const Date::months &rhs);
 
+#endif
+
   void addSeconds(const long &value);
   void addMinutes(const long &value);
   void addHours(const long &value);
@@ -138,7 +148,7 @@ class Date {
   static Date maxDate() { return Date(3000, 1, 1, 0, 0, 0); }
   static Date minDate() { return Date(1900, 1, 1, 0, 0, 0); }
 
-  [[nodiscard]] std::vector<long long> get() const;
+  NODISCARD std::vector<long long> get() const;
 
   void set(const std::vector<long long> &v);
   void set(const std::chrono::system_clock::time_point &t);
@@ -151,39 +161,39 @@ class Date {
 
   void fromMSeconds(long long mseconds);
 
-  [[nodiscard]] long toSeconds() const;
+  NODISCARD long toSeconds() const;
 
-  [[nodiscard]] long long toMSeconds() const;
+  NODISCARD long long toMSeconds() const;
 
-  [[nodiscard]] int year() const;
+  NODISCARD int year() const;
   void setYear(int year);
 
-  [[nodiscard]] unsigned month() const;
+  NODISCARD unsigned month() const;
   void setMonth(unsigned month);
 
-  [[nodiscard]] unsigned day() const;
+  NODISCARD unsigned day() const;
   void setDay(unsigned day);
 
-  [[nodiscard]] long long hour() const;
+  NODISCARD long long hour() const;
   void setHour(long long hour);
 
-  [[nodiscard]] long long minute() const;
+  NODISCARD long long minute() const;
   void setMinute(long long minute);
 
-  [[nodiscard]] long long second() const;
+  NODISCARD long long second() const;
   void setSecond(long long second);
 
-  [[nodiscard]] long long millisecond() const;
+  NODISCARD long long millisecond() const;
   void setMillisecond(long long milliseconds);
 
-  [[nodiscard]] static Date fromString(
+  NODISCARD static Date fromString(
       const std::string &datestr,
       const std::string &format = "%Y-%m-%d %H:%M:%OS");
 
-  [[nodiscard]] std::string toString(
+  NODISCARD std::string toString(
       const std::string &format = "%Y-%m-%d %H:%M:%OS") const;
 
-  [[nodiscard]] std::chrono::system_clock::time_point time_point() const;
+  NODISCARD std::chrono::system_clock::time_point time_point() const;
 
   static Date now();
 
@@ -204,5 +214,8 @@ Date operator-(Date lhs, const T &rhs) {
 }
 }  // namespace Gahm::Datatypes
 
+#ifndef SWIG
 std::ostream &operator<<(std::ostream &os, const Gahm::Datatypes::Date &dt);
+#endif
+
 #endif  // GAHMDATE_H

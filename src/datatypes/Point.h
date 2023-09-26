@@ -5,6 +5,12 @@
 #ifndef GAHM_POINT_H
 #define GAHM_POINT_H
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Datatypes {
 class Point {
  public:
@@ -12,8 +18,8 @@ class Point {
 
   Point(double x, double y) : m_x(x), m_y(y) {}
 
-  [[nodiscard]] double x() const { return m_x; }
-  [[nodiscard]] double y() const { return m_y; }
+  NODISCARD double x() const { return m_x; }
+  NODISCARD double y() const { return m_y; }
 
   void setX(double x) { m_x = x; }
   void setY(double y) { m_y = y; }

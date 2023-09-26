@@ -27,6 +27,12 @@
 
 #include "datatypes/Point.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Datatypes {
 
 class PointCloud {
@@ -48,9 +54,9 @@ class PointCloud {
     }
   }
 
-  [[nodiscard]] const std::vector<Point> &points() const { return m_points; }
+  NODISCARD const std::vector<Point> &points() const { return m_points; }
 
-  [[nodiscard]] std::vector<double> x() const {
+  NODISCARD std::vector<double> x() const {
     std::vector<double> x;
     x.reserve(m_points.size());
     for (const auto &point : m_points) {
@@ -59,7 +65,7 @@ class PointCloud {
     return x;
   }
 
-  [[nodiscard]] std::vector<double> y() const {
+  NODISCARD std::vector<double> y() const {
     std::vector<double> y;
     y.reserve(m_points.size());
     for (const auto &point : m_points) {
@@ -86,36 +92,37 @@ class PointCloud {
 
 #ifndef SWIG
   auto begin() { return m_points.begin(); }
-  [[nodiscard]] auto begin() const { return m_points.begin(); }
+  NODISCARD auto begin() const { return m_points.begin(); }
 
   auto end() { return m_points.end(); }
-  [[nodiscard]] auto end() const { return m_points.end(); }
+  NODISCARD auto end() const { return m_points.end(); }
 
   auto front() { return m_points.front(); }
-  [[nodiscard]] auto front() const { return m_points.front(); }
+  NODISCARD auto front() const { return m_points.front(); }
 
   auto back() { return m_points.back(); }
-  [[nodiscard]] auto back() const { return m_points.back(); }
-#endif
+  NODISCARD auto back() const { return m_points.back(); }
 
-  [[nodiscard]] size_t size() const { return m_points.size(); }
-
-  [[nodiscard]] bool empty() const { return m_points.empty(); }
-
-  [[nodiscard]] Gahm::Datatypes::Point &operator[](size_t index) {
-    return m_points[index];
-  }
-  [[nodiscard]] const Gahm::Datatypes::Point &operator[](size_t index) const {
-    return m_points[index];
-  }
-
-  [[nodiscard]] bool operator==(const Gahm::Datatypes::PointCloud &rhs) const {
+  NODISCARD bool operator==(const Gahm::Datatypes::PointCloud &rhs) const {
     return m_points == rhs.m_points;
   }
 
-  [[nodiscard]] bool operator!=(const Gahm::Datatypes::PointCloud &rhs) const {
+  NODISCARD bool operator!=(const Gahm::Datatypes::PointCloud &rhs) const {
     return !(rhs == *this);
   }
+
+  NODISCARD Gahm::Datatypes::Point &operator[](size_t index) {
+    return m_points[index];
+  }
+  NODISCARD const Gahm::Datatypes::Point &operator[](size_t index) const {
+    return m_points[index];
+  }
+
+#endif
+
+  NODISCARD size_t size() const { return m_points.size(); }
+
+  NODISCARD bool empty() const { return m_points.empty(); }
 
  private:
   std::vector<Gahm::Datatypes::Point> m_points;

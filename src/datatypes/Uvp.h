@@ -25,6 +25,12 @@
 
 #include "physical/Constants.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Datatypes {
 
 class Uvp {
@@ -35,13 +41,13 @@ class Uvp {
         m_p(Gahm::Physical::Constants::backgroundPressure()) {}
   Uvp(double u, double v, double p) : m_u(u), m_v(v), m_p(p) {}
 
-  [[nodiscard]] double u() const { return m_u; }
+  NODISCARD double u() const { return m_u; }
 
-  [[nodiscard]] double v() const { return m_v; }
+  NODISCARD double v() const { return m_v; }
 
-  [[nodiscard]] double p() const { return m_p; }
+  NODISCARD double p() const { return m_p; }
 
-  [[nodiscard]] std::tuple<double, double, double> get() const {
+  NODISCARD std::tuple<double, double, double> get() const {
     return std::make_tuple(m_u, m_v, m_p);
   }
 

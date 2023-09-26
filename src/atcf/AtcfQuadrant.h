@@ -24,6 +24,12 @@
 #include "datatypes/CircularArray.h"
 #include "physical/Constants.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Atcf {
 class AtcfQuadrant {
  public:
@@ -39,17 +45,17 @@ class AtcfQuadrant {
         m_isotach_speed_at_boundary_layer(isotach_speed_at_boundary_layer),
         m_vmax_at_boundary_layer(vmax_at_boundary_layer) {}
 
-  [[nodiscard]] double getIsotachRadius() const { return m_isotach_radius; }
-  [[nodiscard]] double getRadiusToMaxWindSpeed() const {
+  NODISCARD double getIsotachRadius() const { return m_isotach_radius; }
+  NODISCARD double getRadiusToMaxWindSpeed() const {
     return m_radius_to_max_wind_speed;
   }
-  [[nodiscard]] double getGahmHollandB() const { return m_gahm_holland_b; }
-  [[nodiscard]] double getIsotachSpeedAtBoundaryLayer() const {
+  NODISCARD double getGahmHollandB() const { return m_gahm_holland_b; }
+  NODISCARD double getIsotachSpeedAtBoundaryLayer() const {
     return m_isotach_speed_at_boundary_layer;
   }
-  [[nodiscard]] int getQuadrantIndex() const { return m_quadrant_index; }
+  NODISCARD int getQuadrantIndex() const { return m_quadrant_index; }
 
-  [[nodiscard]] double getVmaxAtBoundaryLayer() const {
+  NODISCARD double getVmaxAtBoundaryLayer() const {
     return m_vmax_at_boundary_layer;
   }
 
@@ -106,6 +112,7 @@ class AtcfQuadrant {
 };
 }  // namespace Gahm::Atcf
 
+#ifndef SWIG
 static std::ostream &operator<<(std::ostream &os,
                                 const Gahm::Atcf::AtcfQuadrant &q) {
   os << "[Quadrant]: " << q.getQuadrantIndex() << std::endl;
@@ -117,5 +124,6 @@ static std::ostream &operator<<(std::ostream &os,
      << q.getIsotachSpeedAtBoundaryLayer() << std::endl;
   return os;
 }
+#endif
 
 #endif  // GAHM_SRC_ATCF_ATCFQUADRANT_H_
