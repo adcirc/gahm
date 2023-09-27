@@ -11,6 +11,8 @@ and through a C++, Fortran, or Python interface.
 ## Project Status
 The project is under active development but is not considered production ready. 
 
+[![Testing](https://github.com/adcirc/gahm/actions/workflows/testing.yaml/badge.svg)](https://github.com/adcirc/gahm/actions/workflows/testing.yaml)
+
 ## Installation 
 The project is built using CMake. 
 
