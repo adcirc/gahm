@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695781218466,
+  "lastUpdate": 1695781420813,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -120,6 +120,36 @@ window.BENCHMARK_DATA = {
             "value": 48801890.07692282,
             "unit": "ns/iter",
             "extra": "iterations: 13\ncpu: 48796676.92307692 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "299e0571edbbf0d25186d18a90c34a97e1e3a4dd",
+          "message": "Updating python/swig",
+          "timestamp": "2023-09-26T22:21:58-04:00",
+          "tree_id": "63b65f2bee518d2643fb33ce8bc491c82a34c69a",
+          "url": "https://github.com/adcirc/gahm/commit/299e0571edbbf0d25186d18a90c34a97e1e3a4dd"
+        },
+        "date": 1695781419849,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 47629091.0000005,
+            "unit": "ns/iter",
+            "extra": "iterations: 14\ncpu: 47615735.71428572 ns\nthreads: 1"
           }
         ]
       }
