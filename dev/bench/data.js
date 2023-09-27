@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695781420813,
+  "lastUpdate": 1695793762498,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -150,6 +150,36 @@ window.BENCHMARK_DATA = {
             "value": 47629091.0000005,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 47615735.71428572 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "59dce0af3fca88708f151fe33a0a8ed72b7518e2",
+          "message": "Fixing memory issue in c/fortran interface",
+          "timestamp": "2023-09-27T01:47:23-04:00",
+          "tree_id": "1db11cb289fd8dd6fc8d2133d641277c926f575d",
+          "url": "https://github.com/adcirc/gahm/commit/59dce0af3fca88708f151fe33a0a8ed72b7518e2"
+        },
+        "date": 1695793761992,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 57512007.0909117,
+            "unit": "ns/iter",
+            "extra": "iterations: 11\ncpu: 57461436.363636374 ns\nthreads: 1"
           }
         ]
       }
