@@ -19,6 +19,28 @@ jobs:
       - name: Run Tests
         run: ctest --output-on-failure
         working-directory: ./build
+  Coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: sudo apt install -y gfortran libnetcdf-dev cmake libboost-all-dev libssl-dev
+      - name: Make directories
+        run: mkdir build
+      - name: CMake
+        run: cmake .. -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_FORTRAN=ON -DGAHM_ENABLE_COVERAGE=ON
+        working-directory: ./build
+      - name: Build
+        run: make -j
+        working-directory: ./build
+      - name: Run Tests
+        run: ctest --output-on-failure
+        working-directory: ./build
+      - uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          flags: unittests
   Benchmark:
     runs-on: ubuntu-latest
     steps:
