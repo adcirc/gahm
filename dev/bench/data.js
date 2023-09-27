@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695795384694,
+  "lastUpdate": 1695818230409,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -330,6 +330,36 @@ window.BENCHMARK_DATA = {
             "value": 64663204.69999971,
             "unit": "ns/iter",
             "extra": "iterations: 10\ncpu: 64647770 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "c06ea578d95be2ba32ca29649def63be063d974d",
+          "message": "Adding coverage metrics",
+          "timestamp": "2023-09-27T08:35:18-04:00",
+          "tree_id": "b4a15fb20585329072f8e401f642a4701f8a3ebe",
+          "url": "https://github.com/adcirc/gahm/commit/c06ea578d95be2ba32ca29649def63be063d974d"
+        },
+        "date": 1695818229827,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 48859493.38461488,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 48775561.53846155 ns\nthreads: 1"
           }
         ]
       }
