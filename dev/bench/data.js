@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695793762498,
+  "lastUpdate": 1695794179354,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -180,6 +180,36 @@ window.BENCHMARK_DATA = {
             "value": 57512007.0909117,
             "unit": "ns/iter",
             "extra": "iterations: 11\ncpu: 57461436.363636374 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "5ec7f2fbebf21ce22322092ca3216e7c581be837",
+          "message": "Removing stray source files",
+          "timestamp": "2023-09-27T01:54:19-04:00",
+          "tree_id": "a52988a3119897ac7ff9eac3cf403de9df2c542b",
+          "url": "https://github.com/adcirc/gahm/commit/5ec7f2fbebf21ce22322092ca3216e7c581be837"
+        },
+        "date": 1695794178569,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 49030123.5384611,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 48907223.07692309 ns\nthreads: 1"
           }
         ]
       }
