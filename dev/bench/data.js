@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695818470325,
+  "lastUpdate": 1695819482921,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -390,6 +390,36 @@ window.BENCHMARK_DATA = {
             "value": 49067371.9999994,
             "unit": "ns/iter",
             "extra": "iterations: 13\ncpu: 48929438.46153847 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "e86cecddd7ab37ebb4e572e6cfab8049fd8ad687",
+          "message": "Adding gcov",
+          "timestamp": "2023-09-27T08:56:19-04:00",
+          "tree_id": "1e05bdf1d444afdbe2b5746624c7b1e9c3688800",
+          "url": "https://github.com/adcirc/gahm/commit/e86cecddd7ab37ebb4e572e6cfab8049fd8ad687"
+        },
+        "date": 1695819481805,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 48511994.35714193,
+            "unit": "ns/iter",
+            "extra": "iterations: 14\ncpu: 48339721.42857144 ns\nthreads: 1"
           }
         ]
       }
