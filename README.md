@@ -12,6 +12,7 @@ and through a C++, Fortran, or Python interface.
 The project is under active development but is not considered production ready. 
 
 [![Testing](https://github.com/adcirc/gahm/actions/workflows/testing.yaml/badge.svg)](https://github.com/adcirc/gahm/actions/workflows/testing.yaml)
+[![codecov](https://codecov.io/gh/adcirc/gahm/graph/badge.svg?token=4hphc6xaqj)](https://codecov.io/gh/adcirc/gahm)
 
 ## Installation 
 The project is built using CMake. 
