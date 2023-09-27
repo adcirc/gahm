@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695826674865,
+  "lastUpdate": 1695828181701,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -720,6 +720,36 @@ window.BENCHMARK_DATA = {
             "value": 48312403.71428537,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 48301635.71428572 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "85a20271a9ab902b75b2e1e8a4ad923a15b0132a",
+          "message": "Codacy badge and small changes from Codacy",
+          "timestamp": "2023-09-27T11:20:20-04:00",
+          "tree_id": "d1a87c848b940d54074079aa24f1574677bc1778",
+          "url": "https://github.com/adcirc/gahm/commit/85a20271a9ab902b75b2e1e8a4ad923a15b0132a"
+        },
+        "date": 1695828181078,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 49539230.92307596,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 49399700 ns\nthreads: 1"
           }
         ]
       }
