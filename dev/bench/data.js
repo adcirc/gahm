@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695778087899,
+  "lastUpdate": 1695780596767,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -30,6 +30,36 @@ window.BENCHMARK_DATA = {
             "value": 48803051.307693034,
             "unit": "ns/iter",
             "extra": "iterations: 13\ncpu: 48768515.384615384 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "4d49152c66da549a66cabb3cc6e77810be697959",
+          "message": "Additional SWIG treatments for [[nodiscard]]",
+          "timestamp": "2023-09-26T22:08:16-04:00",
+          "tree_id": "b30a75cf1a3e54d21a80b15691ba388da92004c8",
+          "url": "https://github.com/adcirc/gahm/commit/4d49152c66da549a66cabb3cc6e77810be697959"
+        },
+        "date": 1695780596082,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 48437840.84615357,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 48404246.15384615 ns\nthreads: 1"
           }
         ]
       }
