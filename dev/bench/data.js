@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695828181701,
+  "lastUpdate": 1695831783985,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -750,6 +750,36 @@ window.BENCHMARK_DATA = {
             "value": 49539230.92307596,
             "unit": "ns/iter",
             "extra": "iterations: 13\ncpu: 49399700 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "5898b9abd7324ba33e24005161157e28d86108b4",
+          "message": "Updating python ex1",
+          "timestamp": "2023-09-27T12:20:02-04:00",
+          "tree_id": "bd090137e323a28a77c4548aa175082c80c495ce",
+          "url": "https://github.com/adcirc/gahm/commit/5898b9abd7324ba33e24005161157e28d86108b4"
+        },
+        "date": 1695831782852,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 58730882.36363732,
+            "unit": "ns/iter",
+            "extra": "iterations: 11\ncpu: 58513145.45454545 ns\nthreads: 1"
           }
         ]
       }
