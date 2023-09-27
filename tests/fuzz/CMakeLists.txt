@@ -12,9 +12,12 @@ foreach(test ${FuzzList})
   add_test(NAME ${test_name} COMMAND ${test_name}
                                      -max_total_time=${FUZZ_RUNTIME})
   target_include_directories(${test_name}
-                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../src)
-  include_directories(
-    SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
+                             PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../src
+  )
+  include_directories(${test_name} SYSTEM
+                             ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include
+                             ${Boost_INCLUDE_DIRS}
+  )
   target_link_libraries(
     ${test_name} PRIVATE gahm project_options project_warnings -coverage
                          -fsanitize=fuzzer,undefined,address)

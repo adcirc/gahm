@@ -102,7 +102,7 @@ add_subdirectory(src)
 # ##############################################################################
 
 # ##############################################################################
-# Tests
+# Tests (Unit, Fuzz, Benchmarks)
 # ##############################################################################
 option(GAHM_ENABLE_TESTS "Build tests" OFF)
 if(GAHM_ENABLE_TESTS)
@@ -114,18 +114,15 @@ if(GAHM_ENABLE_TESTS)
     option(GAHM_ENABLE_FUZZ "Build Fuzzing" OFF)
     if(GAHM_ENABLE_FUZZ)
       message(STATUS "Building Fuzz tests")
-      add_subdirectory(fuzz)
+      add_subdirectory(tests/fuzz)
     endif()
   endif()
-endif()
-# ##############################################################################
 
-# ##############################################################################
-# Benchmark
-# ##############################################################################
-option(GAHM_ENABLE_BENCHMARKS "Build benchmarks" OFF)
-if(GAHM_ENABLE_BENCHMARKS)
-  message(STATUS "GAHM benchmarks enabled")
-  add_subdirectory(benchmark)
+  option(GAHM_ENABLE_BENCHMARKS "Build benchmarks" OFF)
+  if(GAHM_ENABLE_BENCHMARKS)
+    message(STATUS "GAHM benchmarks enabled")
+    add_subdirectory(tests/benchmark)
+  endif()
+
 endif()
 # ##############################################################################

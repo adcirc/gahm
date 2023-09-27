@@ -51,13 +51,13 @@ jobs:
       - name: Make directories
         run: mkdir build
       - name: CMake
-        run: cmake .. -DCMAKE_CXX_COMPILER=clang++ -DGAHM_ENABLE_BENCHMARKS=ON; cmake ..
+        run: cmake .. -DCMAKE_CXX_COMPILER=clang++ -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_BENCHMARKS=ON; cmake ..
         working-directory: ./build
       - name: Build
         run: make -j
         working-directory: ./build
       - name: Run Benchmark
-        run: ./benchmark/gahm_benchmark --benchmark_out_format=json --benchmark_out=benchmark.json
+        run: ./tests/benchmark/gahm_benchmark --benchmark_out_format=json --benchmark_out=benchmark.json
         working-directory: ./build
       - name: Store Benchmark Results
         uses: benchmark-action/github-action-benchmark@v1
