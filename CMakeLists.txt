@@ -15,7 +15,7 @@ project(gahm CXX)
 enable_language(Fortran)
 
 # Warnings, Sanitizers, etc
-add_library(project_options INTERFACE tests/cxx_tests/TEST_Vortex.cpp benchmark/gahm_benchmark.cpp)
+add_library(project_options INTERFACE)
 add_library(project_warnings INTERFACE)
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/PreventInSourceBuilds.cmake)
