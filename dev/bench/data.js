@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695795186146,
+  "lastUpdate": 1695795384694,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -300,6 +300,36 @@ window.BENCHMARK_DATA = {
             "value": 62586789.99999874,
             "unit": "ns/iter",
             "extra": "iterations: 11\ncpu: 62579554.545454554 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@users.noreply.github.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "bb11e07fc364bc2d90ba140dd5068a44563c55dd",
+          "message": "Update README.md\n\nAdding status badge",
+          "timestamp": "2023-09-27T02:13:54-04:00",
+          "tree_id": "6a725abac053f875b77bab32210444ad27f8a4e9",
+          "url": "https://github.com/adcirc/gahm/commit/bb11e07fc364bc2d90ba140dd5068a44563c55dd"
+        },
+        "date": 1695795383590,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 64663204.69999971,
+            "unit": "ns/iter",
+            "extra": "iterations: 10\ncpu: 64647770 ns\nthreads: 1"
           }
         ]
       }
