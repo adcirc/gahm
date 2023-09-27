@@ -18,6 +18,35 @@ def get(gahm_vortex, time: datetime, plot_type="pressure"):
     elif plot_type == "wind":
         u = np.array(solution.u())
         v = np.array(solution.v())
+        mag = np.sqrt(u**2 + v**2)
+
+        # ...Check if nans in u
+        if np.isnan(u).any():
+            # ...Print the nans and their adjacent values
+            for i in range(len(u)):
+                if np.isnan(u[i]):
+                    print(
+                        "u nan at {:d}: {:f}, {:f}, {:f}".format(
+                            i, u[i - 1], u[i], u[i + 1]
+                        )
+                    )
+            raise ValueError("NaNs found in u")
+
+        # ...Check if nans in v
+        if np.isnan(v).any():
+            # ...Print the nans and their adjacent values
+            for i in range(len(v)):
+                if np.isnan(v[i]):
+                    print(
+                        "v nan at {:d}: {:f}, {:f}, {:f}".format(
+                            i, v[i - 1], v[i], v[i + 1]
+                        )
+                    )
+            raise ValueError("NaNs found in v")
+
+        # ...Check if there are nans
+        if np.isnan(mag).any():
+            raise ValueError("NaNs found in wind speed")
 
         return np.sqrt(u**2 + v**2)
 
@@ -98,9 +127,6 @@ def main():
                 )
             )
 
-            ax.set_xlabel("Longitude")
-            ax.set_ylabel("Latitude")
-
             m = Basemap(
                 projection="merc",
                 llcrnrlon=-100.0,
@@ -129,6 +155,10 @@ def main():
             )
             s["plot"] = cs
             m.drawcoastlines()
+            m.drawparallels(np.arange(10, 50, 5), labels=[1, 0, 0, 0])
+            m.drawmeridians(np.arange(-120, -40, 5), labels=[0, 0, 0, 1])
+            fig.subplots_adjust(hspace=0.1)
+            fig.subplots_adjust(wspace=0.1)
 
         def update(val):
             """

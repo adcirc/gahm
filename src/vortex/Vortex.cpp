@@ -112,7 +112,16 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
   Datatypes::VortexSolution solution;
   solution.reserve(m_points.size());
 
+  //...We won't solve for points that are within 1 km of the storm center
+  constexpr double min_distance = 1.0;
+
   for (const auto &point : point_data) {
+    //...Check for the case where the point is at the center of the storm
+    if (point.distance == min_distance) {
+      solution.push_back({0.0, 0.0, central_pressure});
+      continue;
+    }
+
     //...Interpolate parameter packs in space at two time points
     auto p0 = Vortex::getParameterPack(point.p0, *time_it);
     auto p1 = Vortex::getParameterPack(point.p1, *time_it_next);
