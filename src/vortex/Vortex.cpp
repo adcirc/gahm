@@ -117,7 +117,7 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
 
   for (const auto &point : point_data) {
     //...Check for the case where the point is at the center of the storm
-    if (point.distance == min_distance) {
+    if (point.distance <= min_distance) {
       solution.push_back({0.0, 0.0, central_pressure});
       continue;
     }
@@ -149,8 +149,8 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     auto speed_over_vmax = wind_speed / pack.vmax_at_boundary_layer;
     auto tsx = speed_over_vmax * current_storm_translation.transitSpeedU();
     auto tsy = speed_over_vmax * current_storm_translation.transitSpeedV();
-    auto u = wind_speed * std::cos(point.azimuth);
-    auto v = -wind_speed * std::sin(point.azimuth);
+    auto u = -wind_speed * std::cos(point.azimuth);
+    auto v = wind_speed * std::sin(point.azimuth);
     auto [uf, vf] = Vortex::rotate_winds(
         u, v,
         Vortex::friction_angle(point.distance, pack.radius_to_max_wind_true),

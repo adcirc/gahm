@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
 from datetime import datetime
+from typing import Tuple
 import numpy as np
 import pygahm
 
 
-def get(gahm_vortex, time: datetime, plot_type="pressure"):
+def get_scalar(gahm_vortex, time: datetime, plot_type="pressure"):
     """
     Get the pressure or wind speed at a given time and
     return as a numpy array
@@ -49,6 +50,14 @@ def get(gahm_vortex, time: datetime, plot_type="pressure"):
             raise ValueError("NaNs found in wind speed")
 
         return np.sqrt(u**2 + v**2)
+
+
+def get_vector(gahm_vortex, time: datetime) -> Tuple[np.ndarray, np.ndarray]:
+    time_c = pygahm.Date(time.year, time.month, time.day, time.hour)
+    solution = gahm_vortex.solve(time_c)
+    u = np.array(solution.u())
+    v = np.array(solution.v())
+    return u, v
 
 
 def main():
@@ -137,7 +146,7 @@ def main():
                 ax=ax,
             )
 
-            arr = get(vortex, time, plot_type=args.type)
+            arr = get_scalar(vortex, time, plot_type=args.type)
             arr = arr.reshape((x_points.shape[0], x_points.shape[1]))
 
             if args.type == "pressure":
@@ -195,8 +204,13 @@ def main():
             resolution="i",
             ax=ax,
         )
-        arr = get(vortex, time, plot_type=args.type)
+        arr = get_scalar(vortex, time, plot_type=args.type)
+        u_vec, v_vec = get_vector(vortex, time)
+
         arr = arr.reshape((x_points.shape[0], x_points.shape[1]))
+        u_vec = u_vec.reshape((x_points.shape[0], x_points.shape[1]))
+        v_vec = v_vec.reshape((x_points.shape[0], x_points.shape[1]))
+
         if args.type == "pressure":
             contour_range = np.arange(900, 1020, 5)
         else:
@@ -210,6 +224,16 @@ def main():
             latlon=True,
         )
         m.drawcoastlines()
+
+        # ...Plot using quivers, but coarsen the grid
+        coarsen_factor = 5
+        scale_factor = 2000
+        x_p = x_points[::coarsen_factor, ::coarsen_factor]
+        y_p = y_points[::coarsen_factor, ::coarsen_factor]
+        u_vec = u_vec[::coarsen_factor, ::coarsen_factor]
+        v_vec = v_vec[::coarsen_factor, ::coarsen_factor]
+        m.quiver(x_p, y_p, u_vec, v_vec, latlon=True, scale=scale_factor,width=0.001)
+
         m.drawparallels(np.arange(10, 50, 5), labels=[1, 0, 0, 0])
         m.drawmeridians(np.arange(-120, -40, 5), labels=[0, 0, 0, 1])
 
