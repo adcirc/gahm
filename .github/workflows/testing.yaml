@@ -1,4 +1,4 @@
-name: GAHM Testing and Benchmarking
+name: Testing
 on:
   push:
 jobs:
