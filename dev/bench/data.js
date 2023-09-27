@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695822434346,
+  "lastUpdate": 1695824278342,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -570,6 +570,36 @@ window.BENCHMARK_DATA = {
             "value": 58608777.909091204,
             "unit": "ns/iter",
             "extra": "iterations: 11\ncpu: 58590672.72727274 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "71a891abd8950d41c7d1cad3fe9470137098df5a",
+          "message": "Adding sample katrina graphic",
+          "timestamp": "2023-09-27T10:14:59-04:00",
+          "tree_id": "92c99405755de52cc644f436bcf0830908151677",
+          "url": "https://github.com/adcirc/gahm/commit/71a891abd8950d41c7d1cad3fe9470137098df5a"
+        },
+        "date": 1695824277415,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 65782861.90908887,
+            "unit": "ns/iter",
+            "extra": "iterations: 11\ncpu: 62931018.181818195 ns\nthreads: 1"
           }
         ]
       }
