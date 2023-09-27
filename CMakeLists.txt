@@ -80,15 +80,15 @@ add_subdirectory(src)
 # ##############################################################################
 # Tests
 # ##############################################################################
-option(GAHM_BUILD_TESTS "Build tests" OFF)
-if(GAHM_BUILD_TESTS)
+option(GAHM_ENABLE_TESTS "Build tests" OFF)
+if(GAHM_ENABLE_TESTS)
   message(STATUS "GAHM tests enabled")
   enable_testing()
   add_subdirectory(tests)
 
   if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    option(GAHM_FUZZ "Build Fuzzing" OFF)
-    if(GAHM_FUZZ)
+    option(GAHM_ENABLE_FUZZ "Build Fuzzing" OFF)
+    if(GAHM_ENABLE_FUZZ)
       message(STATUS "Building Fuzz tests")
       add_subdirectory(fuzz)
     endif()
@@ -99,8 +99,8 @@ endif()
 # ##############################################################################
 # Benchmark
 # ##############################################################################
-option(GAHM_BUILD_BENCHMARKS "Build benchmarks" OFF)
-if(GAHM_BUILD_BENCHMARKS)
+option(GAHM_ENABLE_BENCHMARKS "Build benchmarks" OFF)
+if(GAHM_ENABLE_BENCHMARKS)
   message(STATUS "GAHM benchmarks enabled")
   add_subdirectory(benchmark)
 endif()
