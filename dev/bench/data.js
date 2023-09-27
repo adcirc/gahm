@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695819482921,
+  "lastUpdate": 1695819781512,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -420,6 +420,36 @@ window.BENCHMARK_DATA = {
             "value": 48511994.35714193,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 48339721.42857144 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "c6bc9997cd1b494b931bd0134189ad59b20faada",
+          "message": "Adding codecov config",
+          "timestamp": "2023-09-27T09:00:47-04:00",
+          "tree_id": "254c9e64809b86c7be0ce93c05f6f8a4ceaa70a7",
+          "url": "https://github.com/adcirc/gahm/commit/c6bc9997cd1b494b931bd0134189ad59b20faada"
+        },
+        "date": 1695819780521,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 65302902.875000514,
+            "unit": "ns/iter",
+            "extra": "iterations: 8\ncpu: 65287700.00000001 ns\nthreads: 1"
           }
         ]
       }
