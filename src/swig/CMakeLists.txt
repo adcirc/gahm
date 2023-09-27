@@ -1,6 +1,8 @@
 
 find_package(SWIG REQUIRED)
 find_package(Python3 COMPONENTS Interpreter Development REQUIRED)
+message(STATUS "Python3_INCLUDE_DIR: ${Python3_INCLUDE_DIRS}")
+message(STATUS "Python3_LIBRARIES: ${Python3_LIBRARIES}")
 
 if(SWIG_FOUND AND Python3_FOUND)
 
@@ -9,14 +11,14 @@ if(SWIG_FOUND AND Python3_FOUND)
             COMMAND
             ${SWIG_EXECUTABLE} -outdir ${CMAKE_CURRENT_BINARY_DIR} -c++ -python
             -I${CMAKE_CURRENT_SOURCE_DIR}/..
-            -I${Python3_INCLUDE_DIR}
+            -I${Python3_INCLUDE_DIRS}
             -o ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
             ${CMAKE_CURRENT_SOURCE_DIR}/gahm.i
             WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
             COMMENT "Generating SWIG interface to Python...")
     
     add_library(pygahm SHARED ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx)
-    target_include_directories(pygahm PRIVATE ${Python3_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/..)
+    target_include_directories(pygahm PRIVATE ${Python3_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/..)
     target_link_libraries(pygahm gahm_static)
 
     if(APPLE)
