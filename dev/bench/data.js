@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695833382509,
+  "lastUpdate": 1695833814016,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -810,6 +810,36 @@ window.BENCHMARK_DATA = {
             "value": 48272117.642856725,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 47958971.42857144 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "dedcff174b2c39991b7d167e3a0c7574f2c7c751",
+          "message": "Adding the python interface test",
+          "timestamp": "2023-09-27T12:53:18-04:00",
+          "tree_id": "33bc3085bc6eaa83cd08c31995e8ef1a5617ca5a",
+          "url": "https://github.com/adcirc/gahm/commit/dedcff174b2c39991b7d167e3a0c7574f2c7c751"
+        },
+        "date": 1695833813187,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 54028338.91666603,
+            "unit": "ns/iter",
+            "extra": "iterations: 12\ncpu: 53031250 ns\nthreads: 1"
           }
         ]
       }
