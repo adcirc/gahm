@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695818230409,
+  "lastUpdate": 1695818470325,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -360,6 +360,36 @@ window.BENCHMARK_DATA = {
             "value": 48859493.38461488,
             "unit": "ns/iter",
             "extra": "iterations: 13\ncpu: 48775561.53846155 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "a84c78abc43ac6db640ca5dbd4630dcb47f3fb60",
+          "message": "Updating array initializations in CircularArray test",
+          "timestamp": "2023-09-27T08:39:28-04:00",
+          "tree_id": "25becf08a4dfbf53231bc1971e0e27674e02344f",
+          "url": "https://github.com/adcirc/gahm/commit/a84c78abc43ac6db640ca5dbd4630dcb47f3fb60"
+        },
+        "date": 1695818469608,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 49067371.9999994,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 48929438.46153847 ns\nthreads: 1"
           }
         ]
       }
