@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695834747791,
+  "lastUpdate": 1695848368484,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -960,6 +960,36 @@ window.BENCHMARK_DATA = {
             "value": 48763316.07142756,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 48639450.00000001 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "62a9117a521ff87f10e62a919ce205b21a69e443",
+          "message": "Fixing vector rotation issue",
+          "timestamp": "2023-09-27T16:56:48-04:00",
+          "tree_id": "19ac40056306a964c1dadd94e759f887315da0ab",
+          "url": "https://github.com/adcirc/gahm/commit/62a9117a521ff87f10e62a919ce205b21a69e443"
+        },
+        "date": 1695848367506,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 47971976.285716824,
+            "unit": "ns/iter",
+            "extra": "iterations: 14\ncpu: 47930157.14285714 ns\nthreads: 1"
           }
         ]
       }
