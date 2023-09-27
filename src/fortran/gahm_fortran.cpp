@@ -88,20 +88,22 @@ void gahm_destroy_ftn(long id) { g_gahm_instances.erase(id); }
 void gahm_get_ftn(long id, int year, int month, int day, int hour, int minute,
                   int second, long size, double *u, double *v, double *p) {
   //...Check that the object exists before solving
-  auto vortex = g_gahm_instances[id].get();
-  if (vortex == nullptr) {
+  auto instance = g_gahm_instances[id].get();
+  if (instance == nullptr) {
     std::cerr << "[GAHM Library ERROR]: The requested vortex object is null."
               << std::endl;
     return;
   }
 
   auto d = Gahm::Datatypes::Date(year, month, day, hour, minute, second);
-  auto sln = vortex->vortex()->solve(d);
+  auto sln = instance->vortex()->solve(d);
 
   assert(sln.size() == size);
-  std::copy(sln.u().begin(), sln.u().end(), u);
-  std::copy(sln.v().begin(), sln.v().end(), v);
-  std::copy(sln.p().begin(), sln.p().end(), p);
+  for (size_t i = 0; i < size; ++i) {
+    u[i] = sln.u()[i];
+    v[i] = sln.v()[i];
+    p[i] = sln.p()[i];
+  }
 }
 
 long gahm_get_serial_date_ftn(int year, int month, int day, int hour,
