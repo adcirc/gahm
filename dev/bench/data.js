@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695794798513,
+  "lastUpdate": 1695795186146,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -270,6 +270,36 @@ window.BENCHMARK_DATA = {
             "value": 47715699.642857604,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 47564957.14285714 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@users.noreply.github.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "noreply@github.com",
+            "name": "GitHub",
+            "username": "web-flow"
+          },
+          "distinct": true,
+          "id": "95592bba2eacb85a38773af6cc1f877b8ca22fee",
+          "message": "Update testing.yaml\n\nUpdate test name",
+          "timestamp": "2023-09-27T02:10:48-04:00",
+          "tree_id": "740aa9b7598ebc519c79909c91aa72870658ed61",
+          "url": "https://github.com/adcirc/gahm/commit/95592bba2eacb85a38773af6cc1f877b8ca22fee"
+        },
+        "date": 1695795185057,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 62586789.99999874,
+            "unit": "ns/iter",
+            "extra": "iterations: 11\ncpu: 62579554.545454554 ns\nthreads: 1"
           }
         ]
       }
