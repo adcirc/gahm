@@ -22,8 +22,8 @@
 #include "datatypes/CircularArray.h"
 
 TEST_CASE("Create Array", "[CircularArray] ") {
-  Gahm::Datatypes::CircularArray<int, 10> array(
-      std::array{0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+  std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  Gahm::Datatypes::CircularArray<int, 10> array(a);
   REQUIRE(array.size() == 10);
   REQUIRE(array[0] == 0);
   REQUIRE(array[1] == 1);
@@ -37,7 +37,8 @@ TEST_CASE("Create Array", "[CircularArray] ") {
 }
 
 TEST_CASE("Create Array with initializer list", "[CircularArray] ") {
-  Gahm::Datatypes::CircularArray<int, 10> array({0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
+  std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+  Gahm::Datatypes::CircularArray<int, 10> array(a);
   REQUIRE(array.size() == 10);
   REQUIRE(array[0] == 0);
   REQUIRE(array[1] == 1);
