@@ -27,6 +27,12 @@
 
 #include "output/OutputFile.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Output {
 
 class OwiOutput : public OutputFile {
@@ -47,8 +53,7 @@ class OwiOutput : public OutputFile {
  private:
   void writeHeader(std::ofstream *file) const;
 
-  [[nodiscard]] std::string generateRecordHeader(
-      const Datatypes::Date &date) const;
+  NODISCARD std::string generateRecordHeader(const Datatypes::Date &date) const;
 
   static std::string formatHeaderCoordinates(double value);
 

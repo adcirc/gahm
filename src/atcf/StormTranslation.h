@@ -26,6 +26,12 @@
 #include "physical/Constants.h"
 #include "util/Interpolation.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Atcf {
 
 class StormTranslation {
@@ -41,15 +47,13 @@ class StormTranslation {
     this->computeDefaultTranslationComponents();
   }
 
-  [[nodiscard]] double translationSpeed() const {
-    return m_raw_translation_speed;
-  }
+  NODISCARD double translationSpeed() const { return m_raw_translation_speed; }
 
   void setTranslationSpeed(double translation_speed) {
     m_raw_translation_speed = translation_speed;
   }
 
-  [[nodiscard]] double translationDirection() const {
+  NODISCARD double translationDirection() const {
     return m_raw_translation_direction;
   }
 
@@ -57,11 +61,11 @@ class StormTranslation {
     m_raw_translation_direction = translation_direction;
   }
 
-  [[nodiscard]] double transitSpeed() const { return m_transit_speed; }
+  NODISCARD double transitSpeed() const { return m_transit_speed; }
 
-  [[nodiscard]] double transitSpeedU() const { return m_transit_speed_u; }
+  NODISCARD double transitSpeedU() const { return m_transit_speed_u; }
 
-  [[nodiscard]] double transitSpeedV() const { return m_transit_speed_v; }
+  NODISCARD double transitSpeedV() const { return m_transit_speed_v; }
 
   void setRelativeTransitComponents(const double transitSpeed,
                                     const double transitSpeedU,

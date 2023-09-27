@@ -29,6 +29,12 @@
 #include "datatypes/VortexSolution.h"
 #include "datatypes/WindGrid.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Output {
 
 class OutputFile {
@@ -50,16 +56,14 @@ class OutputFile {
   virtual void write(const Datatypes::Date &date,
                      Gahm::Datatypes::VortexSolution &solution) = 0;
 
-  [[nodiscard]] std::string filename() const { return m_filename; }
+  NODISCARD std::string filename() const { return m_filename; }
 
-  [[nodiscard]] const Gahm::Datatypes::WindGrid &windGrid() const {
+  NODISCARD const Gahm::Datatypes::WindGrid &windGrid() const {
     return m_wind_grid;
   }
 
-  [[nodiscard]] Gahm::Datatypes::Date start_date() const {
-    return m_start_date;
-  }
-  [[nodiscard]] Gahm::Datatypes::Date end_date() const { return m_end_date; }
+  NODISCARD Gahm::Datatypes::Date start_date() const { return m_start_date; }
+  NODISCARD Gahm::Datatypes::Date end_date() const { return m_end_date; }
 
  private:
   Datatypes::Date m_start_date;
