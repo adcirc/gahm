@@ -37,6 +37,30 @@ mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(GAHM_ENABLE_WARNINGS "Enable verbose compiler warnings" OFF)
+option(GAHM_ENABLE_COVERAGE "Enable code coverage" OFF)
+# ##############################################################################
+
+# ##############################################################################
+# Coverage
+# ##############################################################################
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+  set(GAHM_COVERAGE_COMPILE_FLAGS
+      "-g -fprofile-arcs -ftest-coverage"
+      CACHE STRING "Flags used by the C++ compiler during coverage builds."
+            FORCE)
+  set(GAHM_COVERAGE_LINK_FLAGS
+      "-fprofile-arcs"
+      CACHE STRING "Flags used by the C++ linker during coverage builds." FORCE)
+else()
+  set(GAHM_COVERAGE_COMPILE_FLAGS
+      "-g"
+      CACHE STRING "Flags used by the C++ compiler during coverage builds."
+            FORCE)
+  set(GAHM_COVERAGE_LINK_FLAGS
+      ""
+      CACHE STRING "Flags used by the C++ linker during coverage builds." FORCE)
+endif()
+mark_as_advanced(GAHM_COVERAGE_FLAGS)
 # ##############################################################################
 
 # ##############################################################################
@@ -104,3 +128,4 @@ if(GAHM_ENABLE_BENCHMARKS)
   message(STATUS "GAHM benchmarks enabled")
   add_subdirectory(benchmark)
 endif()
+# ##############################################################################
