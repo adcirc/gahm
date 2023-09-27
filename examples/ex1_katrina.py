@@ -26,9 +26,8 @@ def main():
     import argparse
     from datetime import timedelta
     import matplotlib.pyplot as plt
-    import matplotlib.tri as tri
     from mpl_toolkits.basemap import Basemap
-    from matplotlib.widgets import Slider, Button, RadioButtons
+    from matplotlib.widgets import Slider
 
     parser = argparse.ArgumentParser(
         description="Generate an interactive map of a GAHM model"

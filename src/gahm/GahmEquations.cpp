@@ -75,12 +75,12 @@ double Gahm::Solver::GahmEquations::GahmFunction(
     double radius_to_max_wind, double vmax_at_boundary_layer,
     double isotach_windspeed_at_boundary_layer, double distance,
     double coriolis_force, double gahm_holland_b) {
-  const auto phi =
+  const auto phi_local =
       GahmEquations::phi(vmax_at_boundary_layer, radius_to_max_wind,
                          gahm_holland_b, coriolis_force);
   return GahmFunction(radius_to_max_wind, vmax_at_boundary_layer,
                       isotach_windspeed_at_boundary_layer, distance,
-                      coriolis_force, gahm_holland_b, phi);
+                      coriolis_force, gahm_holland_b, phi_local);
 }
 
 /**

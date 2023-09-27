@@ -13,6 +13,7 @@ The project is under active development but is not considered production ready.
 
 [![Testing](https://github.com/adcirc/gahm/actions/workflows/testing.yaml/badge.svg)](https://github.com/adcirc/gahm/actions/workflows/testing.yaml)
 [![codecov](https://codecov.io/gh/adcirc/gahm/graph/badge.svg?token=4hphc6xaqj)](https://codecov.io/gh/adcirc/gahm)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c4da3e820daa42cf93c8ff383f8eb124)](https://app.codacy.com/gh/adcirc/gahm/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ## Example Usage
 Below is an example of the GAHM model output for Hurricane Katrina. This image was generated

@@ -303,9 +303,9 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
     return {};
   }
 
-  const auto basin = AtcfSnap::basinFromString(tokens[0]);
+  const auto snap_basin = AtcfSnap::basinFromString(tokens[0]);
   const auto storm_id = readValueCheckBlank<int>(tokens[1]);
-  const auto date = AtcfSnap::parseDate(tokens[2], tokens[5]);
+  const auto snap_date = AtcfSnap::parseDate(tokens[2], tokens[5]);
 
   const auto lat = [&]() {
     double l = stod(tokens[6].substr(0, tokens[6].size() - 1)) / 10.0;
@@ -324,9 +324,9 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
   const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
   const auto storm_name = boost::trim_copy(tokens[27]);
 
-  auto snap = AtcfSnap(basin, p_min,
+  auto snap = AtcfSnap(snap_basin, p_min,
                        Gahm::Physical::Constants::backgroundPressure() * 100.0,
-                       r_max, v_max, v_max, date, storm_id, storm_name);
+                       r_max, v_max, v_max, snap_date, storm_id, storm_name);
   snap.setPosition({lon, lat});
 
   auto isotach = AtcfSnap::parseIsotach(tokens);
@@ -355,12 +355,12 @@ AtcfIsotach AtcfSnap::parseIsotach(const std::vector<std::string>& tokens) {
     const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
     return {v_max, {r_max, r_max, r_max, r_max}};
   } else {
-    const std::array<double, 4> radii = {
+    const std::array<double, 4> isotach_radii = {
         readValueCheckBlank<double>(tokens[13]) * nmi2m,
         readValueCheckBlank<double>(tokens[14]) * nmi2m,
         readValueCheckBlank<double>(tokens[15]) * nmi2m,
         readValueCheckBlank<double>(tokens[16]) * nmi2m};
-    return {isotach_wind_speed, radii};
+    return {isotach_wind_speed, isotach_radii};
   }
 }
 
@@ -372,11 +372,11 @@ AtcfIsotach AtcfSnap::parseIsotach(const std::vector<std::string>& tokens) {
  */
 Gahm::Datatypes::Date AtcfSnap::parseDate(const std::string& date_str,
                                           const std::string& tau_str) {
-  auto date =
+  auto base_date =
       Gahm::Datatypes::Date::fromString(boost::trim_copy(date_str), "%Y%m%d%H");
   const auto tau = Gahm::detail::Utilities::readValueCheckBlank<int>(tau_str);
-  date.addHours(tau);
-  return date;
+  base_date.addHours(tau);
+  return base_date;
 }
 
 /*
@@ -449,8 +449,8 @@ std::string AtcfSnap::to_string(size_t cycle,
       Gahm::Physical::Units::Meter, Gahm::Physical::Units::NauticalMile);
 
   auto isotach = m_isotachs[isotach_index];
-  auto date = m_date.toString("%Y%m%d%H");
-  auto basin = AtcfSnap::basinToString(m_basin);
+  auto snap_date = m_date.toString("%Y%m%d%H");
+  auto snap_basin = AtcfSnap::basinToString(m_basin);
   auto lat = fmt::format(
       "{:3d}", static_cast<int>(std::floor(std::abs(m_position.y() * 10.0))));
   if (m_position.y() <= 0.0) {
@@ -465,7 +465,7 @@ std::string AtcfSnap::to_string(size_t cycle,
   } else {
     lon = fmt::format("{}E", lon);
   }
-  auto vmax =
+  auto snap_vmax =
       fmt::format("{:3d}", static_cast<int>(std::round(m_vmax * ms2kt)));
   auto mslp = fmt::format(
       "{:4d}", static_cast<int>(std::round(m_central_pressure / 100.0)));
@@ -524,8 +524,8 @@ std::string AtcfSnap::to_string(size_t cycle,
           ",{:>3s},{:>4s},{:>12s},{:>4d},{:>5d},{:>2d},{:>2d},{:>2d},{:>2d},{:>"
           "9s},{:>7s},{:>7s},{:>7s},{:>10s},{:>9s},{:>9s},{:>9s},{:>9s},{:>9s},"
           "{:>9s},{:>9s},{:>9s}"),
-      basin, m_storm_id, date, forecast_hour, lat, lon, vmax, mslp,
-      isotach_wind_speed, std::string("NEQ"), isotach_radius_0,
+      snap_basin, m_storm_id, snap_date, forecast_hour, lat, lon, snap_vmax,
+      mslp, isotach_wind_speed, std::string("NEQ"), isotach_radius_0,
       isotach_radius_1, isotach_radius_2, isotach_radius_3, prbk, rmax, heading,
       speed, m_storm_name, cycle, numberOfIsotachs(), 1, 1, 1, 1, rmx0, rmx1,
       rmx2, rmx3, b, bg0, bg1, bg2, bg3, vmbl0, vmbl1, vmbl2, vmbl3);
