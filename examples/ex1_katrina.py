@@ -41,6 +41,7 @@ def main():
     )
     parser.add_argument("--interactive", action="store_true", help="Interactive mode")
     parser.add_argument("--output", type=str, help="Base name for output images")
+    parser.add_argument("--time", type=datetime.fromisoformat, help="Time to plot")
     parser.add_argument("file", type=str, help="ATCF file to plot")
     args = parser.parse_args()
 
@@ -64,40 +65,99 @@ def main():
     start_date = datetime(2005, 8, 24, 0)
     end_date = datetime(2005, 8, 30, 12)
 
-    # ...Create a numpy array of dates in 1 hour increments
-    dates = np.arange(start_date, end_date, timedelta(hours=1)).astype(datetime)
+    def interactive():
+        # ...Create a numpy array of dates in 1 hour increments
+        dates = np.arange(start_date, end_date, timedelta(hours=1)).astype(datetime)
 
-    # ...Create a basemap figure
-    fig = plt.figure(figsize=(12, 8))
+        # ...Create a basemap figure
+        fig = plt.figure(figsize=(12, 8))
 
-    # ...Make the map
-    ax = fig.add_subplot(111)
+        # ...Make the map
+        ax = fig.add_subplot(111)
 
-    # ...Make the slider
-    slider_ax = fig.add_axes([0.25, 0.05, 0.65, 0.03])
-    slider = Slider(
-        ax=slider_ax,
-        label="Time (hours)",
-        valmin=0,
-        valmax=len(dates) - 1,
-        valinit=0,
-        valstep=1,
-    )
+        # ...Make the slider
+        slider_ax = fig.add_axes([0.25, 0.05, 0.65, 0.03])
+        slider = Slider(
+            ax=slider_ax,
+            label="Time (hours)",
+            valmin=0,
+            valmax=len(dates) - 1,
+            valinit=0,
+            valstep=1,
+        )
 
-    s = {}
+        s = {}
 
-    def plot(time: datetime):
+        def plot(time: datetime):
 
-        # ...Clear the plot if its been used previously
-        ax.clear()
+            # ...Clear the plot if its been used previously
+            ax.clear()
 
+            ax.set_title(
+                "Hurricane Katrina (2005) - {:s}".format(
+                    time.strftime("%Y-%m-%d %H:%M:%S")
+                )
+            )
+
+            ax.set_xlabel("Longitude")
+            ax.set_ylabel("Latitude")
+
+            m = Basemap(
+                projection="merc",
+                llcrnrlon=-100.0,
+                llcrnrlat=22.0,
+                urcrnrlon=-60.0,
+                urcrnrlat=40.0,
+                resolution="i",
+                ax=ax,
+            )
+
+            arr = get(vortex, time, plot_type=args.type)
+            arr = arr.reshape((x_points.shape[0], x_points.shape[1]))
+
+            if args.type == "pressure":
+                contour_range = np.arange(900, 1020, 5)
+            else:
+                contour_range = np.arange(0, 80, 5)
+
+            cs = m.contourf(
+                x_points,
+                y_points,
+                arr,
+                cmap="jet",
+                levels=contour_range,
+                latlon=True,
+            )
+            s["plot"] = cs
+            m.drawcoastlines()
+
+        def update(val):
+            """
+            Update the contour plot
+            """
+            plot(dates[int(val)])
+            fig.canvas.draw_idle()
+
+        slider.on_changed(update)
+        plot(start_date)
+
+        # ...Make the colorbar
+        cbar = fig.colorbar(s["plot"], ax=ax, orientation="horizontal")
+        if args.type == "pressure":
+            cbar.set_label("Pressure (mb)")
+        else:
+            cbar.set_label("Wind Speed (m/s)")
+
+        plt.show()
+
+    def static_graphics(time: datetime):
+        fig = plt.figure(figsize=(12, 8))
+        ax = fig.add_subplot(111)
         ax.set_title(
             "Hurricane Katrina (2005) - {:s}".format(time.strftime("%Y-%m-%d %H:%M:%S"))
         )
-
         ax.set_xlabel("Longitude")
         ax.set_ylabel("Latitude")
-
         m = Basemap(
             projection="merc",
             llcrnrlon=-100.0,
@@ -107,15 +167,12 @@ def main():
             resolution="i",
             ax=ax,
         )
-
         arr = get(vortex, time, plot_type=args.type)
         arr = arr.reshape((x_points.shape[0], x_points.shape[1]))
-
         if args.type == "pressure":
             contour_range = np.arange(900, 1020, 5)
         else:
             contour_range = np.arange(0, 80, 5)
-
         cs = m.contourf(
             x_points,
             y_points,
@@ -124,27 +181,20 @@ def main():
             levels=contour_range,
             latlon=True,
         )
-        s["plot"] = cs
         m.drawcoastlines()
+        cbar = fig.colorbar(cs, ax=ax, orientation="horizontal")
+        if args.type == "pressure":
+            cbar.set_label("Pressure (mb)")
+        else:
+            cbar.set_label("Wind Speed (m/s)")
+        plt.savefig(args.output, dpi=300)
 
-    def update(val):
-        """
-        Update the contour plot
-        """
-        plot(dates[int(val)])
-        fig.canvas.draw_idle()
-
-    slider.on_changed(update)
-    plot(start_date)
-
-    # ...Make the colorbar
-    cbar = fig.colorbar(s["plot"], ax=ax, orientation="horizontal")
-    if args.type == "pressure":
-        cbar.set_label("Pressure (mb)")
+    if args.interactive:
+        interactive()
     else:
-        cbar.set_label("Wind Speed (m/s)")
-
-    plt.show()
+        if not args.time:
+            raise ValueError("Must specify a time for static graphics")
+        static_graphics(args.time)
 
 
 if __name__ == "__main__":
