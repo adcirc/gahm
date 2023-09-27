@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695831783985,
+  "lastUpdate": 1695833382509,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -780,6 +780,36 @@ window.BENCHMARK_DATA = {
             "value": 58730882.36363732,
             "unit": "ns/iter",
             "extra": "iterations: 11\ncpu: 58513145.45454545 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "5410454a966c4f5dc18aee60a61b2968bb15cfd7",
+          "message": "Checking for points within 1km of the storm center\n\nUsing a wind speed of 0 and minimum central pressure",
+          "timestamp": "2023-09-27T12:46:23-04:00",
+          "tree_id": "3c3c3a43953881af6152629af59db66111ea366d",
+          "url": "https://github.com/adcirc/gahm/commit/5410454a966c4f5dc18aee60a61b2968bb15cfd7"
+        },
+        "date": 1695833381426,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 48272117.642856725,
+            "unit": "ns/iter",
+            "extra": "iterations: 14\ncpu: 47958971.42857144 ns\nthreads: 1"
           }
         ]
       }
