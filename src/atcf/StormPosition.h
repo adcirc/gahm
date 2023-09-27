@@ -24,6 +24,12 @@
 #include "datatypes/Point.h"
 #include "util/Interpolation.h"
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Atcf {
 
 class StormPosition {
@@ -32,15 +38,15 @@ class StormPosition {
 
   StormPosition(double x, double y) : m_point(x, y) {}
 
-  [[nodiscard]] double x() const { return m_point.x(); }
+  NODISCARD double x() const { return m_point.x(); }
   void setX(double x) { m_point.setX(x); }
 
-  [[nodiscard]] double y() const { return m_point.y(); }
+  NODISCARD double y() const { return m_point.y(); }
   void setY(double y) { m_point.setY(y); }
 
-  [[nodiscard]] Datatypes::Point point() const { return m_point; }
+  NODISCARD Datatypes::Point point() const { return m_point; }
 
-  [[nodiscard]] const Datatypes::Point &pointRef() const { return m_point; }
+  NODISCARD const Datatypes::Point &pointRef() const { return m_point; }
 
   static StormPosition interpolate(const StormPosition &p1,
                                    const StormPosition &p2, double t) {
