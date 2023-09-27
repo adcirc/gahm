@@ -155,8 +155,7 @@ def main():
         ax.set_title(
             "Hurricane Katrina (2005) - {:s}".format(time.strftime("%Y-%m-%d %H:%M:%S"))
         )
-        ax.set_xlabel("Longitude")
-        ax.set_ylabel("Latitude")
+
         m = Basemap(
             projection="merc",
             llcrnrlon=-100.0,
@@ -181,12 +180,15 @@ def main():
             latlon=True,
         )
         m.drawcoastlines()
+        m.drawparallels(np.arange(10, 50, 5), labels=[1, 0, 0, 0])
+        m.drawmeridians(np.arange(-120, -40, 5), labels=[0, 0, 0, 1])
+
         cbar = fig.colorbar(cs, ax=ax, orientation="horizontal")
         if args.type == "pressure":
             cbar.set_label("Pressure (mb)")
         else:
             cbar.set_label("Wind Speed (m/s)")
-        plt.savefig(args.output, dpi=300)
+        plt.savefig(args.output, dpi=300, bbox_inches="tight")
 
     if args.interactive:
         interactive()
