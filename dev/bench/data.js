@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695940834082,
+  "lastUpdate": 1695941240381,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -1350,6 +1350,36 @@ window.BENCHMARK_DATA = {
             "value": 47170928.2142874,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 47117435.714285724 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "e2d5b859697ffb8abd51015e14b59d262e4ef0ec",
+          "message": "Adding MacOS builds",
+          "timestamp": "2023-09-28T18:45:09-04:00",
+          "tree_id": "fa1db03b45f3ef205afc0da65a7a8ed83a43ce17",
+          "url": "https://github.com/adcirc/gahm/commit/e2d5b859697ffb8abd51015e14b59d262e4ef0ec"
+        },
+        "date": 1695941239876,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 49027252.538462125,
+            "unit": "ns/iter",
+            "extra": "iterations: 13\ncpu: 48943276.923076935 ns\nthreads: 1"
           }
         ]
       }
