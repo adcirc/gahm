@@ -8,6 +8,9 @@ message(STATUS "Python3_EXECUTABLE: ${Python3_EXECUTABLE}")
 message(STATUS "Python3_INCLUDE_DIRS: ${Python3_INCLUDE_DIRS}")
 message(STATUS "Python3_LIBRARIES: ${Python3_LIBRARIES}")
 message(STATUS "Python3_SITELIB: ${Python3_SITELIB}")
+message(
+  STATUS "CMAKE_LIBRARY_OUTPUT_DIRECTORY: ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+message(STATUS "CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
 
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
@@ -37,13 +40,32 @@ set_property(
   PROPERTY ADDITIONAL_MAKE_CLEAN_FILES pygahm.py
            CMakeFiles/python_gahm_wrap.cxx)
 
-add_dependencies(pygahm gahm)
+add_dependencies(pygahm gahm_static)
 
-set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
-                                        ${CMAKE_CURRENT_BINARY_DIR})
-install(TARGETS pygahm LIBRARY DESTINATION ${Python3_SITELIB})
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pygahm.py
+if(PYTHON_PACKAGE_BUILD)
+set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_INSTALL_PREFIX})
+add_custom_command(
+  TARGET pygahm
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/pygahm.py
+          ${CMAKE_INSTALL_PREFIX}/pygahm.py)
+else()
+  set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
+                                          ${Python3_SITELIB}/pygahm)
+  add_custom_command(
+    TARGET pygahm
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_BINARY_DIR}/pygahm.py
+            ${Python3_SITELIB}/pygahm/pygahm.py)
+  add_custom_command(
+    TARGET pygahm
+    POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/init_py.default
+            ${Python3_SITELIB}/pygahm/__init__.py)
+  install(TARGETS pygahm LIBRARY DESTINATION ${Python3_SITELIB})
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pygahm.py
         DESTINATION ${Python3_SITELIB})
+endif()
 
 if(APPLE)
   set_target_properties(pygahm PROPERTIES SUFFIX ".so")

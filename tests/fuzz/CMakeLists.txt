@@ -19,12 +19,12 @@ foreach(test ${FuzzList})
                              ${Boost_INCLUDE_DIRS}
   )
   target_link_libraries(
-    ${test_name} PRIVATE gahm project_options project_warnings -coverage
+    ${test_name} PRIVATE gahm_static project_options project_warnings -coverage
                          -fsanitize=fuzzer,undefined,address)
   target_compile_options(${test_name}
                          PRIVATE -fsanitize=fuzzer,undefined,address)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/fuzz)
-  add_dependencies(${test_name} gahm)
+  add_dependencies(${test_name} gahm_static)
 endforeach()

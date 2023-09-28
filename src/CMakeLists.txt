@@ -28,7 +28,12 @@ add_library(gahm_interface INTERFACE)
 add_library(gahm_objectlib OBJECT ${SOURCES})
 
 add_library(gahm_static STATIC $<TARGET_OBJECTS:gahm_objectlib>)
-add_library(gahm SHARED $<TARGET_OBJECTS:gahm_objectlib>)
+target_link_libraries(gahm_static PUBLIC gahm_interface)
+
+if(BUILD_SHARED_LIBS)
+    add_library(gahm SHARED $<TARGET_OBJECTS:gahm_objectlib>)
+    target_link_libraries(gahm PUBLIC gahm_interface)
+endif()
 
 target_include_directories(
   gahm_objectlib
@@ -43,9 +48,6 @@ endif()
 target_link_libraries(gahm_interface INTERFACE project_options)
 target_link_libraries(gahm_interface INTERFACE fmt::fmt)
 add_dependencies(gahm_interface fmt::fmt)
-
-target_link_libraries(gahm_static PUBLIC gahm_interface)
-target_link_libraries(gahm PUBLIC gahm_interface)
 
 if(GAHM_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   message(
