@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695930102713,
+  "lastUpdate": 1695930454046,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -1200,6 +1200,36 @@ window.BENCHMARK_DATA = {
             "value": 47884320.78571451,
             "unit": "ns/iter",
             "extra": "iterations: 14\ncpu: 47792978.571428575 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "0ce1f87f6d9d0b95c6429b44dacc2c855969d3fe",
+          "message": "Adding python wheel builds",
+          "timestamp": "2023-09-28T15:44:26-04:00",
+          "tree_id": "41c0ee5e88c30b842b186cd58461bfc6db891c45",
+          "url": "https://github.com/adcirc/gahm/commit/0ce1f87f6d9d0b95c6429b44dacc2c855969d3fe"
+        },
+        "date": 1695930452855,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 59813029.83333591,
+            "unit": "ns/iter",
+            "extra": "iterations: 12\ncpu: 58558225 ns\nthreads: 1"
           }
         ]
       }
