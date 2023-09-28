@@ -21,7 +21,7 @@
 [project]
 name = "pygahm"
 version = "0.0.1"
-description = "Python bindings for Gahm"
+description = "Python bindings for the Generalized Asymmetric Holland Model (GAHM)"
 authors = [
     { name = "Zach Cobell", email = "zcobell@thewaterinstitute.org" }
 ]
