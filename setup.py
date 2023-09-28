@@ -23,6 +23,7 @@
 #
 import inspect
 import sys
+import os
 from pathlib import Path
 
 import cmake_build_extension
@@ -36,6 +37,12 @@ init_py = inspect.cleandoc(
     """
 )
 
+CIBW_CMAKE_OPTIONS = []
+if "CIBUILDWHEEL" in os.environ and os.environ["CIBUILDWHEEL"] == "1":
+    # The manylinux variant runs in Debian Stretch and it uses lib64 folder
+    if sys.platform == "linux":
+        CIBW_CMAKE_OPTIONS += ["-DCMAKE_INSTALL_LIBDIR=lib"]
+
 setuptools.setup(
     ext_modules=[
         cmake_build_extension.CMakeExtension(
@@ -47,7 +54,8 @@ setuptools.setup(
                 "-DPython3_ROOT_DIR={:s}".format(str(Path(sys.prefix).resolve())),
                 "-DGAHM_ENABLE_PYTHON:BOOL=ON",
                 "-DPYTHON_PACKAGE_BUILD:BOOL=ON",
-            ],
+            ]
+            + CIBW_CMAKE_OPTIONS,
         ),
     ],
     cmdclass=dict(

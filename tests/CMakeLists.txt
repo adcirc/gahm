@@ -90,6 +90,12 @@ foreach(test ${TestList})
             ${OPENSSL_INCLUDE_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
 
+  if(GAHM_ENABLE_COVERAGE)
+    set_target_properties(
+            ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
+            LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+  endif()
+
   target_link_libraries(${test_name} PRIVATE gahm_static Catch2::Catch2WithMain
                                              fmt::fmt OpenSSL::SSL)
   set_target_properties(
@@ -113,6 +119,13 @@ if(GAHM_ENABLE_FORTRAN)
       COMMAND ${test_name}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories(${test_name} PRIVATE ${CMAKE_BINARY_DIR}/fortran)
+
+    if(GAHM_ENABLE_COVERAGE)
+      set_target_properties(
+              ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
+              LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+    endif()
+
     target_link_libraries(${test_name} PRIVATE gahm_static)
     set_target_properties(
       ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY

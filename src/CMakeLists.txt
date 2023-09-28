@@ -59,9 +59,11 @@ if(GAHM_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   set_target_properties(
     gahm_static PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
                            LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
-  set_target_properties(
-    gahm PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
-                    LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+  if(BUILD_SHARED_LIBS)
+    set_target_properties(
+      gahm PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
+                  LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+  endif()
 elseif(GAHM_ENABLE_COVERAGE)
   message(WARNING "Coverage is only supported with GCC")
 endif()

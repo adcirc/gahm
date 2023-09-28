@@ -1,0 +1,52 @@
+name: Build Python Wheels
+
+on:
+    push:
+        branches: [ python_pip ]
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ ubuntu-22.04 ]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Install boost
+        if: ${{ runner.os == 'Windows' || runner.os == 'macOS' }}
+        uses: MarkusJx/install-boost@v2.1.0
+        id: install-boost
+        with:
+          boost_version: 1.76.0
+          boost_install_dir: ${{ matrix.boost_install_dir }}
+
+      - name: Build Wheels
+        uses: pypa/cibuildwheel@v2.16.1
+        env:
+          CIBW_BUILD: "cp36-* cp37-* cp38-* cp39-* cp310-* cp311-*"
+          CIBW_ARCHS: "x86_64"
+          #CIBW_ARCHS_LINUX: auto aarch64
+          CIBW_SKIP: "*-win32 *-musllinux_* *_i686"
+          CIBW_BEFORE_ALL_LINUX: > 
+            yum install -y wget &&
+            cd / &&  mkdir boost && cd boost &&
+            wget --no-check-certificate 'https://sourceforge.net/projects/boost/files/boost/1.76.0/boost_1_76_0.tar.bz2' && 
+            tar xf boost_1_76_0.tar.bz2 &&
+            cd {package}
+          CIBW_ENVIRONMENT_WINDOWS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
+          CIBW_ENVIRONMENT_MACOS: BOOST_ROOT='${{ steps.install-boost.outputs.BOOST_ROOT }}'
+          CIBW_ENVIRONMENT_LINUX: BOOST_ROOT=/boost
+          CIBW_ENVIRONMENT_PASS_LINUX: BOOST_ROOT
+
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ./wheelhouse/*.whl
