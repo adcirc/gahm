@@ -23,6 +23,13 @@ foreach(test ${FuzzList})
                          -fsanitize=fuzzer,undefined,address)
   target_compile_options(${test_name}
                          PRIVATE -fsanitize=fuzzer,undefined,address)
+
+  if(GAHM_ENABLE_COVERAGE)
+    set_target_properties(
+            ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
+            LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+  endif()
+
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/fuzz)
