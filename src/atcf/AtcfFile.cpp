@@ -49,7 +49,7 @@ void AtcfFile::read() {
       auto snap = AtcfSnap::parseAtcfSnap(line);
       if (snap.has_value()) {
         if (snap->isValid()) {
-          this->addAtcfSnap(snap.value());
+          this->addAtcfSnap(*snap);
         }
       } else {
         if (!m_quiet)

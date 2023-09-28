@@ -1,16 +1,16 @@
-name: Build Python Wheels
+name: Python Distribution 📦
 
 on:
     push:
         branches: [ python_pip ]
 
 jobs:
-  build_wheels:
+  build:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-22.04 ]
+        os: [ubuntu-22.04, macOS-12]
 
     steps:
       - uses: actions/checkout@v4
@@ -23,18 +23,20 @@ jobs:
 
       - name: Install boost
         if: ${{ runner.os == 'Windows' || runner.os == 'macOS' }}
-        uses: MarkusJx/install-boost@v2.1.0
+        uses: MarkusJx/install-boost@v2.4.4
         id: install-boost
         with:
           boost_version: 1.76.0
           boost_install_dir: ${{ matrix.boost_install_dir }}
+          platform_version: ${{ matrix.platform_version }}
 
       - name: Build Wheels
         uses: pypa/cibuildwheel@v2.16.1
         env:
-          CIBW_BUILD: "cp36-* cp37-* cp38-* cp39-* cp310-* cp311-*"
-          CIBW_ARCHS: "x86_64"
-          #CIBW_ARCHS_LINUX: auto aarch64
+          CIBW_BUILD: "cp36-* cp37-* cp38-* cp39-* cp310-* cp311-* cp312-*"
+          CIBW_ARCHS_MACOS: "x86_64" # arm64"
+          CIBW_ARCHS_LINUX: "x86_64" # aarch64"
+          CIBW_ARCHS_WINDOWS: "x86"
           CIBW_SKIP: "*-win32 *-musllinux_* *_i686"
           CIBW_BEFORE_ALL_LINUX: > 
             yum install -y wget &&
@@ -50,3 +52,27 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: ./wheelhouse/*.whl
+
+#  publish-to-testpypi:
+#    name: Publish Python 🐍 distribution 📦 to TestPyPI
+#    needs:
+#      - build
+#    runs-on: ubuntu-latest
+#
+#    environment:
+#      name: testpypi
+#      url: https://test.pypi.org/p/pygahm
+#
+#    permissions:
+#      id-token: write  # IMPORTANT: mandatory for trusted publishing
+#
+#    steps:
+#      - name: Download all the dists
+#        uses: actions/download-artifact@v3
+#        with:
+#          name: python-package-distributions
+#          path: dist/
+#      - name: Publish distribution 📦 to TestPyPI
+#        uses: pypa/gh-action-pypi-publish@release/v1
+#        with:
+#          repository-url: https://test.pypi.org/legacy/

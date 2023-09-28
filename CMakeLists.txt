@@ -12,7 +12,7 @@
 # ##############################################################################
 cmake_minimum_required(VERSION 3.18)
 project(gahm CXX)
-enable_language(Fortran)
+
 
 # Warnings, Sanitizers, etc
 add_library(project_options INTERFACE)
@@ -38,6 +38,24 @@ mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(GAHM_ENABLE_WARNINGS "Enable verbose compiler warnings" OFF)
 option(GAHM_ENABLE_COVERAGE "Enable code coverage" OFF)
+
+# ##############################################################################
+# C++ Checks
+# ##############################################################################
+# Check if the compiler supports std::uncaught_exceptions()
+include(CheckCXXSourceCompiles)
+set(CMAKE_REQUIRED_FLAGS "-std=c++17")
+check_cxx_source_compiles(
+  "
+#include <exception>
+int main() {
+  return std::uncaught_exceptions();
+}
+"
+  GAHM_HAS_UNCAUGHT_EXCEPTIONS)
+unset(CMAKE_REQUIRED_FLAGS)
+# ##############################################################################
+
 # ##############################################################################
 
 # ##############################################################################
@@ -87,6 +105,9 @@ mark_as_advanced(
 # Fortran
 # ##############################################################################
 option(GAHM_ENABLE_FORTRAN "Enable Fortran bindings" OFF)
+if(GAHM_ENABLE_FORTRAN)
+  enable_language(Fortran)
+endif()
 # ##############################################################################
 
 # ##############################################################################
