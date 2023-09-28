@@ -1,0 +1,72 @@
+# GNU General Public License v3.0
+#
+# This file is part of the GAHM model (https://github.com/adcirc/gahm).
+# Copyright (c) 2023 ADCIRC Development Group.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, version 3.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+# Author: Zach Cobell
+# Contact: zcobell@thewaterinstitute.org
+#
+[project]
+name = "pygahm"
+version = "0.0.1"
+description = "Python bindings for Gahm"
+authors = [
+    { name = "Zach Cobell", email = "zcobell@thewaterinstitute.org" }
+]
+readme = "README.md"
+license = { text = "GPL-3.0"}
+requires-python = ">=3.8"
+keywords = [ "hurricane", "vortex", "tropical cyclone" ]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Development Status :: 1 - Planning",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/adcirc/gahm"
+"Bug Reports" = "https://github.com/adcirc/gahm/issues"
+"Source" = "https://github.com/adcirc/gahm"
+
+[build-system]
+requires = [
+    "wheel",
+    "setuptools>=42",
+    "setuptools_scm[toml]",
+    "cmake_build_extension",
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+exclude = ["*swig*", "examples*"]
+
+[tool.bumpver]
+current_version = "0.0.1"
+version_pattern = "{major}.{minor}.{patch}"
+commit = true
+tag = true
+commit_message = "Bump version: {current_version} -> {new_version}"
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [ 'version = "{new_version}"',
+                     'current_version = "{new_version}"']
+"setup.py" = [ '__version__ = "{new_version}' ]

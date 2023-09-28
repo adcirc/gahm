@@ -90,12 +90,12 @@ foreach(test ${TestList})
             ${OPENSSL_INCLUDE_DIR}
             ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/fmt-9.1.0/include)
 
-  target_link_libraries(${test_name} PRIVATE gahm Catch2::Catch2WithMain
+  target_link_libraries(${test_name} PRIVATE gahm_static Catch2::Catch2WithMain
                                              fmt::fmt OpenSSL::SSL)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)
-  add_dependencies(${test_name} gahm Catch2::Catch2WithMain fmt::fmt)
+  add_dependencies(${test_name} gahm_static)
 endforeach()
 # ##############################################################################
 
@@ -113,11 +113,11 @@ if(GAHM_ENABLE_FORTRAN)
       COMMAND ${test_name}
       WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
     target_include_directories(${test_name} PRIVATE ${CMAKE_BINARY_DIR}/fortran)
-    target_link_libraries(${test_name} PRIVATE gahm)
+    target_link_libraries(${test_name} PRIVATE gahm_static)
     set_target_properties(
       ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                               ${CMAKE_CURRENT_BINARY_DIR}/tests)
-    add_dependencies(${test_name} gahm)
+    add_dependencies(${test_name} gahm_static)
   endforeach()
 endif()
 # ##############################################################################
