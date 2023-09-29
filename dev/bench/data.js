@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1695952215118,
+  "lastUpdate": 1695952470338,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -1590,6 +1590,36 @@ window.BENCHMARK_DATA = {
             "value": 48840697.45454605,
             "unit": "ns/iter",
             "extra": "iterations: 11\ncpu: 48836990.90909091 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "85e381721865737149fe95fac9197d18e00f9f11",
+          "message": "Adding Windows build",
+          "timestamp": "2023-09-28T21:52:11-04:00",
+          "tree_id": "f608cdb655243c3f4a0ba18a5535f7c5e40b1787",
+          "url": "https://github.com/adcirc/gahm/commit/85e381721865737149fe95fac9197d18e00f9f11"
+        },
+        "date": 1695952469301,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 48271619.35714384,
+            "unit": "ns/iter",
+            "extra": "iterations: 14\ncpu: 47955742.857142866 ns\nthreads: 1"
           }
         ]
       }
