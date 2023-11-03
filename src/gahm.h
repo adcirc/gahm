@@ -35,14 +35,6 @@ namespace Gahm {
 
 std::string library_version() { return "0.0.1"; }
 
-bool is_debug() {
-#ifdef GAHM_DEBUG
-  return true;
-#else
-  return false;
-#endif
-}
-
 }  // namespace Gahm
 
 #endif  // GAHM_H

@@ -155,15 +155,8 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
     uf += tsx;
     vf += tsy;
 
-#ifndef GAHM_DEBUG
+    //...Add the solution to the solution vector
     solution.emplace_back(uf, vf, pressure);
-#else
-    solution.emplace_back(
-        uf, vf, pressure, distance, point_position_0.quadrant(),
-        point_position_0.isotach(), point_position_0.isotach_weight(),
-        point_position_0.quadrant_weight(),
-        time_it->getIsotachs()[point_position_0.isotach()].getWindSpeed());
-#endif
   }
 
   return solution;

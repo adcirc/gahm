@@ -105,62 +105,6 @@ class VortexSolution {
     return p;
   }
 
-#ifdef GAHM_DEBUG
-  NODISCARD std::vector<double> distance() const {
-    std::vector<double> distance;
-    distance.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      distance.push_back(i.distance());
-    }
-    return distance;
-  }
-
-  NODISCARD std::vector<int> quadrant() const {
-    std::vector<int> quadrant;
-    quadrant.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      quadrant.push_back(i.quadrant());
-    }
-    return quadrant;
-  }
-
-  NODISCARD std::vector<int> isotach() const {
-    std::vector<int> isotach;
-    isotach.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      isotach.push_back(i.isotach());
-    }
-    return isotach;
-  }
-
-  NODISCARD std::vector<double> isotach_weight() const {
-    std::vector<double> isotach_weight;
-    isotach_weight.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      isotach_weight.push_back(i.isotach_weight());
-    }
-    return isotach_weight;
-  }
-
-  NODISCARD std::vector<double> quadrant_weight() const {
-    std::vector<double> quadrant_weight;
-    quadrant_weight.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      quadrant_weight.push_back(i.quadrant_weight());
-    }
-    return quadrant_weight;
-  }
-
-  NODISCARD std::vector<double> isotach_speed() const {
-    std::vector<double> isotach_speed;
-    isotach_speed.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      isotach_speed.push_back(i.isotach_speed());
-    }
-    return isotach_speed;
-  }
-#endif
-
  private:
   std::vector<Gahm::Datatypes::Uvp> m_uvp;
 };
