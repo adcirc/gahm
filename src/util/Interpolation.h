@@ -25,8 +25,14 @@
 
 namespace Gahm::Interpolation {
 
+/**
+ * @brief Linear interpolation
+ * @param v0 First value
+ * @param v1 Second value
+ * @param weight Weight
+ * @return Linearly interpolated value
+ */
 constexpr double linear(double v0, double v1, double weight) noexcept {
-  //return v0 + weight * (v1 - v0);
   return (v0 * (1.0 - weight)) + (v1 * weight);
 }
 
@@ -41,11 +47,6 @@ constexpr double angle(double v0, double v1, double weight,
   }
   return angle;
 }
-
-// constexpr double radial(double v0, double v1, double w0, double w1) noexcept
-// {
-//   return ((v0 * w0) + (v1 * w1)) / (w0 + w1);
-// }
 
 constexpr double angle_idw(double v0, double v1, double delta_angle) noexcept {
   constexpr double angle_1 = Gahm::Physical::Constants::deg2rad();

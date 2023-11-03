@@ -22,6 +22,7 @@
 #define GAHM_SRC_ATCF_STORMTRANSLATION_H_
 
 #include <cmath>
+#include <tuple>
 
 #include "physical/Constants.h"
 #include "util/Interpolation.h"
@@ -39,51 +40,28 @@ class StormTranslation {
   StormTranslation() = default;
 
   StormTranslation(double translation_speed, double translation_direction)
-      : m_raw_translation_speed(translation_speed),
-        m_raw_translation_direction(translation_direction),
-        m_transit_speed(0.0),
-        m_transit_speed_u(0.0),
-        m_transit_speed_v(0.0) {
-    this->computeDefaultTranslationComponents();
-  }
+      : m_translation_speed(translation_speed),
+        m_translation_direction(translation_direction),
+        m_translation_speed_u(m_translation_speed *
+                              std::cos(m_translation_direction)),
+        m_translation_speed_v(m_translation_speed *
+                              std::sin(m_translation_direction)) {}
 
-  NODISCARD double translationSpeed() const { return m_raw_translation_speed; }
+  NODISCARD double translationSpeed() const { return m_translation_speed; }
 
   void setTranslationSpeed(double translation_speed) {
-    m_raw_translation_speed = translation_speed;
+    m_translation_speed = translation_speed;
   }
 
   NODISCARD double translationDirection() const {
-    return m_raw_translation_direction;
+    return m_translation_direction;
   }
 
-  void setRawTranslationDirection(double translation_direction) {
-    m_raw_translation_direction = translation_direction;
+  NODISCARD std::tuple<double, double> translationComponents() const {
+    return {m_translation_speed_u, m_translation_speed_v};
   }
 
-  NODISCARD double transitSpeed() const { return m_transit_speed; }
-
-  NODISCARD double transitSpeedU() const { return m_transit_speed_u; }
-
-  NODISCARD double transitSpeedV() const { return m_transit_speed_v; }
-
-  void setRelativeTransitComponents(const double transitSpeed,
-                                    const double transitSpeedU,
-                                    const double transitSpeedV) {
-    m_transit_speed = transitSpeed;
-    m_transit_speed_u = transitSpeedU;
-    m_transit_speed_v = transitSpeedV;
-  }
-
-  void computeDefaultTranslationComponents() {
-    m_transit_speed_u = m_raw_translation_speed *
-                        std::cos(m_raw_translation_direction *
-                                 Gahm::Physical::Constants::deg2rad());
-    m_transit_speed_v = m_raw_translation_direction *
-                        std::sin(m_raw_translation_direction *
-                                 Gahm::Physical::Constants::deg2rad());
-    m_transit_speed = m_raw_translation_speed;
-  }
+  NODISCARD double transitSpeed() const { return m_translation_speed; }
 
   static StormTranslation interpolate(const StormTranslation &a,
                                       const StormTranslation &b,
@@ -95,11 +73,10 @@ class StormTranslation {
   }
 
  private:
-  double m_raw_translation_speed;
-  double m_raw_translation_direction;
-  double m_transit_speed;
-  double m_transit_speed_u;
-  double m_transit_speed_v;
+  double m_translation_speed;
+  double m_translation_direction;
+  double m_translation_speed_u;
+  double m_translation_speed_v;
 };
 
 }  // namespace Gahm::Atcf

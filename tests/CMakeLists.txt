@@ -97,7 +97,7 @@ foreach(test ${TestList})
   endif()
 
   target_link_libraries(${test_name} PRIVATE gahm_static Catch2::Catch2WithMain
-                                             fmt::fmt OpenSSL::SSL)
+                                             OpenSSL::SSL)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)

@@ -3,7 +3,30 @@
 from datetime import datetime
 from typing import Tuple
 import numpy as np
-import pygahm
+from pygahm import pygahm
+
+
+def generate_contour_range(plot_type: str) -> Tuple[np.ndarray, str]:
+    if plot_type == "pressure":
+        contour_range = np.arange(900, 1020, 5)
+        contour_label = "Pressure (mb)"
+    elif plot_type == "quadrant":
+        contour_range = np.arange(0, 4, 0.5)
+        contour_label = "Quadrant"
+    elif plot_type == "quadrant_weight":
+        contour_range = np.arange(0, 1.1, 0.1)
+        contour_label = "Quadrant Weight"
+    elif plot_type == "isotach":
+        contour_range = np.arange(0, 4, 0.5)
+        contour_label = "Isotach"
+    elif plot_type == "isotach_weight":
+        contour_range = np.arange(0, 100, 1)
+        contour_label = "Isotach Weight"
+    else:
+        contour_range = np.arange(0, 90, 1)
+        contour_label = "Wind Speed (m/s)"
+
+    return contour_range, contour_label
 
 
 def get_scalar(gahm_vortex, time: datetime, plot_type="pressure"):
@@ -15,7 +38,16 @@ def get_scalar(gahm_vortex, time: datetime, plot_type="pressure"):
     solution = gahm_vortex.solve(time_c)
 
     if plot_type == "pressure":
+        v = np.array(solution.p())
         return np.array(solution.p())
+    elif plot_type == "quadrant":
+        return np.array(solution.quadrant())
+    elif plot_type == "quadrant_weight":
+        return np.array(solution.quadrant_weight())
+    elif plot_type == "isotach":
+        return np.array(solution.isotach())
+    elif plot_type == "isotach_weight":
+        return np.array(solution.isotach_weight()) * 100.0
     elif plot_type == "wind":
         u = np.array(solution.u())
         v = np.array(solution.v())
@@ -127,7 +159,7 @@ def main():
 
         def plot(time: datetime):
 
-            # ...Clear the plot if its been used previously
+            # ...Clear the plot if it's been used previously
             ax.clear()
 
             ax.set_title(
@@ -147,12 +179,13 @@ def main():
             )
 
             arr = get_scalar(vortex, time, plot_type=args.type)
-            arr = arr.reshape((x_points.shape[0], x_points.shape[1]))
+            u_vec, v_vec = get_vector(vortex, time)
 
-            if args.type == "pressure":
-                contour_range = np.arange(900, 1020, 5)
-            else:
-                contour_range = np.arange(0, 80, 5)
+            arr = arr.reshape((x_points.shape[0], x_points.shape[1]))
+            u_vec = u_vec.reshape((x_points.shape[0], x_points.shape[1]))
+            v_vec = v_vec.reshape((x_points.shape[0], x_points.shape[1]))
+
+            contour_range, contour_label = generate_contour_range(args.type)
 
             cs = m.contourf(
                 x_points,
@@ -162,7 +195,20 @@ def main():
                 levels=contour_range,
                 latlon=True,
             )
+
+            # ...Plot using quivers, but coarsen the grid
+            coarsen_factor = 5
+            scale_factor = 2000
+            x_p = x_points[::coarsen_factor, ::coarsen_factor]
+            y_p = y_points[::coarsen_factor, ::coarsen_factor]
+            u_vec = u_vec[::coarsen_factor, ::coarsen_factor]
+            v_vec = v_vec[::coarsen_factor, ::coarsen_factor]
+            # m.quiver(
+            #     x_p, y_p, u_vec, v_vec, latlon=True, scale=scale_factor, width=0.001
+            # )
+
             s["plot"] = cs
+
             m.drawcoastlines()
             m.drawparallels(np.arange(10, 50, 5), labels=[1, 0, 0, 0])
             m.drawmeridians(np.arange(-120, -40, 5), labels=[0, 0, 0, 1])
@@ -181,10 +227,8 @@ def main():
 
         # ...Make the colorbar
         cbar = fig.colorbar(s["plot"], ax=ax, orientation="horizontal")
-        if args.type == "pressure":
-            cbar.set_label("Pressure (mb)")
-        else:
-            cbar.set_label("Wind Speed (m/s)")
+        _, contour_label = generate_contour_range(args.type)
+        cbar.set_label(contour_label)
 
         plt.show()
 
@@ -211,10 +255,8 @@ def main():
         u_vec = u_vec.reshape((x_points.shape[0], x_points.shape[1]))
         v_vec = v_vec.reshape((x_points.shape[0], x_points.shape[1]))
 
-        if args.type == "pressure":
-            contour_range = np.arange(900, 1020, 5)
-        else:
-            contour_range = np.arange(0, 80, 5)
+        contour_range, contour_label = generate_contour_range(args.type)
+
         cs = m.contourf(
             x_points,
             y_points,
@@ -232,16 +274,13 @@ def main():
         y_p = y_points[::coarsen_factor, ::coarsen_factor]
         u_vec = u_vec[::coarsen_factor, ::coarsen_factor]
         v_vec = v_vec[::coarsen_factor, ::coarsen_factor]
-        m.quiver(x_p, y_p, u_vec, v_vec, latlon=True, scale=scale_factor,width=0.001)
+        m.quiver(x_p, y_p, u_vec, v_vec, latlon=True, scale=scale_factor, width=0.001)
 
         m.drawparallels(np.arange(10, 50, 5), labels=[1, 0, 0, 0])
         m.drawmeridians(np.arange(-120, -40, 5), labels=[0, 0, 0, 1])
 
         cbar = fig.colorbar(cs, ax=ax, orientation="horizontal")
-        if args.type == "pressure":
-            cbar.set_label("Pressure (mb)")
-        else:
-            cbar.set_label("Wind Speed (m/s)")
+        cbar.set_label(contour_label)
         plt.savefig(args.output, dpi=300, bbox_inches="tight")
 
     if args.interactive:

@@ -45,6 +45,8 @@ class AtcfSnap {
  public:
   enum BASIN { NONE, WP, IO, SH, CP, EP, AL, SL, kMaxValue = SL };
 
+  AtcfSnap() = default;
+
   AtcfSnap(Gahm::Atcf::AtcfSnap::BASIN basin, double central_pressure,
            double background_pressure, double radius_to_max_winds, double vmax,
            double vmax_boundary_layer, const Gahm::Datatypes::Date& date,

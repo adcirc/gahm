@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <cassert>
 
 #include "boost/math/policies/error_handling.hpp"
 #include "gahm/GahmEquations.h"
@@ -84,6 +85,8 @@ void GahmSolver::solve() {
     }
     m_solver.setBg(m_bg);
   }
+  assert(this->rmax() > 0.0);
+  assert(this->bg() > 0.0);
 }
 
 /**

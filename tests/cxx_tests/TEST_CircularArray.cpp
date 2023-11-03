@@ -19,7 +19,7 @@
 // Contact: zcobell@thewaterinstitute.org
 //
 #include "catch2/catch_test_macros.hpp"
-#include "datatypes/CircularArray.h"
+#include "gahm.h"
 
 TEST_CASE("Create Array", "[CircularArray] ") {
   std::array<int, 10> a{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};

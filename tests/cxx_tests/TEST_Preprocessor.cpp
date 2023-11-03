@@ -23,10 +23,7 @@
 
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "gahm/GahmEquations.h"
-#include "gahm/GahmSolver.h"
-#include "physical/Earth.h"
-#include "preprocessor/Preprocessor.h"
+#include "gahm.h"
 
 TEST_CASE("FillMissingData", "[Preprocessor]") {
   auto atcf =

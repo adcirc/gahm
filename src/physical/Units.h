@@ -26,6 +26,29 @@
 
 namespace Gahm::Physical::Units {
 
+enum AngleNormalizationType { ZERO_TO_360, NEG_180_TO_180 };
+
+template <typename T, AngleNormalizationType AngleType>
+constexpr T normalizeAngle(const T &angle) noexcept {
+  if (AngleType == ZERO_TO_360) {
+    if (angle < 0.0) {
+      return angle + Physical::Constants::twoPi();
+    } else if (angle > Physical::Constants::twoPi()) {
+      return angle - Physical::Constants::twoPi();
+    } else {
+      return angle;
+    }
+  } else {
+    if (angle < -Physical::Constants::pi()) {
+      return angle + Physical::Constants::twoPi();
+    } else if (angle > Physical::Constants::pi()) {
+      return angle - Physical::Constants::twoPi();
+    } else {
+      return angle;
+    }
+  }
+}
+
 class UnitInternal {
  public:
   class UnitType {

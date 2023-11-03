@@ -57,6 +57,10 @@ target_link_libraries(gahm_interface INTERFACE project_options)
 target_link_libraries(gahm_interface INTERFACE fmt::fmt)
 add_dependencies(gahm_interface fmt::fmt)
 
+if(GAHM_DEBUG)
+  target_compile_definitions(gahm_objectlib PRIVATE GAHM_DEBUG)
+endif()
+
 if(GAHM_ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
   message(
     STATUS

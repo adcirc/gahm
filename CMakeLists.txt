@@ -38,6 +38,7 @@ mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(GAHM_ENABLE_WARNINGS "Enable verbose compiler warnings" OFF)
 option(GAHM_ENABLE_COVERAGE "Enable code coverage" OFF)
+option(GAHM_DEBUG "Enable debug mode" ON)
 
 # ##############################################################################
 # C++ Checks
