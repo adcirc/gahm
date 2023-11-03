@@ -35,38 +35,12 @@ namespace Gahm::Datatypes {
 
 class Uvp {
  public:
-#ifndef GAHM_DEBUG
   Uvp()
       : m_u(0.0),
         m_v(0.0),
         m_p(Gahm::Physical::Constants::backgroundPressure()) {}
 
   Uvp(double u, double v, double p) : m_u(u), m_v(v), m_p(p) {}
-#else
-  Uvp()
-      : m_u(0.0),
-        m_v(0.0),
-        m_p(Gahm::Physical::Constants::backgroundPressure()),
-        m_distance(0.0),
-        m_quadrant(0),
-        m_isotach(0),
-        m_isotach_weight(0.0),
-        m_quadrant_weight(0.0),
-        m_isotach_speed(0.0) {}
-
-  Uvp(double u, double v, double p, double distance = 0.0, int quadrant = 0,
-      int isotach = 0, double isotach_weight = 0.0,
-      double quadrant_weight = 0.0, double isotach_speed = 0.0)
-      : m_u(u),
-        m_v(v),
-        m_p(p),
-        m_distance(distance),
-        m_quadrant(quadrant),
-        m_isotach(isotach),
-        m_isotach_weight(isotach_weight),
-        m_quadrant_weight(quadrant_weight),
-        m_isotach_speed(isotach_speed) {}
-#endif
 
   NODISCARD double u() const { return m_u; }
 
@@ -96,28 +70,11 @@ class Uvp {
     m_p = uvp.p();
   }
 
-#ifdef GAHM_DEBUG
-  NODISCARD double distance() const { return m_distance; }
-  NODISCARD int quadrant() const { return m_quadrant; }
-  NODISCARD int isotach() const { return m_isotach; }
-  NODISCARD double isotach_weight() const { return m_isotach_weight; }
-  NODISCARD double quadrant_weight() const { return m_quadrant_weight; }
-  NODISCARD double isotach_speed() const { return m_isotach_speed; }
-#endif
-
  private:
   double m_u;
   double m_v;
   double m_p;
 
-#ifdef GAHM_DEBUG
-  double m_distance;
-  double m_isotach_weight;
-  double m_quadrant_weight;
-  double m_isotach_speed;
-  int m_quadrant;
-  int m_isotach;
-#endif
 };
 
 }  // namespace Gahm::Datatypes
