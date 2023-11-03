@@ -24,15 +24,10 @@
 #include <iterator>
 #include <tuple>
 
-#include "atcf/AtcfFile.h"
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "datatypes/WindGrid.h"
 #include "fmt/core.h"
-#include "output/OwiOutput.h"
-#include "physical/Earth.h"
-#include "preprocessor/Preprocessor.h"
-#include "vortex/Vortex.h"
+#include "gahm.h"
 
 TEST_CASE("Quadrant Selection", "[Vortex]") {
   constexpr double deg2rad = M_PI / 180.0;
@@ -104,17 +99,17 @@ TEST_CASE("Vortex", "[vortex]") {
 
   // clang-format off
   const std::vector<Gahm::Datatypes::Uvp> sampling_solution =
-      {{-3.545647,  -6.420195, 1009.456382},
-       {1.452037,   -1.700460, 1011.704127},
-       {-1.023131,  -3.231597, 1010.912514},
-       {1.138791,   -4.860846, 1010.530213},
-       {5.111922,   -3.006727, 1010.788160},
-       {2.586431,   -1.005869, 1011.713863},
-       {-8.760438,  13.135478, 1006.263273},
-       {-1.926749, -23.747142, 1002.827237},
-       {-0.188428,   1.768306, 1011.776616},
-       {-6.725148,   2.578584, 1009.484907},
-       {-9.240353,  54.034793,  965.549211}};
+      {{-6.272593, -8.347889, 1008.609953},
+       {1.731395, -2.293604, 1011.391375},
+       {-2.114806, -4.414034, 1010.547008},
+       {0.759111, -6.441073, 1009.978985},
+       {7.741713, -4.687080, 1009.364429},
+       {3.581251, -1.346994, 1011.129705},
+       {-10.178918, 13.493554, 1006.519633},
+       {-6.469195, -29.711304, 998.002806},
+       {-0.389381, 1.830952, 1011.742207},
+       {-7.597445, 3.043018, 1009.562621},
+       {-16.504920, 60.132755, 958.491866}};
   // clang-format on
 
   REQUIRE(sampling_points.size() == sampling_solution.size());
@@ -126,10 +121,10 @@ TEST_CASE("Vortex", "[vortex]") {
     REQUIRE(sol.u() == Catch::Approx(expected.u()));
     REQUIRE(sol.v() == Catch::Approx(expected.v()));
     REQUIRE(sol.p() == Catch::Approx(expected.p()));
-    //    std::cout << "{"
-    //              << fmt::format("{:f}, {:f}, {:f}", sol.u(), sol.v(),
-    //              sol.p())
-    //              << "}," << std::endl;
+//        std::cout << "{"
+//                  << fmt::format("{:f}, {:f}, {:f}", sol.u(), sol.v(),
+//                  sol.p())
+//                  << "}," << std::endl;
   }
 
   //...Used when updating the solution to get the data back out

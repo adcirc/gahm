@@ -8,14 +8,21 @@ message(STATUS "Python3_EXECUTABLE: ${Python3_EXECUTABLE}")
 message(STATUS "Python3_INCLUDE_DIRS: ${Python3_INCLUDE_DIRS}")
 message(STATUS "Python3_SiteLibs: ${Python3_SITELIB}")
 
+if(GAHM_DEBUG)
+  set(GAHM_DEBUG_FLAG "-DGAHM_DEBUG")
+else()
+  set(GAHM_DEBUG_FLAG "")
+endif()
+
 add_custom_command(
   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
   COMMAND
     ${SWIG_EXECUTABLE} -outdir ${CMAKE_CURRENT_BINARY_DIR} -c++ -python
-    -I${CMAKE_CURRENT_SOURCE_DIR}/.. -I${Python3_INCLUDE_DIRS} -o
+    -I${CMAKE_CURRENT_SOURCE_DIR}/.. -I${Python3_INCLUDE_DIRS} ${GAHM_DEBUG_FLAG} -o
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx
     ${CMAKE_CURRENT_SOURCE_DIR}/gahm.i
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/gahm.i
   COMMENT "Generating SWIG interface to Python...")
 
 add_library(pygahm SHARED
@@ -23,6 +30,10 @@ add_library(pygahm SHARED
 target_include_directories(pygahm PRIVATE ${Python3_INCLUDE_DIRS}
                                           ${CMAKE_CURRENT_SOURCE_DIR}/..)
 target_link_libraries(pygahm gahm_static)
+
+if(GAHM_DEBUG)
+  target_compile_definitions(pygahm PRIVATE GAHM_DEBUG)
+endif()
 
 if(APPLE)
   target_link_libraries(pygahm Python3::Module)

@@ -18,12 +18,8 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
-#include "atcf/AtcfFile.h"
-#include "atcf/AtcfIsotach.h"
-#include "atcf/AtcfQuadrant.h"
-#include "atcf/AtcfSnap.h"
 #include "catch2/catch_test_macros.hpp"
-#include "physical/Units.h"
+#include "gahm.h"
 
 TEST_CASE("Construct AtcfIsotach", "[AtcfIsotach]") {
   Gahm::Atcf::AtcfIsotach isotach(20.0, {10, 20, 30, 40});
@@ -94,9 +90,11 @@ TEST_CASE("Construct AtcfSnap from string", "[AtcfSnap]") {
                                      Gahm::Physical::Units::Knot,
                                      Gahm::Physical::Units::MetersPerSecond));
   REQUIRE(snap.getIsotachs()[0].getWindSpeed() ==
-          50.0 * Gahm::Physical::Units::convert(
-                     Gahm::Physical::Units::Knot,
-                     Gahm::Physical::Units::MetersPerSecond));
+          50.0 *
+              Gahm::Physical::Units::convert(
+                  Gahm::Physical::Units::Knot,
+                  Gahm::Physical::Units::MetersPerSecond) *
+              Gahm::Physical::Constants::tenMeterToTopOfBoundaryLayer());
   REQUIRE(snap.stormId() == 12);
   REQUIRE(snap.stormName() == "KATRINA");
 }

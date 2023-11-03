@@ -324,9 +324,12 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
   const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
   const auto storm_name = boost::trim_copy(tokens[27]);
 
-  auto snap = AtcfSnap(snap_basin, p_min,
-                       Gahm::Physical::Constants::backgroundPressure() * 100.0,
-                       r_max, v_max, v_max, snap_date, storm_id, storm_name);
+  auto snap = AtcfSnap(
+      snap_basin, p_min,
+      Gahm::Physical::Constants::backgroundPressure() * 100.0, r_max, v_max,
+      v_max * Physical::Constants::tenMeterToTopOfBoundaryLayer() *
+          Physical::Constants::oneMinuteToTenMinuteWind(),
+      snap_date, storm_id, storm_name);
   snap.setPosition({lon, lat});
 
   auto isotach = AtcfSnap::parseIsotach(tokens);
@@ -347,11 +350,15 @@ AtcfIsotach AtcfSnap::parseIsotach(const std::vector<std::string>& tokens) {
   constexpr double nmi2m = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::NauticalMile, Gahm::Physical::Units::Meter);
 
-  auto isotach_wind_speed = readValueCheckBlank<double>(tokens[11]) * kt2ms;
+  auto isotach_wind_speed = readValueCheckBlank<double>(tokens[11]) * kt2ms *
+                            Physical::Constants::tenMeterToTopOfBoundaryLayer();
+
   if (isotach_wind_speed == 0.0) {
     // If no isotach speed is given, we set the isotach speed to vmax and the
     // radii to rmax
-    const auto v_max = readValueCheckBlank<double>(tokens[8]) * kt2ms;
+    const auto v_max = readValueCheckBlank<double>(tokens[8]) * kt2ms *
+                       Physical::Constants::tenMeterToTopOfBoundaryLayer() *
+                       Physical::Constants::oneMinuteToTenMinuteWind();
     const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
     return {v_max, {r_max, r_max, r_max, r_max}};
   } else {

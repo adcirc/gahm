@@ -48,9 +48,12 @@ double Gahm::Solver::GahmEquations::GahmFunction(
   const auto ro = Gahm::Physical::Atmospheric::rossbyNumber(
       vmax_at_boundary_layer, radius_to_max_wind, coriolis_force);
   const auto rmbg = std::pow(radius_to_max_wind / distance, gahm_holland_b);
-  return (std::sqrt(std::pow(vmax_at_boundary_layer, 2.0) * (1.0 + 1.0 / ro) *
-                        std::exp(phi * (1.0 - rmbg)) * rmbg +
-                    std::pow((distance * coriolis_force) / 2.0, 2.0)) -
+  const auto sign_of_coriolis = coriolis_force >= 0.0 ? 1.0 : -1.0;
+  return (sign_of_coriolis *
+              std::sqrt(std::pow(vmax_at_boundary_layer, 2.0) *
+                            (1.0 + 1.0 / ro) * std::exp(phi * (1.0 - rmbg)) *
+                            rmbg +
+                        std::pow((distance * coriolis_force) / 2.0, 2.0)) -
           (distance * coriolis_force) / 2.0) -
          isotach_windspeed_at_boundary_layer;
 }

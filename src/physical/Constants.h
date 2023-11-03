@@ -68,10 +68,18 @@ static constexpr double rad2deg() { return 180.0 / M_PI; }
 static constexpr double backgroundPressure() { return 1013.00; }
 
 /*
- * Wind speed reduction factor for 10m winds
+ * Wind speed reduction factor for boundary layer winds to 10m
  * @return Wind speed reduction factor for 10m winds
  */
-static constexpr double windReduction() { return 0.9; }
+static constexpr double topOfBoundaryLayerToTenMeter() { return 0.9; }
+
+/*
+ * Wind speed increase factor for 10m winds to top of boundary layer
+ * @return Wind speed increase factor for 10m winds to top of boundary layer
+ */
+static constexpr double tenMeterToTopOfBoundaryLayer() {
+  return 1.0 / topOfBoundaryLayerToTenMeter();
+}
 
 /*
  * Rho of air in kg/m^3
@@ -95,7 +103,7 @@ static constexpr double rhoWater() { return 1000.0; }
  * One to ten conversion factor
  * @return One to ten conversion factor
  */
-static constexpr double oneToten() { return 0.8928; }
+static constexpr double oneMinuteToTenMinuteWind() { return 0.8928; }
 
 }  // namespace Gahm::Physical::Constants
 

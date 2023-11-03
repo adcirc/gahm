@@ -51,15 +51,21 @@ class Vortex {
   static Gahm::Datatypes::PointPosition getPointPosition(
       const Atcf::AtcfSnap &snap, double distance, double azimuth);
 
-  static std::pair<int, double> getBaseQuadrant(double angle);
-  static std::pair<int, double> getBaseIsotach(double distance, int quadrant,
-                                               const Atcf::AtcfSnap &snap);
+  static std::tuple<int, double> getBaseQuadrant(double angle);
+
+  static std::tuple<int, double> getBaseIsotach(double distance, int quadrant,
+                                                const Atcf::AtcfSnap &snap);
 
   NODISCARD static double friction_angle(double radius,
                                          double radius_to_max_winds);
   NODISCARD static std::tuple<double, double> rotate_winds(double u, double v,
                                                            double angle,
                                                            double latitude);
+
+  NODISCARD static std::tuple<double, double>
+  computeTranslationVelocityComponents(
+      double wind_speed, double vmax_at_boundary_layer,
+      const Atcf::StormTranslation &translation);
 
  private:
   struct t_parameter_pack {
@@ -83,6 +89,10 @@ class Vortex {
   static t_parameter_pack interpolateParameterPackQuadrant(
       const Gahm::Datatypes::PointPosition &point_position,
       const Atcf::AtcfSnap &snap);
+
+  static std::tuple<double, double> decomposeWindVector(double wind_speed,
+                                                        double azimuth,
+                                                        double latitude);
 
   static t_parameter_pack interpolateParameterPack(const t_parameter_pack &p0,
                                                    const t_parameter_pack &p1,

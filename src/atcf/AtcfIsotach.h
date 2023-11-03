@@ -36,6 +36,8 @@ namespace Gahm::Atcf {
 
 class AtcfIsotach {
  public:
+  AtcfIsotach() = default;
+
   AtcfIsotach(double wind_speed, const std::array<double, 4> &radii)
       : m_wind_speed(wind_speed),
         m_quadrants({AtcfQuadrant(0, radii[0]), AtcfQuadrant(1, radii[1]),
@@ -43,8 +45,7 @@ class AtcfIsotach {
 
   NODISCARD double getWindSpeed() const { return m_wind_speed; }
 
-  NODISCARD const Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant,
-                                                     4>
+  NODISCARD const Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4>
       &getQuadrants() const {
     return m_quadrants;
   }

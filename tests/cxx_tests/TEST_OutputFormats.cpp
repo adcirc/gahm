@@ -25,13 +25,9 @@
 
 #include <cstdio>
 
-#include "atcf/AtcfFile.h"
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "datatypes/WindGrid.h"
-#include "output/OwiOutput.h"
-#include "preprocessor/Preprocessor.h"
-#include "vortex/Vortex.h"
+#include "gahm.h"
 
 std::string compute_file_md5(const std::string& filename) {
   int fd = open(filename.c_str(), O_RDONLY);

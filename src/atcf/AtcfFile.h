@@ -51,8 +51,31 @@ class AtcfFile {
     return m_atcfSnaps;
   }
 
-  //...Lookup
+  NODISCARD bool empty() const { return m_atcfSnaps.empty(); }
+
+  NODISCARD Atcf::AtcfSnap& at(size_t index) { return m_atcfSnaps.at(index); }
+  NODISCARD const Atcf::AtcfSnap& at(size_t index) const {
+    return m_atcfSnaps.at(index);
+  }
+
 #ifndef SWIG
+
+  NODISCARD Atcf::AtcfSnap& front() { return m_atcfSnaps.front(); }
+  NODISCARD const Atcf::AtcfSnap& front() const { return m_atcfSnaps.front(); }
+
+  NODISCARD Atcf::AtcfSnap& back() { return m_atcfSnaps.back(); }
+  NODISCARD const Atcf::AtcfSnap& back() const { return m_atcfSnaps.back(); }
+
+  //...Iterators
+  NODISCARD auto begin() { return m_atcfSnaps.begin(); }
+  NODISCARD auto begin() const { return m_atcfSnaps.begin(); }
+  NODISCARD auto cbegin() const { return m_atcfSnaps.cbegin(); }
+
+  NODISCARD auto end() { return m_atcfSnaps.end(); }
+  NODISCARD auto end() const { return m_atcfSnaps.end(); }
+  NODISCARD auto cend() const { return m_atcfSnaps.cend(); }
+
+  //...Find
   auto find(const Gahm::Datatypes::Date& date) {
     return std::find_if(m_atcfSnaps.begin(), m_atcfSnaps.end(),
                         [&](const auto& val) { return val.date() == date; });

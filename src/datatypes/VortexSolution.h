@@ -38,13 +38,7 @@ class VortexSolution {
  public:
   VortexSolution() = default;
 
-  explicit VortexSolution(size_t size)
-      : m_uvp(size, {0.0, 0.0, Physical::Constants::backgroundPressure()}) {
-    m_uvp.resize(size);
-  }
-
-  VortexSolution(size_t size, const Gahm::Datatypes::Uvp &value)
-      : m_uvp(size, value) {}
+  explicit VortexSolution(size_t size) { m_uvp.reserve(size); }
 
   NODISCARD size_t size() const { return m_uvp.size(); }
 
@@ -74,6 +68,16 @@ class VortexSolution {
 
   void push_back(const Gahm::Datatypes::Uvp &value) { m_uvp.push_back(value); }
 
+  template <class... Args>
+  void emplace_back(Args &&...args) {
+    m_uvp.emplace_back(std::forward<Args>(args)...);
+  }
+
+#ifndef SWIG
+  auto front() { return m_uvp.front(); }
+  auto back() { return m_uvp.back(); }
+#endif
+
   NODISCARD std::vector<double> u() const {
     std::vector<double> u;
     u.reserve(m_uvp.size());
@@ -100,6 +104,62 @@ class VortexSolution {
     }
     return p;
   }
+
+#ifdef GAHM_DEBUG
+  NODISCARD std::vector<double> distance() const {
+    std::vector<double> distance;
+    distance.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      distance.push_back(i.distance());
+    }
+    return distance;
+  }
+
+  NODISCARD std::vector<int> quadrant() const {
+    std::vector<int> quadrant;
+    quadrant.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      quadrant.push_back(i.quadrant());
+    }
+    return quadrant;
+  }
+
+  NODISCARD std::vector<int> isotach() const {
+    std::vector<int> isotach;
+    isotach.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      isotach.push_back(i.isotach());
+    }
+    return isotach;
+  }
+
+  NODISCARD std::vector<double> isotach_weight() const {
+    std::vector<double> isotach_weight;
+    isotach_weight.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      isotach_weight.push_back(i.isotach_weight());
+    }
+    return isotach_weight;
+  }
+
+  NODISCARD std::vector<double> quadrant_weight() const {
+    std::vector<double> quadrant_weight;
+    quadrant_weight.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      quadrant_weight.push_back(i.quadrant_weight());
+    }
+    return quadrant_weight;
+  }
+
+  NODISCARD std::vector<double> isotach_speed() const {
+    std::vector<double> isotach_speed;
+    isotach_speed.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      isotach_speed.push_back(i.isotach_speed());
+    }
+    return isotach_speed;
+  }
+#endif
 
  private:
   std::vector<Gahm::Datatypes::Uvp> m_uvp;

@@ -23,6 +23,7 @@
 
 #include <array>
 #include <iostream>
+#include <vector>
 
 namespace Gahm::Datatypes {
 
@@ -105,6 +106,11 @@ class CircularArray {
 
   /* @brief Returns a const pointer to the data */
   constexpr auto data() const noexcept { return &m_data; }
+
+  /* @brief Return the data as a vector */
+  std::vector<T> asVector() const noexcept {
+    return std::vector<T>(m_data.begin(), m_data.end());
+  }
 
   /* @brief returns true if the array is empty */
   constexpr auto empty() const noexcept { return m_data.empty(); }

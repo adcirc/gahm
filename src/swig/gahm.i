@@ -11,6 +11,7 @@
 
 %{
 #define SWIG_FILE_WITH_INIT
+#include "gahm.h"
 
 #include "physical/Constants.h"
 #include "physical/Earth.h"
@@ -60,8 +61,11 @@ namespace std {
     %template(DoubleVector) vector<double>;
     %template(DoubleDoubleVector) vector<vector<double>>;
     %template(SizetSizetVector) vector<vector<size_t>>;
+    %template(AtcfSnapVector) vector<Gahm::Atcf::AtcfSnap>;
+    %template(AtcfIsotachVector) vector<Gahm::Atcf::AtcfIsotach>;
 }
 
+%include "gahm.h"
 
 %include "physical/Constants.h"
 %include "physical/Earth.h"

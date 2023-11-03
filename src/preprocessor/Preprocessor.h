@@ -28,7 +28,8 @@
 namespace Gahm {
 class Preprocessor {
  public:
-  explicit Preprocessor(Gahm::Atcf::AtcfFile *atcf, bool do_initialization = true);
+  explicit Preprocessor(Gahm::Atcf::AtcfFile *atcf,
+                        bool do_initialization = true);
 
   void prepareAtcfData();
   void solve();
@@ -39,11 +40,19 @@ class Preprocessor {
   void fillMissingAtcfData();
   void computeStormTranslationVelocities();
   void computeBoundaryLayerWindspeed();
-  static Gahm::Atcf::StormTranslation getTranslation(const Gahm::Atcf::AtcfSnap &now,
-                                              const Gahm::Atcf::AtcfSnap &next);
+  static Gahm::Atcf::StormTranslation getTranslation(
+      const Gahm::Atcf::AtcfSnap &now, const Gahm::Atcf::AtcfSnap &next);
 
-  static double computeSimpleRelativeIsotachWindspeed(
-      double wind_speed, Atcf::StormTranslation transit, int quadrant);
+  static double removeTranslationVelocity(double wind_speed, double vmax_10m,
+                                          const Atcf::StormTranslation &transit,
+                                          int quadrant);
+  static double removeTranslationVelocity(
+      double wind_speed, double vmax_10m,
+      const Atcf::StormTranslation &transit);
+
+  static double addTranslationVelocity(double wind_speed, double vmax_10m,
+                                       const Atcf::StormTranslation &transit,
+                                       int quadrant);
 
   Gahm::Atcf::AtcfFile *m_atcf{nullptr};
   bool m_isotachsProcessed;

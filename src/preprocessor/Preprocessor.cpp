@@ -60,6 +60,10 @@ void Preprocessor::solve() {
   }
 
   for (auto &snap : m_atcf->data()) {
+    double p_min = snap.centralPressure();
+    double p_back = snap.backgroundPressure();
+    double latitude = snap.position().y();
+
     for (auto &isotach : snap.getIsotachs()) {
       for (auto &quadrant : isotach.getQuadrants()) {
         double isotach_radius = quadrant.getIsotachRadius();
@@ -73,21 +77,11 @@ void Preprocessor::solve() {
           vmax = isotach_speed + 1.0;
         }
 
-        double p_min = snap.centralPressure();
-        double p_back = snap.backgroundPressure();
-        double latitude = snap.position().y();
         Gahm::Solver::GahmSolver solver(isotach_radius, isotach_speed, vmax,
                                         p_min, p_back, latitude);
         solver.solve();
-
-        double solution_gahm_rmax = solver.rmax();
-        double solution_gahm_b = solver.bg();
-
-        assert(solution_gahm_rmax > 0.0);
-        assert(solution_gahm_b > 0.0);
-
-        quadrant.setRadiusToMaxWindSpeed(solution_gahm_rmax);
-        quadrant.setGahmHollandB(solution_gahm_b);
+        quadrant.setRadiusToMaxWindSpeed(solver.rmax());
+        quadrant.setGahmHollandB(solver.bg());
       }
     }
   }
@@ -199,11 +193,13 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
   double dir = std::atan2(vv, uu);
   if (dir < 0.0) dir += Gahm::Physical::Constants::twoPi();
 
+  uv = 1.5 * std::pow(uv, 0.63);
+
   return {uv, dir};
 }
 
-/*
- * Computes the simple relative isotach wind speed
+/**
+ * Removes the translation speed from the wind speed
  * @param wind_speed Wind speed of the isotach
  * @param transit Storm translation object
  * @param quadrant Quadrant number
@@ -214,16 +210,34 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
  * speed.
  *
  */
-double Preprocessor::computeSimpleRelativeIsotachWindspeed(
-    double wind_speed, Atcf::StormTranslation transit, int quadrant) {
-  double theta = Atcf::AtcfQuadrant::quadrant_angle(quadrant) +
-                 transit.translationDirection();
-  double u = wind_speed * std::cos(theta) - transit.transitSpeedU();
-  double v = wind_speed * std::sin(theta) - transit.transitSpeedV();
-  return std::sqrt(u * u + v * v) * Physical::Constants::windReduction();
+double Preprocessor::removeTranslationVelocity(
+    double wind_speed, double vmax_10m, const Atcf::StormTranslation &transit,
+    int quadrant) {
+  double theta = Atcf::AtcfQuadrant::quadrant_angle(quadrant) + Physical::Constants::quarterPi();
+  double scaling_factor = std::min(1.0, wind_speed / vmax_10m);
+  auto [tsx, tsy] = transit.translationComponents();
+  tsx *= scaling_factor;
+  tsy *= scaling_factor;
+  double uu = wind_speed * std::cos(theta);
+  double vv = wind_speed * std::sin(theta);
+  return std::sqrt(std::pow(uu - tsx, 2.0) + std::pow(vv - tsy, 2.0));
 }
 
-/*
+/**
+ * @overload
+ * @brief Removes the translation speed from the wind speed
+ * @param wind_speed Wind speed of the isotach
+ * @param vmax_10m Maximum wind speed at 10m
+ * @param transit Storm translation object
+ * @return Wind speed with translation removed
+ */
+double Preprocessor::removeTranslationVelocity(
+    double wind_speed, double vmax_10m, const Atcf::StormTranslation &transit) {
+  double scaling_factor = std::min(1.0, wind_speed / vmax_10m);
+  return wind_speed - (transit.translationSpeed() * scaling_factor);
+}
+
+/**
  * Computes the boundary layer wind speeds for each snap
  */
 void Preprocessor::computeBoundaryLayerWindspeed() {
@@ -231,12 +245,12 @@ void Preprocessor::computeBoundaryLayerWindspeed() {
     for (auto &iso : snap.getIsotachs()) {
       for (auto &quad : iso.getQuadrants()) {
         quad.setIsotachSpeedAtBoundaryLayer(
-            Preprocessor::computeSimpleRelativeIsotachWindspeed(
-                iso.getWindSpeed(), snap.translation(),
+            Preprocessor::removeTranslationVelocity(
+                iso.getWindSpeed(), snap.vmaxBoundaryLayer(), snap.translation(),
                 quad.getQuadrantIndex()));
-        quad.setVmaxAtBoundaryLayer(
-            Preprocessor::computeSimpleRelativeIsotachWindspeed(
-                snap.vmax(), snap.translation(), quad.getQuadrantIndex()));
+        quad.setVmaxAtBoundaryLayer(Preprocessor::removeTranslationVelocity(
+            snap.vmaxBoundaryLayer(), snap.vmaxBoundaryLayer(),
+            snap.translation()));
       }
     }
   }

@@ -20,17 +20,14 @@
 //
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "physical/Constants.h"
-#include "physical/Earth.h"
-#include "physical/Units.h"
-#include "util/Interpolation.h"
+#include "gahm.h"
 
 TEST_CASE("Check Physical Constants", "[Constants]") {
   REQUIRE(Gahm::Physical::Constants::g() == 9.80665);
   REQUIRE(Gahm::Physical::Constants::rhoWater() == 1000.0);
-  REQUIRE(Gahm::Physical::Constants::oneToten() == 0.8928);
+  REQUIRE(Gahm::Physical::Constants::oneMinuteToTenMinuteWind() == 0.8928);
   REQUIRE(Gahm::Physical::Constants::backgroundPressure() == 1013.00);
-  REQUIRE(Gahm::Physical::Constants::windReduction() == 0.9);
+  REQUIRE(Gahm::Physical::Constants::topOfBoundaryLayerToTenMeter() == 0.9);
   REQUIRE(Gahm::Physical::Constants::rhoAir() == 1.293);
 }
 
