@@ -83,14 +83,6 @@ class AtcfQuadrant {
     return s_quadrant_angles[quadrant_index];
   }
 
-  static constexpr int next_quadrant_angle_index(int quadrant_index) {
-    return s_quadrant_angle_index[quadrant_index + 1];
-  }
-
-  static constexpr int previous_quadrant_angle_index(int quadrant_index) {
-    return s_quadrant_angle_index[quadrant_index - 1];
-  }
-
  private:
   int m_quadrant_index;
   double m_isotach_radius;
@@ -100,14 +92,11 @@ class AtcfQuadrant {
   double m_vmax_at_boundary_layer;
 
 #ifndef SWIG
-  static constexpr auto s_quadrant_angle_index =
-      Datatypes::CircularArray<int, 4>({0, 3, 2, 1});
-
   static constexpr auto s_quadrant_angles = Datatypes::CircularArray<double, 4>(
       {45.0 * Gahm::Physical::Constants::deg2rad(),
-       135.0 * Gahm::Physical::Constants::deg2rad(),
-       225.0 * Gahm::Physical::Constants::deg2rad(),
-       315.0 * Gahm::Physical::Constants::deg2rad()});
+       -45.0 * Gahm::Physical::Constants::deg2rad(),
+       -135.0 * Gahm::Physical::Constants::deg2rad(),
+       -225.0 * Gahm::Physical::Constants::deg2rad()});
 #endif
 };
 }  // namespace Gahm::Atcf

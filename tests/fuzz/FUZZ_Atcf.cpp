@@ -1,6 +1,6 @@
 #include <fuzzer/FuzzedDataProvider.h>
 
-#include <cstdlib>
+#include <array>
 #include <string>
 
 #include "atcf/AtcfFile.h"
@@ -16,7 +16,6 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
   double cp = fuzz_data.ConsumeFloatingPoint<double>();
   double bp = fuzz_data.ConsumeFloatingPoint<double>();
   double vmax = fuzz_data.ConsumeFloatingPoint<double>();
-  double vmax_bl = fuzz_data.ConsumeFloatingPoint<double>();
   Gahm::Datatypes::Date date =
       Gahm::Datatypes::Date::fromSeconds(fuzz_data.ConsumeIntegral<long>());
   int storm_id = fuzz_data.ConsumeIntegral<int>();
@@ -27,8 +26,8 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
   Gahm::Atcf::AtcfFile atcf;
   for (size_t i = 0; i < n_snaps; ++i) {
-    auto snap = Gahm::Atcf::AtcfSnap(basin, cp, bp, rmax, vmax, vmax_bl, date,
-                                     storm_id, storm_name);
+    auto snap = Gahm::Atcf::AtcfSnap(basin, cp, bp, rmax, vmax, date, storm_id,
+                                     storm_name);
     for (size_t j = 0; j < n_isotachs; ++j) {
       double isotach_wind_speed = fuzz_data.ConsumeFloatingPoint<double>();
       std::array<double, 4> radii = {fuzz_data.ConsumeFloatingPoint<double>(),

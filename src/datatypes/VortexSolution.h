@@ -105,6 +105,78 @@ class VortexSolution {
     return p;
   }
 
+  NODISCARD std::vector<double> azimuth() const {
+    std::vector<double> azimuth;
+    azimuth.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      azimuth.push_back(i.azimuth());
+    }
+    return azimuth;
+  }
+
+  NODISCARD std::vector<double> distance() const {
+    std::vector<double> distance;
+    distance.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      distance.push_back(i.distance());
+    }
+    return distance;
+  }
+
+  NODISCARD std::vector<double> tsx() const {
+    std::vector<double> tsx;
+    tsx.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      tsx.push_back(i.tsx());
+    }
+    return tsx;
+  }
+
+  NODISCARD std::vector<double> tsy() const {
+    std::vector<double> tsy;
+    tsy.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      tsy.push_back(i.tsy());
+    }
+    return tsy;
+  }
+
+  NODISCARD std::vector<double> quadrant_weight() const {
+    std::vector<double> quadrant_weight;
+    quadrant_weight.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      quadrant_weight.push_back(i.quadrant_weight());
+    }
+    return quadrant_weight;
+  }
+
+  NODISCARD std::vector<double> isotach_weight() const {
+    std::vector<double> isotach_weight;
+    isotach_weight.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      isotach_weight.push_back(i.isotach_weight());
+    }
+    return isotach_weight;
+  }
+
+  NODISCARD std::vector<double> quadrant() const {
+    std::vector<double> quadrant;
+    quadrant.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      quadrant.push_back(i.quadrant());
+    }
+    return quadrant;
+  }
+
+  NODISCARD std::vector<double> isotach() const {
+    std::vector<double> isotach;
+    isotach.reserve(m_uvp.size());
+    for (const auto &i : m_uvp) {
+      isotach.push_back(i.isotach());
+    }
+    return isotach;
+  }
+
  private:
   std::vector<Gahm::Datatypes::Uvp> m_uvp;
 };

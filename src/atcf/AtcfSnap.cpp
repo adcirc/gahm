@@ -46,14 +46,12 @@ namespace Gahm::Atcf {
  */
 AtcfSnap::AtcfSnap(AtcfSnap::BASIN basin, double central_pressure,
                    double background_pressure, double radius_to_max_winds,
-                   double vmax, double vmax_boundary_layer,
-                   const Datatypes::Date& date, int storm_id,
+                   double vmax, const Datatypes::Date& date, int storm_id,
                    std::string storm_name)
     : m_central_pressure(central_pressure),
       m_background_pressure(background_pressure),
       m_radius_to_max_winds(radius_to_max_winds),
       m_vmax(vmax),
-      m_vmax_boundary_layer(vmax_boundary_layer),
       m_holland_b(Gahm::Physical::Atmospheric::calcHollandB(
           vmax, central_pressure, background_pressure)),
       m_date(date),
@@ -324,12 +322,9 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
   const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
   const auto storm_name = boost::trim_copy(tokens[27]);
 
-  auto snap = AtcfSnap(
-      snap_basin, p_min,
-      Gahm::Physical::Constants::backgroundPressure() * 100.0, r_max, v_max,
-      v_max * Physical::Constants::tenMeterToTopOfBoundaryLayer() *
-          Physical::Constants::oneMinuteToTenMinuteWind(),
-      snap_date, storm_id, storm_name);
+  auto snap = AtcfSnap(snap_basin, p_min,
+                       Gahm::Physical::Constants::backgroundPressure() * 100.0,
+                       r_max, v_max, snap_date, storm_id, storm_name);
   snap.setPosition({lon, lat});
 
   auto isotach = AtcfSnap::parseIsotach(tokens);
@@ -350,15 +345,12 @@ AtcfIsotach AtcfSnap::parseIsotach(const std::vector<std::string>& tokens) {
   constexpr double nmi2m = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::NauticalMile, Gahm::Physical::Units::Meter);
 
-  auto isotach_wind_speed = readValueCheckBlank<double>(tokens[11]) * kt2ms *
-                            Physical::Constants::tenMeterToTopOfBoundaryLayer();
+  auto isotach_wind_speed = readValueCheckBlank<double>(tokens[11]) * kt2ms;
 
   if (isotach_wind_speed == 0.0) {
     // If no isotach speed is given, we set the isotach speed to vmax and the
     // radii to rmax
-    const auto v_max = readValueCheckBlank<double>(tokens[8]) * kt2ms *
-                       Physical::Constants::tenMeterToTopOfBoundaryLayer() *
-                       Physical::Constants::oneMinuteToTenMinuteWind();
+    const auto v_max = readValueCheckBlank<double>(tokens[8]) * kt2ms;
     const auto r_max = readValueCheckBlank<double>(tokens[19]) * nmi2m;
     return {v_max, {r_max, r_max, r_max, r_max}};
   } else {
