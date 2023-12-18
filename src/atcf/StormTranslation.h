@@ -43,9 +43,9 @@ class StormTranslation {
       : m_translation_speed(translation_speed),
         m_translation_direction(translation_direction),
         m_translation_speed_u(m_translation_speed *
-                              std::cos(m_translation_direction)),
+                              std::sin(m_translation_direction)),
         m_translation_speed_v(m_translation_speed *
-                              std::sin(m_translation_direction)) {}
+                              std::cos(m_translation_direction)) {}
 
   NODISCARD double translationSpeed() const { return m_translation_speed; }
 

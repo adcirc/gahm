@@ -49,8 +49,8 @@ class AtcfSnap {
 
   AtcfSnap(Gahm::Atcf::AtcfSnap::BASIN basin, double central_pressure,
            double background_pressure, double radius_to_max_winds, double vmax,
-           double vmax_boundary_layer, const Gahm::Datatypes::Date& date,
-           int storm_id, std::string storm_name);
+           const Gahm::Datatypes::Date& date, int storm_id,
+           std::string storm_name);
 
   static std::optional<AtcfSnap> parseAtcfSnap(const std::string& line);
 
@@ -87,8 +87,7 @@ class AtcfSnap {
   NODISCARD static Gahm::Atcf::AtcfSnap::BASIN basinFromString(
       const std::string& basin);
 
-  NODISCARD static std::string basinToString(
-      Gahm::Atcf::AtcfSnap::BASIN basin);
+  NODISCARD static std::string basinToString(Gahm::Atcf::AtcfSnap::BASIN basin);
 
   NODISCARD size_t numberOfIsotachs() const;
 
@@ -108,8 +107,8 @@ class AtcfSnap {
   NODISCARD bool isValid() const;
 
   NODISCARD std::string to_string(size_t cycle,
-                                      const Gahm::Datatypes::Date& start_date,
-                                      size_t isotach_index) const;
+                                  const Gahm::Datatypes::Date& start_date,
+                                  size_t isotach_index) const;
 
   void processIsotachRadii();
 

@@ -18,6 +18,7 @@
 // Author: Zach Cobell
 // Contact: zcobell@thewaterinstitute.org
 //
+#include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
 #include "gahm.h"
 
@@ -53,8 +54,8 @@ TEST_CASE("Construct AtcfQuadrant", "[AtcfQuadrant] ") {
 
 TEST_CASE("Construct AtcfSnap Manually", "[AtcfSnap]") {
   Gahm::Atcf::AtcfSnap snap(Gahm::Atcf::AtcfSnap::BASIN::AL, 980.0, 1013.0,
-                            20.0, 40.0, 35.0, Gahm::Datatypes::Date(2018, 9, 1),
-                            1, "Test");
+                            20.0, 40.0, Gahm::Datatypes::Date(2018, 9, 1), 1,
+                            "Test");
   const auto isotach0 = Gahm::Atcf::AtcfIsotach(20.0, {10, 20, 30, 40});
   const auto isotach1 = Gahm::Atcf::AtcfIsotach(40.0, {20, 30, 40, 50});
 
@@ -69,7 +70,7 @@ TEST_CASE("Construct AtcfSnap Manually", "[AtcfSnap]") {
   REQUIRE(snap.date() == Gahm::Datatypes::Date(2018, 9, 1));
   REQUIRE(snap.vmax() == 40.0);
   REQUIRE(snap.radiusToMaxWinds() == 20.0);
-  REQUIRE(snap.vmaxBoundaryLayer() == 35.0);
+  //REQUIRE(snap.vmaxBoundaryLayer() == Catch::Approx(0.0)); // Uninitialized until preprocessor
   REQUIRE(snap.stormId() == 1);
   REQUIRE(snap.stormName() == "Test");
   REQUIRE(snap.getIsotachs()[0].getWindSpeed() == 20.0);
@@ -93,8 +94,7 @@ TEST_CASE("Construct AtcfSnap from string", "[AtcfSnap]") {
           50.0 *
               Gahm::Physical::Units::convert(
                   Gahm::Physical::Units::Knot,
-                  Gahm::Physical::Units::MetersPerSecond) *
-              Gahm::Physical::Constants::tenMeterToTopOfBoundaryLayer());
+                  Gahm::Physical::Units::MetersPerSecond));
   REQUIRE(snap.stormId() == 12);
   REQUIRE(snap.stormName() == "KATRINA");
 }

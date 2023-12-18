@@ -38,9 +38,43 @@ class Uvp {
   Uvp()
       : m_u(0.0),
         m_v(0.0),
-        m_p(Gahm::Physical::Constants::backgroundPressure()) {}
+        m_p(Gahm::Physical::Constants::backgroundPressure()),
+        m_azimuth(0.0),
+        m_distance(0.0),
+        m_tsx(0.0),
+        m_tsy(0.0),
+        m_quadrant_weight(0.0),
+        m_isotach_weight(0.0),
+        m_quadrant(0),
+        m_isotach(0) {}
 
-  Uvp(double u, double v, double p) : m_u(u), m_v(v), m_p(p) {}
+  Uvp(double u, double v, double p)
+      : m_u(u),
+        m_v(v),
+        m_p(p),
+        m_azimuth(0.0),
+        m_distance(0.0),
+        m_tsx(0.0),
+        m_tsy(0.0),
+        m_quadrant_weight(0.0),
+        m_isotach_weight(0.0),
+        m_quadrant(0),
+        m_isotach(0) {}
+
+  Uvp(double u, double v, double p, double azimuth, double distance, double tsx,
+      double tsy, double quadrant_weight, double isotach_weight, int quadrant,
+      int isotach)
+      : m_u(u),
+        m_v(v),
+        m_p(p),
+        m_azimuth(azimuth),
+        m_distance(distance),
+        m_tsx(tsx),
+        m_tsy(tsy),
+        m_quadrant_weight(quadrant_weight),
+        m_isotach_weight(isotach_weight),
+        m_quadrant(quadrant),
+        m_isotach(isotach) {}
 
   NODISCARD double u() const { return m_u; }
 
@@ -48,9 +82,21 @@ class Uvp {
 
   NODISCARD double p() const { return m_p; }
 
-  NODISCARD std::tuple<double, double, double> get() const {
-    return std::make_tuple(m_u, m_v, m_p);
-  }
+  NODISCARD double azimuth() const { return m_azimuth; }
+
+  NODISCARD double distance() const { return m_distance; }
+
+  NODISCARD double tsx() const { return m_tsx; }
+
+  NODISCARD double tsy() const { return m_tsy; }
+
+  NODISCARD double quadrant_weight() const { return m_quadrant_weight; }
+
+  NODISCARD double isotach_weight() const { return m_isotach_weight; }
+
+  NODISCARD int quadrant() const { return m_quadrant; }
+
+  NODISCARD int isotach() const { return m_isotach; }
 
   void setU(double u) { m_u = u; }
 
@@ -75,6 +121,14 @@ class Uvp {
   double m_v;
   double m_p;
 
+  double m_azimuth;
+  double m_distance;
+  double m_tsx;
+  double m_tsy;
+  double m_quadrant_weight;
+  double m_isotach_weight;
+  int m_quadrant;
+  int m_isotach;
 };
 
 }  // namespace Gahm::Datatypes

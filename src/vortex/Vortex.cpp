@@ -152,11 +152,17 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
         current_storm_position.y());
 
     //...Add the translation speed back into the wind vector
-    uf += tsx;
-    vf += tsy;
+//    uf += tsx;
+//    vf += tsy;
+
+    uf *= Physical::Constants::oneMinuteToTenMinuteWind();
+    vf *= Physical::Constants::oneMinuteToTenMinuteWind();
 
     //...Add the solution to the solution vector
-    solution.emplace_back(uf, vf, pressure);
+    solution.emplace_back(
+        uf, vf, pressure, azimuth, distance, tsx, tsy,
+        point_position_0.quadrant_weight(), point_position_0.isotach_weight(),
+        point_position_0.quadrant(), point_position_0.isotach());
   }
 
   return solution;
@@ -194,11 +200,17 @@ std::tuple<double, double> Vortex::decomposeWindVector(double wind_speed,
 std::tuple<double, double> Vortex::computeTranslationVelocityComponents(
     double wind_speed, double vmax_at_boundary_layer,
     const Atcf::StormTranslation &translation) {
-  auto [translation_x, translation_y] = translation.translationComponents();
-  auto translation_speed_scaling = wind_speed / vmax_at_boundary_layer;
-  auto tsx = translation_speed_scaling * translation_x;
-  auto tsy = translation_speed_scaling * translation_y;
-  return {tsx, tsy};
+  double scaling_factor = std::min(1.0, wind_speed / vmax_at_boundary_layer);
+
+  double s_x =
+      translation.transitSpeed() * std::sin(translation.translationDirection());
+  double s_y =
+      translation.transitSpeed() * std::cos(translation.translationDirection());
+
+  s_x *= scaling_factor;
+  s_y *= scaling_factor;
+
+  return {s_x, s_y};
 }
 
 /**

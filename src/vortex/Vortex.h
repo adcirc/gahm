@@ -67,6 +67,9 @@ class Vortex {
       double wind_speed, double vmax_at_boundary_layer,
       const Atcf::StormTranslation &translation);
 
+  NODISCARD static std::tuple<double, double> decomposeWindVector(
+      double wind_speed, double azimuth, double latitude);
+
  private:
   struct t_parameter_pack {
     double radius_to_max_wind;
@@ -89,10 +92,6 @@ class Vortex {
   static t_parameter_pack interpolateParameterPackQuadrant(
       const Gahm::Datatypes::PointPosition &point_position,
       const Atcf::AtcfSnap &snap);
-
-  static std::tuple<double, double> decomposeWindVector(double wind_speed,
-                                                        double azimuth,
-                                                        double latitude);
 
   static t_parameter_pack interpolateParameterPack(const t_parameter_pack &p0,
                                                    const t_parameter_pack &p1,
