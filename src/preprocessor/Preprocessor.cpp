@@ -20,11 +20,18 @@
 //
 #include "Preprocessor.h"
 
+#include <algorithm>
+#include <cmath>
 #include <iterator>
+#include <stdexcept>
 
+#include "atcf/AtcfFile.h"
+#include "atcf/AtcfQuadrant.h"
+#include "atcf/AtcfSnap.h"
+#include "atcf/StormTranslation.h"
 #include "gahm/GahmSolver.h"
+#include "physical/Constants.h"
 #include "physical/Earth.h"
-#include "vortex/Vortex.h"
 
 namespace Gahm {
 
@@ -34,7 +41,9 @@ namespace Gahm {
  */
 Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf, bool do_initialization)
     : m_atcf(atcf), m_isotachsProcessed(false) {
-  if (do_initialization) this->prepareAtcfData();
+  if (do_initialization) {
+    this->prepareAtcfData();
+  }
 }
 
 /*
@@ -112,7 +121,7 @@ void Preprocessor::fillMissingAtcfData() {
         auto right_index = missing_index + 1;
         auto mean = (isotach.getQuadrants()[left_index].getIsotachRadius() +
                      isotach.getQuadrants()[right_index].getIsotachRadius()) /
-                    2.0;
+                    2;
         missing->setIsotachRadius(mean);
       } else if (n_missing == 2) {
         // We need to find the two missing quadrants and take the average of the
@@ -124,7 +133,7 @@ void Preprocessor::fillMissingAtcfData() {
               sum += q.getIsotachRadius();
             }
           }
-          return sum / 2.0;
+          return sum / 2;
         }();
         for (auto &q : isotach.getQuadrants()) {
           if (q.getIsotachRadius() == 0.0) {
@@ -187,16 +196,22 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
       now.position().x(), now.position().y(), next.position().x(),
       next.position().y());
   auto uu = std::abs(u_dis / dt);
-  if (next.position().x() - now.position().x() < 0.0) uu *= -1.0;
+  if (next.position().x() - now.position().x() < 0.0) {
+    uu *= -1.0;
+  }
 
   double vv = std::abs(v_dis / dt);
-  if (next.position().y() - now.position().y() < 0.0) vv *= -1.0;
+  if (next.position().y() - now.position().y() < 0.0) {
+    vv *= -1.0;
+  }
 
-  double uv = uv_dis / dt;
+  const double uv = uv_dis / dt;
   double dir = std::atan2(uu, vv);
-  if (dir < 0.0) dir += Gahm::Physical::Constants::twoPi();
+  if (dir < 0.0) {
+    dir += Gahm::Physical::Constants::twoPi();
+  }
 
-  uv = 1.5 * std::pow(uv, 0.63);
+  // uv = 1.5 * std::pow(uv, 0.63);
 
   return {uv, dir};
 }
@@ -213,44 +228,31 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
  * speed.
  *
  */
-#include "vortex/Vortex.h"
-double Preprocessor::removeTranslationVelocity(
-    double wind_speed, double vmax_10m, int quadrant,
-    const Atcf::StormTranslation &transit, double latitude) {
-  //  double uu =
-  //      wind_speed *
-  //      std::cos(Atcf::AtcfQuadrant::quadrant_angle(quadrant)+Physical::Constants::halfPi());
-  //  double vv =
-  //      wind_speed *
-  //      std::sin(Atcf::AtcfQuadrant::quadrant_angle(quadrant)+Physical::Constants::halfPi());
-  //  double tsx =
-  //      transit.transitSpeed() * std::sin(transit.translationDirection());
-  //  double tsy =
-  //      transit.transitSpeed() * std::cos(transit.translationDirection());
-
-
-
-  auto [uu, vv] = Vortex::decomposeWindVector(
-      wind_speed, Atcf::AtcfQuadrant::quadrant_angle(quadrant), latitude);
-  auto [tsx, tsy] = Vortex::computeTranslationVelocityComponents(
-      wind_speed, vmax_10m, transit);
-
-  return wind_speed;
-  return std::sqrt(std::pow(uu - tsx, 2.0) + std::pow(vv - tsy, 2.0));
+double Preprocessor::removeTranslationVelocityScalar(
+    double wind_speed, double vmax_10m, const Atcf::StormTranslation &transit) {
+  const double storm_motion = 1.5 * std::pow(transit.translationSpeed(), 0.63);
+  return wind_speed - storm_motion;
 }
 
-/**
- * @overload
- * @brief Removes the translation speed from the wind speed
- * @param wind_speed Wind speed of the isotach
- * @param vmax_10m Maximum wind speed at 10m
- * @param transit Storm translation object
- * @return Wind speed with translation removed
- */
-double Preprocessor::removeTranslationVelocity(
-    double wind_speed, double vmax_10m, const Atcf::StormTranslation &transit) {
-  double scaling_factor = std::min(1.0, wind_speed / vmax_10m);
-  return wind_speed - (transit.translationSpeed() * scaling_factor);
+double Preprocessor::removeTranslationVelocityComponents(
+    double wind_speed, double vmax_10m, int quadrant,
+    const Atcf::StormTranslation &transit) {
+  const double scaling_factor = std::min(1.0, wind_speed / vmax_10m);
+  const double storm_motion =
+      1.5 * std::pow(transit.translationSpeed(), 0.63) * scaling_factor;
+  const double storm_motion_u =
+      storm_motion * std::sin(transit.translationDirection());
+  const double storm_motion_v =
+      storm_motion * std::cos(transit.translationDirection());
+
+  const double quadrant_angle = Atcf::AtcfQuadrant::quadrant_angle(quadrant) +
+                                Physical::Constants::halfPi();
+
+  const double u = wind_speed * std::cos(quadrant_angle);
+  const double v = wind_speed * std::sin(quadrant_angle);
+
+  return std::sqrt(std::pow(u - storm_motion_u, 2) +
+                   std::pow(v - storm_motion_v, 2));
 }
 
 /**
@@ -260,17 +262,17 @@ void Preprocessor::computeBoundaryLayerWindspeed() {
   for (auto &snap : m_atcf->data()) {
     double vmax =
         snap.vmax() * Physical::Constants::tenMeterToTopOfBoundaryLayer();
-    vmax =
-        Preprocessor::removeTranslationVelocity(vmax, vmax, snap.translation());
+    vmax = Preprocessor::removeTranslationVelocityScalar(vmax, vmax,
+                                                         snap.translation());
     snap.setVmaxBoundaryLayer(vmax);
 
     for (auto &iso : snap.getIsotachs()) {
       for (auto &quad : iso.getQuadrants()) {
         double isotach_boundarylayer_speed =
-            Preprocessor::removeTranslationVelocity(
+            Preprocessor::removeTranslationVelocityComponents(
                 iso.getWindSpeed(), snap.vmaxBoundaryLayer(),
-                quad.getQuadrantIndex(), snap.translation(),
-                snap.position().y());
+                quad.getQuadrantIndex(), snap.translation());
+
         isotach_boundarylayer_speed *=
             Physical::Constants::tenMeterToTopOfBoundaryLayer();
         quad.setIsotachSpeedAtBoundaryLayer(isotach_boundarylayer_speed);

@@ -152,8 +152,8 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
         current_storm_position.y());
 
     //...Add the translation speed back into the wind vector
-//    uf += tsx;
-//    vf += tsy;
+    uf += tsx;
+    vf += tsy;
 
     uf *= Physical::Constants::oneMinuteToTenMinuteWind();
     vf *= Physical::Constants::oneMinuteToTenMinuteWind();

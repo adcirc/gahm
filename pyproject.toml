@@ -70,3 +70,4 @@ commit_message = "Bump version: {current_version} -> {new_version}"
 "pyproject.toml" = [ 'version = "{new_version}"',
                      'current_version = "{new_version}"']
 "setup.py" = [ '__version__ = "{new_version}' ]
+"src/gahm.h" = [ "std::string library_version() { return \"{new_version}\"; }" ] 

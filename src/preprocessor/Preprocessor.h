@@ -43,12 +43,12 @@ class Preprocessor {
   static Gahm::Atcf::StormTranslation getTranslation(
       const Gahm::Atcf::AtcfSnap &now, const Gahm::Atcf::AtcfSnap &next);
 
-  static double removeTranslationVelocity(double wind_speed, double vmax_10m,
-                                          int quadrant,
-                                          const Atcf::StormTranslation &transit,
-                                          double latitude);
-  static double removeTranslationVelocity(
+  static double removeTranslationVelocityScalar(
       double wind_speed, double vmax_10m,
+      const Atcf::StormTranslation &transit);
+
+  static double removeTranslationVelocityComponents(
+      double wind_speed, double vmax_10m, int quadrant,
       const Atcf::StormTranslation &transit);
 
   Gahm::Atcf::AtcfFile *m_atcf{nullptr};
