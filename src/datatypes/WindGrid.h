@@ -24,7 +24,6 @@
 #include <cstdlib>
 #include <vector>
 
-#include "datatypes/Point.h"
 #include "datatypes/PointCloud.h"
 
 #ifdef SWIG
@@ -39,8 +38,8 @@ class WindGrid {
   WindGrid(double xll, double yll, double dx, double dy, size_t nx, size_t ny)
       : m_xll(xll), m_yll(yll), m_dx(dx), m_dy(dy), m_nx(nx), m_ny(ny) {}
 
-  static WindGrid fromCorners(double xll, double yll, double xur, double yur,
-                              double dx, double dy) {
+  static auto fromCorners(double xll, double yll, double xur, double yur,
+                          double dx, double dy) -> WindGrid {
     return {xll,
             yll,
             dx,
@@ -49,12 +48,12 @@ class WindGrid {
             static_cast<size_t>((yur - yll) / dy)};
   }
 
-  NODISCARD double xll() const { return m_xll; }
-  NODISCARD double yll() const { return m_yll; }
-  NODISCARD double dx() const { return m_dx; }
-  NODISCARD double dy() const { return m_dy; }
-  NODISCARD size_t nx() const { return m_nx; }
-  NODISCARD size_t ny() const { return m_ny; }
+  NODISCARD auto xll() const -> double { return m_xll; }
+  NODISCARD auto yll() const -> double { return m_yll; }
+  NODISCARD auto dx() const -> double { return m_dx; }
+  NODISCARD auto dy() const -> double { return m_dy; }
+  NODISCARD auto nx() const -> size_t { return m_nx; }
+  NODISCARD auto ny() const -> size_t { return m_ny; }
 
   void setXll(double xll) { m_xll = xll; }
   void setYll(double yll) { m_yll = yll; }
@@ -63,14 +62,14 @@ class WindGrid {
   void setNx(size_t nx) { m_nx = nx; }
   void setNy(size_t ny) { m_ny = ny; }
 
-  NODISCARD double x(size_t i) const {
+  NODISCARD auto x(size_t i) const -> double {
     return m_xll + static_cast<double>(i) * m_dx;
   }
-  NODISCARD double y(size_t j) const {
+  NODISCARD auto y(size_t j) const -> double {
     return m_yll + static_cast<double>(j) * m_dy;
   }
 
-  NODISCARD std::vector<double> x_vector() const {
+  NODISCARD auto x_vector() const -> std::vector<double> {
     std::vector<double> x(m_nx);
     for (size_t i = 0; i < m_nx; i++) {
       x[i] = m_xll + static_cast<double>(i) * m_dx;
@@ -78,7 +77,7 @@ class WindGrid {
     return x;
   }
 
-  NODISCARD std::vector<double> y_vector() const {
+  NODISCARD auto y_vector() const -> std::vector<double> {
     std::vector<double> y(m_ny);
     for (size_t j = 0; j < m_ny; j++) {
       y[j] = m_yll + static_cast<double>(j) * m_dy;
@@ -86,7 +85,7 @@ class WindGrid {
     return y;
   }
 
-  NODISCARD Gahm::Datatypes::PointCloud points() const {
+  NODISCARD auto points() const -> Gahm::Datatypes::PointCloud {
     auto xv = x_vector();
     auto yv = y_vector();
     Gahm::Datatypes::PointCloud points;
@@ -99,7 +98,7 @@ class WindGrid {
     return points;
   }
 
-  NODISCARD std::vector<std::vector<double>> x_grid() const {
+  NODISCARD auto x_grid() const -> std::vector<std::vector<double>> {
     std::vector<std::vector<double>> x_g;
     x_g.reserve(m_nx);
     for (size_t i = 0; i < m_nx; i++) {
@@ -111,7 +110,7 @@ class WindGrid {
     return x_g;
   }
 
-  NODISCARD std::vector<std::vector<double>> y_grid() const {
+  NODISCARD auto y_grid() const -> std::vector<std::vector<double>> {
     std::vector<std::vector<double>> y_g;
     y_g.reserve(m_nx);
     for (size_t i = 0; i < m_nx; i++) {

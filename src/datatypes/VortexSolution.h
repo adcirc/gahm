@@ -25,7 +25,6 @@
 #include <vector>
 
 #include "Uvp.h"
-#include "physical/Constants.h"
 
 #ifdef SWIG
 #define NODISCARD
@@ -40,9 +39,9 @@ class VortexSolution {
 
   explicit VortexSolution(size_t size) { m_uvp.reserve(size); }
 
-  NODISCARD size_t size() const { return m_uvp.size(); }
+  NODISCARD auto size() const -> size_t { return m_uvp.size(); }
 
-  NODISCARD bool empty() const { return m_uvp.empty(); }
+  NODISCARD auto empty() const -> bool { return m_uvp.empty(); }
 
   void resize(size_t size, const Gahm::Datatypes::Uvp &value) {
     m_uvp.resize(size, value);
@@ -51,18 +50,23 @@ class VortexSolution {
   void reserve(size_t size) { m_uvp.reserve(size); }
 
 #ifndef SWIG
-  Gahm::Datatypes::Uvp &operator[](size_t index) { return m_uvp[index]; }
-  NODISCARD const Gahm::Datatypes::Uvp &operator[](size_t index) const {
+  auto operator[](size_t index) -> Gahm::Datatypes::Uvp & {
+    return m_uvp[index];
+  }
+  NODISCARD auto operator[](size_t index) const
+      -> const Gahm::Datatypes::Uvp & {
     return m_uvp[index];
   }
 #endif
 
-  Gahm::Datatypes::Uvp &at(size_t index) { return this->operator[](index); }
-  NODISCARD const Gahm::Datatypes::Uvp &at(size_t index) const {
+  auto at(size_t index) -> Gahm::Datatypes::Uvp & {
+    return this->operator[](index);
+  }
+  NODISCARD auto at(size_t index) const -> const Gahm::Datatypes::Uvp & {
     return this->operator[](index);
   }
 
-  NODISCARD const std::vector<Gahm::Datatypes::Uvp> &uvp() const {
+  NODISCARD auto uvp() const -> const std::vector<Gahm::Datatypes::Uvp> & {
     return m_uvp;
   }
 
@@ -78,7 +82,7 @@ class VortexSolution {
   auto back() { return m_uvp.back(); }
 #endif
 
-  NODISCARD std::vector<double> u() const {
+  NODISCARD auto u() const -> std::vector<double> {
     std::vector<double> u;
     u.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -87,7 +91,7 @@ class VortexSolution {
     return u;
   }
 
-  NODISCARD std::vector<double> v() const {
+  NODISCARD auto v() const -> std::vector<double> {
     std::vector<double> v;
     v.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -96,7 +100,7 @@ class VortexSolution {
     return v;
   }
 
-  NODISCARD std::vector<double> p() const {
+  NODISCARD auto p() const -> std::vector<double> {
     std::vector<double> p;
     p.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -105,7 +109,7 @@ class VortexSolution {
     return p;
   }
 
-  NODISCARD std::vector<double> azimuth() const {
+  NODISCARD auto azimuth() const -> std::vector<double> {
     std::vector<double> azimuth;
     azimuth.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -114,7 +118,7 @@ class VortexSolution {
     return azimuth;
   }
 
-  NODISCARD std::vector<double> distance() const {
+  NODISCARD auto distance() const -> std::vector<double> {
     std::vector<double> distance;
     distance.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -123,7 +127,7 @@ class VortexSolution {
     return distance;
   }
 
-  NODISCARD std::vector<double> tsx() const {
+  NODISCARD auto tsx() const -> std::vector<double> {
     std::vector<double> tsx;
     tsx.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -132,7 +136,7 @@ class VortexSolution {
     return tsx;
   }
 
-  NODISCARD std::vector<double> tsy() const {
+  NODISCARD auto tsy() const -> std::vector<double> {
     std::vector<double> tsy;
     tsy.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -141,7 +145,7 @@ class VortexSolution {
     return tsy;
   }
 
-  NODISCARD std::vector<double> quadrant_weight() const {
+  NODISCARD auto quadrant_weight() const -> std::vector<double> {
     std::vector<double> quadrant_weight;
     quadrant_weight.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -150,7 +154,7 @@ class VortexSolution {
     return quadrant_weight;
   }
 
-  NODISCARD std::vector<double> isotach_weight() const {
+  NODISCARD auto isotach_weight() const -> std::vector<double> {
     std::vector<double> isotach_weight;
     isotach_weight.reserve(m_uvp.size());
     for (const auto &i : m_uvp) {
@@ -159,20 +163,20 @@ class VortexSolution {
     return isotach_weight;
   }
 
-  NODISCARD std::vector<double> quadrant() const {
+  NODISCARD auto quadrant() const -> std::vector<double> {
     std::vector<double> quadrant;
     quadrant.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      quadrant.push_back(i.quadrant());
+    for (const auto &iter : m_uvp) {
+      quadrant.push_back(iter.quadrant());
     }
     return quadrant;
   }
 
-  NODISCARD std::vector<double> isotach() const {
+  NODISCARD auto isotach() const -> std::vector<double> {
     std::vector<double> isotach;
     isotach.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      isotach.push_back(i.isotach());
+    for (const auto &iter : m_uvp) {
+      isotach.push_back(iter.isotach());
     }
     return isotach;
   }
