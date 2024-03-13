@@ -20,7 +20,9 @@
 //
 #include "GahmEquations.h"
 
-#include <iostream>
+#include <cmath>
+
+#include "physical/Atmospheric.h"
 
 /**
  * Function to compute radius to max wind \f$V_g(r)\f$
@@ -41,10 +43,10 @@
  * @param gahm_holland_b GAHM Holland B
  * @return Solution to gradient wind
  */
-double Gahm::Solver::GahmEquations::GahmFunction(
+auto Gahm::Solver::GahmEquations::GahmFunction(
     double radius_to_max_wind, double vmax_at_boundary_layer,
     double isotach_windspeed_at_boundary_layer, double distance,
-    double coriolis_force, double gahm_holland_b, double phi) {
+    double coriolis_force, double gahm_holland_b, double phi) -> double {
   const auto ro = Gahm::Physical::Atmospheric::rossbyNumber(
       vmax_at_boundary_layer, radius_to_max_wind, coriolis_force);
   const auto rmbg = std::pow(radius_to_max_wind / distance, gahm_holland_b);
@@ -74,10 +76,10 @@ double Gahm::Solver::GahmEquations::GahmFunction(
  * This function is called when the phi value is not known and must be
  * computed
  */
-double Gahm::Solver::GahmEquations::GahmFunction(
+auto Gahm::Solver::GahmEquations::GahmFunction(
     double radius_to_max_wind, double vmax_at_boundary_layer,
     double isotach_windspeed_at_boundary_layer, double distance,
-    double coriolis_force, double gahm_holland_b) {
+    double coriolis_force, double gahm_holland_b) -> double {
   const auto phi_local =
       GahmEquations::phi(vmax_at_boundary_layer, radius_to_max_wind,
                          gahm_holland_b, coriolis_force);
@@ -104,10 +106,10 @@ double Gahm::Solver::GahmEquations::GahmFunction(
  * @param gahm_holland_b GAHM Holland B parameter
  * @return Solution to first derivative
  */
-double Gahm::Solver::GahmEquations::GahmFunctionDerivative(
+auto Gahm::Solver::GahmEquations::GahmFunctionDerivative(
     double radius_to_max_wind, double vmax_at_boundary_layer,
     double isotach_radius, double coriolis_force, double gahm_holland_b,
-    double phi) {
+    double phi) -> double {
   const auto f3 = std::pow(radius_to_max_wind / isotach_radius, gahm_holland_b);
   const auto f4 =
       std::pow(radius_to_max_wind / isotach_radius, gahm_holland_b - 1.0);
@@ -130,9 +132,10 @@ double Gahm::Solver::GahmEquations::GahmFunctionDerivative(
   return (a + b - c) / d;
 }
 
-double Gahm::Solver::GahmEquations::GahmFunctionDerivative(
+auto Gahm::Solver::GahmEquations::GahmFunctionDerivative(
     double radius_to_max_wind, double vmax_at_boundary_layer,
-    double isotach_radius, double coriolis_force, double gahm_holland_b) {
+    double isotach_radius, double coriolis_force, double gahm_holland_b)
+    -> double {
   const auto phi =
       GahmEquations::phi(vmax_at_boundary_layer, radius_to_max_wind,
                          gahm_holland_b, coriolis_force);
@@ -141,20 +144,18 @@ double Gahm::Solver::GahmEquations::GahmFunctionDerivative(
                                 phi);
 }
 
-double Gahm::Solver::GahmEquations::GahmPressure(
+auto Gahm::Solver::GahmEquations::GahmPressure(
     double central_pressure, double background_pressure, double distance,
-    double radius_to_max_winds, double gahm_holland_b, double phi) {
+    double radius_to_max_winds, double gahm_holland_b, double phi) -> double {
   return central_pressure +
          (background_pressure - central_pressure) *
              std::exp(-phi *
                       std::pow(radius_to_max_winds / distance, gahm_holland_b));
 }
 
-double Gahm::Solver::GahmEquations::GahmWindSpeed(double radius_to_max_wind,
-                                                  double vmax_at_boundary_layer,
-                                                  double distance,
-                                                  double coriolis,
-                                                  double gahm_holland_b) {
+auto Gahm::Solver::GahmEquations::GahmWindSpeed(
+    double radius_to_max_wind, double vmax_at_boundary_layer, double distance,
+    double coriolis, double gahm_holland_b) -> double {
   return Gahm::Solver::GahmEquations::GahmFunction(
       radius_to_max_wind, vmax_at_boundary_layer, 0.0, distance, coriolis,
       gahm_holland_b);

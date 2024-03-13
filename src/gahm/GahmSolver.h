@@ -21,8 +21,9 @@
 #ifndef GAHM_SRC_GAHMSOLVER_H_
 #define GAHM_SRC_GAHMSOLVER_H_
 
+#include <cstddef>
+
 #include "gahm/GahmRadiusSolver.h"
-#include "physical/Constants.h"
 
 namespace Gahm::Solver {
 
@@ -33,30 +34,30 @@ class GahmSolver {
 
   void solve();
 
-  [[nodiscard]] double isotachRadius() const;
+  [[nodiscard]] auto isotachRadius() const -> double;
 
-  [[nodiscard]] double isotachSpeed() const;
+  [[nodiscard]] auto isotachSpeed() const -> double;
 
-  [[nodiscard]] double latitude() const;
+  [[nodiscard]] auto latitude() const -> double;
 
-  [[nodiscard]] double pc() const;
+  [[nodiscard]] auto pc() const -> double;
 
-  [[nodiscard]] double pbk() const;
+  [[nodiscard]] auto pbk() const -> double;
 
-  [[nodiscard]] double fc() const;
+  [[nodiscard]] auto fc() const -> double;
 
-  [[nodiscard]] double vmax() const;
+  [[nodiscard]] auto vmax() const -> double;
 
-  [[nodiscard]] double rmax() const;
+  [[nodiscard]] auto rmax() const -> double;
 
-  [[nodiscard]] double bg() const;
+  [[nodiscard]] auto bg() const -> double;
 
-  [[nodiscard]] double phi() const;
+  [[nodiscard]] auto phi() const -> double;
 
-  [[nodiscard]] size_t it() const;
+  [[nodiscard]] auto it() const -> size_t;
 
  private:
-  static double estimateRmax(double dp, double lat, double isorad);
+  static auto estimateRmax(double dp, double lat, double isorad) -> double;
 
   double m_isotachRadius;
   double m_isotachSpeed;

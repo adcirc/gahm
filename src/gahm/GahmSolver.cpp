@@ -21,9 +21,11 @@
 #include "GahmSolver.h"
 
 #include <algorithm>
-#include <cmath>
-#include <stdexcept>
 #include <cassert>
+#include <cmath>
+#include <cstddef>
+#include <limits>
+#include <string>
 
 #include "boost/math/policies/error_handling.hpp"
 #include "gahm/GahmEquations.h"
@@ -93,52 +95,53 @@ void GahmSolver::solve() {
  * Returns the isotach radius
  * @return isotach radius
  */
-double GahmSolver::isotachRadius() const { return m_isotachRadius; }
+auto GahmSolver::isotachRadius() const -> double { return m_isotachRadius; }
 
 /**
  * Returns the isotach speed
  * @return isotach speed
  */
-double GahmSolver::isotachSpeed() const { return m_isotachSpeed; }
+auto GahmSolver::isotachSpeed() const -> double { return m_isotachSpeed; }
 
 /**
  * Returns the storm latitude
  * @return storm latitude
  */
-double GahmSolver::latitude() const { return m_latitude; }
+auto GahmSolver::latitude() const -> double { return m_latitude; }
 
 /**
  * Returns the central pressure
  * @return central pressure
  */
-double GahmSolver::pc() const { return m_pc; }
+auto GahmSolver::pc() const -> double { return m_pc; }
 
 /**
  * Returns the background pressure
  * @return background pressure
  */
-double GahmSolver::pbk() const { return m_pbk; }
+auto GahmSolver::pbk() const -> double { return m_pbk; }
 
 /**
  * Returns the coriolis force
  * @return coriolis force
  */
-double GahmSolver::fc() const { return m_fc; }
+auto GahmSolver::fc() const -> double { return m_fc; }
 
 /**
  * Returns the maximum wind speed
  * @return maximum wind speed
  */
-double GahmSolver::vmax() const { return m_vmax; }
+auto GahmSolver::vmax() const -> double { return m_vmax; }
 
 /**
  * Returns the solution to the radius to maximum winds. Note that when the
  * solver has not been run, the solution is std::numeric_limits<double>::max()
  * @return radius to maximum winds
  */
-double GahmSolver::rmax() const {
+auto GahmSolver::rmax() const -> double {
   if (m_it == 0) {
-    throw boost::math::evaluation_error("GAHM Solver ERROR: Solver has not run");
+    throw boost::math::evaluation_error(
+        "GAHM Solver ERROR: Solver has not run");
   }
   return m_rmax;
 }
@@ -148,9 +151,10 @@ double GahmSolver::rmax() const {
  * solver has not run, the solution is the standard Holland B
  * @return GAHM holland B
  */
-double GahmSolver::bg() const {
+auto GahmSolver::bg() const -> double {
   if (m_it == 0) {
-    throw boost::math::evaluation_error("GAHM Solver ERROR: Solver has not run");
+    throw boost::math::evaluation_error(
+        "GAHM Solver ERROR: Solver has not run");
   }
   return m_bg;
 }
@@ -159,13 +163,13 @@ double GahmSolver::bg() const {
  * Returns the number of iterations used in the GAHM Holland B solver
  * @return
  */
-size_t GahmSolver::it() const { return m_it; }
+auto GahmSolver::it() const -> size_t { return m_it; }
 
 /*
  * Returns the solution to the GAHM phi parameter. Note that when the
  * solver has not run, the solution is 1.0
  */
-double GahmSolver::phi() const { return m_phi; }
+auto GahmSolver::phi() const -> double { return m_phi; }
 
 /**
  * Estimates the rmax. Used as the initial guess for the solver
@@ -174,8 +178,8 @@ double GahmSolver::phi() const { return m_phi; }
  * @param isorad isotach radius that we are solving for (upper bound)
  * @return estimate of rmax
  */
-double GahmSolver::estimateRmax(const double dp, const double lat,
-                                const double isorad) {
+auto GahmSolver::estimateRmax(const double dp, const double lat,
+                              const double isorad) -> double {
   assert(dp >= 0.0);
   assert(isorad > 0.0);
   auto r1 =

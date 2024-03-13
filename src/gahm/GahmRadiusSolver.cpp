@@ -20,7 +20,12 @@
 //
 #include "gahm/GahmRadiusSolver.h"
 
+#include <limits>
+#include <string>
+
+#include "boost/math/policies/error_handling.hpp"
 #include "boost/math/tools/roots.hpp"
+#include "boost/throw_exception.hpp"
 
 namespace Gahm::Solver {
 
@@ -43,11 +48,13 @@ GahmRadiusSolver::GahmRadiusSolver(double isotach_radius, double isotach_speed,
  * @param guess guess for solution
  * @return radius to maximum winds
  */
-double GahmRadiusSolver::solve(double lower, double upper, double guess) const {
-  auto it = m_max_it;
+auto GahmRadiusSolver::solve(double lower, double upper, double guess) const
+    -> double {
+  auto iter = m_max_it;
   try {
     return boost::math::tools::newton_raphson_iterate(
-        m_solver, guess, lower, upper, std::numeric_limits<double>::digits, it);
+        m_solver, guess, lower, upper, std::numeric_limits<double>::digits,
+        iter);
   } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
     auto error = std::string("Unable to solve for radius to maximum winds: " +
                              std::string(e.what()));
@@ -60,11 +67,11 @@ double GahmRadiusSolver::solve(double lower, double upper, double guess) const {
  * iterations
  * @param bg GAHM Holland B
  */
-void GahmRadiusSolver::setBg(double bg) { m_solver.setBg(bg); }
+void GahmRadiusSolver::setBg(double b_gahm) { m_solver.setBg(b_gahm); }
 
 /**
  * Returns the current GAHM Holland B parameter
  * @return GAHM Holland B
  */
-double GahmRadiusSolver::bg() const { return m_solver.bg(); }
+auto GahmRadiusSolver::bg() const -> double { return m_solver.bg(); }
 }  // namespace Gahm::Solver
