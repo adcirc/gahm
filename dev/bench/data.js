@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1710308489036,
+  "lastUpdate": 1710334664039,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -2040,6 +2040,36 @@ window.BENCHMARK_DATA = {
             "value": 42924386.764706045,
             "unit": "ns/iter",
             "extra": "iterations: 17\ncpu: 42922619.11764706 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "2cd7c8f49377a624049cae1d0d71832368395958",
+          "message": "Fixing issue with trailing return types",
+          "timestamp": "2024-03-13T08:55:11-04:00",
+          "tree_id": "679492a558512fde8683bf9580b299d807550824",
+          "url": "https://github.com/adcirc/gahm/commit/2cd7c8f49377a624049cae1d0d71832368395958"
+        },
+        "date": 1710334663021,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 43081777.37499364,
+            "unit": "ns/iter",
+            "extra": "iterations: 16\ncpu: 43080595.43750001 ns\nthreads: 1"
           }
         ]
       }
