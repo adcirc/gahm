@@ -62,11 +62,12 @@ class VortexSolution {
   auto at(size_t index) -> Gahm::Datatypes::Uvp & {
     return this->operator[](index);
   }
-  NODISCARD auto at(size_t index) const -> const Gahm::Datatypes::Uvp & {
+
+  NODISCARD const Gahm::Datatypes::Uvp &at(size_t index) const {
     return this->operator[](index);
   }
 
-  NODISCARD auto uvp() const -> const std::vector<Gahm::Datatypes::Uvp> & {
+  NODISCARD const std::vector<Gahm::Datatypes::Uvp> &uvp() const {
     return m_uvp;
   }
 
