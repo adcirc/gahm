@@ -59,9 +59,7 @@ class VortexSolution {
   }
 #endif
 
-  auto at(size_t index) -> Gahm::Datatypes::Uvp & {
-    return this->operator[](index);
-  }
+  Gahm::Datatypes::Uvp &at(size_t index) { return this->operator[](index); }
 
   NODISCARD const Gahm::Datatypes::Uvp &at(size_t index) const {
     return this->operator[](index);
