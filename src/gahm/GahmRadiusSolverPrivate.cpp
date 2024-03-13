@@ -20,6 +20,8 @@
 //
 #include "gahm/GahmRadiusSolverPrivate.h"
 
+#include <utility>
+
 #include "gahm/GahmEquations.h"
 
 namespace Gahm::Solver {
@@ -71,9 +73,9 @@ double GahmRadiusSolverPrivate::bg() const { return m_bg; }
  * @param bg GAHM Holland B
  * @return Solution to gradient wind
  */
-double GahmRadiusSolverPrivate::f(double rmax, double vmax,
-                                  double isotach_speed, double isotach_radius,
-                                  double fc, double bg) {
+auto GahmRadiusSolverPrivate::f(double rmax, double vmax, double isotach_speed,
+                                double isotach_radius, double fc, double bg)
+    -> double {
   return Gahm::Solver::GahmEquations::GahmFunction(rmax, vmax, isotach_speed,
                                                    isotach_radius, fc, bg);
 }
@@ -87,9 +89,9 @@ double GahmRadiusSolverPrivate::f(double rmax, double vmax,
  * @param bg GAHM Holland B parameter
  * @return Solution to first derivative
  */
-double GahmRadiusSolverPrivate::f_prime(double rmax, double vmax,
-                                        double isotach_radius, double fc,
-                                        double bg) {
+auto GahmRadiusSolverPrivate::f_prime(double rmax, double vmax,
+                                      double isotach_radius, double fc,
+                                      double bg) -> double {
   return Gahm::Solver::GahmEquations::GahmFunctionDerivative(
       rmax, vmax, isotach_radius, fc, bg);
 }

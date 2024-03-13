@@ -22,36 +22,40 @@
 #define GAHM_SRC_GAHMEQUATIONS_H_
 
 #include <cassert>
+#include <cmath>
 
 #include "physical/Atmospheric.h"
 
 namespace Gahm::Solver::GahmEquations {
 
-double GahmFunction(double radius_to_max_wind, double vmax_at_boundary_layer,
-                    double isotach_windspeed_at_boundary_layer, double distance,
-                    double coriolis_force, double gahm_holland_b, double phi);
+auto GahmFunction(double radius_to_max_wind, double vmax_at_boundary_layer,
+                  double isotach_windspeed_at_boundary_layer, double distance,
+                  double coriolis_force, double gahm_holland_b, double phi)
+    -> double;
 
-double GahmFunction(double radius_to_max_wind, double vmax_at_boundary_layer,
-                    double isotach_windspeed_at_boundary_layer, double distance,
-                    double coriolis_force, double gahm_holland_b);
+auto GahmFunction(double radius_to_max_wind, double vmax_at_boundary_layer,
+                  double isotach_windspeed_at_boundary_layer, double distance,
+                  double coriolis_force, double gahm_holland_b) -> double;
 
-double GahmFunctionDerivative(double radius_to_max_wind,
-                              double vmax_at_boundary_layer,
-                              double isotach_windspeed_at_boundary_layer,
-                              double coriolis_force, double gahm_holland_b,
-                              double phi);
+auto GahmFunctionDerivative(double radius_to_max_wind,
+                            double vmax_at_boundary_layer,
+                            double isotach_windspeed_at_boundary_layer,
+                            double coriolis_force, double gahm_holland_b,
+                            double phi) -> double;
 
-double GahmFunctionDerivative(double radius_to_max_wind,
-                              double vmax_at_boundary_layer,
-                              double isotach_windspeed_at_boundary_layer,
-                              double coriolis_force, double gahm_holland_b);
+auto GahmFunctionDerivative(double radius_to_max_wind,
+                            double vmax_at_boundary_layer,
+                            double isotach_windspeed_at_boundary_layer,
+                            double coriolis_force, double gahm_holland_b)
+    -> double;
 
-double GahmPressure(double central_pressure, double background_pressure,
-                    double distance, double radius_to_max_winds,
-                    double gahm_holland_b, double phi);
+auto GahmPressure(double central_pressure, double background_pressure,
+                  double distance, double radius_to_max_winds,
+                  double gahm_holland_b, double phi) -> double;
 
-double GahmWindSpeed(double radius_to_max_wind, double vmax_at_boundary_layer,
-                     double distance, double coriolis, double gahm_holland_b);
+auto GahmWindSpeed(double radius_to_max_wind, double vmax_at_boundary_layer,
+                   double distance, double coriolis, double gahm_holland_b)
+    -> double;
 
 /**
  * Compute the GAHM phi parameter
@@ -61,7 +65,7 @@ double GahmWindSpeed(double radius_to_max_wind, double vmax_at_boundary_layer,
  * @param fc coriolis force
  * @return phi
  */
-constexpr double phi(double vmax, double rmax, double bg, double fc) {
+constexpr auto phi(double vmax, double rmax, double bg, double fc) -> double {
   assert(fc > 0.0);
   assert(vmax > 0.0);
   assert(rmax > 0.0);
@@ -79,8 +83,8 @@ constexpr double phi(double vmax, double rmax, double bg, double fc) {
  * @param phi GAHM Phi parameter
  * @return GAHM Holland B
  */
-static double bg(double vmax, double rmax, double p0, double pinf, double fc,
-                 double phi) {
+static auto bg(double vmax, double rmax, double p0, double pinf, double fc,
+               double phi) -> double {
   auto b = Gahm::Physical::Atmospheric::calcHollandB(vmax, p0, pinf);
   auto ro = Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, fc);
   auto bg = (b * ((1 + 1 / ro) * std::exp(phi - 1)) / phi);

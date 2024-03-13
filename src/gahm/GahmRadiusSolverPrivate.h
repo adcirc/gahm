@@ -35,17 +35,17 @@ class GahmRadiusSolverPrivate {
   GahmRadiusSolverPrivate(double isotachRadius, double isotachSpeed,
                           double vmax, double fc, double bg);
 
-  [[nodiscard]] std::pair<double, double> operator()(
-      const double &radiusToMaxWinds) const;
+  [[nodiscard]] auto operator()(const double &radiusToMaxWinds) const
+      -> std::pair<double, double>;
 
   void setBg(double bg);
-  [[nodiscard]] double bg() const;
+  [[nodiscard]] auto bg() const -> double;
 
  private:
-  static double f(double radius_to_max_winds, double vmax, double isotach_speed,
-                  double isotach_radius, double fc, double bg);
-  static double f_prime(double radius_to_max_winds, double vmax,
-                        double isotach_radius, double fc, double bg);
+  static auto f(double radius_to_max_winds, double vmax, double isotach_speed,
+                double isotach_radius, double fc, double bg) -> double;
+  static auto f_prime(double radius_to_max_winds, double vmax,
+                      double isotach_radius, double fc, double bg) -> double;
 
   double m_isotachRadius;
   double m_vmax;

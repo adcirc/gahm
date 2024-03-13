@@ -31,11 +31,11 @@ class GahmRadiusSolver {
   GahmRadiusSolver(double isotach_radius, double isotach_speed, double vmax,
                    double fc, double bg);
 
-  [[nodiscard]] double solve(double lower, double upper, double guess) const;
+  [[nodiscard]] auto solve(double lower, double upper, double guess) const -> double;
 
-  void setBg(double bg);
+  void setBg(double gahm_b);
 
-  [[nodiscard]] double bg() const;
+  [[nodiscard]] auto bg() const -> double;
 
  private:
   GahmRadiusSolverPrivate m_solver;
