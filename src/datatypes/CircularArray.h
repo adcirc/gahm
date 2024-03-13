@@ -25,6 +25,12 @@
 #include <iostream>
 #include <vector>
 
+#ifdef SWIG
+#define NODISCARD
+#else
+#define NODISCARD [[nodiscard]]
+#endif
+
 namespace Gahm::Datatypes {
 
 /**
@@ -46,6 +52,31 @@ class CircularArray {
    */
   constexpr CircularArray() = default;
 
+  /* @brief Copy constructor
+   * @param[in] arr The array to copy
+   */
+  constexpr CircularArray(const CircularArray<T, array_size> &arr) = default;
+
+  /* @brief Move constructor
+   * @param[in] arr The array to move
+   */
+  constexpr CircularArray(CircularArray<T, array_size> &&arr) = default;
+
+  /* @brief Copy assignment operator
+   * @param[in] arr The array to copy
+   */
+  constexpr auto operator=(const CircularArray<T, array_size> &arr)
+      -> CircularArray<T, array_size> & = default;
+
+  /* @brief Move assignment operator
+   * @param[in] arr The array to move
+   */
+  constexpr auto operator=(CircularArray<T, array_size> &&arr)
+      -> CircularArray<T, array_size> & = default;
+
+  /* @brief Destructor */
+  ~CircularArray() = default;
+
   /*
    * @brief Constructor from std::array
    */
@@ -53,34 +84,20 @@ class CircularArray {
       : m_data(std::move(arr)) {}
 
   /* @brief Indexing operator */
-  constexpr T &operator[](int index) noexcept {
+  NODISCARD constexpr auto operator[](int index) noexcept -> T & {
     return m_data[mod_floor(index)];
   }
 
   /* @brief Indexing operator */
-  constexpr const T &operator[](int index) const noexcept {
+  NODISCARD constexpr auto operator[](int index) const noexcept -> const T & {
     return m_data[mod_floor(index)];
-  }
-
-  /* @brief Copy assignment operator */
-  Gahm::Datatypes::CircularArray<T, array_size> &operator=(
-      const Gahm::Datatypes::CircularArray<T, array_size> &arr) noexcept {
-    m_data = arr.m_data;
-    return *this;
-  }
-
-  /* @brief Copy assignment operator */
-  Gahm::Datatypes::CircularArray<T, array_size> &operator=(
-      const std::array<T, array_size> &arr) noexcept {
-    m_data = arr;
-    return *this;
   }
 
   /* @brief Returns an iterator to the mod_floor of the index */
   template <typename Tp>
   constexpr auto iterator_at(Tp position) const noexcept {
-    auto p = mod_floor(position);
-    return m_data.begin() + p;
+    auto pos = mod_floor(position);
+    return m_data.begin() + pos;
   }
 
   /* @brief Returns the value at the index without the mod_floor */
@@ -99,10 +116,10 @@ class CircularArray {
   constexpr void set(const std::array<T, array_size> &array) { m_data = array; }
 
   /* @brief Returns the front of the array */
-  constexpr auto front() noexcept { return m_data.front(); }
+  NODISCARD constexpr auto front() noexcept { return m_data.front(); }
 
   /* @brief Returns the back of the array */
-  constexpr auto back() noexcept { return m_data.back(); }
+  NODISCARD constexpr auto back() noexcept { return m_data.back(); }
 
   /* @brief Returns a pointer to the data */
   constexpr auto data() noexcept { return &m_data; }
@@ -111,79 +128,82 @@ class CircularArray {
   constexpr auto data() const noexcept { return &m_data; }
 
   /* @brief Return the data as a vector */
-  std::vector<T> asVector() const noexcept {
+  NODISCARD auto asVector() const noexcept -> std::vector<T> {
     return std::vector<T>(m_data.begin(), m_data.end());
   }
 
   /* @brief returns true if the array is empty */
-  constexpr auto empty() const noexcept { return m_data.empty(); }
+  NODISCARD constexpr auto empty() const noexcept { return m_data.empty(); }
 
   /* @brief returns the max size of the array */
-  constexpr auto max_size() const noexcept { return m_data.max_size(); }
+  NODISCARD constexpr auto max_size() const noexcept {
+    return m_data.max_size();
+  }
 
   /* @brief returns the size of the array */
-  constexpr auto size() const noexcept { return array_size; }
+  NODISCARD constexpr auto size() const noexcept { return array_size; }
 
   /* @brief Fills the array with a value */
   constexpr void fill(const T value) { m_data.fill(value); }
 
   /* @brief Returns an iterator to the beginning of the array */
-  constexpr auto begin() noexcept { return m_data.begin(); }
+  NODISCARD constexpr auto begin() noexcept { return m_data.begin(); }
 
   /* @brief Returns an iterator to the end of the array */
-  constexpr auto end() noexcept { return m_data.end(); }
+  NODISCARD constexpr auto end() noexcept { return m_data.end(); }
 
   /* @brief Returns a reverse iterator to the beginning of the array */
-  constexpr auto rbegin() noexcept { return m_data.rbegin(); }
+  NODISCARD constexpr auto rbegin() noexcept { return m_data.rbegin(); }
 
   /* @brief Returns a reverse iterator to the end of the array */
-  constexpr auto rend() noexcept { return m_data.rend(); }
+  NODISCARD constexpr auto rend() noexcept { return m_data.rend(); }
 
   /* @brief Returns an iterator to the beginning of the array */
-  constexpr auto begin() const noexcept { return m_data.cbegin(); }
+  NODISCARD constexpr auto begin() const noexcept { return m_data.cbegin(); }
 
   /* @brief Returns an iterator to the end of the array */
-  constexpr auto end() const noexcept { return m_data.cend(); }
+  NODISCARD constexpr auto end() const noexcept { return m_data.cend(); }
 
   /* @brief Returns a reverse iterator to the beginning of the array */
-  constexpr auto rbegin() const noexcept { return m_data.crbegin(); }
+  NODISCARD constexpr auto rbegin() const noexcept { return m_data.crbegin(); }
 
   /* @brief Returns a reverse iterator to the end of the array */
-  constexpr auto rend() const noexcept { return m_data.crend(); }
-
-  /* @brief Copy constructor
-   * @param[in] arr The array to copy
-   */
-  constexpr CircularArray(const CircularArray<T, array_size> &arr) = default;
+  NODISCARD constexpr auto rend() const noexcept { return m_data.crend(); }
 
   /* @brief Equality operator */
-  constexpr bool operator==(const CircularArray<T, array_size> &b) const {
-    return m_data == b.m_data;
+  NODISCARD constexpr auto operator==(
+      const CircularArray<T, array_size> &rhs) const -> bool {
+    return m_data == rhs.m_data;
   }
 
   /* @brief Not equal operator */
-  constexpr bool operator!=(const CircularArray<T, array_size> &b) const {
-    return m_data != b.m_data;
+  NODISCARD constexpr auto operator!=(
+      const CircularArray<T, array_size> &rhs) const -> bool {
+    return m_data != rhs.m_data;
   }
 
   /* @brief Less than operator */
-  constexpr bool operator<(const CircularArray<T, array_size> &b) const {
-    return m_data < b.m_data;
+  NODISCARD constexpr auto operator<(
+      const CircularArray<T, array_size> &rhs) const -> bool {
+    return m_data < rhs.m_data;
   }
 
   /* @brief Greater than operator */
-  constexpr bool operator>(const CircularArray<T, array_size> &b) const {
-    return m_data > b.m_data;
+  NODISCARD constexpr auto operator>(
+      const CircularArray<T, array_size> &rhs) const -> bool {
+    return m_data > rhs.m_data;
   }
 
   /* @brief Less than or equal to operator */
-  constexpr bool operator<=(const CircularArray<T, array_size> &b) const {
-    return m_data <= b.m_data;
+  NODISCARD constexpr auto operator<=(
+      const CircularArray<T, array_size> &rhs) const -> bool {
+    return m_data <= rhs.m_data;
   }
 
   /* @brief Greater than or equal to operator */
-  constexpr bool operator>=(const CircularArray<T, array_size> &b) const {
-    return m_data >= b.m_data;
+  NODISCARD constexpr auto operator>=(
+      const CircularArray<T, array_size> &rhs) const -> bool {
+    return m_data >= rhs.m_data;
   }
 
  private:
@@ -191,7 +211,7 @@ class CircularArray {
 
   /* @brief Returns the mod_floor of the index */
   template <typename Tp>
-  static constexpr unsigned mod_floor(Tp position) noexcept {
+  static constexpr auto mod_floor(Tp position) noexcept -> unsigned {
     return static_cast<unsigned>(
         (static_cast<unsigned>(position) + array_size) % array_size);
   }
@@ -199,16 +219,16 @@ class CircularArray {
 }  // namespace Gahm::Datatypes
 
 template <typename T, unsigned array_size>
-std::ostream &operator<<(
-    std::ostream &os,
-    const Gahm::Datatypes::CircularArray<T, array_size> &array) {
-  for (auto b = array.cbegin(); b != array.cend(); ++b) {
-    os << *(b);
-    if (b != array.cend() - 1) {
-      os << ", ";
+auto operator<<(std::ostream &stream,
+                const Gahm::Datatypes::CircularArray<T, array_size> &array)
+    -> std::ostream & {
+  for (auto val = array.cbegin(); val != array.cend(); ++val) {
+    stream << *(val);
+    if (val != array.cend() - 1) {
+      stream << ", ";
     }
   }
-  return os;
+  return stream;
 }
 
 #endif  // GAHM_CIRCULARARRAY_H
