@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1710303194181,
+  "lastUpdate": 1710303518773,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -1950,6 +1950,36 @@ window.BENCHMARK_DATA = {
             "value": 43235600.76470552,
             "unit": "ns/iter",
             "extra": "iterations: 17\ncpu: 43235055.4117647 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@users.noreply.github.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "15b9ff691a20db975f28c410e762c1b3aa1e846b",
+          "message": "Fixing issue under g++-9 where noexcept was not specified correctly",
+          "timestamp": "2024-03-13T00:16:14-04:00",
+          "tree_id": "fc5c7074066c8eec3c787406dc362134c987fe04",
+          "url": "https://github.com/adcirc/gahm/commit/15b9ff691a20db975f28c410e762c1b3aa1e846b"
+        },
+        "date": 1710303518171,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 43175607.23529321,
+            "unit": "ns/iter",
+            "extra": "iterations: 17\ncpu: 43172002.5882353 ns\nthreads: 1"
           }
         ]
       }
