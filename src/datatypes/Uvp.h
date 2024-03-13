@@ -76,27 +76,27 @@ class Uvp {
         m_quadrant(quadrant),
         m_isotach(isotach) {}
 
-  NODISCARD double u() const { return m_u; }
+  NODISCARD auto u() const -> double { return m_u; }
 
-  NODISCARD double v() const { return m_v; }
+  NODISCARD auto v() const -> double { return m_v; }
 
-  NODISCARD double p() const { return m_p; }
+  NODISCARD auto p() const -> double { return m_p; }
 
-  NODISCARD double azimuth() const { return m_azimuth; }
+  NODISCARD auto azimuth() const -> double { return m_azimuth; }
 
-  NODISCARD double distance() const { return m_distance; }
+  NODISCARD auto distance() const -> double { return m_distance; }
 
-  NODISCARD double tsx() const { return m_tsx; }
+  NODISCARD auto tsx() const -> double { return m_tsx; }
 
-  NODISCARD double tsy() const { return m_tsy; }
+  NODISCARD auto tsy() const -> double { return m_tsy; }
 
-  NODISCARD double quadrant_weight() const { return m_quadrant_weight; }
+  NODISCARD auto quadrant_weight() const -> double { return m_quadrant_weight; }
 
-  NODISCARD double isotach_weight() const { return m_isotach_weight; }
+  NODISCARD auto isotach_weight() const -> double { return m_isotach_weight; }
 
-  NODISCARD int quadrant() const { return m_quadrant; }
+  NODISCARD auto quadrant() const -> int { return m_quadrant; }
 
-  NODISCARD int isotach() const { return m_isotach; }
+  NODISCARD auto isotach() const -> int { return m_isotach; }
 
   void setU(double u) { m_u = u; }
 

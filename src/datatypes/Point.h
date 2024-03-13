@@ -32,19 +32,20 @@ class Point {
  public:
   Point() : m_x(0.0), m_y(0.0) {}
 
-  Point(double x, double y) : m_x(x), m_y(y) {}
+  Point(double x_position, double y_position)
+      : m_x(x_position), m_y(y_position) {}
 
-  NODISCARD double x() const { return m_x; }
-  NODISCARD double y() const { return m_y; }
+  NODISCARD auto x() const -> double { return m_x; }
+  NODISCARD auto y() const -> double { return m_y; }
 
-  void setX(double x) { m_x = x; }
-  void setY(double y) { m_y = y; }
+  void setX(double x_position) { m_x = x_position; }
+  void setY(double y_position) { m_y = y_position; }
 
-  bool operator==(const Point &rhs) const {
+  auto operator==(const Point &rhs) const -> bool {
     return m_x == rhs.m_x && m_y == rhs.m_y;
   }
 
-  bool operator!=(const Point &rhs) const { return !(rhs == *this); }
+  auto operator!=(const Point &rhs) const -> bool { return !(rhs == *this); }
 
  private:
   double m_x;

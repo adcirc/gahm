@@ -21,8 +21,6 @@
 #ifndef GAHM_POINTPOSITION_H
 #define GAHM_POINTPOSITION_H
 
-#include <cstddef>
-
 #ifndef SWIG
 #define NODISCARD [[nodiscard]]
 #else
@@ -43,17 +41,17 @@ class PointPosition {
         m_isotach_adjacent(isotach_adjacent),
         m_isotach_adjacent_weight(isotach_adjacent_weight) {}
 
-  NODISCARD int isotach() const { return m_isotach; }
+  NODISCARD auto isotach() const -> int { return m_isotach; }
 
-  NODISCARD int quadrant() const { return m_quadrant; }
+  NODISCARD auto quadrant() const -> int { return m_quadrant; }
 
-  NODISCARD double isotach_weight() const { return m_isotach_weight; }
+  NODISCARD auto isotach_weight() const -> double { return m_isotach_weight; }
 
-  NODISCARD double quadrant_weight() const { return m_quadrant_weight; }
+  NODISCARD auto quadrant_weight() const -> double { return m_quadrant_weight; }
 
-  NODISCARD int isotach_adjacent() const { return m_isotach_adjacent; }
+  NODISCARD auto isotach_adjacent() const -> int { return m_isotach_adjacent; }
 
-  NODISCARD double isotach_adjacent_weight() const {
+  NODISCARD auto isotach_adjacent_weight() const -> double {
     return m_isotach_adjacent_weight;
   }
 

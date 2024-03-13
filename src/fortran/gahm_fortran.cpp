@@ -77,7 +77,10 @@ long gahm_create_ftn(char *filename, long size, double *x, double *y,
                      bool quiet) {
   g_counter++;
   std::string filename_str(filename);
-  auto point_cloud = Gahm::Datatypes::PointCloud(size, x, y);
+  std::vector<double> x_pos(x, x + size);
+  std::vector<double> y_pos(y, y + size);
+
+  auto point_cloud = Gahm::Datatypes::PointCloud(x_pos, y_pos);
   g_gahm_instances[g_counter] =
       std::make_unique<gahm_instance>(filename_str, point_cloud, quiet);
   return g_counter;
