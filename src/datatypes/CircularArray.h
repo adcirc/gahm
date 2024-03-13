@@ -151,8 +151,7 @@ class CircularArray {
   /* @brief Copy constructor
    * @param[in] arr The array to copy
    */
-  constexpr CircularArray(const CircularArray<T, array_size> &arr) noexcept =
-      default;
+  constexpr CircularArray(const CircularArray<T, array_size> &arr) = default;
 
   /* @brief Equality operator */
   constexpr bool operator==(const CircularArray<T, array_size> &b) const {
