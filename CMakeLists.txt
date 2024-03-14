@@ -85,7 +85,7 @@ mark_as_advanced(GAHM_COVERAGE_FLAGS)
 # ##############################################################################
 # Dependencies
 # ##############################################################################
-find_package(Boost 1.74.0 REQUIRED)
+find_package(Boost 1.71.0 REQUIRED)
 add_subdirectory(thirdparty/fmt-9.1.0 EXCLUDE_FROM_ALL)
 mark_as_advanced(
   FMT_CUDA_TEST

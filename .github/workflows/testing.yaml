@@ -2,16 +2,17 @@ name: Testing
 on:
   push:
 jobs:
-  Testing:
-    runs-on: ubuntu-latest
+  Testing-Linux:
+    runs-on: ubuntu-20.04
+    container: debian:latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt install -y clang-15 llvm-15 libfuzzer-15-dev libnetcdf-dev cmake libboost-all-dev libssl-dev swig libpython3-dev gfortran
+        run: apt-get update && apt install -y ca-certificates git clang-16 llvm-16 libfuzzer-16-dev libnetcdf-dev cmake libboost-dev libssl-dev swig libpython3-dev gfortran
       - name: Make directories
         run: mkdir build
       - name: CMake
-        run: cmake .. -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_FUZZ=ON -DCMAKE_CXX_COMPILER=clang++ -DENABLE_SANITIZER_ADDRESS=ON -DENABLE_SANITIZER_LEAK=ON -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DGAHM_ENABLE_FORTRAN=ON -DGAHM_ENABLE_PYTHON=ON
+        run: cmake .. -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_FUZZ=ON -DCMAKE_CXX_COMPILER=clang++-16 -DENABLE_SANITIZER_ADDRESS=ON -DENABLE_SANITIZER_LEAK=ON -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DGAHM_ENABLE_FORTRAN=ON -DGAHM_ENABLE_PYTHON=ON
         working-directory: ./build
       - name: Build
         run: make -j
@@ -19,12 +20,54 @@ jobs:
       - name: Run Tests
         run: ctest --output-on-failure
         working-directory: ./build
-  Coverage:
-    runs-on: ubuntu-latest
+  Testing-Mac:
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt install -y gfortran libnetcdf-dev cmake libboost-all-dev libssl-dev
+        run: brew install netcdf cmake boost
+      - name: Make directories
+        run: mkdir build
+      - name: CMake
+        run: cmake .. -DGAHM_ENABLE_TESTS=ON
+        working-directory: ./build
+      - name: Build
+        run: make -j
+        working-directory: ./build
+      - name: Run Tests
+        run: ctest --output-on-failure
+        working-directory: ./build
+#  Testing-Windows:
+#    runs-on: windows-2022
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Install Dependencies
+#        run: choco install -y git cmake
+#      - name: Install boost
+#        uses: MarkusJx/install-boost@v2.4.5
+#        id: install-boost
+#        with:
+#          boost_version: 1.80.0
+#          boost_install_dir: C:\some_directory
+#          platform_version: 2022
+#          toolset: msvc
+#      - name: Make directories
+#        run: mkdir build
+#      - name: CMake
+#        run: cmake .. -DGAHM_ENABLE_TESTS=ON -DBOOST_ROOT=${{ steps.install-boost.outputs.boost_install_dir }}
+#        working-directory: ./build
+#      - name: Build
+#        run: cmake --build . --config Release
+#        working-directory: ./build
+#      - name: Run Tests
+#        run: ctest --output-on-failure
+#        working-directory: ./build
+  Coverage:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt install -y git build-essential gfortran libnetcdf-dev cmake libboost-dev libssl-dev
       - name: Make directories
         run: mkdir build
       - name: CMake
@@ -36,39 +79,40 @@ jobs:
       - name: Run Tests
         run: ctest --output-on-failure
         working-directory: ./build
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
           flags: unittests
           verbose: true
           gcov: true
-  Benchmark:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install Dependencies
-        run: sudo apt install -y libnetcdf-dev cmake libboost-all-dev libssl-dev
-      - name: Make directories
-        run: mkdir build
-      - name: CMake
-        run: cmake .. -DCMAKE_CXX_COMPILER=clang++ -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_BENCHMARKS=ON; cmake ..
-        working-directory: ./build
-      - name: Build
-        run: make -j
-        working-directory: ./build
-      - name: Run Benchmark
-        run: ./tests/benchmark/gahm_benchmark --benchmark_out_format=json --benchmark_out=benchmark.json
-        working-directory: ./build
-      - name: Store Benchmark Results
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          name: GAHM Benchmark
-          tool: 'googlecpp'
-          output-file-path: './build/benchmark.json'
-          auto-push: true
-          alert-threshold: '200%'
-          comment-on-alert: true
-          fail-on-alert: true
-          alert-comment-cc-users: '@zcobell'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+#  Benchmark:
+#    runs-on: ubuntu-20.04
+#    container: debian:latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - name: Install Dependencies
+#        run: apt-get update && apt install -y git build-essential clang-16 libnetcdf-dev cmake libboost-dev libssl-dev
+#      - name: Make directories
+#        run: mkdir build
+#      - name: CMake
+#        run: cmake .. -DCMAKE_CXX_COMPILER=clang++-16 -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_BENCHMARKS=ON; cmake ..
+#        working-directory: ./build
+#      - name: Build
+#        run: make -j
+#        working-directory: ./build
+#      - name: Run Benchmark
+#        run: ./tests/benchmark/gahm_benchmark --benchmark_out_format=json --benchmark_out=benchmark.json
+#        working-directory: ./build
+#      - name: Store Benchmark Results
+#        uses: benchmark-action/github-action-benchmark@v1
+#        with:
+#          name: GAHM Benchmark
+#          tool: 'googlecpp'
+#          output-file-path: './build/benchmark.json'
+#          auto-push: true
+#          alert-threshold: '200%'
+#          comment-on-alert: true
+#          fail-on-alert: true
+#          alert-comment-cc-users: '@zcobell'
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
