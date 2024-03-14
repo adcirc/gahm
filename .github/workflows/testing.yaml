@@ -5,7 +5,7 @@ jobs:
   Testing:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt install -y clang-15 llvm-15 libfuzzer-15-dev libnetcdf-dev cmake libboost-all-dev libssl-dev swig libpython3-dev gfortran
       - name: Make directories
@@ -22,7 +22,7 @@ jobs:
   Coverage:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt install -y gfortran libnetcdf-dev cmake libboost-all-dev libssl-dev
       - name: Make directories
@@ -46,7 +46,7 @@ jobs:
   Benchmark:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt install -y libnetcdf-dev cmake libboost-all-dev libssl-dev
       - name: Make directories
