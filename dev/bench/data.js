@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1710363728998,
+  "lastUpdate": 1710384240989,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -2100,6 +2100,36 @@ window.BENCHMARK_DATA = {
             "value": 43362858.88235339,
             "unit": "ns/iter",
             "extra": "iterations: 17\ncpu: 43361530.35294118 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "35461482baa5ab0b0fc9b4d302dfeeecec5770f3",
+          "message": "Updating the testing system",
+          "timestamp": "2024-03-13T22:41:48-04:00",
+          "tree_id": "55a150da147426ab30f620543c92992a89a35560",
+          "url": "https://github.com/adcirc/gahm/commit/35461482baa5ab0b0fc9b4d302dfeeecec5770f3"
+        },
+        "date": 1710384240367,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 43174243.1764703,
+            "unit": "ns/iter",
+            "extra": "iterations: 17\ncpu: 43171180.470588244 ns\nthreads: 1"
           }
         ]
       }
