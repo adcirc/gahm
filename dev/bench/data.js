@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1710388822739,
+  "lastUpdate": 1710389055453,
   "repoUrl": "https://github.com/adcirc/gahm",
   "entries": {
     "GAHM Benchmark": [
@@ -2430,6 +2430,36 @@ window.BENCHMARK_DATA = {
             "value": 43037762.94117637,
             "unit": "ns/iter",
             "extra": "iterations: 17\ncpu: 43034492.11764705 ns\nthreads: 1"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "committer": {
+            "email": "zcobell@gmail.com",
+            "name": "Zach Cobell",
+            "username": "zcobell"
+          },
+          "distinct": true,
+          "id": "ec2330ba34e5b1350fdb62b86127ea7d38548880",
+          "message": "Removing extra asserts",
+          "timestamp": "2024-03-14T00:02:25-04:00",
+          "tree_id": "5fa4723a3748be877b7c1ef3d263e7f45c8958c7",
+          "url": "https://github.com/adcirc/gahm/commit/ec2330ba34e5b1350fdb62b86127ea7d38548880"
+        },
+        "date": 1710389055042,
+        "tool": "googlecpp",
+        "benches": [
+          {
+            "name": "BM_Vortex",
+            "value": 43000613.35294124,
+            "unit": "ns/iter",
+            "extra": "iterations: 17\ncpu: 43000058.4117647 ns\nthreads: 1"
           }
         ]
       }
