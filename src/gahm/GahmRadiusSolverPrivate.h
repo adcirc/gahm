@@ -21,7 +21,6 @@
 #ifndef GAHM_SRC_GAHMRADIUSSOLVERPRIVATE_H_
 #define GAHM_SRC_GAHMRADIUSSOLVERPRIVATE_H_
 
-#include <cassert>
 #include <cmath>
 #include <utility>
 

@@ -21,7 +21,6 @@
 
 #include "Vortex.h"
 
-#include <cassert>
 #include <cmath>
 #include <utility>
 

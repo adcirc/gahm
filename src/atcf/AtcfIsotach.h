@@ -21,8 +21,6 @@
 #ifndef GAHM_SRC_ATCF_ATCFISOTACH_H_
 #define GAHM_SRC_ATCF_ATCFISOTACH_H_
 
-#include <cassert>
-
 #include "atcf/AtcfQuadrant.h"
 #include "datatypes/CircularArray.h"
 

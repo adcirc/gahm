@@ -21,7 +21,6 @@
 #ifndef GAHM_SRC_PHYSICAL_ATMOSPHERIC_H_
 #define GAHM_SRC_PHYSICAL_ATMOSPHERIC_H_
 
-#include <cassert>
 #include <cmath>
 
 #include "physical/Constants.h"
@@ -37,7 +36,6 @@ namespace Gahm::Physical::Atmospheric {
  */
 constexpr double calcHollandB(const double vmax, const double p0,
                               const double pinf) {
-  assert(p0 != pinf);
   return (vmax * vmax * Gahm::Physical::Constants::rhoAir() * M_E) /
          (pinf - p0);
 }
@@ -50,9 +48,6 @@ constexpr double calcHollandB(const double vmax, const double p0,
  * @return rossby number
  */
 constexpr double rossbyNumber(double vmax, double rmax, double fc) {
-  assert(fc > 0.0);
-  assert(rmax > 0.0);
-  assert(vmax > 0.0);
   return vmax / (fc * rmax);
 }
 

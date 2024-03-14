@@ -23,7 +23,6 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
-#include <cassert>
 
 #include "boost/math/policies/error_handling.hpp"
 #include "gahm/GahmEquations.h"
@@ -71,7 +70,6 @@ void GahmSolver::solve() {
         new_rmax != std::numeric_limits<double>::max()) {
       m_rmax = new_rmax;
     }
-    assert(new_rmax > 0.0);
     m_phi = GahmEquations::phi(m_vmax, m_rmax, m_bg, m_fc);
     m_bg = GahmEquations::bg(m_vmax, m_rmax, m_pc, m_pbk, m_fc, m_phi);
     if (std::abs(m_bg - m_solver.bg()) < m_bg_tol) {
@@ -85,8 +83,6 @@ void GahmSolver::solve() {
     }
     m_solver.setBg(m_bg);
   }
-  assert(this->rmax() > 0.0);
-  assert(this->bg() > 0.0);
 }
 
 /**
@@ -138,7 +134,8 @@ double GahmSolver::vmax() const { return m_vmax; }
  */
 double GahmSolver::rmax() const {
   if (m_it == 0) {
-    throw boost::math::evaluation_error("GAHM Solver ERROR: Solver has not run");
+    throw boost::math::evaluation_error(
+        "GAHM Solver ERROR: Solver has not run");
   }
   return m_rmax;
 }
@@ -150,7 +147,8 @@ double GahmSolver::rmax() const {
  */
 double GahmSolver::bg() const {
   if (m_it == 0) {
-    throw boost::math::evaluation_error("GAHM Solver ERROR: Solver has not run");
+    throw boost::math::evaluation_error(
+        "GAHM Solver ERROR: Solver has not run");
   }
   return m_bg;
 }
@@ -176,8 +174,6 @@ double GahmSolver::phi() const { return m_phi; }
  */
 double GahmSolver::estimateRmax(const double dp, const double lat,
                                 const double isorad) {
-  assert(dp >= 0.0);
-  assert(isorad > 0.0);
   auto r1 =
       std::exp(3.015 - 6.291e-5 * std::pow(dp / 100.0, 2.0) + 0.337 * lat);
   auto r2 = 0.99 * isorad;

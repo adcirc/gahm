@@ -21,8 +21,6 @@
 #ifndef GAHM_SRC_GAHMEQUATIONS_H_
 #define GAHM_SRC_GAHMEQUATIONS_H_
 
-#include <cassert>
-
 #include "physical/Atmospheric.h"
 
 namespace Gahm::Solver::GahmEquations {
@@ -62,9 +60,6 @@ double GahmWindSpeed(double radius_to_max_wind, double vmax_at_boundary_layer,
  * @return phi
  */
 constexpr double phi(double vmax, double rmax, double bg, double fc) {
-  assert(fc > 0.0);
-  assert(vmax > 0.0);
-  assert(rmax > 0.0);
   auto rossby = Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, fc);
   return 1.0 + (1.0 / (rossby * bg * (1.0 + 1.0 / rossby)));
 }

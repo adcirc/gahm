@@ -3,15 +3,16 @@ on:
   push:
 jobs:
   Testing:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    container: debian:latest
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt install -y clang-15 llvm-15 libfuzzer-15-dev libnetcdf-dev cmake libboost-all-dev libssl-dev swig libpython3-dev gfortran
+        run: apt-get update && apt install -y ca-certificates git clang-16 llvm-16 libfuzzer-16-dev libnetcdf-dev cmake libboost-all-dev libssl-dev swig libpython3-dev gfortran
       - name: Make directories
         run: mkdir build
       - name: CMake
-        run: cmake .. -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_FUZZ=ON -DCMAKE_CXX_COMPILER=clang++ -DENABLE_SANITIZER_ADDRESS=ON -DENABLE_SANITIZER_LEAK=ON -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DGAHM_ENABLE_FORTRAN=ON -DGAHM_ENABLE_PYTHON=ON
+        run: cmake .. -DGAHM_ENABLE_TESTS=ON -DGAHM_ENABLE_FUZZ=ON -DCMAKE_CXX_COMPILER=clang++-16 -DENABLE_SANITIZER_ADDRESS=ON -DENABLE_SANITIZER_LEAK=ON -DENABLE_SANITIZER_UNDEFINED_BEHAVIOR=ON -DGAHM_ENABLE_FORTRAN=ON -DGAHM_ENABLE_PYTHON=ON
         working-directory: ./build
       - name: Build
         run: make -j
