@@ -77,19 +77,22 @@ class CircularArray {
   }
 
   /* @brief Returns an iterator to the mod_floor of the index */
-  constexpr auto iterator_at(int position) const noexcept {
+  template <typename Tp>
+  constexpr auto iterator_at(Tp position) const noexcept {
     auto p = mod_floor(position);
     return m_data.begin() + p;
   }
 
-  /* @brief Returns the value at the mod_floor of the index */
-  constexpr auto at(int index) const noexcept {
-    return m_data[mod_floor(index)];
+  /* @brief Returns the value at the index without the mod_floor */
+  template <typename Tp>
+  constexpr auto at(Tp index) const noexcept {
+    return m_data[index];
   }
 
   /* @brief Sets the value at the mod_floor of the index */
-  constexpr void set(int index, T value) noexcept {
-    m_data[mod_floor(index)] = value;
+  template <typename Tp>
+  constexpr void set(Tp index, T value) noexcept {
+    m_data[mod_floor<Tp>(index)] = value;
   }
 
   /* @brief Sets the values of the array using a std::array */
@@ -187,18 +190,10 @@ class CircularArray {
   std::array<T, array_size> m_data;
 
   /* @brief Returns the mod_floor of the index */
-  static constexpr unsigned mod_floor(int position) noexcept {
-    if (position >= 0 && position < static_cast<long>(array_size)) {
-      return static_cast<unsigned>(position);
-    } else {
-      if (position < 0) {
-        auto arr = static_cast<long long>(array_size);
-        auto p = static_cast<long long>(position) + arr;
-        return static_cast<unsigned>(p % arr);
-      } else {
-        return static_cast<unsigned>(position) % array_size;
-      }
-    }
+  template <typename Tp>
+  static constexpr unsigned mod_floor(Tp position) noexcept {
+    return static_cast<unsigned>(
+        (static_cast<unsigned>(position) + array_size) % array_size);
   }
 };
 }  // namespace Gahm::Datatypes
