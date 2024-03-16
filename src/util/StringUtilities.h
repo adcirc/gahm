@@ -22,23 +22,39 @@
 #define GAHM_SRC_UTIL_STRINGUTILITIES_H_
 
 #include <string>
+#include <type_traits>
 #include <vector>
 
+#include "boost/algorithm/string/classification.hpp"
+#include "boost/algorithm/string/constants.hpp"
 #include "boost/algorithm/string/split.hpp"
 #include "boost/algorithm/string/trim.hpp"
 
 namespace Gahm::detail::Utilities {
-std::vector<std::string> splitString(const std::string &s) {
-  const auto s2 = boost::trim_copy_if(s, boost::is_any_of(" "));
+
+/**
+ * @brief Split a string by commas
+ * @param string_value string to split
+ * @return vector of strings
+ */
+auto splitString(const std::string &string_value) -> std::vector<std::string> {
+  const auto sanitized_string =
+      boost::trim_copy_if(string_value, boost::is_any_of(" "));
   std::vector<std::string> results;
-  boost::algorithm::split(results, s2, boost::is_any_of(","),
+  boost::algorithm::split(results, sanitized_string, boost::is_any_of(","),
                           boost::token_compress_off);
   return results;
 }
 
+/**
+ * @brief Read a value from a string and check if it is blank
+ * @tparam T Type of value to read
+ * @param s String to read
+ * @return Value or 0 if blank
+ */
 template <typename T,
-          typename = typename std::enable_if<std::is_fundamental_v<T>>::type>
-T readValueCheckBlank(const std::string &s) {
+          typename = typename std::enable_if_t<std::is_fundamental_v<T>>>
+auto readValueCheckBlank(const std::string &s) -> T {
   const auto s_copy = boost::trim_copy(s);
   if (s_copy.empty()) {
     return 0;
