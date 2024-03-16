@@ -66,13 +66,7 @@ if(BUILD_SHARED_LIBS)
   target_link_libraries(gahm_shared PUBLIC gahm_interface)
 endif()
 
-# ...If we detected that the system did not have std::uncaught_exceptions, then
-# define HAS_UNCAUGHT_EXCEPTIONS to 0 otherwise leave it undefined. This is an
-# oddity of C++17 on MacOS. We're doing this because it is in Howard Hinant's
-# date library, and we don't want to force C++20 onto users
-if(NOT HAVE_STD_UNCAUGHT_EXCEPTIONS)
-  target_compile_definitions(gahm_objectlib PRIVATE HAS_UNCAUGHT_EXCEPTIONS=0)
-endif()
+target_compile_definitions(gahm_objectlib PRIVATE HAS_UNCAUGHT_EXCEPTIONS=0)
 
 target_include_directories(
   gahm_objectlib
