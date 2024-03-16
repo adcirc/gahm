@@ -75,8 +75,8 @@ void GahmSolver::solve() {
     }
     assert(new_rmax > 0.0);
     m_phi = GahmEquations::phi(m_vmax, m_rmax, m_bg, m_fc);
-    m_bg = GahmEquations::bg(m_vmax, m_rmax, m_pc, m_pbk, m_fc, m_phi);
-    if (std::abs(m_bg - m_solver.bg()) < m_bg_tol) {
+    m_bg = GahmEquations::gahm_b(m_vmax, m_rmax, m_pc, m_pbk, m_fc, m_phi);
+    if (std::abs(m_bg - m_solver.gahm_b()) < m_bg_tol) {
       m_it = i;
       break;
     }
@@ -85,10 +85,10 @@ void GahmSolver::solve() {
       throw boost::math::evaluation_error(
           std::string("Solution did not converge."));
     }
-    m_solver.setBg(m_bg);
+    m_solver.setGahmB(m_bg);
   }
   assert(this->rmax() > 0.0);
-  assert(this->bg() > 0.0);
+  assert(this->gahm_b() > 0.0);
 }
 
 /**
@@ -113,19 +113,19 @@ auto GahmSolver::latitude() const -> double { return m_latitude; }
  * Returns the central pressure
  * @return central pressure
  */
-auto GahmSolver::pc() const -> double { return m_pc; }
+auto GahmSolver::p_center() const -> double { return m_pc; }
 
 /**
  * Returns the background pressure
  * @return background pressure
  */
-auto GahmSolver::pbk() const -> double { return m_pbk; }
+auto GahmSolver::p_background() const -> double { return m_pbk; }
 
 /**
  * Returns the coriolis force
  * @return coriolis force
  */
-auto GahmSolver::fc() const -> double { return m_fc; }
+auto GahmSolver::f_coriolis() const -> double { return m_fc; }
 
 /**
  * Returns the maximum wind speed
@@ -151,7 +151,7 @@ auto GahmSolver::rmax() const -> double {
  * solver has not run, the solution is the standard Holland B
  * @return GAHM holland B
  */
-auto GahmSolver::bg() const -> double {
+auto GahmSolver::gahm_b() const -> double {
   if (m_it == 0) {
     throw boost::math::evaluation_error(
         "GAHM Solver ERROR: Solver has not run");

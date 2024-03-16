@@ -40,17 +40,17 @@ class GahmSolver {
 
   [[nodiscard]] auto latitude() const -> double;
 
-  [[nodiscard]] auto pc() const -> double;
+  [[nodiscard]] auto p_center() const -> double;
 
-  [[nodiscard]] auto pbk() const -> double;
+  [[nodiscard]] auto p_background() const -> double;
 
-  [[nodiscard]] auto fc() const -> double;
+  [[nodiscard]] auto f_coriolis() const -> double;
 
   [[nodiscard]] auto vmax() const -> double;
 
   [[nodiscard]] auto rmax() const -> double;
 
-  [[nodiscard]] auto bg() const -> double;
+  [[nodiscard]] auto gahm_b() const -> double;
 
   [[nodiscard]] auto phi() const -> double;
 

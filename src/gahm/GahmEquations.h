@@ -62,15 +62,17 @@ auto GahmWindSpeed(double radius_to_max_wind, double vmax_at_boundary_layer,
  * @param vmax maximum storm wind velocity
  * @param rmax radius to max winds
  * @param b GAHM holland b parameter
- * @param fc coriolis force
+ * @param f_coriolis coriolis force
  * @return phi
  */
-constexpr auto phi(double vmax, double rmax, double bg, double fc) -> double {
-  assert(fc > 0.0);
+constexpr auto phi(double vmax, double rmax, double gahm_b, double f_coriolis)
+    -> double {
+  assert(f_coriolis > 0.0);
   assert(vmax > 0.0);
   assert(rmax > 0.0);
-  auto rossby = Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, fc);
-  return 1.0 + (1.0 / (rossby * bg * (1.0 + 1.0 / rossby)));
+  auto rossby =
+      Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, f_coriolis);
+  return 1.0 + (1.0 / (rossby * gahm_b * (1.0 + 1.0 / rossby)));
 }
 
 /**
@@ -78,17 +80,20 @@ constexpr auto phi(double vmax, double rmax, double bg, double fc) -> double {
  * @param vmax maximum storm wind velocity
  * @param rmax radius to maximum winds
  * @param dp pressure deficit
- * @param fc coriolis force
+ * @param f_coriolis coriolis force
  * @param bg current value for GAHM Holland B
  * @param phi GAHM Phi parameter
  * @return GAHM Holland B
  */
-static auto bg(double vmax, double rmax, double p0, double pinf, double fc,
-               double phi) -> double {
-  auto b = Gahm::Physical::Atmospheric::calcHollandB(vmax, p0, pinf);
-  auto ro = Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, fc);
-  auto bg = (b * ((1 + 1 / ro) * std::exp(phi - 1)) / phi);
-  return bg;
+static auto gahm_b(double vmax, double rmax, double p_center,
+                   double p_background, double f_coriolis, double phi)
+    -> double {
+  auto holland_b =
+      Gahm::Physical::Atmospheric::calcHollandB(vmax, p_center, p_background);
+  auto rossby =
+      Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, f_coriolis);
+  auto gahm_b = (holland_b * ((1 + 1 / rossby) * std::exp(phi - 1)) / phi);
+  return gahm_b;
 }
 }  // namespace Gahm::Solver::GahmEquations
 #endif  // GAHM_SRC_GAHMEQUATIONS_H_

@@ -64,7 +64,7 @@ TEST_CASE("GahmSolver", "[Preprocessor]") {
       isorad[0], isospd[0], vmax[0], p0, pinf, latitude);
   solver->solve();
   double solution_rmax = solver->rmax();
-  double solution_b = solver->bg();
+  double solution_b = solver->gahm_b();
 
   REQUIRE(solution_rmax / nmi2m ==
           Catch::Approx(39.5956715406));  // Solution checked in nmi

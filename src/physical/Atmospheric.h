@@ -24,6 +24,7 @@
 #include <cassert>
 #include <cmath>
 
+#include "math.h"
 #include "physical/Constants.h"
 
 namespace Gahm::Physical::Atmospheric {
@@ -31,29 +32,30 @@ namespace Gahm::Physical::Atmospheric {
 /**
  * Computes the traditional Holland B parameter
  * @param vmax maximum storm wind velocity
- * @param p0 minimum storm pressure
- * @param pinf background pressure
+ * @param p_center minimum storm pressure
+ * @param p_background background pressure
  * @return Holland B
  */
-constexpr double calcHollandB(const double vmax, const double p0,
-                              const double pinf) {
-  assert(p0 != pinf);
+constexpr auto calcHollandB(const double vmax, const double p_center,
+                            const double p_background) -> double {
+  assert(p_center != p_background);
   return (vmax * vmax * Gahm::Physical::Constants::rhoAir() * M_E) /
-         (pinf - p0);
+         (p_background - p_center);
 }
 
 /**
  * Computes the Rossby number for the storm
  * @param vmax max storm wind velocity
  * @param rmax radius to max winds
- * @param fc coriolis force
+ * @param f_coriolis coriolis force
  * @return rossby number
  */
-constexpr double rossbyNumber(double vmax, double rmax, double fc) {
-  assert(fc > 0.0);
+constexpr auto rossbyNumber(double vmax, double rmax, double f_coriolis)
+    -> double {
+  assert(f_coriolis > 0.0);
   assert(rmax > 0.0);
   assert(vmax > 0.0);
-  return vmax / (fc * rmax);
+  return vmax / (f_coriolis * rmax);
 }
 
 /**
@@ -62,7 +64,7 @@ constexpr double rossbyNumber(double vmax, double rmax, double fc) {
  * @param rmx radius to maximum winds
  * @return inflow angle
  */
-constexpr double queenslandInflowAngle(double r, double rmx) noexcept {
+constexpr auto queenslandInflowAngle(double r, double rmx) noexcept -> double {
   constexpr double degree1 = Constants::deg2rad();
   constexpr double degree10 = 10.0 * Constants::deg2rad();
   constexpr double degree25 = 25.0 * Constants::deg2rad();

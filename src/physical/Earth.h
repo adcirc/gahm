@@ -22,6 +22,7 @@
 #define GAHM_SRC_EARTH_H_
 
 #include <cmath>
+#include <limits>
 #include <tuple>
 
 #include "datatypes/Point.h"
@@ -34,13 +35,13 @@ namespace Gahm::Physical::Earth {
  * Rotational rate of the earth in radians/s
  * @return Rotational rate of the earth in radians/s
  */
-constexpr double omega() { return 7.292115e-5; }
+constexpr auto omega() -> double { return 7.292115e-5; }
 
 /*
  * Earth's angular velocity in radians per second
  * @return Earth's angular velocity in radians per second
  */
-static double coriolis(const double lat) {
+static auto coriolis(const double lat) -> double {
   return 2.0 * omega() * std::sin(lat * Gahm::Physical::Constants::deg2rad());
 }
 
@@ -48,13 +49,13 @@ static double coriolis(const double lat) {
  * Earth equatorial radius in meters
  * @return Earth equatorial radius in meters
  */
-constexpr double equatorialRadius() { return 6378137.0; }
+constexpr auto equatorialRadius() -> double { return 6378137.0; }
 
 /*
  * Earth polar radius in meters
  * @return Earth polar radius in meters
  */
-constexpr double polarRadius() { return 6356752.3; }
+constexpr auto polarRadius() -> double { return 6356752.3; }
 
 /*
  * Earth radius in meters at a given latitude
@@ -65,15 +66,20 @@ constexpr double polarRadius() { return 6356752.3; }
  * @param latitude Latitude in degrees
  * @return Earth radius in meters
  */
-static double radius(
-    const double latitude = std::numeric_limits<double>::max()) {
-  if (latitude == std::numeric_limits<double>::max()) return equatorialRadius();
-  const double l = Gahm::Physical::Constants::deg2rad() * latitude;
-  return std::sqrt(
-      (std::pow(equatorialRadius(), 4.0) * std::cos(l) * std::cos(l) +
-       std::pow(polarRadius(), 4.0) * std::sin(l) * std::sin(l)) /
-      (std::pow(equatorialRadius(), 2.0) * std::cos(l) * std::cos(l) +
-       std::pow(polarRadius(), 2.0) * std::sin(l) * std::sin(l)));
+static auto radius(const double latitude = std::numeric_limits<double>::max())
+    -> double {
+  if (latitude == std::numeric_limits<double>::max()) {
+    return equatorialRadius();
+  }
+  const double lat_radians = Gahm::Physical::Constants::deg2rad() * latitude;
+  return std::sqrt((std::pow(equatorialRadius(), 4.0) * std::cos(lat_radians) *
+                        std::cos(lat_radians) +
+                    std::pow(polarRadius(), 4.0) * std::sin(lat_radians) *
+                        std::sin(lat_radians)) /
+                   (std::pow(equatorialRadius(), 2.0) * std::cos(lat_radians) *
+                        std::cos(lat_radians) +
+                    std::pow(polarRadius(), 2.0) * std::sin(lat_radians) *
+                        std::sin(lat_radians)));
 }
 
 /*
@@ -84,7 +90,7 @@ static double radius(
  * @param y2 Latitude 2 in degrees
  * @return Earth radius in meters
  */
-static double radius(const double y1, const double y2) {
+static auto radius(const double y1, const double y2) -> double {
   return Earth::radius((y1 + y2) / 2.0);
 }
 
@@ -96,8 +102,8 @@ static double radius(const double y1, const double y2) {
  * @param y2 Latitude 2 in degrees
  * @return Distance between two points on the earth's surface in meters
  */
-static double distance(const double x1, const double y1, const double x2,
-                       const double y2) {
+static auto distance(const double x1, const double y1, const double x2,
+                     const double y2) -> double {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
   const double lat1 = deg2rad * y1;
   const double lon1 = deg2rad * x1;
@@ -117,8 +123,8 @@ static double distance(const double x1, const double y1, const double x2,
  * @param p1 Point 1
  * @return Distance between two points on the earth's surface in meters
  */
-static double distance(const Gahm::Datatypes::Point &p0,
-                       const Gahm::Datatypes::Point &p1) {
+static auto distance(const Gahm::Datatypes::Point &p0,
+                     const Gahm::Datatypes::Point &p1) -> double {
   return distance(p0.x(), p0.y(), p1.x(), p1.y());
 }
 
@@ -130,16 +136,18 @@ static double distance(const Gahm::Datatypes::Point &p0,
  * @param y2 Latitude 2 in degrees
  * @return Azimuth between two points on the earth's surface in meters
  */
-static double azimuth(double x1, double y1, double x2, double y2) {
+static auto azimuth(double x1, double y1, double x2, double y2) -> double {
   constexpr double deg2rad = Units::convert(Units::Degree, Units::Radian);
-  double dx = (x2 - x1) * deg2rad;
-  auto phi1 = y1 * deg2rad;
-  auto phi2 = y2 * deg2rad;
-  auto ay = std::sin(dx) * std::cos(phi2);
-  auto ax = std::cos(phi1) * std::sin(phi2) -
-            std::sin(phi1) * std::cos(phi2) * std::cos(dx);
+  const double dx = (x2 - x1) * deg2rad;
+  const double phi1 = y1 * deg2rad;
+  const double phi2 = y2 * deg2rad;
+  const double ay = std::sin(dx) * std::cos(phi2);
+  const double ax = std::cos(phi1) * std::sin(phi2) -
+                    std::sin(phi1) * std::cos(phi2) * std::cos(dx);
   auto azi = std::atan2(-ay, -ax);
-  if (azi < 0.0) azi += Physical::Constants::twoPi();
+  if (azi < 0.0) {
+    azi += Physical::Constants::twoPi();
+  }
   return azi;
 }
 
@@ -149,8 +157,8 @@ static double azimuth(double x1, double y1, double x2, double y2) {
  * @param p1 Point 1
  * @return Azimuth between two points on the earth's surface in meters
  */
-static double azimuth(const Gahm::Datatypes::Point &p0,
-                      const Gahm::Datatypes::Point &p1) {
+static auto azimuth(const Gahm::Datatypes::Point &p0,
+                    const Gahm::Datatypes::Point &p1) -> double {
   return azimuth(p0.x(), p0.y(), p1.x(), p1.y());
 }
 
@@ -163,12 +171,10 @@ static double azimuth(const Gahm::Datatypes::Point &p0,
  * @param y2 Latitude 2 in degrees
  * @return Tuple of distances between the two points and the midpoint
  */
-static std::tuple<double, double, double> sphericalDx(const double x1,
-                                                      const double y1,
-                                                      const double x2,
-                                                      const double y2) {
-  double meanx = (x1 + x2) / 2.0;
-  double meany = (y1 + y2) / 2.0;
+static auto sphericalDx(const double x1, const double y1, const double x2,
+                        const double y2) -> std::tuple<double, double, double> {
+  const double meanx = (x1 + x2) / 2.0;
+  const double meany = (y1 + y2) / 2.0;
   return std::make_tuple(Gahm::Physical::Earth::distance(x1, meany, x2, meany),
                          Gahm::Physical::Earth::distance(meanx, y1, meanx, y2),
                          Gahm::Physical::Earth::distance(x1, y1, x2, y2));

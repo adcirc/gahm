@@ -84,7 +84,7 @@ void Preprocessor::solve() {
                                         p_min, p_back, latitude);
         solver.solve();
         quadrant.setRadiusToMaxWindSpeed(solver.rmax());
-        quadrant.setGahmHollandB(solver.bg());
+        quadrant.setGahmHollandB(solver.gahm_b());
       }
     }
   }
