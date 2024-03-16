@@ -20,11 +20,20 @@
 //
 #include "Preprocessor.h"
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <iterator>
+#include <stdexcept>
 
+#include "atcf/AtcfFile.h"
+#include "atcf/AtcfIsotach.h"
+#include "atcf/AtcfQuadrant.h"
+#include "atcf/AtcfSnap.h"
+#include "atcf/StormTranslation.h"
 #include "gahm/GahmSolver.h"
+#include "physical/Constants.h"
 #include "physical/Earth.h"
-#include "vortex/Vortex.h"
 
 namespace Gahm {
 
@@ -34,7 +43,9 @@ namespace Gahm {
  */
 Preprocessor::Preprocessor(Gahm::Atcf::AtcfFile *atcf, bool do_initialization)
     : m_atcf(atcf), m_isotachsProcessed(false) {
-  if (do_initialization) this->prepareAtcfData();
+  if (do_initialization) {
+    this->prepareAtcfData();
+  }
 }
 
 /*
@@ -63,15 +74,15 @@ void Preprocessor::solve() {
   }
 
   for (auto &snap : m_atcf->data()) {
-    double p_min = snap.centralPressure();
-    double p_back = snap.backgroundPressure();
-    double latitude = snap.position().y();
+    const double p_min = snap.centralPressure();
+    const double p_back = snap.backgroundPressure();
+    const double latitude = snap.position().y();
 
     for (auto &isotach : snap.getIsotachs()) {
       for (auto &quadrant : isotach.getQuadrants()) {
-        double isotach_radius = quadrant.getIsotachRadius();
+        const double isotach_radius = quadrant.getIsotachRadius();
 
-        double isotach_speed = quadrant.getIsotachSpeedAtBoundaryLayer();
+        const double isotach_speed = quadrant.getIsotachSpeedAtBoundaryLayer();
         double vmax = quadrant.getVmaxAtBoundaryLayer();
 
         //...Nudge the vmax to be greater than the isotach speed
@@ -96,60 +107,97 @@ void Preprocessor::solve() {
 void Preprocessor::fillMissingAtcfData() {
   for (auto &snap : m_atcf->data()) {
     for (auto &isotach : snap.getIsotachs()) {
-      const auto n_missing = [&]() {
-        return std::count_if(
-            isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
-            [](auto &q) { return q.getIsotachRadius() == 0.0; });
-      }();
+      const auto n_missing = Preprocessor::countMissingIsotachRadii(isotach);
       if (n_missing == 1) {
-        // We find the missing one and take the average of its neighbors
-        auto missing = std::find_if(
-            isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
-            [](auto &q) { return q.getIsotachRadius() == 0.0; });
-        auto missing_index = static_cast<int>(
-            std::distance(isotach.getQuadrants().begin(), missing));
-        auto left_index = missing_index + 3;
-        auto right_index = missing_index + 1;
-        auto mean = (isotach.getQuadrants()[left_index].getIsotachRadius() +
-                     isotach.getQuadrants()[right_index].getIsotachRadius()) /
-                    2.0;
-        missing->setIsotachRadius(mean);
+        Preprocessor::computeSingleMissingIsotachRadius(isotach);
       } else if (n_missing == 2) {
-        // We need to find the two missing quadrants and take the average of the
-        // other two
-        auto mean_not_missing = [&]() {
-          auto sum = 0.0;
-          for (auto &q : isotach.getQuadrants()) {
-            if (q.getIsotachRadius() != 0.0) {
-              sum += q.getIsotachRadius();
-            }
-          }
-          return sum / 2.0;
-        }();
-        for (auto &q : isotach.getQuadrants()) {
-          if (q.getIsotachRadius() == 0.0) {
-            q.setIsotachRadius(mean_not_missing);
-          }
-        }
+        Preprocessor::computeTwoMissingIsotachRadii(isotach);
       } else if (n_missing == 3) {
-        // We need to find the quadrant that is set and copy its value to the
-        // missing three
-        auto not_missing = std::find_if(
-            isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
-            [](auto &q) { return q.getIsotachRadius() != 0.0; });
-        for (auto &q : isotach.getQuadrants()) {
-          if (q.getIsotachRadius() == 0.0) {
-            q.setIsotachRadius(not_missing->getIsotachRadius());
-          }
-        }
+        Preprocessor::ComputeThreeMissingIsotachRadii(isotach);
       } else if (n_missing == 4) {
-        // We set all four quadrants to the radius of the maximum wind
-        for (auto &q : isotach.getQuadrants()) {
-          q.setIsotachRadius(snap.radiusToMaxWinds());
-        }
+        Preprocessor::setAllIsotachRadiiToRmax(snap, isotach);
       }
     }
   }
+}
+
+/**
+ * Counts the number of missing isotach radii
+ * @param isotach Isotach object
+ * @return Number of missing radii
+ */
+auto Preprocessor::countMissingIsotachRadii(Atcf::AtcfIsotach &isotach)
+    -> long {
+  return std::count_if(
+      isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
+      [](auto &quad) { return quad.getIsotachRadius() == 0.0; });
+}
+
+/**
+ * Sets all isotach radii to the radius of the maximum wind
+ * @param snap Snap object
+ * @param isotach Isotach object
+ */
+void Preprocessor::setAllIsotachRadiiToRmax(const Atcf::AtcfSnap &snap,
+                                            Atcf::AtcfIsotach &isotach) {
+  for (auto &q : isotach.getQuadrants()) {
+    q.setIsotachRadius(snap.radiusToMaxWinds());
+  }
+}
+
+/**
+ * Computes the three missing isotach radii by copying the one that is set
+ * @param isotach Isotach object
+ */
+void Preprocessor::ComputeThreeMissingIsotachRadii(Atcf::AtcfIsotach &isotach) {
+  const auto *not_missing =
+      std::find_if(isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
+                   [](auto &q) { return q.getIsotachRadius() != 0.0; });
+  for (auto &q : isotach.getQuadrants()) {
+    if (q.getIsotachRadius() == 0.0) {
+      q.setIsotachRadius(not_missing->getIsotachRadius());
+    }
+  }
+}
+
+/**
+ * Computes the two missing isotach radii by taking the average of the other two
+ * @param isotach Isotach object
+ */
+void Preprocessor::computeTwoMissingIsotachRadii(Atcf::AtcfIsotach &isotach) {
+  const auto mean_not_missing = [&]() {
+    auto sum = 0.0;
+    for (auto &q : isotach.getQuadrants()) {
+      if (q.getIsotachRadius() != 0.0) {
+        sum += q.getIsotachRadius();
+      }
+    }
+    return sum / 2.0;
+  }();
+  for (auto &q : isotach.getQuadrants()) {
+    if (q.getIsotachRadius() == 0.0) {
+      q.setIsotachRadius(mean_not_missing);
+    }
+  }
+}
+
+/**
+ * Computes the missing isotach radius by taking the average of its neighbors
+ * @param isotach Isotach object
+ */
+void Preprocessor::computeSingleMissingIsotachRadius(
+    Atcf::AtcfIsotach &isotach) {
+  auto *missing =
+      std::find_if(isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
+                   [](auto &quad) { return quad.getIsotachRadius() == 0.0; });
+  const auto missing_index =
+      static_cast<int>(std::distance(isotach.getQuadrants().begin(), missing));
+  const auto left_index = missing_index + 3;
+  const auto right_index = missing_index + 1;
+  const auto mean = (isotach.getQuadrants()[left_index].getIsotachRadius() +
+                     isotach.getQuadrants()[right_index].getIsotachRadius()) /
+                    2.0;
+  missing->setIsotachRadius(mean);
 }
 
 /*
@@ -158,16 +206,16 @@ void Preprocessor::fillMissingAtcfData() {
 void Preprocessor::computeStormTranslationVelocities() {
   for (auto it = m_atcf->data().begin(); it != m_atcf->data().end(); ++it) {
     if (it == m_atcf->data().begin()) {
-      auto next = std::next(it);
+      const auto next = std::next(it);
       if (next == m_atcf->data().end()) {
         it->setTranslation({0.0, 0.0});
       } else {
-        auto translation = Preprocessor::getTranslation(*it, *next);
+        const auto translation = Preprocessor::getTranslation(*it, *next);
         it->setTranslation(translation);
       }
     } else {
-      auto prev = std::prev(it);
-      auto translation = Preprocessor::getTranslation(*prev, *it);
+      const auto prev = std::prev(it);
+      const auto translation = Preprocessor::getTranslation(*prev, *it);
       it->setTranslation(translation);
     }
   }
@@ -179,26 +227,33 @@ void Preprocessor::computeStormTranslationVelocities() {
  * @param next Next snap
  * @return Translation object
  */
-Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
-    const Gahm::Atcf::AtcfSnap &now, const Gahm::Atcf::AtcfSnap &next) {
+auto Preprocessor::getTranslation(const Gahm::Atcf::AtcfSnap &now,
+                                  const Gahm::Atcf::AtcfSnap &next)
+    -> Gahm::Atcf::StormTranslation {
   const auto dt =
       static_cast<double>(next.date().toSeconds() - now.date().toSeconds());
   const auto [u_dis, v_dis, uv_dis] = Gahm::Physical::Earth::sphericalDx(
       now.position().x(), now.position().y(), next.position().x(),
       next.position().y());
-  auto uu = std::abs(u_dis / dt);
-  if (next.position().x() - now.position().x() < 0.0) uu *= -1.0;
+  auto u_translation = std::abs(u_dis / dt);
+  if (next.position().x() - now.position().x() < 0.0) {
+    u_translation *= -1.0;
+  }
 
-  double vv = std::abs(v_dis / dt);
-  if (next.position().y() - now.position().y() < 0.0) vv *= -1.0;
+  double v_translation = std::abs(v_dis / dt);
+  if (next.position().y() - now.position().y() < 0.0) {
+    v_translation *= -1.0;
+  }
 
-  double uv = uv_dis / dt;
-  double dir = std::atan2(uu, vv);
-  if (dir < 0.0) dir += Gahm::Physical::Constants::twoPi();
+  double uv_translation = uv_dis / dt;
+  double dir = std::atan2(u_translation, v_translation);
+  if (dir < 0.0) {
+    dir += Gahm::Physical::Constants::twoPi();
+  }
 
-  uv = 1.5 * std::pow(uv, 0.63);
+  uv_translation = 1.5 * std::pow(uv_translation, 0.63);
 
-  return {uv, dir};
+  return {uv_translation, dir};
 }
 
 /**
@@ -213,10 +268,9 @@ Gahm::Atcf::StormTranslation Preprocessor::getTranslation(
  * speed.
  *
  */
-#include "vortex/Vortex.h"
-double Preprocessor::removeTranslationVelocity(
+auto Preprocessor::removeTranslationVelocity(
     double wind_speed, double vmax_10m, int quadrant,
-    const Atcf::StormTranslation &transit, double latitude) {
+    const Atcf::StormTranslation &transit, double latitude) -> double {
   //  double uu =
   //      wind_speed *
   //      std::cos(Atcf::AtcfQuadrant::quadrant_angle(quadrant)+Physical::Constants::halfPi());
@@ -228,15 +282,13 @@ double Preprocessor::removeTranslationVelocity(
   //  double tsy =
   //      transit.transitSpeed() * std::cos(transit.translationDirection());
 
-
-
-  auto [uu, vv] = Vortex::decomposeWindVector(
-      wind_speed, Atcf::AtcfQuadrant::quadrant_angle(quadrant), latitude);
-  auto [tsx, tsy] = Vortex::computeTranslationVelocityComponents(
-      wind_speed, vmax_10m, transit);
+  //  auto [uu, vv] = Vortex::decomposeWindVector(
+  //      wind_speed, Atcf::AtcfQuadrant::quadrant_angle(quadrant), latitude);
+  //  auto [tsx, tsy] = Vortex::computeTranslationVelocityComponents(
+  //      wind_speed, vmax_10m, transit);
 
   return wind_speed;
-  return std::sqrt(std::pow(uu - tsx, 2.0) + std::pow(vv - tsy, 2.0));
+  // return std::sqrt(std::pow(uu - tsx, 2.0) + std::pow(vv - tsy, 2.0));
 }
 
 /**
@@ -247,9 +299,10 @@ double Preprocessor::removeTranslationVelocity(
  * @param transit Storm translation object
  * @return Wind speed with translation removed
  */
-double Preprocessor::removeTranslationVelocity(
-    double wind_speed, double vmax_10m, const Atcf::StormTranslation &transit) {
-  double scaling_factor = std::min(1.0, wind_speed / vmax_10m);
+auto Preprocessor::removeTranslationVelocity(
+    double wind_speed, double vmax_10m, const Atcf::StormTranslation &transit)
+    -> double {
+  const double scaling_factor = std::min(1.0, wind_speed / vmax_10m);
   return wind_speed - (transit.translationSpeed() * scaling_factor);
 }
 

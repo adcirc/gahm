@@ -22,7 +22,9 @@
 #define GAHM_SRC_PREPROCESSOR_PREPROCESSOR_H_
 
 #include "atcf/AtcfFile.h"
+#include "atcf/AtcfIsotach.h"
 #include "atcf/AtcfQuadrant.h"
+#include "atcf/AtcfSnap.h"
 #include "atcf/StormTranslation.h"
 
 namespace Gahm {
@@ -40,16 +42,25 @@ class Preprocessor {
   void fillMissingAtcfData();
   void computeStormTranslationVelocities();
   void computeBoundaryLayerWindspeed();
-  static Gahm::Atcf::StormTranslation getTranslation(
-      const Gahm::Atcf::AtcfSnap &now, const Gahm::Atcf::AtcfSnap &next);
+  static auto getTranslation(const Gahm::Atcf::AtcfSnap &now,
+                             const Gahm::Atcf::AtcfSnap &next)
+      -> Gahm::Atcf::StormTranslation;
 
-  static double removeTranslationVelocity(double wind_speed, double vmax_10m,
-                                          int quadrant,
-                                          const Atcf::StormTranslation &transit,
-                                          double latitude);
-  static double removeTranslationVelocity(
-      double wind_speed, double vmax_10m,
-      const Atcf::StormTranslation &transit);
+  static auto removeTranslationVelocity(double wind_speed, double vmax_10m,
+                                        int quadrant,
+                                        const Atcf::StormTranslation &transit,
+                                        double latitude) -> double;
+  static auto removeTranslationVelocity(double wind_speed, double vmax_10m,
+                                        const Atcf::StormTranslation &transit)
+      -> double;
+
+  static void computeSingleMissingIsotachRadius(
+      Gahm::Atcf::AtcfIsotach &isotach);
+  static void computeTwoMissingIsotachRadii(Gahm::Atcf::AtcfIsotach &isotach);
+  static void ComputeThreeMissingIsotachRadii(Gahm::Atcf::AtcfIsotach &isotach);
+  static void setAllIsotachRadiiToRmax(const Gahm::Atcf::AtcfSnap &snap,
+                                       Gahm::Atcf::AtcfIsotach &isotach);
+  static auto countMissingIsotachRadii(Atcf::AtcfIsotach &isotach) -> long;
 
   Gahm::Atcf::AtcfFile *m_atcf{nullptr};
   bool m_isotachsProcessed;
