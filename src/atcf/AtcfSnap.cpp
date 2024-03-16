@@ -24,7 +24,6 @@
 #include <utility>
 
 #include "fmt/compile.h"
-#include "fmt/core.h"
 #include "physical/Atmospheric.h"
 #include "physical/Units.h"
 #include "util/StringUtilities.h"

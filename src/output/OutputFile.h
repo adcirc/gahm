@@ -56,14 +56,18 @@ class OutputFile {
   virtual void write(const Datatypes::Date &date,
                      Gahm::Datatypes::VortexSolution &solution) = 0;
 
-  NODISCARD std::string filename() const { return m_filename; }
+  NODISCARD auto filename() const -> std::string { return m_filename; }
 
   NODISCARD const Gahm::Datatypes::WindGrid &windGrid() const {
     return m_wind_grid;
   }
 
-  NODISCARD Gahm::Datatypes::Date start_date() const { return m_start_date; }
-  NODISCARD Gahm::Datatypes::Date end_date() const { return m_end_date; }
+  NODISCARD auto start_date() const -> Gahm::Datatypes::Date {
+    return m_start_date;
+  }
+  NODISCARD auto end_date() const -> Gahm::Datatypes::Date {
+    return m_end_date;
+  }
 
  private:
   Datatypes::Date m_start_date;

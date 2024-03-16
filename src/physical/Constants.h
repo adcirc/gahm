@@ -29,55 +29,55 @@ namespace Gahm::Physical::Constants {
  * Pi constant
  * @return Pi constant
  */
-static constexpr double pi() { return M_PI; }
+static constexpr auto pi() -> double { return M_PI; }
 
 /*
  * 2*Pi constant
  * @return 2*Pi constant
  */
-static constexpr double twoPi() { return 2.0 * M_PI; }
+static constexpr auto twoPi() -> double { return 2.0 * M_PI; }
 
 /*
  * Pi/2 constant
  * @return Pi/2 constant
  */
-static constexpr double halfPi() { return M_PI_2; }
+static constexpr auto halfPi() -> double { return M_PI_2; }
 
 /*
  * Pi/4 constant
  * @return Pi/4 constant
  */
-static constexpr double quarterPi() { return M_PI_4; }
+static constexpr auto quarterPi() -> double { return M_PI_4; }
 
 /*
  * Pi/180 constant
  * @return Pi/180 constant
  */
-static constexpr double deg2rad() { return M_PI / 180.0; }
+static constexpr auto deg2rad() -> double { return M_PI / 180.0; }
 
 /*
  * 180/Pi constant
  * @return 180/Pi constant
  */
-static constexpr double rad2deg() { return 180.0 / M_PI; }
+static constexpr auto rad2deg() -> double { return 180.0 / M_PI; }
 
 /*
  * Background pressure in millibars
  * @return Background pressure in millibars
  */
-static constexpr double backgroundPressure() { return 1013.00; }
+static constexpr auto backgroundPressure() -> double { return 1013.00; }
 
 /*
  * Wind speed reduction factor for boundary layer winds to 10m
  * @return Wind speed reduction factor for 10m winds
  */
-static constexpr double topOfBoundaryLayerToTenMeter() { return 0.9; }
+static constexpr auto topOfBoundaryLayerToTenMeter() -> double { return 0.9; }
 
 /*
  * Wind speed increase factor for 10m winds to top of boundary layer
  * @return Wind speed increase factor for 10m winds to top of boundary layer
  */
-static constexpr double tenMeterToTopOfBoundaryLayer() {
+static constexpr auto tenMeterToTopOfBoundaryLayer() -> double {
   return 1.0 / topOfBoundaryLayerToTenMeter();
 }
 
@@ -85,25 +85,25 @@ static constexpr double tenMeterToTopOfBoundaryLayer() {
  * Rho of air in kg/m^3
  * @return Rho of air in kg/m^3
  */
-static constexpr double rhoAir() { return 1.293; }
+static constexpr auto rhoAir() -> double { return 1.293; }
 
 /*
  * Gravitational acceleration in m/s^2
  * @return Gravitational acceleration in m/s^2
  */
-static constexpr double g() { return 9.80665; }
+static constexpr auto g() -> double { return 9.80665; }
 
 /*
  * Rho of water in kg/m^3
  * @return Rho of water in kg/m^3
  */
-static constexpr double rhoWater() { return 1000.0; }
+static constexpr auto rhoWater() -> double { return 1000.0; }
 
 /*
  * One to ten conversion factor
  * @return One to ten conversion factor
  */
-static constexpr double oneMinuteToTenMinuteWind() { return 0.8928; }
+static constexpr auto oneMinuteToTenMinuteWind() -> double { return 0.8928; }
 
 }  // namespace Gahm::Physical::Constants
 

@@ -29,7 +29,7 @@ namespace Gahm::Physical::Units {
 enum AngleNormalizationType { ZERO_TO_360, NEG_180_TO_180 };
 
 template <typename T, AngleNormalizationType AngleType>
-constexpr T normalizeAngle(const T &angle) noexcept {
+constexpr auto normalizeAngle(const T &angle) noexcept -> T {
   if (AngleType == ZERO_TO_360) {
     if (angle < 0.0) {
       return angle + Physical::Constants::twoPi();
@@ -59,7 +59,7 @@ class UnitInternal {
     constexpr auto operator()() const { return m_value; }
 
    private:
-    const double m_value;
+    double m_value;
   };
 
   class Length : public UnitType {
@@ -102,11 +102,11 @@ constexpr UnitInternal::Pressure Pascal(100000.0);
 constexpr UnitInternal::Pressure Bar(1.0);
 constexpr UnitInternal::Pressure MetersH20(10.197442889221);
 
-template <typename T,
-          std::enable_if_t<std::is_base_of<UnitInternal::UnitType, T>::value,
-                           bool> = true>
-constexpr double convert(const T &a, const T &b) {
-  return b() / a();
+template <
+    typename T,
+    std::enable_if_t<std::is_base_of_v<UnitInternal::UnitType, T>, bool> = true>
+constexpr auto convert(const T &lhs, const T &rhs) -> double {
+  return rhs() / lhs();
 }
 
 };  // namespace Gahm::Physical::Units

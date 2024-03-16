@@ -20,12 +20,15 @@
 //
 #include "gahm/GahmRadiusSolver.h"
 
+#include <cstddef>
 #include <limits>
 #include <string>
 
 #include "boost/math/policies/error_handling.hpp"
 #include "boost/math/tools/roots.hpp"
 #include "boost/throw_exception.hpp"
+
+constexpr size_t c_max_solver_iterations = 200;
 
 namespace Gahm::Solver {
 
@@ -34,12 +37,14 @@ namespace Gahm::Solver {
  * @param isotach_radius radius of the current isotach
  * @param isotach_speed speed of the current isotach
  * @param vmax maximum wind velocity
- * @param fc coriolis force
- * @param bg GAHM Holland B parameter
+ * @param f_coriolis coriolis force
+ * @param gahm_b GAHM Holland B parameter
  */
 GahmRadiusSolver::GahmRadiusSolver(double isotach_radius, double isotach_speed,
-                                   double vmax, double fc, double bg)
-    : m_solver(isotach_radius, isotach_speed, vmax, fc, bg), m_max_it(200) {}
+                                   double vmax, double f_coriolis,
+                                   double gahm_b)
+    : m_solver(isotach_radius, isotach_speed, vmax, f_coriolis, gahm_b),
+      m_max_it(c_max_solver_iterations) {}
 
 /**
  * Runs the solver
@@ -67,11 +72,11 @@ auto GahmRadiusSolver::solve(double lower, double upper, double guess) const
  * iterations
  * @param bg GAHM Holland B
  */
-void GahmRadiusSolver::setBg(double b_gahm) { m_solver.setBg(b_gahm); }
+void GahmRadiusSolver::setGahmB(double gahm_b) { m_solver.setGahmB(gahm_b); }
 
 /**
  * Returns the current GAHM Holland B parameter
  * @return GAHM Holland B
  */
-auto GahmRadiusSolver::bg() const -> double { return m_solver.bg(); }
+auto GahmRadiusSolver::gahm_b() const -> double { return m_solver.gahm_b(); }
 }  // namespace Gahm::Solver

@@ -22,7 +22,18 @@
 #include "OwiOutput.h"
 
 #include <cassert>
+#include <cstddef>
+#include <fstream>
+#include <memory>
+#include <ostream>
+#include <stdexcept>
+#include <string>
+#include <vector>
 
+#include "OutputFile.h"
+#include "datatypes/Date.h"
+#include "datatypes/VortexSolution.h"
+#include "datatypes/WindGrid.h"
 #include "fmt/compile.h"
 #include "fmt/core.h"
 
@@ -50,10 +61,14 @@ void OwiOutput::close() { this->close_files(); }
 
 void OwiOutput::close_files() {
   if (m_pressure_file) {
-    if (m_pressure_file->is_open()) m_pressure_file->close();
+    if (m_pressure_file->is_open()) {
+      m_pressure_file->close();
+    }
   }
   if (m_wind_file) {
-    if (m_wind_file->is_open()) m_wind_file->close();
+    if (m_wind_file->is_open()) {
+      m_wind_file->close();
+    }
   }
 }
 
@@ -83,7 +98,8 @@ void OwiOutput::write(const Datatypes::Date &date,
   this->write_record(m_wind_file.get(), solution.v());
 }
 
-std::string OwiOutput::generateRecordHeader(const Datatypes::Date &date) const {
+auto OwiOutput::generateRecordHeader(const Datatypes::Date &date) const
+    -> std::string {
   auto lon_string = OwiOutput::formatHeaderCoordinates(windGrid().xll());
   auto lat_string = OwiOutput::formatHeaderCoordinates(windGrid().yll());
   return fmt::format(
@@ -95,7 +111,7 @@ std::string OwiOutput::generateRecordHeader(const Datatypes::Date &date) const {
       date.hour(), date.minute());
 }
 
-std::string OwiOutput::formatHeaderCoordinates(const double value) {
+auto OwiOutput::formatHeaderCoordinates(const double value) -> std::string {
   if (value <= -100.0) {
     return fmt::format("{:8.3f}", value);
   } else if (value < 0.0 || value >= 100.0) {
@@ -109,19 +125,21 @@ void OwiOutput::write_record(std::ostream *stream,
                              const std::vector<double> &value) const {
   assert(value.size() == windGrid().nx() * windGrid().ny());
   constexpr size_t num_records_per_line = 8;
-  size_t n = 0;
+  size_t counter = 0;
   for (size_t j = 0; j < this->windGrid().ny(); ++j) {
     for (size_t i = 0; i < this->windGrid().nx(); ++i) {
       *stream << fmt::format(FMT_COMPILE("{:10.4f}"),
                              value[i + j * this->windGrid().nx()]);
-      n++;
-      if (n == num_records_per_line) {
+      counter++;
+      if (counter == num_records_per_line) {
         *(stream) << "\n";
-        n = 0;
+        counter = 0;
       }
     }
   }
-  if (n != 0) *(stream) << "\n";
+  if (counter != 0) {
+    *(stream) << "\n";
+  }
 }
 
 }  // namespace Gahm::Output

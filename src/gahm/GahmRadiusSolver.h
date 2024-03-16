@@ -29,13 +29,14 @@ namespace Gahm::Solver {
 class GahmRadiusSolver {
  public:
   GahmRadiusSolver(double isotach_radius, double isotach_speed, double vmax,
-                   double fc, double bg);
+                   double f_coriolis, double gahm_b);
 
-  [[nodiscard]] auto solve(double lower, double upper, double guess) const -> double;
+  [[nodiscard]] auto solve(double lower, double upper, double guess) const
+      -> double;
 
-  void setBg(double gahm_b);
+  void setGahmB(double gahm_b);
 
-  [[nodiscard]] auto bg() const -> double;
+  [[nodiscard]] auto gahm_b() const -> double;
 
  private:
   GahmRadiusSolverPrivate m_solver;
