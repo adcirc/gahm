@@ -88,7 +88,7 @@ class AtcfSnap {
   NODISCARD auto getIsotachs() const
       -> const std::vector<Gahm::Atcf::AtcfIsotach>&;
 #endif
-  auto getIsotachs() -> std::vector<Gahm::Atcf::AtcfIsotach>&;
+  std::vector<Gahm::Atcf::AtcfIsotach> &getIsotachs();
 
   NODISCARD static auto basinFromString(const std::string& basin)
       -> Gahm::Atcf::AtcfSnap::BASIN;
