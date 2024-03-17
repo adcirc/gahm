@@ -92,16 +92,17 @@ foreach(test ${TestList})
 
   if(GAHM_ENABLE_COVERAGE)
     set_target_properties(
-            ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
-            LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+      ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
+                              LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
   endif()
 
-  target_link_libraries(${test_name} PRIVATE gahm_static Catch2::Catch2WithMain
+  target_link_libraries(${test_name} PRIVATE Catch2::Catch2WithMain
                                              OpenSSL::SSL)
   set_target_properties(
     ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                             ${CMAKE_CURRENT_BINARY_DIR}/tests)
-  add_dependencies(${test_name} gahm_static)
+  target_link_libraries(${test_name} PRIVATE gahm_objectlib gahm_interface)
+  add_dependencies(${test_name} gahm_objectlib gahm_interface)
 endforeach()
 # ##############################################################################
 
@@ -122,15 +123,16 @@ if(GAHM_ENABLE_FORTRAN)
 
     if(GAHM_ENABLE_COVERAGE)
       set_target_properties(
-              ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
-              LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
+        ${test_name} PROPERTIES COMPILE_FLAGS ${GAHM_COVERAGE_COMPILE_FLAGS}
+                                LINK_FLAGS ${GAHM_COVERAGE_LINK_FLAGS})
     endif()
 
-    target_link_libraries(${test_name} PRIVATE gahm_static)
     set_target_properties(
       ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
                               ${CMAKE_CURRENT_BINARY_DIR}/tests)
-    add_dependencies(${test_name} gahm_static)
+
+    target_link_libraries(${test_name} PRIVATE gahm_objectlib gahm_fortran gahm_interface)
+    add_dependencies(${test_name} gahm_objectlib gahm_fortran gahm_interface)
   endforeach()
 endif()
 # ##############################################################################

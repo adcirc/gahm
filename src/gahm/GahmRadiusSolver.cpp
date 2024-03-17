@@ -61,8 +61,8 @@ auto GahmRadiusSolver::solve(double lower, double upper, double guess) const
         m_solver, guess, lower, upper, std::numeric_limits<double>::digits,
         iter);
   } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
-    auto error = std::string("Unable to solve for radius to maximum winds: " +
-                             std::string(e.what()));
+    auto error =
+        "Unable to solve for radius to maximum winds: " + std::string(e.what());
     throw boost::math::evaluation_error(error);
   }
 }

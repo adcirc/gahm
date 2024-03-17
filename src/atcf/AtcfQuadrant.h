@@ -21,6 +21,8 @@
 #ifndef GAHM_SRC_ATCF_ATCFQUADRANT_H_
 #define GAHM_SRC_ATCF_ATCFQUADRANT_H_
 
+#include <ostream>
+
 #include "datatypes/CircularArray.h"
 #include "physical/Constants.h"
 
@@ -45,17 +47,17 @@ class AtcfQuadrant {
         m_isotach_speed_at_boundary_layer(isotach_speed_at_boundary_layer),
         m_vmax_at_boundary_layer(vmax_at_boundary_layer) {}
 
-  NODISCARD double getIsotachRadius() const { return m_isotach_radius; }
-  NODISCARD double getRadiusToMaxWindSpeed() const {
+  NODISCARD auto getIsotachRadius() const -> double { return m_isotach_radius; }
+  NODISCARD auto getRadiusToMaxWindSpeed() const -> double {
     return m_radius_to_max_wind_speed;
   }
-  NODISCARD double getGahmHollandB() const { return m_gahm_holland_b; }
-  NODISCARD double getIsotachSpeedAtBoundaryLayer() const {
+  NODISCARD auto getGahmHollandB() const -> double { return m_gahm_holland_b; }
+  NODISCARD auto getIsotachSpeedAtBoundaryLayer() const -> double {
     return m_isotach_speed_at_boundary_layer;
   }
-  NODISCARD int getQuadrantIndex() const { return m_quadrant_index; }
+  NODISCARD auto getQuadrantIndex() const -> int { return m_quadrant_index; }
 
-  NODISCARD double getVmaxAtBoundaryLayer() const {
+  NODISCARD auto getVmaxAtBoundaryLayer() const -> double {
     return m_vmax_at_boundary_layer;
   }
 
@@ -102,12 +104,11 @@ class AtcfQuadrant {
 }  // namespace Gahm::Atcf
 
 #ifndef SWIG
-static std::ostream &operator<<(std::ostream &os,
-                                const Gahm::Atcf::AtcfQuadrant &q) {
+static auto operator<<(std::ostream &os, const Gahm::Atcf::AtcfQuadrant &q)
+    -> std::ostream & {
   os << "[Quadrant]: " << q.getQuadrantIndex() << std::endl;
   os << "   Isotach Radius: " << q.getIsotachRadius() << std::endl;
-  os << "   Radius to Max Wind Speed: " << q.getRadiusToMaxWindSpeed()
-     << std::endl;
+  os << "   Radius to Max Wind Speed: " << q.getRadiusToMaxWindSpeed() << '\n';
   os << "   GAHM Holland B: " << q.getGahmHollandB() << std::endl;
   os << "   Isotach Speed at Boundary Layer: "
      << q.getIsotachSpeedAtBoundaryLayer() << std::endl;

@@ -21,11 +21,18 @@
 
 #include "Vortex.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <iterator>
+#include <tuple>
 #include <utility>
+#include <vector>
 
+#include "atcf/AtcfSnap.h"
 #include "atcf/StormPosition.h"
+#include "datatypes/Date.h"
+#include "datatypes/PointPosition.h"
 #include "gahm/GahmEquations.h"
 #include "physical/Earth.h"
 #include "util/Interpolation.h"
@@ -152,8 +159,8 @@ Datatypes::VortexSolution Vortex::solve(const Datatypes::Date &date) {
         current_storm_position.y());
 
     //...Add the translation speed back into the wind vector
-//    uf += tsx;
-//    vf += tsy;
+    //    uf += tsx;
+    //    vf += tsy;
 
     uf *= Physical::Constants::oneMinuteToTenMinuteWind();
     vf *= Physical::Constants::oneMinuteToTenMinuteWind();
@@ -218,8 +225,8 @@ std::tuple<double, double> Vortex::computeTranslationVelocityComponents(
  * @param date Date to solve the vortex for
  * @return Tuple containing the iterator to the time snap and the time weight
  */
-std::tuple<std::vector<Atcf::AtcfSnap>::const_iterator, double>
-Vortex::selectTime(const Datatypes::Date &date) const {
+auto Vortex::selectTime(const Datatypes::Date &date) const
+    -> std::tuple<std::vector<Atcf::AtcfSnap>::const_iterator, double> {
   if (date <= m_atcfFile->data().front().date()) {
     return {m_atcfFile->data().begin(), 0.0};
   } else if (date >= m_atcfFile->data().back().date()) {
@@ -227,15 +234,16 @@ Vortex::selectTime(const Datatypes::Date &date) const {
   } else {
     auto time_it = std::lower_bound(
         m_atcfFile->data().begin(), m_atcfFile->data().end(), date,
-        [](const Atcf::AtcfSnap &snap, const Datatypes::Date &date) {
-          return snap.date() < date;
+        [](const Atcf::AtcfSnap &lhs, const Datatypes::Date &rhs) {
+          return lhs.date() < rhs;
         });
 
     auto prev_time_it = std::prev(time_it);
-    double time_weight = static_cast<double>(date.toSeconds() -
-                                             prev_time_it->date().toSeconds()) /
-                         static_cast<double>(time_it->date().toSeconds() -
-                                             prev_time_it->date().toSeconds());
+    const double time_weight =
+        static_cast<double>(date.toSeconds() -
+                            prev_time_it->date().toSeconds()) /
+        static_cast<double>(time_it->date().toSeconds() -
+                            prev_time_it->date().toSeconds());
 
     return {prev_time_it, time_weight};
   }
@@ -311,11 +319,11 @@ std::tuple<int, double> Vortex::getBaseIsotach(double distance, int quadrant,
   } else if (distance <= radii_min) {
     return {0, 0.0};
   } else {
-    auto isotach_it =
-        std::lower_bound(radii.begin(), radii.end(), distance,
-                         [](const double &radius, const double &distance) {
-                           return radius < distance;
-                         });
+    auto isotach_it = std::lower_bound(
+        radii.begin(), radii.end(), distance,
+        [](const double &this_radius, const double &this_distance) {
+          return this_radius < this_distance;
+        });
     auto prev_isotach_it = std::prev(isotach_it);
     auto isotach_index = std::distance(radii.begin(), prev_isotach_it);
     double isotach_weight =
@@ -330,9 +338,9 @@ std::tuple<int, double> Vortex::getBaseIsotach(double distance, int quadrant,
  * @param snap Time snap 0 to get the parameter pack for
  * @return Parameter pack object
  */
-Vortex::t_parameter_pack Vortex::getParameterPack(
+auto Vortex::getParameterPack(
     const Gahm::Datatypes::PointPosition &point_position,
-    const Atcf::AtcfSnap &snap) {
+    const Atcf::AtcfSnap &snap) -> Vortex::t_parameter_pack {
   return Vortex::interpolateParameterPackQuadrant(point_position, snap);
 }
 
@@ -343,8 +351,8 @@ Vortex::t_parameter_pack Vortex::getParameterPack(
  * @param quadrant Quadrant to convert the isotach for
  * @return Parameter pack object
  */
-Vortex::t_parameter_pack Vortex::isotachToParameterPack(
-    const Atcf::AtcfIsotach &isotach, int quadrant) {
+auto Vortex::isotachToParameterPack(const Atcf::AtcfIsotach &isotach,
+                                    int quadrant) -> Vortex::t_parameter_pack {
   auto q = isotach.getQuadrant(quadrant);
   return {q.getRadiusToMaxWindSpeed(), q.getRadiusToMaxWindSpeed(),
           q.getVmaxAtBoundaryLayer(), q.getIsotachSpeedAtBoundaryLayer(),
@@ -360,18 +368,20 @@ Vortex::t_parameter_pack Vortex::isotachToParameterPack(
  * denotes base quadrant, 1 denotes the next quadrant
  * @return Parameter pack object
  */
-Vortex::t_parameter_pack Vortex::interpolateParameterPackIsotach(
+auto Vortex::interpolateParameterPackIsotach(
     const Gahm::Datatypes::PointPosition &point_position,
-    const Atcf::AtcfSnap &snap, int quadrant_index) {
+    const Atcf::AtcfSnap &snap, int quadrant_index)
+    -> Vortex::t_parameter_pack {
   auto [isotach, quadrant, weight] = [&]() {
     if (quadrant_index == 0) {
-      return std::make_tuple(point_position.isotach(),
+      return std::make_tuple(static_cast<size_t>(point_position.isotach()),
                              point_position.quadrant() + quadrant_index,
                              point_position.isotach_weight());
     } else {
-      return std::make_tuple(point_position.isotach_adjacent(),
-                             point_position.quadrant() + quadrant_index,
-                             point_position.isotach_adjacent_weight());
+      return std::make_tuple(
+          static_cast<size_t>(point_position.isotach_adjacent()),
+          point_position.quadrant() + quadrant_index,
+          point_position.isotach_adjacent_weight());
     }
   }();
 

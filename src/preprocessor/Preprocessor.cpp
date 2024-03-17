@@ -286,6 +286,11 @@ auto Preprocessor::removeTranslationVelocity(
   //      wind_speed, Atcf::AtcfQuadrant::quadrant_angle(quadrant), latitude);
   //  auto [tsx, tsy] = Vortex::computeTranslationVelocityComponents(
   //      wind_speed, vmax_10m, transit);
+  // Mark parameters used to suppress warnings
+  (void)vmax_10m;
+  (void)latitude;
+  (void)quadrant;
+  (void)transit;
 
   return wind_speed;
   // return std::sqrt(std::pow(uu - tsx, 2.0) + std::pow(vv - tsy, 2.0));
