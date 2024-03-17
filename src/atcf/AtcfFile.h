@@ -57,7 +57,7 @@ class AtcfFile {
 
   NODISCARD auto empty() const -> bool { return m_atcfSnaps.empty(); }
 
-  NODISCARD auto at(size_t index) -> Atcf::AtcfSnap& {
+  NODISCARD Atcf::AtcfSnap& at(size_t index) {
     return m_atcfSnaps.at(index);
   }
 #ifndef SWIG
