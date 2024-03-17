@@ -44,8 +44,8 @@ class OutputFile {
              const Gahm::Datatypes::WindGrid &wind_grid)
       : m_start_date(start_date),
         m_end_date(end_date),
-        m_filename(std::move(filename)),
-        m_wind_grid(wind_grid) {}
+        m_wind_grid(wind_grid),
+        m_filename(std::move(filename)){}
 
   virtual ~OutputFile() = default;
 

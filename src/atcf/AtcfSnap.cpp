@@ -20,11 +20,23 @@
 //
 #include "AtcfSnap.h"
 
+#include <algorithm>
+#include <array>
+#include <cmath>
 #include <optional>
+#include <string>
 #include <utility>
+#include <vector>
 
+#include "AtcfIsotach.h"
+#include "StormPosition.h"
+#include "StormTranslation.h"
+#include "boost/algorithm/string/trim.hpp"
+#include "datatypes/CircularArray.h"
+#include "datatypes/Date.h"
 #include "fmt/compile.h"
 #include "physical/Atmospheric.h"
+#include "physical/Constants.h"
 #include "physical/Units.h"
 #include "util/StringUtilities.h"
 
@@ -56,17 +68,17 @@ AtcfSnap::AtcfSnap(AtcfSnap::BASIN basin, double central_pressure,
       m_date(date),
       m_storm_id(storm_id),
       m_basin(basin),
-      m_storm_name(std::move(storm_name)),
-      m_radii(std::array<std::vector<double>, 4>{}),
       m_position(0.0, 0.0),
-      m_translation(0.0, 0.0) {}
+      m_translation(0.0, 0.0),
+      m_storm_name(std::move(storm_name)),
+      m_radii(std::array<std::vector<double>, 4>{}) {}
 
 /*
  * Converts a string to a basin enum
  * @param basin String representation of the basin
  * @return Basin enum
  */
-AtcfSnap::BASIN AtcfSnap::basinFromString(const std::string& basin) {
+auto AtcfSnap::basinFromString(const std::string& basin) -> AtcfSnap::BASIN {
   if (basin == "WP") {
     return AtcfSnap::BASIN::WP;
   } else if (basin == "IO") {
@@ -91,7 +103,7 @@ AtcfSnap::BASIN AtcfSnap::basinFromString(const std::string& basin) {
  * @param basin Basin enum
  * @return String representation of the basin
  */
-std::string AtcfSnap::basinToString(AtcfSnap::BASIN basin) {
+auto AtcfSnap::basinToString(AtcfSnap::BASIN basin) -> std::string {
   switch (basin) {
     case AtcfSnap::BASIN::WP:
       return "WP";
@@ -116,7 +128,7 @@ std::string AtcfSnap::basinToString(AtcfSnap::BASIN basin) {
  * Returns the central pressure of the storm
  * @return Central pressure of the storm
  */
-double AtcfSnap::centralPressure() const { return m_central_pressure; }
+auto AtcfSnap::centralPressure() const -> double { return m_central_pressure; }
 
 /*
  * Sets the central pressure of the storm
@@ -130,7 +142,9 @@ void AtcfSnap::setCentralPressure(double centralPressure) {
  * Returns the background pressure of the storm
  * @return Background pressure of the storm
  */
-double AtcfSnap::backgroundPressure() const { return m_background_pressure; }
+auto AtcfSnap::backgroundPressure() const -> double {
+  return m_background_pressure;
+}
 
 /*
  * Sets the background pressure of the storm
@@ -144,7 +158,9 @@ void AtcfSnap::setBackgroundPressure(double backgroundPressure) {
  * Returns the radius to maximum winds of the storm
  * @return Radius to maximum winds of the storm
  */
-double AtcfSnap::radiusToMaxWinds() const { return m_radius_to_max_winds; }
+auto AtcfSnap::radiusToMaxWinds() const -> double {
+  return m_radius_to_max_winds;
+}
 
 /*
  * Sets the radius to maximum winds of the storm
@@ -158,7 +174,7 @@ void AtcfSnap::setRadiusToMaxWinds(double radiusToMaxWinds) {
  * Returns the maximum sustained wind speed of the storm
  * @return Maximum sustained wind speed of the storm
  */
-double AtcfSnap::vmax() const { return m_vmax; }
+auto AtcfSnap::vmax() const -> double { return m_vmax; }
 
 /*
  * Sets the maximum sustained wind speed of the storm
@@ -170,7 +186,9 @@ void AtcfSnap::setVmax(double vmax) { m_vmax = vmax; }
  * Returns the maximum sustained wind speed of the storm in the boundary layer
  * @return Maximum sustained wind speed of the storm in the boundary layer
  */
-double AtcfSnap::vmaxBoundaryLayer() const { return m_vmax_boundary_layer; }
+auto AtcfSnap::vmaxBoundaryLayer() const -> double {
+  return m_vmax_boundary_layer;
+}
 
 /*
  * Sets the maximum sustained wind speed of the storm in the boundary layer
@@ -197,7 +215,7 @@ void AtcfSnap::setDate(const Gahm::Datatypes::Date& date) { m_date = date; }
  * Returns the storm ID
  * @return Storm ID
  */
-int AtcfSnap::stormId() const { return m_storm_id; }
+auto AtcfSnap::stormId() const -> int { return m_storm_id; }
 
 /*
  * Sets the storm ID
@@ -209,7 +227,7 @@ void AtcfSnap::setStormId(int stormId) { m_storm_id = stormId; }
  * Returns the basin enum of the storm
  * @return Basin enum of the storm
  */
-AtcfSnap::BASIN AtcfSnap::basin() const { return m_basin; }
+auto AtcfSnap::basin() const -> AtcfSnap::BASIN { return m_basin; }
 
 /*
  * Sets the basin enum of the storm
@@ -221,7 +239,7 @@ void AtcfSnap::setBasin(AtcfSnap::BASIN basin) { m_basin = basin; }
  * Returns the storm name
  * @return Storm name
  */
-const std::string& AtcfSnap::stormName() const { return m_storm_name; }
+auto AtcfSnap::stormName() const -> const std::string& { return m_storm_name; }
 
 /*
  * Sets the storm name
@@ -235,7 +253,7 @@ void AtcfSnap::setStormName(const std::string& stormName) {
  * Returns the isotachs of the storm
  * @return Isotachs of the storm
  */
-const std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() const {
+auto AtcfSnap::getIsotachs() const -> const std::vector<AtcfIsotach>& {
   return m_isotachs;
 }
 
@@ -243,7 +261,7 @@ const std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() const {
  * Returns the Holland B of the storm
  * @return Holland B of the storm
  */
-double AtcfSnap::hollandB() const { return m_holland_b; }
+auto AtcfSnap::hollandB() const -> double { return m_holland_b; }
 
 /**
  * Sets the radius of the storm
@@ -255,14 +273,14 @@ void AtcfSnap::setHollandB(double hollandB) { m_holland_b = hollandB; }
  * Returns the isotachs of the snap
  * @return Isotachs of the snap
  */
-std::vector<AtcfIsotach>& AtcfSnap::getIsotachs() { return m_isotachs; }
+auto AtcfSnap::getIsotachs() -> std::vector<AtcfIsotach>& { return m_isotachs; }
 
 /*
  * Returns the radii of the storm in the form of a circular array
  * @return Radii of the storm in the form of a circular array
  */
-const Gahm::Datatypes::CircularArray<std::vector<double>, 4>& AtcfSnap::radii()
-    const {
+auto AtcfSnap::radii() const
+    -> const Gahm::Datatypes::CircularArray<std::vector<double>, 4>& {
   return m_radii;
 }
 
@@ -270,7 +288,7 @@ const Gahm::Datatypes::CircularArray<std::vector<double>, 4>& AtcfSnap::radii()
  * Returns the number of isotachs in the snap
  * @return Number of isotachs in the snap
  */
-size_t AtcfSnap::numberOfIsotachs() const { return m_isotachs.size(); }
+auto AtcfSnap::numberOfIsotachs() const -> size_t { return m_isotachs.size(); }
 
 /*
  * Adds an isotach to the snap
@@ -286,7 +304,8 @@ void AtcfSnap::addIsotach(const AtcfIsotach& isotach) {
  * @param line Line to parse
  * @return ATCF snap
  */
-std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
+auto AtcfSnap::parseAtcfSnap(const std::string& line)
+    -> std::optional<AtcfSnap> {
   constexpr double kt2ms = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::Knot, Gahm::Physical::Units::MetersPerSecond);
   constexpr double nmi2m = Gahm::Physical::Units::convert(
@@ -337,7 +356,8 @@ std::optional<AtcfSnap> AtcfSnap::parseAtcfSnap(const std::string& line) {
  * @param tokens Tokens to parse
  * @return Isotach parsed from the tokens
  */
-AtcfIsotach AtcfSnap::parseIsotach(const std::vector<std::string>& tokens) {
+auto AtcfSnap::parseIsotach(const std::vector<std::string>& tokens)
+    -> AtcfIsotach {
   using namespace Gahm::detail::Utilities;
   constexpr double kt2ms = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::Knot, Gahm::Physical::Units::MetersPerSecond);
@@ -368,8 +388,8 @@ AtcfIsotach AtcfSnap::parseIsotach(const std::vector<std::string>& tokens) {
  * @param tau_str Time string
  * @return Date
  */
-Gahm::Datatypes::Date AtcfSnap::parseDate(const std::string& date_str,
-                                          const std::string& tau_str) {
+auto AtcfSnap::parseDate(const std::string& date_str,
+                         const std::string& tau_str) -> Gahm::Datatypes::Date {
   auto base_date =
       Gahm::Datatypes::Date::fromString(boost::trim_copy(date_str), "%Y%m%d%H");
   const auto tau = Gahm::detail::Utilities::readValueCheckBlank<int>(tau_str);
@@ -382,7 +402,7 @@ Gahm::Datatypes::Date AtcfSnap::parseDate(const std::string& date_str,
  * @param other Other atcf snap
  * @return True if this atcf snap is before the other atcf snap
  */
-bool AtcfSnap::operator<(const AtcfSnap& other) const {
+auto AtcfSnap::operator<(const AtcfSnap& other) const -> bool {
   return m_date < other.m_date;
 }
 
@@ -390,7 +410,7 @@ bool AtcfSnap::operator<(const AtcfSnap& other) const {
  * Returns the current position of the storm
  * @return Current position of the storm
  */
-const StormPosition& AtcfSnap::position() const { return m_position; }
+auto AtcfSnap::position() const -> const StormPosition& { return m_position; }
 
 /*
  * Sets the current position of the storm
@@ -403,7 +423,7 @@ void AtcfSnap::setPosition(const StormPosition& position) {
 /*
  * Returns if the snap has a valid set of data
  */
-bool AtcfSnap::isValid() const {
+auto AtcfSnap::isValid() const -> bool {
   if (m_isotachs.empty()) {
     return false;
   }
@@ -425,7 +445,9 @@ bool AtcfSnap::isValid() const {
  * Returns the storm translation for the snap
  * @return Storm translation for the snap
  */
-const StormTranslation& AtcfSnap::translation() const { return m_translation; }
+auto AtcfSnap::translation() const -> const StormTranslation& {
+  return m_translation;
+}
 
 /*
  * Sets the storm translation for the snap
@@ -438,9 +460,8 @@ void AtcfSnap::setTranslation(const StormTranslation& translation) {
 /*
  * Returns a string representation of the snap in GAHM format
  */
-std::string AtcfSnap::to_string(size_t cycle,
-                                const Gahm::Datatypes::Date& start_date,
-                                size_t isotach_index) const {
+auto AtcfSnap::to_string(size_t cycle, const Gahm::Datatypes::Date& start_date,
+                         size_t isotach_index) const -> std::string {
   constexpr double ms2kt = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::MetersPerSecond, Gahm::Physical::Units::Knot);
   constexpr double m2nmi = Gahm::Physical::Units::convert(

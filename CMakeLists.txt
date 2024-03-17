@@ -13,7 +13,6 @@
 cmake_minimum_required(VERSION 3.18)
 project(gahm CXX)
 
-
 # Warnings, Sanitizers, etc
 add_library(project_options INTERFACE)
 add_library(project_warnings INTERFACE)
@@ -35,10 +34,11 @@ mark_as_advanced(CLEAR CMAKE_CXX_FLAGS)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_RELEASE)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 
-option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(GAHM_ENABLE_WARNINGS "Enable verbose compiler warnings" OFF)
 option(GAHM_ENABLE_COVERAGE "Enable code coverage" OFF)
-option(GAHM_DEBUG "Enable debug mode" ON)
+
+option(GAHM_ENABLE_SHARED "Enable compilation of shared GAHM library" ON)
+option(GAHM_ENABLE_STATIC "Enable compilation of static GAHM library" OFF)
 
 # ##############################################################################
 # C++ Checks

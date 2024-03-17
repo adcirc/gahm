@@ -212,8 +212,7 @@ class CircularArray {
   /* @brief Returns the mod_floor of the index */
   template <typename Tp>
   static constexpr auto mod_floor(Tp position) noexcept -> unsigned {
-    return static_cast<unsigned>(
-        (static_cast<unsigned>(position) + array_size) % array_size);
+    return (static_cast<unsigned>(position) + array_size) % array_size;
   }
 };
 }  // namespace Gahm::Datatypes

@@ -21,6 +21,7 @@
 #ifndef GAHM_SRC_ATCF_ATCFISOTACH_H_
 #define GAHM_SRC_ATCF_ATCFISOTACH_H_
 
+#include <array>
 #include <cassert>
 
 #include "atcf/AtcfQuadrant.h"
@@ -43,10 +44,10 @@ class AtcfIsotach {
         m_quadrants({AtcfQuadrant(0, radii[0]), AtcfQuadrant(1, radii[1]),
                      AtcfQuadrant(2, radii[2]), AtcfQuadrant(3, radii[3])}) {}
 
-  NODISCARD double getWindSpeed() const { return m_wind_speed; }
+  NODISCARD auto getWindSpeed() const -> double { return m_wind_speed; }
 
-  NODISCARD const Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4>
-      &getQuadrants() const {
+  NODISCARD const Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4> &
+  getQuadrants() const {
     return m_quadrants;
   }
 
@@ -63,7 +64,7 @@ class AtcfIsotach {
     return m_quadrants[quadrant_index];
   }
 
-  NODISCARD Gahm::Datatypes::CircularArray<double, 4> radii() const {
+  NODISCARD auto radii() const -> Gahm::Datatypes::CircularArray<double, 4> {
     Gahm::Datatypes::CircularArray<double, 4> r{};
     for (int i = 0; i < 4; ++i) {
       r[i] = m_quadrants[i].getIsotachRadius();

@@ -22,10 +22,12 @@
 #define GAHM_SRC_ATCF_ATCFFILE_H_
 
 #include <algorithm>
+#include <cstddef>
 #include <string>
 #include <vector>
 
 #include "atcf/AtcfSnap.h"
+#include "datatypes/Date.h"
 
 #ifdef SWIG
 #define NODISCARD
@@ -43,28 +45,35 @@ class AtcfFile {
 
   void read();
 
-  NODISCARD size_t size() const;
+  NODISCARD auto size() const -> size_t;
 
   std::vector<Gahm::Atcf::AtcfSnap>& data() { return m_atcfSnaps; }
 
-  NODISCARD const std::vector<Gahm::Atcf::AtcfSnap>& data() const {
+#ifndef SWIG
+  NODISCARD auto data() const -> const std::vector<Gahm::Atcf::AtcfSnap>& {
     return m_atcfSnaps;
   }
+#endif
 
-  NODISCARD bool empty() const { return m_atcfSnaps.empty(); }
+  NODISCARD auto empty() const -> bool { return m_atcfSnaps.empty(); }
 
-  NODISCARD Atcf::AtcfSnap& at(size_t index) { return m_atcfSnaps.at(index); }
-  NODISCARD const Atcf::AtcfSnap& at(size_t index) const {
+  NODISCARD auto at(size_t index) -> Atcf::AtcfSnap& {
+    return m_atcfSnaps.at(index);
+  }
+#ifndef SWIG
+  NODISCARD auto at(size_t index) const -> const Atcf::AtcfSnap& {
     return m_atcfSnaps.at(index);
   }
 
-#ifndef SWIG
+  NODISCARD auto front() -> Atcf::AtcfSnap& { return m_atcfSnaps.front(); }
+  NODISCARD auto front() const -> const Atcf::AtcfSnap& {
+    return m_atcfSnaps.front();
+  }
 
-  NODISCARD Atcf::AtcfSnap& front() { return m_atcfSnaps.front(); }
-  NODISCARD const Atcf::AtcfSnap& front() const { return m_atcfSnaps.front(); }
-
-  NODISCARD Atcf::AtcfSnap& back() { return m_atcfSnaps.back(); }
-  NODISCARD const Atcf::AtcfSnap& back() const { return m_atcfSnaps.back(); }
+  NODISCARD auto back() -> Atcf::AtcfSnap& { return m_atcfSnaps.back(); }
+  NODISCARD auto back() const -> const Atcf::AtcfSnap& {
+    return m_atcfSnaps.back();
+  }
 
   //...Iterators
   NODISCARD auto begin() { return m_atcfSnaps.begin(); }
@@ -82,21 +91,23 @@ class AtcfFile {
   }
 
   //...Indexing
-  Gahm::Atcf::AtcfSnap& operator[](size_t index) { return m_atcfSnaps[index]; }
-  const Gahm::Atcf::AtcfSnap& operator[](size_t index) const {
+  auto operator[](size_t index) -> Gahm::Atcf::AtcfSnap& {
+    return m_atcfSnaps[index];
+  }
+  auto operator[](size_t index) const -> const Gahm::Atcf::AtcfSnap& {
     return m_atcfSnaps[index];
   }
 #endif
 
   void write(const std::string& filename);
 
-  NODISCARD std::string filename() const { return m_filename; }
+  NODISCARD auto filename() const -> std::string { return m_filename; }
 
   void addAtcfSnap(const Gahm::Atcf::AtcfSnap& snap);
 
  private:
   std::string m_filename;
-  bool m_quiet;
+  bool m_quiet{false};
   std::vector<Gahm::Atcf::AtcfSnap> m_atcfSnaps;
 };
 

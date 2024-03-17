@@ -21,9 +21,15 @@
 #include "AtcfFile.h"
 
 #include <algorithm>
+#include <cstddef>
 #include <fstream>
+#include <iostream>
 #include <memory>
+#include <stdexcept>
+#include <string>
 #include <utility>
+
+#include "AtcfSnap.h"
 
 namespace Gahm::Atcf {
 
@@ -38,13 +44,13 @@ AtcfFile::AtcfFile(std::string filename, bool quiet)
  * Reads the ATCF file
  */
 void AtcfFile::read() {
-  auto f = std::make_unique<std::ifstream>(m_filename);
-  if (!f->is_open()) {
+  auto file_obj = std::make_unique<std::ifstream>(m_filename);
+  if (!file_obj->is_open()) {
     throw std::runtime_error("Unable to open file: " + m_filename);
   }
 
   std::string line;
-  while (std::getline(*(f.get()), line)) {
+  while (std::getline(*(file_obj.get()), line)) {
     if (!line.empty()) {
       auto snap = AtcfSnap::parseAtcfSnap(line);
       if (snap.has_value()) {
@@ -52,9 +58,10 @@ void AtcfFile::read() {
           this->addAtcfSnap(*snap);
         }
       } else {
-        if (!m_quiet)
+        if (!m_quiet) {
           std::cerr << "[WARNING]: Invalid ATCF snap: "
-                    << snap->date().toString() << std::endl;
+                    << snap->date().toString() << '\n';
+        }
       }
     }
   }
@@ -65,14 +72,14 @@ void AtcfFile::read() {
  * @param snap Snap to add
  */
 void AtcfFile::addAtcfSnap(const AtcfSnap& snap) {
-  const auto it =
+  const auto iter =
       std::find_if(m_atcfSnaps.begin(), m_atcfSnaps.end(),
                    [&](const auto& val) { return val.date() == snap.date(); });
-  if (it == m_atcfSnaps.end()) {
+  if (iter == m_atcfSnaps.end()) {
     m_atcfSnaps.push_back(snap);
   } else {
     for (const auto& iso : snap.getIsotachs()) {
-      it->addIsotach(iso);
+      iter->addIsotach(iso);
     }
   }
 }
@@ -81,7 +88,7 @@ void AtcfFile::addAtcfSnap(const AtcfSnap& snap) {
  * Returns the number of snaps in the ATCF file
  * @return Number of snaps
  */
-size_t AtcfFile::size() const { return m_atcfSnaps.size(); }
+auto AtcfFile::size() const -> size_t { return m_atcfSnaps.size(); }
 
 /*
  * Writes the ATCF file to disk
@@ -89,18 +96,19 @@ size_t AtcfFile::size() const { return m_atcfSnaps.size(); }
  * @param format Format of the ATCF file
  */
 void AtcfFile::write(const std::string& filename) {
-  auto f = std::make_unique<std::ofstream>(filename);
-  if (!f->is_open()) {
+  auto file_obj = std::make_unique<std::ofstream>(filename);
+  if (!file_obj->is_open()) {
     throw std::runtime_error("Unable to open file: " + filename);
   }
   size_t cycle = 0;
   for (const auto& snap : m_atcfSnaps) {
     cycle += 1;
     for (size_t i = 0; i < snap.numberOfIsotachs(); ++i) {
-      *(f.get()) << snap.to_string(cycle, m_atcfSnaps[0].date(), i) << "\n";
+      *(file_obj.get()) << snap.to_string(cycle, m_atcfSnaps[0].date(), i)
+                        << "\n";
     }
   }
-  f->close();
+  file_obj->close();
 }
 
 }  // namespace Gahm::Atcf

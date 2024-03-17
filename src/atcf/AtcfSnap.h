@@ -21,7 +21,10 @@
 #ifndef GAHM_SRC_ATCFSNAP_H_
 #define GAHM_SRC_ATCFSNAP_H_
 
+#include <cstddef>
 #include <optional>
+#include <string>
+#include <vector>
 
 #include "atcf/AtcfIsotach.h"
 #include "atcf/StormPosition.h"
@@ -52,44 +55,48 @@ class AtcfSnap {
            const Gahm::Datatypes::Date& date, int storm_id,
            std::string storm_name);
 
-  static std::optional<AtcfSnap> parseAtcfSnap(const std::string& line);
+  static auto parseAtcfSnap(const std::string& line) -> std::optional<AtcfSnap>;
 
-  NODISCARD double centralPressure() const;
+  NODISCARD auto centralPressure() const -> double;
   void setCentralPressure(double centralPressure);
 
-  NODISCARD double backgroundPressure() const;
+  NODISCARD auto backgroundPressure() const -> double;
   void setBackgroundPressure(double backgroundPressure);
 
-  NODISCARD double radiusToMaxWinds() const;
+  NODISCARD auto radiusToMaxWinds() const -> double;
   void setRadiusToMaxWinds(double radiusToMaxWinds);
 
-  NODISCARD double vmax() const;
+  NODISCARD auto vmax() const -> double;
   void setVmax(double vmax);
 
-  NODISCARD double vmaxBoundaryLayer() const;
+  NODISCARD auto vmaxBoundaryLayer() const -> double;
   void setVmaxBoundaryLayer(double vmaxBoundaryLayer);
 
   NODISCARD const Gahm::Datatypes::Date& date() const;
   void setDate(const Gahm::Datatypes::Date& date);
 
-  NODISCARD int stormId() const;
+  NODISCARD auto stormId() const -> int;
   void setStormId(int stormId);
 
-  NODISCARD Gahm::Atcf::AtcfSnap::BASIN basin() const;
+  NODISCARD auto basin() const -> Gahm::Atcf::AtcfSnap::BASIN;
   void setBasin(Gahm::Atcf::AtcfSnap::BASIN basin);
 
   NODISCARD const std::string& stormName() const;
   void setStormName(const std::string& stormName);
 
-  NODISCARD const std::vector<Gahm::Atcf::AtcfIsotach>& getIsotachs() const;
-  std::vector<Gahm::Atcf::AtcfIsotach>& getIsotachs();
+#ifndef SWIG
+  NODISCARD auto getIsotachs() const
+      -> const std::vector<Gahm::Atcf::AtcfIsotach>&;
+#endif
+  auto getIsotachs() -> std::vector<Gahm::Atcf::AtcfIsotach>&;
 
-  NODISCARD static Gahm::Atcf::AtcfSnap::BASIN basinFromString(
-      const std::string& basin);
+  NODISCARD static auto basinFromString(const std::string& basin)
+      -> Gahm::Atcf::AtcfSnap::BASIN;
 
-  NODISCARD static std::string basinToString(Gahm::Atcf::AtcfSnap::BASIN basin);
+  NODISCARD static auto basinToString(Gahm::Atcf::AtcfSnap::BASIN basin)
+      -> std::string;
 
-  NODISCARD size_t numberOfIsotachs() const;
+  NODISCARD auto numberOfIsotachs() const -> size_t;
 
   NODISCARD const Gahm::Atcf::StormPosition& position() const;
   void setPosition(const Gahm::Atcf::StormPosition& position);
@@ -97,18 +104,18 @@ class AtcfSnap {
   NODISCARD const Gahm::Atcf::StormTranslation& translation() const;
   void setTranslation(const Gahm::Atcf::StormTranslation& translation);
 
-  NODISCARD double hollandB() const;
+  NODISCARD auto hollandB() const -> double;
   void setHollandB(double hollandB);
 
   void addIsotach(const Gahm::Atcf::AtcfIsotach& isotach);
 
-  bool operator<(const Gahm::Atcf::AtcfSnap& other) const;
+  auto operator<(const Gahm::Atcf::AtcfSnap& other) const -> bool;
 
-  NODISCARD bool isValid() const;
+  NODISCARD auto isValid() const -> bool;
 
-  NODISCARD std::string to_string(size_t cycle,
-                                  const Gahm::Datatypes::Date& start_date,
-                                  size_t isotach_index) const;
+  NODISCARD auto to_string(size_t cycle,
+                           const Gahm::Datatypes::Date& start_date,
+                           size_t isotach_index) const -> std::string;
 
   void processIsotachRadii();
 
@@ -118,11 +125,11 @@ class AtcfSnap {
   void orderIsotachs();
 
  private:
-  static Gahm::Datatypes::Date parseDate(const std::string& date_str,
-                                         const std::string& tau_str);
+  static auto parseDate(const std::string& date_str, const std::string& tau_str)
+      -> Gahm::Datatypes::Date;
 
-  static Gahm::Atcf::AtcfIsotach parseIsotach(
-      const std::vector<std::string>& line);
+  static auto parseIsotach(const std::vector<std::string>& line)
+      -> Gahm::Atcf::AtcfIsotach;
 
   double m_central_pressure;
   double m_background_pressure;
