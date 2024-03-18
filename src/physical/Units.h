@@ -64,22 +64,22 @@ class UnitInternal {
 
   class Length : public UnitType {
    public:
-    constexpr explicit Length(const double v) : UnitType(v) {}
+    constexpr explicit Length(const double value) : UnitType(value) {}
   };
 
   class Speed : public UnitType {
    public:
-    constexpr explicit Speed(const double v) : UnitType(v) {}
+    constexpr explicit Speed(const double value) : UnitType(value) {}
   };
 
   class Pressure : public UnitType {
    public:
-    constexpr explicit Pressure(const double v) : UnitType(v) {}
+    constexpr explicit Pressure(const double value) : UnitType(value) {}
   };
 
   class Angle : public UnitType {
    public:
-    constexpr explicit Angle(const double v) : UnitType(v) {}
+    constexpr explicit Angle(const double value) : UnitType(value) {}
   };
 };
 

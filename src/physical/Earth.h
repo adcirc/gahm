@@ -153,13 +153,13 @@ static auto azimuth(double x1, double y1, double x2, double y2) -> double {
 
 /**
  * @brief Azimuth between two points on the earth's surface
- * @param p0 Point 0
- * @param p1 Point 1
+ * @param point_0 Point 0
+ * @param point_1 Point 1
  * @return Azimuth between two points on the earth's surface in meters
  */
-static auto azimuth(const Gahm::Datatypes::Point &p0,
-                    const Gahm::Datatypes::Point &p1) -> double {
-  return azimuth(p0.x(), p0.y(), p1.x(), p1.y());
+static auto azimuth(const Gahm::Datatypes::Point &point_0,
+                    const Gahm::Datatypes::Point &point_1) -> double {
+  return azimuth(point_0.x(), point_0.y(), point_1.x(), point_1.y());
 }
 
 /*
@@ -173,11 +173,12 @@ static auto azimuth(const Gahm::Datatypes::Point &p0,
  */
 static auto sphericalDx(const double x1, const double y1, const double x2,
                         const double y2) -> std::tuple<double, double, double> {
-  const double meanx = (x1 + x2) / 2.0;
-  const double meany = (y1 + y2) / 2.0;
-  return std::make_tuple(Gahm::Physical::Earth::distance(x1, meany, x2, meany),
-                         Gahm::Physical::Earth::distance(meanx, y1, meanx, y2),
-                         Gahm::Physical::Earth::distance(x1, y1, x2, y2));
+  const double mean_x = (x1 + x2) / 2.0;
+  const double mean_y = (y1 + y2) / 2.0;
+  return std::make_tuple(
+      Gahm::Physical::Earth::distance(x1, mean_y, x2, mean_y),
+      Gahm::Physical::Earth::distance(mean_x, y1, mean_x, y2),
+      Gahm::Physical::Earth::distance(x1, y1, x2, y2));
 }
 
 }  // namespace Gahm::Physical::Earth

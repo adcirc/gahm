@@ -22,10 +22,12 @@
 #define GAHM_VORTEX_H
 
 #include <tuple>
-#include <utility>
 #include <vector>
 
 #include "atcf/AtcfFile.h"
+#include "atcf/AtcfIsotach.h"
+#include "atcf/AtcfSnap.h"
+#include "atcf/StormTranslation.h"
 #include "datatypes/Date.h"
 #include "datatypes/PointCloud.h"
 #include "datatypes/PointPosition.h"
@@ -43,32 +45,34 @@ class Vortex {
  public:
   Vortex(const Atcf::AtcfFile *atcfFile, Datatypes::PointCloud points);
 
-  Datatypes::VortexSolution solve(const Gahm::Datatypes::Date &date);
+  auto solve(const Gahm::Datatypes::Date &date) -> Datatypes::VortexSolution;
 
-  NODISCARD std::tuple<std::vector<Atcf::AtcfSnap>::const_iterator, double>
-  selectTime(const Datatypes::Date &date) const;
+  NODISCARD auto selectTime(const Datatypes::Date &date) const
+      -> std::tuple<std::vector<Atcf::AtcfSnap>::const_iterator, double>;
 
-  static Gahm::Datatypes::PointPosition getPointPosition(
-      const Atcf::AtcfSnap &snap, double distance, double azimuth);
+  static auto getPointPosition(const Atcf::AtcfSnap &snap, double distance,
+                               double azimuth)
+      -> Gahm::Datatypes::PointPosition;
 
-  static std::tuple<int, double> getBaseQuadrant(double angle);
+  static auto getBaseQuadrant(double angle) -> std::tuple<int, double>;
 
-  static std::tuple<int, double> getBaseIsotach(double distance, int quadrant,
-                                                const Atcf::AtcfSnap &snap);
+  static auto getBaseIsotach(double distance, int quadrant,
+                             const Atcf::AtcfSnap &snap)
+      -> std::tuple<int, double>;
 
-  NODISCARD static double friction_angle(double radius,
-                                         double radius_to_max_winds);
-  NODISCARD static std::tuple<double, double> rotate_winds(double u, double v,
-                                                           double angle,
-                                                           double latitude);
+  NODISCARD static auto friction_angle(double radius,
+                                       double radius_to_max_winds) -> double;
+  NODISCARD static auto rotate_winds(double u_vector, double v_vector,
+                                     double angle, double latitude)
+      -> std::tuple<double, double>;
 
-  NODISCARD static std::tuple<double, double>
-  computeTranslationVelocityComponents(
+  NODISCARD static auto computeTranslationVelocityComponents(
       double wind_speed, double vmax_at_boundary_layer,
-      const Atcf::StormTranslation &translation);
+      const Atcf::StormTranslation &translation) -> std::tuple<double, double>;
 
-  NODISCARD static std::tuple<double, double> decomposeWindVector(
-      double wind_speed, double azimuth, double latitude);
+  NODISCARD static auto decomposeWindVector(double wind_speed, double azimuth,
+                                            double latitude)
+      -> std::tuple<double, double>;
 
  private:
   struct t_parameter_pack {
@@ -78,27 +82,28 @@ class Vortex {
     double isotach_speed_at_boundary_layer;
     double holland_b;
   };
-  static t_parameter_pack getParameterPack(
+  static auto getParameterPack(
       const Gahm::Datatypes::PointPosition &point_position,
-      const Atcf::AtcfSnap &snap);
+      const Atcf::AtcfSnap &snap) -> t_parameter_pack;
 
-  static t_parameter_pack isotachToParameterPack(
-      const Atcf::AtcfIsotach &isotach, int quadrant);
+  static auto isotachToParameterPack(const Atcf::AtcfIsotach &isotach,
+                                     int quadrant) -> t_parameter_pack;
 
-  static t_parameter_pack interpolateParameterPackIsotach(
+  static auto interpolateParameterPackIsotach(
       const Gahm::Datatypes::PointPosition &point_position,
-      const Atcf::AtcfSnap &snap, int quadrant_index);
+      const Atcf::AtcfSnap &snap, int quadrant_index) -> t_parameter_pack;
 
-  static t_parameter_pack interpolateParameterPackQuadrant(
+  static auto interpolateParameterPackQuadrant(
       const Gahm::Datatypes::PointPosition &point_position,
-      const Atcf::AtcfSnap &snap);
+      const Atcf::AtcfSnap &snap) -> t_parameter_pack;
 
-  static t_parameter_pack interpolateParameterPack(const t_parameter_pack &p0,
-                                                   const t_parameter_pack &p1,
-                                                   double weight);
-  static t_parameter_pack interpolateParameterPackRadial(
-      const Vortex::t_parameter_pack &p0, const Vortex::t_parameter_pack &p1,
-      double azimuth);
+  static auto interpolateParameterPack(const t_parameter_pack &pack0,
+                                       const t_parameter_pack &pack1,
+                                       double weight) -> t_parameter_pack;
+  static auto interpolateParameterPackRadial(
+      const Vortex::t_parameter_pack &pack0,
+      const Vortex::t_parameter_pack &pack1, double azimuth)
+      -> t_parameter_pack;
 
   const Atcf::AtcfFile *m_atcfFile;
   Datatypes::PointCloud m_points;

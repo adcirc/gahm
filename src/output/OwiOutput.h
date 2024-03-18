@@ -24,7 +24,13 @@
 
 #include <fstream>
 #include <memory>
+#include <ostream>
+#include <string>
+#include <vector>
 
+#include "datatypes/Date.h"
+#include "datatypes/VortexSolution.h"
+#include "datatypes/WindGrid.h"
 #include "output/OutputFile.h"
 
 #ifdef SWIG
@@ -53,9 +59,10 @@ class OwiOutput : public OutputFile {
  private:
   void writeHeader(std::ofstream *file) const;
 
-  NODISCARD std::string generateRecordHeader(const Datatypes::Date &date) const;
+  NODISCARD auto generateRecordHeader(const Datatypes::Date &date) const
+      -> std::string;
 
-  static std::string formatHeaderCoordinates(double value);
+  static auto formatHeaderCoordinates(double value) -> std::string;
 
   void write_record(std::ostream *stream,
                     const std::vector<double> &value) const;

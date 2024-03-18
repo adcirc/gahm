@@ -432,50 +432,49 @@ auto Vortex::interpolateParameterPackQuadrant(
 /**
  * Interpolate a new parameter pack from two existing parameter packs and a
  * weighting factor
- * @param p0 Parameter pack 0
- * @param p1 Parameter pack 1
+ * @param pack0 Parameter pack 0
+ * @param pack1 Parameter pack 1
  * @param weight Weighting factor
  * @return Interpolated parameter pack
  */
-auto Vortex::interpolateParameterPack(const Vortex::t_parameter_pack &p0,
-                                      const Vortex::t_parameter_pack &p1,
+auto Vortex::interpolateParameterPack(const Vortex::t_parameter_pack &pack0,
+                                      const Vortex::t_parameter_pack &pack1,
                                       double weight)
     -> Vortex::t_parameter_pack {
-  const auto rmax = Interpolation::linear(p0.radius_to_max_wind,
-                                          p1.radius_to_max_wind, weight);
+  const auto rmax = Interpolation::linear(pack0.radius_to_max_wind,
+                                          pack1.radius_to_max_wind, weight);
   const auto rmax_true = Interpolation::linear(
-      p0.radius_to_max_wind_true, p1.radius_to_max_wind_true, weight);
-  const auto vmax = Interpolation::linear(p0.vmax_at_boundary_layer,
-                                          p1.vmax_at_boundary_layer, weight);
+      pack0.radius_to_max_wind_true, pack1.radius_to_max_wind_true, weight);
+  const auto vmax = Interpolation::linear(pack0.vmax_at_boundary_layer,
+                                          pack1.vmax_at_boundary_layer, weight);
   const auto isotach_speed =
-      Interpolation::linear(p0.isotach_speed_at_boundary_layer,
-                            p1.isotach_speed_at_boundary_layer, weight);
-  const auto b = Interpolation::linear(p0.holland_b, p1.holland_b, weight);
+      Interpolation::linear(pack0.isotach_speed_at_boundary_layer,
+                            pack1.isotach_speed_at_boundary_layer, weight);
+  const auto b = Interpolation::linear(pack0.holland_b, pack1.holland_b, weight);
   return {rmax, rmax_true, vmax, isotach_speed, b};
 }
 
 /**
  * Interpolate a new parameter pack from two existing parameter packs and a
  * weighting factor radially from the storm center
- * @param p0 Parameter pack 0
- * @param p1 Parameter pack 1
+ * @param pack0 Parameter pack 0
+ * @param pack1 Parameter pack 1
  * @param weight Weighting factor
  * @return Interpolated parameter pack
  */
-auto Vortex::interpolateParameterPackRadial(const Vortex::t_parameter_pack &p0,
-                                            const Vortex::t_parameter_pack &p1,
+auto Vortex::interpolateParameterPackRadial(const Vortex::t_parameter_pack &pack0,
+                                            const Vortex::t_parameter_pack &pack1,
                                             double weight)
     -> Vortex::t_parameter_pack {
-  const auto rmax = Interpolation::angle_idw(p0.radius_to_max_wind,
-                                             p1.radius_to_max_wind, weight);
+  const auto rmax = Interpolation::angle_idw(pack0.radius_to_max_wind,
+                                             pack1.radius_to_max_wind, weight);
   const auto rmax_true = Interpolation::angle_idw(
-      p0.radius_to_max_wind_true, p1.radius_to_max_wind_true, weight);
-  const auto vmax = Interpolation::angle_idw(p0.vmax_at_boundary_layer,
-                                             p1.vmax_at_boundary_layer, weight);
+      pack0.radius_to_max_wind_true, pack1.radius_to_max_wind_true, weight);
+  const auto vmax = Interpolation::angle_idw(pack0.vmax_at_boundary_layer, pack1.vmax_at_boundary_layer, weight);
   const auto isotach_speed =
-      Interpolation::angle_idw(p0.isotach_speed_at_boundary_layer,
-                               p1.isotach_speed_at_boundary_layer, weight);
-  const auto b = Interpolation::angle_idw(p0.holland_b, p1.holland_b, weight);
+      Interpolation::angle_idw(pack0.isotach_speed_at_boundary_layer,
+                               pack1.isotach_speed_at_boundary_layer, weight);
+  const auto b = Interpolation::angle_idw(pack0.holland_b, pack1.holland_b, weight);
   return {rmax, rmax_true, vmax, isotach_speed, b};
 }
 
@@ -506,20 +505,20 @@ auto Vortex::friction_angle(double radius, double radius_to_max_winds)
 
 /**
  * Rotate the winds by a given angle
- * @param u u-component of the wind
- * @param v v-component of the wind
+ * @param u_vector u-component of the wind
+ * @param v_vector v-component of the wind
  * @param angle Angle to rotate the winds by in radians
  * @param latitude Latitude of the point to rotate the winds for
  * @return Rotated winds as a tuple
  */
-auto Vortex::rotate_winds(double u, double v, double angle, double latitude)
+auto Vortex::rotate_winds(double u_vector, double v_vector, double angle, double latitude)
     -> std::tuple<double, double> {
   const auto sign = (latitude > 0.0) ? 1.0 : -1.0;
   const auto a = sign * angle;
   const auto cosa = std::cos(a);
   const auto sina = std::sin(a);
-  const auto u_rot = u * cosa - v * sina;
-  const auto v_rot = u * sina + v * cosa;
+  const auto u_rot = u_vector * cosa - v_vector * sina;
+  const auto v_rot = u_vector * sina + v_vector * cosa;
   return std::make_tuple(u_rot, v_rot);
 }
 

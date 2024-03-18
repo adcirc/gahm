@@ -24,7 +24,6 @@
 #include <cassert>
 #include <cmath>
 
-#include "math.h"
 #include "physical/Constants.h"
 
 namespace Gahm::Physical::Atmospheric {
@@ -60,7 +59,7 @@ constexpr auto rossbyNumber(double vmax, double rmax, double f_coriolis)
 
 /**
  * Compute the queensland inflow angle
- * @param r radius at current positoin
+ * @param r radius at current position
  * @param rmx radius to maximum winds
  * @return inflow angle
  */

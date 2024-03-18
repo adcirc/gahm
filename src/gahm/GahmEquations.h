@@ -70,7 +70,7 @@ constexpr auto phi(double vmax, double rmax, double gahm_b, double f_coriolis)
   assert(f_coriolis > 0.0);
   assert(vmax > 0.0);
   assert(rmax > 0.0);
-  auto rossby =
+  const auto rossby =
       Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, f_coriolis);
   return 1.0 + (1.0 / (rossby * gahm_b * (1.0 + 1.0 / rossby)));
 }
@@ -88,11 +88,12 @@ constexpr auto phi(double vmax, double rmax, double gahm_b, double f_coriolis)
 static auto gahm_b(double vmax, double rmax, double p_center,
                    double p_background, double f_coriolis, double phi)
     -> double {
-  auto holland_b =
+  const auto holland_b =
       Gahm::Physical::Atmospheric::calcHollandB(vmax, p_center, p_background);
-  auto rossby =
+  const auto rossby =
       Gahm::Physical::Atmospheric::rossbyNumber(vmax, rmax, f_coriolis);
-  auto gahm_b = (holland_b * ((1 + 1 / rossby) * std::exp(phi - 1)) / phi);
+  const auto gahm_b =
+      (holland_b * ((1 + 1 / rossby) * std::exp(phi - 1)) / phi);
   return gahm_b;
 }
 }  // namespace Gahm::Solver::GahmEquations

@@ -35,7 +35,7 @@ static constexpr auto pi() -> double { return M_PI; }
  * 2*Pi constant
  * @return 2*Pi constant
  */
-static constexpr auto twoPi() -> double { return 2.0 * M_PI; }
+static constexpr auto twoPi() -> double { return 2.0 * pi(); }
 
 /*
  * Pi/2 constant
