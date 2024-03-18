@@ -54,6 +54,8 @@ setuptools.setup(
                 "-DPython3_ROOT_DIR={:s}".format(str(Path(sys.prefix).resolve())),
                 "-DGAHM_ENABLE_PYTHON:BOOL=ON",
                 "-DPYTHON_PACKAGE_BUILD:BOOL=ON",
+                "-DGAHM_ENABLE_SHARED:BOOL=OFF",
+                "-DGAHM_ENABLE_STATIC:BOOL=OFF",
             ]
             + CIBW_CMAKE_OPTIONS,
         ),
