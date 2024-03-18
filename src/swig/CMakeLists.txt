@@ -23,7 +23,7 @@ add_library(pygahm SHARED
             ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/python_gahm_wrap.cxx)
 target_include_directories(pygahm PRIVATE ${Python3_INCLUDE_DIRS}
                                           ${CMAKE_CURRENT_SOURCE_DIR}/..)
-target_link_libraries(pygahm gahm_objectlib)
+target_link_libraries(pygahm gahm_objectlib gahm_interface)
 
 if(APPLE)
   target_link_libraries(pygahm Python3::Module)
@@ -37,7 +37,7 @@ set_property(
   PROPERTY ADDITIONAL_MAKE_CLEAN_FILES pygahm.py
            CMakeFiles/python_gahm_wrap.cxx)
 
-add_dependencies(pygahm gahm_objectlib)
+add_dependencies(pygahm gahm_objectlib gahm_interface)
 
 if(PYTHON_PACKAGE_BUILD)
   set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
