@@ -1,4 +1,4 @@
-find_package(SWIG REQUIRED)
+find_package(SWIG 4.0 REQUIRED)
 find_package(
   Python3
   COMPONENTS Interpreter Development.Module
