@@ -17,7 +17,7 @@ m_to_nm = 0.000539957
 topToTen = 0.9
 
 # ... Convert 1 minute wind to 10 minute wind
-min10_to_min1 = 1.14
+min10_to_min1 = 1.12
 
 atcf_file = "../tests/test_files/bal122005.dat"
 atcf = pygahm.AtcfFile(atcf_file, True)
@@ -27,7 +27,7 @@ prep = pygahm.Preprocessor(atcf)
 prep.prepareAtcfData()
 prep.solve()
 
-snap = 22
+snap = 24
 
 # ...Get the time of the storm
 storm_time = atcf.data()[snap].date()
@@ -39,7 +39,7 @@ for iso in isotachs:
     # ...Get the wind speed and convert to knots
     isotach_data.append(
         {
-            "wind_speed": iso.getWindSpeed() * ms_to_kt * topToTen,
+            "wind_speed": iso.getWindSpeed() * ms_to_kt / min10_to_min1,
             "distance": [
                 iso.getQuadrant(0).getIsotachRadius() * m_to_nm,
                 iso.getQuadrant(1).getIsotachRadius() * m_to_nm,
@@ -196,7 +196,7 @@ else:
             color=color_list[i],
             linewidth=2,
             label="Wind Profile",
-            marker=".",
+#            marker=".",
         )
 
         # axs[i].plot(
