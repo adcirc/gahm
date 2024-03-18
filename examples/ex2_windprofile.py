@@ -96,7 +96,7 @@ vortex = pygahm.Vortex(atcf, point_cloud)
 sln = vortex.solve(storm_time)
 u = np.array(sln.u()) * ms_to_kt
 v = np.array(sln.v()) * ms_to_kt
-iso = np.array(sln.isotach())
+# iso = np.array(sln.isotach())
 # quadrant = np.array(sln.quadrant())
 # iso_weight = np.array(sln.isotach_weight())
 # quad_weight = np.array(sln.quadrant_weight())
@@ -118,10 +118,10 @@ quad[1]["wind"] = mag[point_count : 2 * point_count]
 quad[2]["wind"] = mag[2 * point_count : 3 * point_count]
 quad[3]["wind"] = mag[3 * point_count : 4 * point_count]
 
-quad[0]["iso"] = iso[0:point_count]
-quad[1]["iso"] = iso[point_count : 2 * point_count]
-quad[2]["iso"] = iso[2 * point_count : 3 * point_count]
-quad[3]["iso"] = iso[3 * point_count : 4 * point_count]
+# quad[0]["iso"] = iso[0:point_count]
+# quad[1]["iso"] = iso[point_count : 2 * point_count]
+# quad[2]["iso"] = iso[2 * point_count : 3 * point_count]
+# quad[3]["iso"] = iso[3 * point_count : 4 * point_count]
 
 # ...Compute the distance to the storm center using x_pts, y_pts and haversine for each quad
 quad[0]["distance"] = np.full(point_count, 0, dtype=float)

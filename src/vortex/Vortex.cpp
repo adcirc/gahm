@@ -35,6 +35,7 @@
 #include "atcf/StormPosition.h"
 #include "atcf/StormTranslation.h"
 #include "datatypes/Date.h"
+#include "datatypes/Point.h"
 #include "datatypes/PointCloud.h"
 #include "datatypes/PointPosition.h"
 #include "datatypes/Uvp.h"
@@ -94,95 +95,122 @@ auto Vortex::solve(const Datatypes::Date &date) -> Datatypes::VortexSolution {
   Datatypes::VortexSolution solution;
   solution.reserve(m_points.size());
 
-  const Datatypes::Uvp default_solution = {0.0, 0.0, central_pressure / 100.0};
+  const auto state = Vortex::t_vortex_state{
+      time_it,
+      time_it_next,
+      time_weight,
+      current_storm_position,
+      current_storm_translation,
+      background_pressure,
+      central_pressure,
+      Gahm::Physical::Earth::coriolis(current_storm_position.y()),
+      date};
 
-  const double f_coriolis =
-      Gahm::Physical::Earth::coriolis(current_storm_position.y());
+  for (const auto &point : m_points) {
+    solution.push_back(Gahm::Vortex::solveVortexPoint(state, point));
+  }
+
+  return solution;
+}
+
+auto Vortex::solveVortexPoint(const Vortex::t_vortex_state &state,
+                              const Datatypes::Point &point) -> Datatypes::Uvp {
+  const double distance = Physical::Earth::distance(
+      point.x(), point.y(), state.current_storm_position.point().x(),
+      state.current_storm_position.point().y());
 
   //...We won't solve for points that are within 1 km of the storm center
   constexpr double min_distance = 1.0;
 
-  //...Get the point position information at both time levels. Note that the
-  // point position is the position of the point relative to the storm at the
-  // current time, not the position of the point relative to the storm at the
-  // time of the specified snap
-  for (auto &point : m_points) {
-    const double distance = Physical::Earth::distance(
-        point.x(), point.y(), current_storm_position.point().x(),
-        current_storm_position.point().y());
-
-    //...Check for the case where the point is at the center of the storm
-    if (distance <= min_distance) {
-      solution.push_back(default_solution);
-      continue;
-    }
-
-    const double azimuth = Physical::Earth::azimuth(
-        point.x(), point.y(), current_storm_position.point().x(),
-        current_storm_position.point().y());
-
-    const auto point_position_0 =
-        Vortex::getPointPosition(*time_it, distance, azimuth);
-    const auto point_position_1 =
-        Vortex::getPointPosition(*time_it_next, distance, azimuth);
-
-    //...Interpolate parameter packs in space at two time points
-    const auto pack_t0 = Vortex::getParameterPack(point_position_0, *time_it);
-    const auto pack_t1 =
-        Vortex::getParameterPack(point_position_1, *time_it_next);
-
-    //...Interpolate the parameter packs in time
-    const auto pack =
-        Vortex::interpolateParameterPack(pack_t0, pack_t1, time_weight);
-
-    //...Phi
-    const auto phi = Gahm::Solver::GahmEquations::phi(
-        pack.vmax_at_boundary_layer, pack.radius_to_max_wind, pack.holland_b,
-        f_coriolis);
-
-    //...Solve for the wind speed
-    auto wind_speed = Gahm::Solver::GahmEquations::GahmWindSpeed(
-        pack.radius_to_max_wind, pack.vmax_at_boundary_layer, distance,
-        f_coriolis, pack.holland_b);
-
-    //...Solve for the pressure value
-    const auto pressure = Gahm::Solver::GahmEquations::GahmPressure(
-                              central_pressure, background_pressure, distance,
-                              pack.radius_to_max_wind, pack.holland_b, phi) /
-                          100.0;
-
-    //...Begin finalizing the wind speed by decomposing the wind vector, adding
-    // in the translation velocity, and rotating the winds
-    const auto [tsx, tsy] = Vortex::computeTranslationVelocityComponents(
-        wind_speed, pack.vmax_at_boundary_layer, current_storm_translation);
-
-    //...Move the wind speed back to 10m in height
-    wind_speed *= Physical::Constants::topOfBoundaryLayerToTenMeter();
-
-    //...Decompose the wind speed to its vector parts
-    const auto [u, v] = Vortex::decomposeWindVector(wind_speed, azimuth,
-                                                    current_storm_position.y());
-
-    //...Rotate the winds
-    auto [uf, vf] = Vortex::rotate_winds(
-        u, v, Vortex::friction_angle(distance, pack.radius_to_max_wind_true),
-        current_storm_position.y());
-
-    //...Add the translation speed back into the wind vector
-    //    uf += tsx;
-    //    vf += tsy;
-
-    uf *= Physical::Constants::oneMinuteToTenMinuteWind();
-    vf *= Physical::Constants::oneMinuteToTenMinuteWind();
-
-    //...Add the solution to the solution vector
-    solution.emplace_back(
-        uf, vf, pressure, azimuth, distance, tsx, tsy,
-        point_position_0.quadrant_weight(), point_position_0.isotach_weight(),
-        point_position_0.quadrant(), point_position_0.isotach());
+  //...Check for the case where the point is at the center of the storm
+  if (distance <= min_distance) {
+    return {0.0, 0.0, state.central_pressure / 100.0};
   }
 
-  return solution;
+  //...Get the azimuth of the point relative to the storm center
+  const double azimuth = Physical::Earth::azimuth(
+      point.x(), point.y(), state.current_storm_position.point().x(),
+      state.current_storm_position.point().y());
+
+  //...Get the parameters for this point at this time
+  const Vortex::t_parameter_pack pack =
+      Vortex::getInterpolatedPack(state, distance, azimuth);
+
+  //...Solve for the phi value
+  const auto phi = Gahm::Solver::GahmEquations::phi(
+      pack.vmax_at_boundary_layer, pack.radius_to_max_wind, pack.holland_b,
+      state.f_coriolis);
+
+  //...Solve for the wind vector
+  auto [uf, vf] =
+      Vortex::computeVortexWindVector(state, pack, distance, azimuth);
+
+  //...Solve for the pressure value
+  const auto pressure =
+      Gahm::Solver::GahmEquations::GahmPressure(
+          state.central_pressure, state.background_pressure, distance,
+          pack.radius_to_max_wind, pack.holland_b, phi) /
+      100.0;
+
+  return {uf, vf, pressure};
+}
+
+auto Vortex::getInterpolatedPack(const Vortex::t_vortex_state &state,
+                                 const double distance, const double azimuth)
+    -> Vortex::t_parameter_pack {
+  //...Get the point position at two time points
+  const auto point_position_0 =
+      Vortex::getPointPosition(*state.time_it, distance, azimuth);
+  const auto point_position_1 =
+      Vortex::getPointPosition(*state.time_it_next, distance, azimuth);
+
+  //...Interpolate parameter packs in space at two time points
+  const auto pack_t0 =
+      Vortex::getParameterPack(point_position_0, *state.time_it);
+  const auto pack_t1 =
+      Vortex::getParameterPack(point_position_1, *state.time_it_next);
+
+  //...Interpolate the parameter packs in time
+  const auto pack =
+      Vortex::interpolateParameterPack(pack_t0, pack_t1, state.time_weight);
+  return pack;
+}
+
+auto Vortex::computeVortexWindVector(const Vortex::t_vortex_state &state,
+                                     const Vortex::t_parameter_pack &pack,
+                                     const double distance,
+                                     const double azimuth)
+    -> std::tuple<double, double> {
+  //...Solve for the wind speed
+  auto wind_speed = Solver::GahmEquations::GahmWindSpeed(
+      pack.radius_to_max_wind, pack.vmax_at_boundary_layer, distance,
+      state.f_coriolis, pack.holland_b);
+
+  //...Begin finalizing the wind speed by decomposing the wind vector, adding
+  // in the translation velocity, and rotating the winds
+  const auto [tsx, tsy] = Vortex::computeTranslationVelocityComponents(
+      wind_speed, pack.vmax_at_boundary_layer, state.current_storm_translation);
+
+  //...Move the wind speed back to 10m in height
+  wind_speed *= Physical::Constants::topOfBoundaryLayerToTenMeter();
+
+  //...Decompose the wind speed to its vector parts
+  const auto [u, v] = Vortex::decomposeWindVector(
+      wind_speed, azimuth, state.current_storm_position.y());
+
+  //...Rotate the winds
+  auto [uf, vf] = Vortex::rotate_winds(
+      u, v, friction_angle(distance, pack.radius_to_max_wind_true),
+      state.current_storm_position.y());
+
+  //...Add the translation speed back into the wind vector
+  //    uf += tsx;
+  //    vf += tsy;
+
+  uf *= Physical::Constants::oneMinuteToTenMinuteWind();
+  vf *= Physical::Constants::oneMinuteToTenMinuteWind();
+
+  return {uf, vf};
 }
 
 /**
@@ -322,13 +350,10 @@ auto Vortex::getBaseIsotach(double distance, int quadrant,
                             const Atcf::AtcfSnap &snap)
     -> std::tuple<int, double> {
   const auto radii = snap.radii()[quadrant];
-  const auto radii_min = radii.front();
-  const auto radii_max = radii.back();
-  const auto max_isotach_index = snap.numberOfIsotachs() - 1;
 
-  if (distance >= radii_max) {
-    return {max_isotach_index, 1.0};
-  } else if (distance <= radii_min) {
+  if (distance >= radii.back()) {
+    return {snap.numberOfIsotachs() - 1, 1.0};
+  } else if (distance <= radii.front()) {
     return {0, 0.0};
   } else {
     const auto isotach_it = std::lower_bound(
@@ -450,7 +475,8 @@ auto Vortex::interpolateParameterPack(const Vortex::t_parameter_pack &pack0,
   const auto isotach_speed =
       Interpolation::linear(pack0.isotach_speed_at_boundary_layer,
                             pack1.isotach_speed_at_boundary_layer, weight);
-  const auto b = Interpolation::linear(pack0.holland_b, pack1.holland_b, weight);
+  const auto b =
+      Interpolation::linear(pack0.holland_b, pack1.holland_b, weight);
   return {rmax, rmax_true, vmax, isotach_speed, b};
 }
 
@@ -462,20 +488,37 @@ auto Vortex::interpolateParameterPack(const Vortex::t_parameter_pack &pack0,
  * @param weight Weighting factor
  * @return Interpolated parameter pack
  */
-auto Vortex::interpolateParameterPackRadial(const Vortex::t_parameter_pack &pack0,
-                                            const Vortex::t_parameter_pack &pack1,
-                                            double weight)
+auto Vortex::interpolateParameterPackRadial(
+    const Vortex::t_parameter_pack &pack0,
+    const Vortex::t_parameter_pack &pack1, double weight)
     -> Vortex::t_parameter_pack {
-  const auto rmax = Interpolation::angle_idw(pack0.radius_to_max_wind,
-                                             pack1.radius_to_max_wind, weight);
-  const auto rmax_true = Interpolation::angle_idw(
-      pack0.radius_to_max_wind_true, pack1.radius_to_max_wind_true, weight);
-  const auto vmax = Interpolation::angle_idw(pack0.vmax_at_boundary_layer, pack1.vmax_at_boundary_layer, weight);
-  const auto isotach_speed =
-      Interpolation::angle_idw(pack0.isotach_speed_at_boundary_layer,
-                               pack1.isotach_speed_at_boundary_layer, weight);
-  const auto b = Interpolation::angle_idw(pack0.holland_b, pack1.holland_b, weight);
-  return {rmax, rmax_true, vmax, isotach_speed, b};
+  constexpr double angle_90 = 90.0 * Physical::Constants::deg2rad();
+  constexpr double angle_89 = 89.0 * Physical::Constants::deg2rad();
+
+  if (weight < Physical::Constants::deg2rad()) {
+    return pack0;
+  } else if (weight > angle_89) {
+    return pack1;
+  } else {
+    const double nd0 = 1.0 / std::pow(weight, 2.0);
+    const double nd1 = 1.0 / std::pow(angle_90 - weight, 2.0);
+    const double den = 1.0 / (nd0 + nd1);
+
+    const double rmax =
+        (nd0 * pack0.radius_to_max_wind + nd1 * pack1.radius_to_max_wind) * den;
+    const double rmax_true = (nd0 * pack0.radius_to_max_wind_true +
+                              nd1 * pack1.radius_to_max_wind_true) *
+                             den;
+    const double vmax = (nd0 * pack0.vmax_at_boundary_layer +
+                         nd1 * pack1.vmax_at_boundary_layer) *
+                        den;
+    const double isotach_speed = (nd0 * pack0.isotach_speed_at_boundary_layer +
+                                  nd1 * pack1.isotach_speed_at_boundary_layer) *
+                                 den;
+    const double holland_b =
+        (nd0 * pack0.holland_b + nd1 * pack1.holland_b) * den;
+    return {rmax, rmax_true, vmax, isotach_speed, holland_b};
+  }
 }
 
 /**
@@ -511,8 +554,8 @@ auto Vortex::friction_angle(double radius, double radius_to_max_winds)
  * @param latitude Latitude of the point to rotate the winds for
  * @return Rotated winds as a tuple
  */
-auto Vortex::rotate_winds(double u_vector, double v_vector, double angle, double latitude)
-    -> std::tuple<double, double> {
+auto Vortex::rotate_winds(double u_vector, double v_vector, double angle,
+                          double latitude) -> std::tuple<double, double> {
   const auto sign = (latitude > 0.0) ? 1.0 : -1.0;
   const auto a = sign * angle;
   const auto cosa = std::cos(a);
