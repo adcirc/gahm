@@ -28,6 +28,10 @@
 #include "preprocessor/Preprocessor.h"
 #include "vortex/Vortex.h"
 
+#ifndef GAHM_FORTRAN_USE_MAP_LOOKUP
+#define GAHM_FORTRAN_USE_MAP_LOOKUP 0
+#endif
+
 // This is a C++ class that holds the C++ objects that are created by the
 // Fortran code. The C++ objects are created by the Fortran code and then
 // stored in a map. The map is indexed by the counter variable. The counter
@@ -56,8 +60,13 @@ class gahm_instance {
   std::unique_ptr<Gahm::Atcf::AtcfFile> m_atcf;
   std::unique_ptr<Gahm::Preprocessor> m_preprocessor;
 };
-std::unordered_map<int, std::unique_ptr<gahm_instance>> g_gahm_instances;
-long g_counter = 0;
+
+#if GAHM_FORTRAN_USE_MAP_LOOKUP == 1
+static std::unordered_map<int, std::unique_ptr<gahm_instance>> g_gahm_instances;
+static long g_counter = 0;
+#else
+static std::vector<std::unique_ptr<gahm_instance>> g_gahm_instances;
+#endif
 
 extern "C" {
 long gahm_create_ftn(char *filename, long size, double *x, double *y,
@@ -75,18 +84,29 @@ void gahm_date_add_ftn(int year_in, int month_in, int day_in, int hour_in,
 
 long gahm_create_ftn(char *filename, long size, double *x, double *y,
                      bool quiet) {
-  g_counter++;
   std::string filename_str(filename);
   std::vector<double> x_pos(x, x + size);
   std::vector<double> y_pos(y, y + size);
 
   auto point_cloud = Gahm::Datatypes::PointCloud(x_pos, y_pos);
+#if GAHM_FORTRAN_USE_MAP_LOOKUP == 1
   g_gahm_instances[g_counter] =
       std::make_unique<gahm_instance>(filename_str, point_cloud, quiet);
   return g_counter;
+#else
+  g_gahm_instances.push_back(
+      std::make_unique<gahm_instance>(filename_str, point_cloud, quiet));
+  return g_gahm_instances.size() - 1;
+#endif
 }
 
-void gahm_destroy_ftn(long id) { g_gahm_instances.erase(id); }
+void gahm_destroy_ftn(long id) {
+#if GAHM_FORTRAN_USE_MAP_LOOKUP == 1
+  g_gahm_instances.erase(id);
+#else
+  g_gahm_instances[id].reset();
+#endif
+}
 
 void gahm_get_ftn(long id, int year, int month, int day, int hour, int minute,
                   int second, long size, double *u, double *v, double *p) {
