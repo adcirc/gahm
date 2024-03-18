@@ -147,12 +147,12 @@ the destructor is called explicitly as Fortran's behavior isn't as well defined 
 The project is built using CMake. 
 
 The following dependencies are required to build the project:
-- CMake
-- C++ compiler
+- CMake (3.18 or greater)
+- C++ compiler (with C++17 compatibility, i.e. gcc 7.0 or greater)
 
 The following are optional dependencies:
 - Python 3
-- SWIG (Python interface)
+- SWIG 4.0+ (Python interface)
 - Fortran compiler (Fortran interface)
 - Clang/LLVM (Fuzz testing)
 
