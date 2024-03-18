@@ -24,8 +24,12 @@ command:
 ./ex1_katrina.py --type wind ../tests/test_files/bal122005.dat \
                  --time 2005-08-29 --output katrina.png
 ```
-
 ![](https://raw.githubusercontent.com/adcirc/gahm/main/doc/img/katrina.png)
+
+You can also view the expected result whereby the wind profile exactly matches the specified isotachs using the 
+second example script in the examples directory.
+
+![](https://raw.githubusercontent.com/adcirc/gahm/main/doc/img/wind_profile.png)
 
 In addition to a Python interface, there is also a Fortran interface. The Fortran interface
 is intended for use by the ADCIRC model, so its scope may be somewhat limited. This may change based

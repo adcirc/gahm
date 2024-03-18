@@ -224,4 +224,6 @@ else:
     axs[3].set_xlabel("Distance (NM)")
 
     plt.tight_layout()
+
+    plt.savefig("wind_profile.png")
     plt.show()
