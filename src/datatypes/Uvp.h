@@ -35,68 +35,72 @@ namespace Gahm::Datatypes {
 
 class Uvp {
  public:
-  Uvp()
-      : m_u(0.0),
-        m_v(0.0),
-        m_p(Gahm::Physical::Constants::backgroundPressure()),
-        m_azimuth(0.0),
-        m_distance(0.0),
-        m_tsx(0.0),
-        m_tsy(0.0),
-        m_quadrant_weight(0.0),
-        m_isotach_weight(0.0),
-        m_quadrant(0),
-        m_isotach(0) {}
 
-  Uvp(double u, double v, double p)
-      : m_u(u),
-        m_v(v),
-        m_p(p),
-        m_azimuth(0.0),
-        m_distance(0.0),
-        m_tsx(0.0),
-        m_tsy(0.0),
-        m_quadrant_weight(0.0),
-        m_isotach_weight(0.0),
-        m_quadrant(0),
-        m_isotach(0) {}
+  constexpr Uvp() : m_u(0.0), m_v(0.0), m_p(Gahm::Physical::Constants::backgroundPressure()){}
+  constexpr Uvp(double u, double v, double p) : m_u(u), m_v(v), m_p(p){}
 
-  Uvp(double u, double v, double p, double azimuth, double distance, double tsx,
-      double tsy, double quadrant_weight, double isotach_weight, int quadrant,
-      int isotach)
-      : m_u(u),
-        m_v(v),
-        m_p(p),
-        m_azimuth(azimuth),
-        m_distance(distance),
-        m_tsx(tsx),
-        m_tsy(tsy),
-        m_quadrant_weight(quadrant_weight),
-        m_isotach_weight(isotach_weight),
-        m_quadrant(quadrant),
-        m_isotach(isotach) {}
+//  Uvp()
+//      : m_u(0.0),
+//        m_v(0.0),
+//        m_p(Gahm::Physical::Constants::backgroundPressure()),
+//        m_azimuth(0.0),
+//        m_distance(0.0),
+//        m_tsx(0.0),
+//        m_tsy(0.0),
+//        m_quadrant_weight(0.0),
+//        m_isotach_weight(0.0),
+//        m_quadrant(0),
+//        m_isotach(0) {}
+//
+//  Uvp(double u, double v, double p)
+//      : m_u(u),
+//        m_v(v),
+//        m_p(p),
+//        m_azimuth(0.0),
+//        m_distance(0.0),
+//        m_tsx(0.0),
+//        m_tsy(0.0),
+//        m_quadrant_weight(0.0),
+//        m_isotach_weight(0.0),
+//        m_quadrant(0),
+//        m_isotach(0) {}
+//
+//  Uvp(double u, double v, double p, double azimuth, double distance, double tsx,
+//      double tsy, double quadrant_weight, double isotach_weight, int quadrant,
+//      int isotach)
+//      : m_u(u),
+//        m_v(v),
+//        m_p(p),
+//        m_azimuth(azimuth),
+//        m_distance(distance),
+//        m_tsx(tsx),
+//        m_tsy(tsy),
+//        m_quadrant_weight(quadrant_weight),
+//        m_isotach_weight(isotach_weight),
+//        m_quadrant(quadrant),
+//        m_isotach(isotach) {}
 
-  NODISCARD auto u() const -> double { return m_u; }
+  NODISCARD constexpr auto u() const -> double { return m_u; }
 
-  NODISCARD auto v() const -> double { return m_v; }
+  NODISCARD constexpr auto v() const -> double { return m_v; }
 
-  NODISCARD auto p() const -> double { return m_p; }
+  NODISCARD constexpr auto p() const -> double { return m_p; }
 
-  NODISCARD auto azimuth() const -> double { return m_azimuth; }
-
-  NODISCARD auto distance() const -> double { return m_distance; }
-
-  NODISCARD auto tsx() const -> double { return m_tsx; }
-
-  NODISCARD auto tsy() const -> double { return m_tsy; }
-
-  NODISCARD auto quadrant_weight() const -> double { return m_quadrant_weight; }
-
-  NODISCARD auto isotach_weight() const -> double { return m_isotach_weight; }
-
-  NODISCARD auto quadrant() const -> int { return m_quadrant; }
-
-  NODISCARD auto isotach() const -> int { return m_isotach; }
+//  NODISCARD auto azimuth() const -> double { return m_azimuth; }
+//
+//  NODISCARD auto distance() const -> double { return m_distance; }
+//
+//  NODISCARD auto tsx() const -> double { return m_tsx; }
+//
+//  NODISCARD auto tsy() const -> double { return m_tsy; }
+//
+//  NODISCARD auto quadrant_weight() const -> double { return m_quadrant_weight; }
+//
+//  NODISCARD auto isotach_weight() const -> double { return m_isotach_weight; }
+//
+//  NODISCARD auto quadrant() const -> int { return m_quadrant; }
+//
+//  NODISCARD auto isotach() const -> int { return m_isotach; }
 
   void setU(double u) { m_u = u; }
 
@@ -121,14 +125,14 @@ class Uvp {
   double m_v;
   double m_p;
 
-  double m_azimuth;
-  double m_distance;
-  double m_tsx;
-  double m_tsy;
-  double m_quadrant_weight;
-  double m_isotach_weight;
-  int m_quadrant;
-  int m_isotach;
+//  double m_azimuth;
+//  double m_distance;
+//  double m_tsx;
+//  double m_tsy;
+//  double m_quadrant_weight;
+//  double m_isotach_weight;
+//  int m_quadrant;
+//  int m_isotach;
 };
 
 }  // namespace Gahm::Datatypes

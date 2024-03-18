@@ -108,77 +108,77 @@ class VortexSolution {
     return p;
   }
 
-  NODISCARD auto azimuth() const -> std::vector<double> {
-    std::vector<double> azimuth;
-    azimuth.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      azimuth.push_back(i.azimuth());
-    }
-    return azimuth;
-  }
-
-  NODISCARD auto distance() const -> std::vector<double> {
-    std::vector<double> distance;
-    distance.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      distance.push_back(i.distance());
-    }
-    return distance;
-  }
-
-  NODISCARD auto tsx() const -> std::vector<double> {
-    std::vector<double> tsx;
-    tsx.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      tsx.push_back(i.tsx());
-    }
-    return tsx;
-  }
-
-  NODISCARD auto tsy() const -> std::vector<double> {
-    std::vector<double> tsy;
-    tsy.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      tsy.push_back(i.tsy());
-    }
-    return tsy;
-  }
-
-  NODISCARD auto quadrant_weight() const -> std::vector<double> {
-    std::vector<double> quadrant_weight;
-    quadrant_weight.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      quadrant_weight.push_back(i.quadrant_weight());
-    }
-    return quadrant_weight;
-  }
-
-  NODISCARD auto isotach_weight() const -> std::vector<double> {
-    std::vector<double> isotach_weight;
-    isotach_weight.reserve(m_uvp.size());
-    for (const auto &i : m_uvp) {
-      isotach_weight.push_back(i.isotach_weight());
-    }
-    return isotach_weight;
-  }
-
-  NODISCARD auto quadrant() const -> std::vector<double> {
-    std::vector<double> quadrant;
-    quadrant.reserve(m_uvp.size());
-    for (const auto &iter : m_uvp) {
-      quadrant.push_back(iter.quadrant());
-    }
-    return quadrant;
-  }
-
-  NODISCARD auto isotach() const -> std::vector<double> {
-    std::vector<double> isotach;
-    isotach.reserve(m_uvp.size());
-    for (const auto &iter : m_uvp) {
-      isotach.push_back(iter.isotach());
-    }
-    return isotach;
-  }
+//  NODISCARD auto azimuth() const -> std::vector<double> {
+//    std::vector<double> azimuth;
+//    azimuth.reserve(m_uvp.size());
+//    for (const auto &i : m_uvp) {
+//      azimuth.push_back(i.azimuth());
+//    }
+//    return azimuth;
+//  }
+//
+//  NODISCARD auto distance() const -> std::vector<double> {
+//    std::vector<double> distance;
+//    distance.reserve(m_uvp.size());
+//    for (const auto &i : m_uvp) {
+//      distance.push_back(i.distance());
+//    }
+//    return distance;
+//  }
+//
+//  NODISCARD auto tsx() const -> std::vector<double> {
+//    std::vector<double> tsx;
+//    tsx.reserve(m_uvp.size());
+//    for (const auto &i : m_uvp) {
+//      tsx.push_back(i.tsx());
+//    }
+//    return tsx;
+//  }
+//
+//  NODISCARD auto tsy() const -> std::vector<double> {
+//    std::vector<double> tsy;
+//    tsy.reserve(m_uvp.size());
+//    for (const auto &i : m_uvp) {
+//      tsy.push_back(i.tsy());
+//    }
+//    return tsy;
+//  }
+//
+//  NODISCARD auto quadrant_weight() const -> std::vector<double> {
+//    std::vector<double> quadrant_weight;
+//    quadrant_weight.reserve(m_uvp.size());
+//    for (const auto &i : m_uvp) {
+//      quadrant_weight.push_back(i.quadrant_weight());
+//    }
+//    return quadrant_weight;
+//  }
+//
+//  NODISCARD auto isotach_weight() const -> std::vector<double> {
+//    std::vector<double> isotach_weight;
+//    isotach_weight.reserve(m_uvp.size());
+//    for (const auto &i : m_uvp) {
+//      isotach_weight.push_back(i.isotach_weight());
+//    }
+//    return isotach_weight;
+//  }
+//
+//  NODISCARD auto quadrant() const -> std::vector<double> {
+//    std::vector<double> quadrant;
+//    quadrant.reserve(m_uvp.size());
+//    for (const auto &iter : m_uvp) {
+//      quadrant.push_back(iter.quadrant());
+//    }
+//    return quadrant;
+//  }
+//
+//  NODISCARD auto isotach() const -> std::vector<double> {
+//    std::vector<double> isotach;
+//    isotach.reserve(m_uvp.size());
+//    for (const auto &iter : m_uvp) {
+//      isotach.push_back(iter.isotach());
+//    }
+//    return isotach;
+//  }
 
  private:
   std::vector<Gahm::Datatypes::Uvp> m_uvp;

@@ -37,7 +37,7 @@ constexpr auto linear(double v0, double v1, double weight) noexcept -> double {
 }
 
 constexpr auto angle(double v0, double v1, double weight,
-                       bool wrap = false) noexcept -> double {
+                     bool wrap = false) noexcept -> double {
   if (wrap && v1 < v0) v1 += Gahm::Physical::Constants::twoPi();
   auto angle = linear(v0, v1, weight);
   if (angle < 0.0) {
@@ -46,22 +46,6 @@ constexpr auto angle(double v0, double v1, double weight,
     angle -= Gahm::Physical::Constants::twoPi();
   }
   return angle;
-}
-
-constexpr auto angle_idw(double v0, double v1, double delta_angle) noexcept -> double {
-  constexpr auto angle_89 = 89.0 * Gahm::Physical::Constants::deg2rad();
-  constexpr auto angle_90 = 90.0 * Gahm::Physical::Constants::deg2rad();
-  if (delta_angle < Gahm::Physical::Constants::deg2rad()) {
-    return v0;
-  } else if (delta_angle > angle_89) {
-    return v1;
-  } else {
-    const double num = v0 / std::pow(delta_angle, 2.0) +
-                 v1 / std::pow(angle_90 - delta_angle, 2.0);
-    const double den = 1.0 / std::pow(delta_angle, 2.0) +
-                 1.0 / std::pow(angle_90 - delta_angle, 2.0);
-    return num / den;
-  }
 }
 
 }  // namespace Gahm::Interpolation

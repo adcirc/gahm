@@ -27,6 +27,7 @@
 #include "atcf/AtcfFile.h"
 #include "atcf/AtcfIsotach.h"
 #include "atcf/AtcfSnap.h"
+#include "atcf/StormPosition.h"
 #include "atcf/StormTranslation.h"
 #include "datatypes/Date.h"
 #include "datatypes/PointCloud.h"
@@ -82,6 +83,32 @@ class Vortex {
     double isotach_speed_at_boundary_layer;
     double holland_b;
   };
+
+  struct t_vortex_state {
+    std::vector<Atcf::AtcfSnap>::const_iterator time_it;
+    std::vector<Atcf::AtcfSnap>::const_iterator time_it_next;
+    double time_weight;
+    Atcf::StormPosition current_storm_position;
+    Atcf::StormTranslation current_storm_translation;
+    double background_pressure;
+    double central_pressure;
+    double f_coriolis;
+    Datatypes::Date date;
+  };
+
+  static auto solveVortexPoint(const Vortex::t_vortex_state &state,
+                               const Datatypes::Point &point) -> Datatypes::Uvp;
+
+  static auto computeVortexWindVector(const t_vortex_state &state,
+                                      const t_parameter_pack &pack,
+                                      const double distance,
+                                      const double azimuth)
+      -> std::tuple<double, double>;
+
+  static auto getInterpolatedPack(const t_vortex_state &state,
+                                  const double distance, const double azimuth)
+      -> t_parameter_pack;
+
   static auto getParameterPack(
       const Gahm::Datatypes::PointPosition &point_position,
       const Atcf::AtcfSnap &snap) -> t_parameter_pack;
