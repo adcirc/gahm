@@ -78,12 +78,12 @@ void Preprocessor::solve() {
     const double p_back = snap.backgroundPressure();
     const double latitude = snap.position().y();
 
-    for (auto &isotach : snap.getIsotachs()) {
-      for (auto &quadrant : isotach.getQuadrants()) {
-        const double isotach_radius = quadrant.getIsotachRadius();
+    for (auto &isotach : snap.isotachs()) {
+      for (auto &quadrant : isotach.quadrants()) {
+        const double isotach_radius = quadrant.isotachRadius();
 
-        const double isotach_speed = quadrant.getIsotachSpeedAtBoundaryLayer();
-        double vmax = quadrant.getVmaxAtBoundaryLayer();
+        const double isotach_speed = quadrant.isotachSpeedAtBoundaryLayer();
+        double vmax = quadrant.vmaxAtBoundaryLayer();
 
         //...Nudge the vmax to be greater than the isotach speed
         // TODO: Confirm with Rick if this is necessary
@@ -106,7 +106,7 @@ void Preprocessor::solve() {
  */
 void Preprocessor::fillMissingAtcfData() {
   for (auto &snap : m_atcf->data()) {
-    for (auto &isotach : snap.getIsotachs()) {
+    for (auto &isotach : snap.isotachs()) {
       const auto n_missing = Preprocessor::countMissingIsotachRadii(isotach);
       if (n_missing == 1) {
         Preprocessor::computeSingleMissingIsotachRadius(isotach);
@@ -128,9 +128,9 @@ void Preprocessor::fillMissingAtcfData() {
  */
 auto Preprocessor::countMissingIsotachRadii(Atcf::AtcfIsotach &isotach)
     -> long {
-  return std::count_if(
-      isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
-      [](auto &quad) { return quad.getIsotachRadius() == 0.0; });
+  return std::count_if(isotach.quadrants().begin(),
+                       isotach.quadrants().end(),
+      [](auto &quad) { return quad.isotachRadius() == 0.0; });
 }
 
 /**
@@ -140,7 +140,7 @@ auto Preprocessor::countMissingIsotachRadii(Atcf::AtcfIsotach &isotach)
  */
 void Preprocessor::setAllIsotachRadiiToRmax(const Atcf::AtcfSnap &snap,
                                             Atcf::AtcfIsotach &isotach) {
-  for (auto &q : isotach.getQuadrants()) {
+  for (auto &q : isotach.quadrants()) {
     q.setIsotachRadius(snap.radiusToMaxWinds());
   }
 }
@@ -151,11 +151,11 @@ void Preprocessor::setAllIsotachRadiiToRmax(const Atcf::AtcfSnap &snap,
  */
 void Preprocessor::ComputeThreeMissingIsotachRadii(Atcf::AtcfIsotach &isotach) {
   const auto *not_missing =
-      std::find_if(isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
-                   [](auto &q) { return q.getIsotachRadius() != 0.0; });
-  for (auto &q : isotach.getQuadrants()) {
-    if (q.getIsotachRadius() == 0.0) {
-      q.setIsotachRadius(not_missing->getIsotachRadius());
+      std::find_if(isotach.quadrants().begin(), isotach.quadrants().end(),
+                   [](auto &q) { return q.isotachRadius() != 0.0; });
+  for (auto &q : isotach.quadrants()) {
+    if (q.isotachRadius() == 0.0) {
+      q.setIsotachRadius(not_missing->isotachRadius());
     }
   }
 }
@@ -167,15 +167,15 @@ void Preprocessor::ComputeThreeMissingIsotachRadii(Atcf::AtcfIsotach &isotach) {
 void Preprocessor::computeTwoMissingIsotachRadii(Atcf::AtcfIsotach &isotach) {
   const auto mean_not_missing = [&]() {
     auto sum = 0.0;
-    for (auto &q : isotach.getQuadrants()) {
-      if (q.getIsotachRadius() != 0.0) {
-        sum += q.getIsotachRadius();
+    for (auto &q : isotach.quadrants()) {
+      if (q.isotachRadius() != 0.0) {
+        sum += q.isotachRadius();
       }
     }
     return sum / 2.0;
   }();
-  for (auto &q : isotach.getQuadrants()) {
-    if (q.getIsotachRadius() == 0.0) {
+  for (auto &q : isotach.quadrants()) {
+    if (q.isotachRadius() == 0.0) {
       q.setIsotachRadius(mean_not_missing);
     }
   }
@@ -188,14 +188,14 @@ void Preprocessor::computeTwoMissingIsotachRadii(Atcf::AtcfIsotach &isotach) {
 void Preprocessor::computeSingleMissingIsotachRadius(
     Atcf::AtcfIsotach &isotach) {
   auto *missing =
-      std::find_if(isotach.getQuadrants().begin(), isotach.getQuadrants().end(),
-                   [](auto &quad) { return quad.getIsotachRadius() == 0.0; });
+      std::find_if(isotach.quadrants().begin(), isotach.quadrants().end(),
+                   [](auto &quad) { return quad.isotachRadius() == 0.0; });
   const auto missing_index =
-      static_cast<int>(std::distance(isotach.getQuadrants().begin(), missing));
+      static_cast<int>(std::distance(isotach.quadrants().begin(), missing));
   const auto left_index = missing_index + 3;
   const auto right_index = missing_index + 1;
-  const auto mean = (isotach.getQuadrants()[left_index].getIsotachRadius() +
-                     isotach.getQuadrants()[right_index].getIsotachRadius()) /
+  const auto mean = (isotach.quadrants()[left_index].isotachRadius() +
+                     isotach.quadrants()[right_index].isotachRadius()) /
                     2.0;
   missing->setIsotachRadius(mean);
 }
@@ -322,12 +322,12 @@ void Preprocessor::computeBoundaryLayerWindspeed() {
         Preprocessor::removeTranslationVelocity(vmax, vmax, snap.translation());
     snap.setVmaxBoundaryLayer(vmax);
 
-    for (auto &iso : snap.getIsotachs()) {
-      for (auto &quad : iso.getQuadrants()) {
+    for (auto &iso : snap.isotachs()) {
+      for (auto &quad : iso.quadrants()) {
         double isotach_boundarylayer_speed =
             Preprocessor::removeTranslationVelocity(
-                iso.getWindSpeed(), snap.vmaxBoundaryLayer(),
-                quad.getQuadrantIndex(), snap.translation(),
+                iso.windSpeed(), snap.vmaxBoundaryLayer(),
+                quad.quadrantIndex(), snap.translation(),
                 snap.position().y());
         isotach_boundarylayer_speed *=
             Physical::Constants::tenMeterToTopOfBoundaryLayer();

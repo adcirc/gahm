@@ -31,16 +31,15 @@ TEST_CASE("FillMissingData", "[Preprocessor]") {
   atcf->read();
   auto preprocessor = std::make_unique<Gahm::Preprocessor>(atcf.get(), false);
 
-  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[1].getIsotachRadius() ==
-          0.0);
-  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[0].getIsotachRadius() ==
+  REQUIRE((*atcf)[6].isotachs()[1].quadrants()[1].isotachRadius() == 0.0);
+  REQUIRE((*atcf)[6].isotachs()[1].quadrants()[0].isotachRadius() ==
           Catch::Approx(27779.9));
 
   preprocessor->prepareAtcfData();
 
-  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[1].getIsotachRadius() ==
+  REQUIRE((*atcf)[6].isotachs()[1].quadrants()[1].isotachRadius() ==
           Catch::Approx(111119.72381124));
-  REQUIRE((*atcf)[6].getIsotachs()[1].getQuadrants()[0].getIsotachRadius() ==
+  REQUIRE((*atcf)[6].isotachs()[1].quadrants()[0].isotachRadius() ==
           Catch::Approx(111119.72381124));
 }
 
@@ -89,7 +88,8 @@ TEST_CASE("GahmAtcf", "[Preprocessor]") {
   preprocessor->prepareAtcfData();
   preprocessor->solve();
 
+  auto iso = (*atcf)[6].isotachs()[0];
   auto line =
-      (*atcf)[6].to_string(0, Gahm::Datatypes::Date(2005, 8, 15, 0, 0, 0), 0);
+      (*atcf)[6].to_string(0, Gahm::Datatypes::Date(2005, 8, 15, 0, 0, 0), iso);
   atcf->write("gahm_test.dat");
 }

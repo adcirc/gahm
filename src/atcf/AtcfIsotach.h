@@ -23,6 +23,7 @@
 
 #include <array>
 #include <cassert>
+#include <vector>
 
 #include "atcf/AtcfQuadrant.h"
 #include "datatypes/CircularArray.h"
@@ -44,32 +45,29 @@ class AtcfIsotach {
         m_quadrants({AtcfQuadrant(0, radii[0]), AtcfQuadrant(1, radii[1]),
                      AtcfQuadrant(2, radii[2]), AtcfQuadrant(3, radii[3])}) {}
 
-  NODISCARD auto getWindSpeed() const -> double { return m_wind_speed; }
+  NODISCARD auto windSpeed() const -> double { return m_wind_speed; }
 
   NODISCARD const Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4> &
-  getQuadrants() const {
+  quadrants() const {
     return m_quadrants;
   }
 
-  Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4> &getQuadrants() {
+  Gahm::Datatypes::CircularArray<Gahm::Atcf::AtcfQuadrant, 4> &quadrants() {
     return m_quadrants;
   }
 
-  NODISCARD const Gahm::Atcf::AtcfQuadrant &getQuadrant(
-      int quadrant_index) const {
+  NODISCARD const Gahm::Atcf::AtcfQuadrant &quadrant(int quadrant_index) const {
     return m_quadrants[quadrant_index];
   }
 
-  NODISCARD Gahm::Atcf::AtcfQuadrant &getQuadrant(int quadrant_index) {
+  NODISCARD Gahm::Atcf::AtcfQuadrant &quadrant(int quadrant_index) {
     return m_quadrants[quadrant_index];
   }
 
   NODISCARD auto radii() const -> Gahm::Datatypes::CircularArray<double, 4> {
-    Gahm::Datatypes::CircularArray<double, 4> r{};
-    for (int i = 0; i < 4; ++i) {
-      r[i] = m_quadrants[i].getIsotachRadius();
-    }
-    return r;
+    return Gahm::Datatypes::CircularArray<double, 4>(std::array<double, 4>{
+        m_quadrants[0].isotachRadius(), m_quadrants[1].isotachRadius(),
+        m_quadrants[2].isotachRadius(), m_quadrants[3].isotachRadius()});
   }
 
  private:

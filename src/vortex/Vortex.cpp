@@ -352,7 +352,7 @@ auto Vortex::getBaseIsotach(double distance, int quadrant,
   const auto radii = snap.radii()[quadrant];
 
   if (distance >= radii.back()) {
-    return {snap.numberOfIsotachs() - 1, 1.0};
+    return {snap.isotachCount() - 1, 1.0};
   } else if (distance <= radii.front()) {
     return {0, 0.0};
   } else {
@@ -390,10 +390,10 @@ auto Vortex::getParameterPack(
  */
 auto Vortex::isotachToParameterPack(const Atcf::AtcfIsotach &isotach,
                                     int quadrant) -> Vortex::t_parameter_pack {
-  const auto q = isotach.getQuadrant(quadrant);
-  return {q.getRadiusToMaxWindSpeed(), q.getRadiusToMaxWindSpeed(),
-          q.getVmaxAtBoundaryLayer(), q.getIsotachSpeedAtBoundaryLayer(),
-          q.getGahmHollandB()};
+  const auto q = isotach.quadrant(quadrant);
+  return {q.radiusToMaxWindSpeed(), q.radiusToMaxWindSpeed(),
+          q.vmaxAtBoundaryLayer(), q.isotachSpeedAtBoundaryLayer(),
+          q.gahmHollandB()};
 }
 
 /**
@@ -422,13 +422,12 @@ auto Vortex::interpolateParameterPackIsotach(
     }
   }();
 
-  if (isotach == snap.numberOfIsotachs() - 1) {
-    return Vortex::isotachToParameterPack(snap.getIsotachs()[isotach],
-                                          quadrant);
+  if (isotach == snap.isotachCount() - 1) {
+    return Vortex::isotachToParameterPack(snap.isotachs()[isotach], quadrant);
   };
 
-  const auto i0 = snap.getIsotachs()[isotach];
-  const auto i1 = snap.getIsotachs()[isotach + 1];
+  const auto i0 = snap.isotachs()[isotach];
+  const auto i1 = snap.isotachs()[isotach + 1];
   const auto p0 = Vortex::isotachToParameterPack(i0, quadrant);
   const auto p1 = Vortex::isotachToParameterPack(i1, quadrant);
   return Vortex::interpolateParameterPack(p0, p1, weight);

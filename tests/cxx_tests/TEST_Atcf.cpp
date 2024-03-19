@@ -24,20 +24,20 @@
 
 TEST_CASE("Construct AtcfIsotach", "[AtcfIsotach]") {
   Gahm::Atcf::AtcfIsotach isotach(20.0, {10, 20, 30, 40});
-  REQUIRE(isotach.getWindSpeed() == 20.0);
-  REQUIRE(isotach.getQuadrants().size() == 4);
-  REQUIRE(isotach.getQuadrants()[0].getQuadrantIndex() == 0);
-  REQUIRE(isotach.getQuadrants()[2].getIsotachRadius() == 30.0);
-  REQUIRE(isotach.getQuadrants()[1].getRadiusToMaxWindSpeed() == 0.0);
+  REQUIRE(isotach.windSpeed() == 20.0);
+  REQUIRE(isotach.quadrants().size() == 4);
+  REQUIRE(isotach.quadrants()[0].quadrantIndex() == 0);
+  REQUIRE(isotach.quadrants()[2].isotachRadius() == 30.0);
+  REQUIRE(isotach.quadrants()[1].radiusToMaxWindSpeed() == 0.0);
 }
 
 TEST_CASE("Construct AtcfQuadrant", "[AtcfQuadrant] ") {
   Gahm::Atcf::AtcfQuadrant quadrant;
-  REQUIRE(quadrant.getQuadrantIndex() == 0);
-  REQUIRE(quadrant.getIsotachRadius() == 0.0);
-  REQUIRE(quadrant.getRadiusToMaxWindSpeed() == 0.0);
-  REQUIRE(quadrant.getGahmHollandB() == 0.0);
-  REQUIRE(quadrant.getIsotachSpeedAtBoundaryLayer() == 0.0);
+  REQUIRE(quadrant.quadrantIndex() == 0);
+  REQUIRE(quadrant.isotachRadius() == 0.0);
+  REQUIRE(quadrant.radiusToMaxWindSpeed() == 0.0);
+  REQUIRE(quadrant.gahmHollandB() == 0.0);
+  REQUIRE(quadrant.isotachSpeedAtBoundaryLayer() == 0.0);
 
   quadrant.setQuadrantIndex(1);
   quadrant.setIsotachRadius(10.0);
@@ -45,11 +45,11 @@ TEST_CASE("Construct AtcfQuadrant", "[AtcfQuadrant] ") {
   quadrant.setGahmHollandB(0.5);
   quadrant.setIsotachSpeedAtBoundaryLayer(40.0);
 
-  REQUIRE(quadrant.getQuadrantIndex() == 1);
-  REQUIRE(quadrant.getIsotachRadius() == 10.0);
-  REQUIRE(quadrant.getRadiusToMaxWindSpeed() == 20.0);
-  REQUIRE(quadrant.getGahmHollandB() == 0.5);
-  REQUIRE(quadrant.getIsotachSpeedAtBoundaryLayer() == 40.0);
+  REQUIRE(quadrant.quadrantIndex() == 1);
+  REQUIRE(quadrant.isotachRadius() == 10.0);
+  REQUIRE(quadrant.radiusToMaxWindSpeed() == 20.0);
+  REQUIRE(quadrant.gahmHollandB() == 0.5);
+  REQUIRE(quadrant.isotachSpeedAtBoundaryLayer() == 40.0);
 }
 
 TEST_CASE("Construct AtcfSnap Manually", "[AtcfSnap]") {
@@ -59,11 +59,11 @@ TEST_CASE("Construct AtcfSnap Manually", "[AtcfSnap]") {
   const auto isotach0 = Gahm::Atcf::AtcfIsotach(20.0, {10, 20, 30, 40});
   const auto isotach1 = Gahm::Atcf::AtcfIsotach(40.0, {20, 30, 40, 50});
 
-  REQUIRE(snap.numberOfIsotachs() == 0);
+  REQUIRE(snap.isotachCount() == 0);
   snap.addIsotach(isotach0);
-  REQUIRE(snap.numberOfIsotachs() == 1);
+  REQUIRE(snap.isotachCount() == 1);
   snap.addIsotach(isotach1);
-  REQUIRE(snap.numberOfIsotachs() == 2);
+  REQUIRE(snap.isotachCount() == 2);
   REQUIRE(snap.basin() == Gahm::Atcf::AtcfSnap::BASIN::AL);
   REQUIRE(snap.centralPressure() == 980.0);
   REQUIRE(snap.backgroundPressure() == 1013.0);
@@ -73,8 +73,8 @@ TEST_CASE("Construct AtcfSnap Manually", "[AtcfSnap]") {
   //REQUIRE(snap.vmaxBoundaryLayer() == Catch::Approx(0.0)); // Uninitialized until preprocessor
   REQUIRE(snap.stormId() == 1);
   REQUIRE(snap.stormName() == "Test");
-  REQUIRE(snap.getIsotachs()[0].getWindSpeed() == 20.0);
-  REQUIRE(snap.getIsotachs()[1].getWindSpeed() == 40.0);
+  REQUIRE(snap.isotachs()[0].windSpeed() == 20.0);
+  REQUIRE(snap.isotachs()[1].windSpeed() == 40.0);
 }
 
 TEST_CASE("Construct AtcfSnap from string", "[AtcfSnap]") {
@@ -90,7 +90,7 @@ TEST_CASE("Construct AtcfSnap from string", "[AtcfSnap]") {
   REQUIRE(snap.vmax() == 145.0 * Gahm::Physical::Units::convert(
                                      Gahm::Physical::Units::Knot,
                                      Gahm::Physical::Units::MetersPerSecond));
-  REQUIRE(snap.getIsotachs()[0].getWindSpeed() ==
+  REQUIRE(snap.isotachs()[0].windSpeed() ==
           50.0 *
               Gahm::Physical::Units::convert(
                   Gahm::Physical::Units::Knot,

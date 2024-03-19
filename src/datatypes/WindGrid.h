@@ -70,17 +70,19 @@ class WindGrid {
   }
 
   NODISCARD auto x_vector() const -> std::vector<double> {
-    std::vector<double> x(m_nx);
+    std::vector<double> x;
+    x.reserve(m_nx);
     for (size_t i = 0; i < m_nx; i++) {
-      x[i] = m_xll + static_cast<double>(i) * m_dx;
+      x.push_back(m_xll + static_cast<double>(i) * m_dx);
     }
     return x;
   }
 
   NODISCARD auto y_vector() const -> std::vector<double> {
-    std::vector<double> y(m_ny);
+    std::vector<double> y;
+    y.reserve(m_ny);
     for (size_t j = 0; j < m_ny; j++) {
-      y[j] = m_yll + static_cast<double>(j) * m_dy;
+      y.push_back(m_yll + static_cast<double>(j) * m_dy);
     }
     return y;
   }
@@ -102,9 +104,10 @@ class WindGrid {
     std::vector<std::vector<double>> x_g;
     x_g.reserve(m_nx);
     for (size_t i = 0; i < m_nx; i++) {
-      x_g.emplace_back(m_ny);
+      x_g.emplace_back();
+      x_g[i].reserve(m_ny);
       for (size_t j = 0; j < m_ny; j++) {
-        x_g[i][j] = m_xll + static_cast<double>(i) * m_dx;
+        x_g[i].push_back(m_xll + static_cast<double>(i) * m_dx);
       }
     }
     return x_g;
@@ -114,9 +117,10 @@ class WindGrid {
     std::vector<std::vector<double>> y_g;
     y_g.reserve(m_nx);
     for (size_t i = 0; i < m_nx; i++) {
-      y_g.emplace_back(m_ny);
+      y_g.emplace_back();
+      y_g[i].reserve(m_ny);
       for (size_t j = 0; j < m_ny; j++) {
-        y_g[i][j] = m_yll + static_cast<double>(j) * m_dy;
+        y_g[i].push_back(m_yll + static_cast<double>(j) * m_dy);
       }
     }
     return y_g;

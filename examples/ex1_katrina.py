@@ -203,9 +203,9 @@ def main():
             y_p = y_points[::coarsen_factor, ::coarsen_factor]
             u_vec = u_vec[::coarsen_factor, ::coarsen_factor]
             v_vec = v_vec[::coarsen_factor, ::coarsen_factor]
-            # m.quiver(
-            #     x_p, y_p, u_vec, v_vec, latlon=True, scale=scale_factor, width=0.001
-            # )
+            m.quiver(
+                x_p, y_p, u_vec, v_vec, latlon=True, scale=scale_factor, width=0.001
+            )
 
             s["plot"] = cs
 

@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <utility>
@@ -35,6 +36,7 @@
 #include "datatypes/CircularArray.h"
 #include "datatypes/Date.h"
 #include "fmt/compile.h"
+#include "fmt/core.h"
 #include "physical/Atmospheric.h"
 #include "physical/Constants.h"
 #include "physical/Units.h"
@@ -253,7 +255,7 @@ void AtcfSnap::setStormName(const std::string& stormName) {
  * Returns the isotachs of the storm
  * @return Isotachs of the storm
  */
-auto AtcfSnap::getIsotachs() const -> const std::vector<AtcfIsotach>& {
+auto AtcfSnap::isotachs() const -> const std::vector<AtcfIsotach>& {
   return m_isotachs;
 }
 
@@ -273,7 +275,7 @@ void AtcfSnap::setHollandB(double hollandB) { m_holland_b = hollandB; }
  * Returns the isotachs of the snap
  * @return Isotachs of the snap
  */
-auto AtcfSnap::getIsotachs() -> std::vector<AtcfIsotach>& { return m_isotachs; }
+auto AtcfSnap::isotachs() -> std::vector<AtcfIsotach>& { return m_isotachs; }
 
 /*
  * Returns the radii of the storm in the form of a circular array
@@ -288,7 +290,7 @@ auto AtcfSnap::radii() const
  * Returns the number of isotachs in the snap
  * @return Number of isotachs in the snap
  */
-auto AtcfSnap::numberOfIsotachs() const -> size_t { return m_isotachs.size(); }
+auto AtcfSnap::isotachCount() const -> size_t { return m_isotachs.size(); }
 
 /*
  * Adds an isotach to the snap
@@ -435,7 +437,7 @@ auto AtcfSnap::isValid() const -> bool {
   }
   if (std::any_of(
           m_isotachs.begin(), m_isotachs.end(),
-          [](const auto& isotach) { return isotach.getWindSpeed() == 0.0; })) {
+          [](const auto& isotach) { return isotach.windSpeed() == 0.0; })) {
     return false;
   }
   return true;
@@ -461,13 +463,12 @@ void AtcfSnap::setTranslation(const StormTranslation& translation) {
  * Returns a string representation of the snap in GAHM format
  */
 auto AtcfSnap::to_string(size_t cycle, const Gahm::Datatypes::Date& start_date,
-                         size_t isotach_index) const -> std::string {
+                         const AtcfIsotach& isotach) const -> std::string {
   constexpr double ms2kt = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::MetersPerSecond, Gahm::Physical::Units::Knot);
   constexpr double m2nmi = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::Meter, Gahm::Physical::Units::NauticalMile);
 
-  auto isotach = m_isotachs[isotach_index];
   auto snap_date = m_date.toString("%Y%m%d%H");
   auto snap_basin = AtcfSnap::basinToString(m_basin);
   auto lat = fmt::format(
@@ -501,39 +502,39 @@ auto AtcfSnap::to_string(size_t cycle, const Gahm::Datatypes::Date& start_date,
   auto forecast_hour = fmt::format(
       "{:3d}", (m_date.toSeconds() - start_date.toSeconds()) / 3600);
   auto isotach_wind_speed =
-      fmt::format("{:5.0f}", std::round(isotach.getWindSpeed() * ms2kt));
+      fmt::format("{:5.0f}", std::round(isotach.windSpeed() * ms2kt));
   auto isotach_radius_0 = fmt::format(
-      "{:5.0f}", std::round(isotach.getQuadrant(0).getIsotachRadius() * m2nmi));
+      "{:5.0f}", std::round(isotach.quadrant(0).isotachRadius() * m2nmi));
   auto isotach_radius_1 = fmt::format(
-      "{:5.0f}", std::round(isotach.getQuadrant(1).getIsotachRadius() * m2nmi));
+      "{:5.0f}", std::round(isotach.quadrant(1).isotachRadius() * m2nmi));
   auto isotach_radius_2 = fmt::format(
-      "{:5.0f}", std::round(isotach.getQuadrant(2).getIsotachRadius() * m2nmi));
+      "{:5.0f}", std::round(isotach.quadrant(2).isotachRadius() * m2nmi));
   auto isotach_radius_3 = fmt::format(
-      "{:5.0f}", std::round(isotach.getQuadrant(3).getIsotachRadius() * m2nmi));
+      "{:5.0f}", std::round(isotach.quadrant(3).isotachRadius() * m2nmi));
 
-  auto rmx0 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(0).getRadiusToMaxWindSpeed() * m2nmi);
-  auto rmx1 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(1).getRadiusToMaxWindSpeed() * m2nmi);
-  auto rmx2 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(2).getRadiusToMaxWindSpeed() * m2nmi);
-  auto rmx3 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(3).getRadiusToMaxWindSpeed() * m2nmi);
+  auto rmx0 = fmt::format("{:9.4f}",
+                          isotach.quadrant(0).radiusToMaxWindSpeed() * m2nmi);
+  auto rmx1 = fmt::format("{:9.4f}",
+                          isotach.quadrant(1).radiusToMaxWindSpeed() * m2nmi);
+  auto rmx2 = fmt::format("{:9.4f}",
+                          isotach.quadrant(2).radiusToMaxWindSpeed() * m2nmi);
+  auto rmx3 = fmt::format("{:9.4f}",
+                          isotach.quadrant(3).radiusToMaxWindSpeed() * m2nmi);
 
   auto b = fmt::format("{:9.4f}", m_holland_b);
-  auto bg0 = fmt::format("{:9.4f}", isotach.getQuadrant(0).getGahmHollandB());
-  auto bg1 = fmt::format("{:9.4f}", isotach.getQuadrant(1).getGahmHollandB());
-  auto bg2 = fmt::format("{:9.4f}", isotach.getQuadrant(2).getGahmHollandB());
-  auto bg3 = fmt::format("{:9.4f}", isotach.getQuadrant(3).getGahmHollandB());
+  auto bg0 = fmt::format("{:9.4f}", isotach.quadrant(0).gahmHollandB());
+  auto bg1 = fmt::format("{:9.4f}", isotach.quadrant(1).gahmHollandB());
+  auto bg2 = fmt::format("{:9.4f}", isotach.quadrant(2).gahmHollandB());
+  auto bg3 = fmt::format("{:9.4f}", isotach.quadrant(3).gahmHollandB());
 
-  auto vmbl0 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(0).getIsotachSpeedAtBoundaryLayer());
-  auto vmbl1 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(1).getIsotachSpeedAtBoundaryLayer());
-  auto vmbl2 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(2).getIsotachSpeedAtBoundaryLayer());
-  auto vmbl3 = fmt::format(
-      "{:9.4f}", isotach.getQuadrant(3).getIsotachSpeedAtBoundaryLayer());
+  auto vmbl0 =
+      fmt::format("{:9.4f}", isotach.quadrant(0).isotachSpeedAtBoundaryLayer());
+  auto vmbl1 =
+      fmt::format("{:9.4f}", isotach.quadrant(1).isotachSpeedAtBoundaryLayer());
+  auto vmbl2 =
+      fmt::format("{:9.4f}", isotach.quadrant(2).isotachSpeedAtBoundaryLayer());
+  auto vmbl3 =
+      fmt::format("{:9.4f}", isotach.quadrant(3).isotachSpeedAtBoundaryLayer());
 
   return fmt::format(
       FMT_COMPILE(
@@ -546,8 +547,8 @@ auto AtcfSnap::to_string(size_t cycle, const Gahm::Datatypes::Date& start_date,
       snap_basin, m_storm_id, snap_date, forecast_hour, lat, lon, snap_vmax,
       mslp, isotach_wind_speed, std::string("NEQ"), isotach_radius_0,
       isotach_radius_1, isotach_radius_2, isotach_radius_3, prbk, rmax, heading,
-      speed, m_storm_name, cycle, numberOfIsotachs(), 1, 1, 1, 1, rmx0, rmx1,
-      rmx2, rmx3, b, bg0, bg1, bg2, bg3, vmbl0, vmbl1, vmbl2, vmbl3);
+      speed, m_storm_name, cycle, isotachCount(), 1, 1, 1, 1, rmx0, rmx1, rmx2,
+      rmx3, b, bg0, bg1, bg2, bg3, vmbl0, vmbl1, vmbl2, vmbl3);
 }
 
 /**
@@ -556,9 +557,9 @@ auto AtcfSnap::to_string(size_t cycle, const Gahm::Datatypes::Date& start_date,
  * for the solver in a friendly manner
  */
 void AtcfSnap::processIsotachRadii() {
-  for (int i = 0; i < 4; ++i) {
+  for (int i = 0; i < m_radii.size(); ++i) {
     for (auto& isotach : m_isotachs) {
-      m_radii[i].push_back(isotach.getQuadrant(i).getIsotachRadius());
+      m_radii[i].push_back(isotach.quadrant(i).isotachRadius());
     }
   }
 }
@@ -570,7 +571,7 @@ void AtcfSnap::processIsotachRadii() {
 void AtcfSnap::orderIsotachs() {
   std::sort(m_isotachs.begin(), m_isotachs.end(),
             [](const AtcfIsotach& a, const AtcfIsotach& b) {
-              return a.getWindSpeed() > b.getWindSpeed();
+              return a.windSpeed() > b.windSpeed();
             });
 }
 

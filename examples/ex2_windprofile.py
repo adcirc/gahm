@@ -33,18 +33,18 @@ snap = 24
 storm_time = atcf.data()[snap].date()
 print("Storm time: {:s}".format(storm_time.toString()))
 
-isotachs = atcf.data()[snap].getIsotachs()
+isotachs = atcf.data()[snap].isotachs()
 isotach_data = []
 for iso in isotachs:
     # ...Get the wind speed and convert to knots
     isotach_data.append(
         {
-            "wind_speed": iso.getWindSpeed() * ms_to_kt / min10_to_min1,
+            "wind_speed": iso.windSpeed() * ms_to_kt / min10_to_min1,
             "distance": [
-                iso.getQuadrant(0).getIsotachRadius() * m_to_nm,
-                iso.getQuadrant(1).getIsotachRadius() * m_to_nm,
-                iso.getQuadrant(2).getIsotachRadius() * m_to_nm,
-                iso.getQuadrant(3).getIsotachRadius() * m_to_nm,
+                iso.quadrant(0).isotachRadius() * m_to_nm,
+                iso.quadrant(1).isotachRadius() * m_to_nm,
+                iso.quadrant(2).isotachRadius() * m_to_nm,
+                iso.quadrant(3).isotachRadius() * m_to_nm,
             ],
         }
     )

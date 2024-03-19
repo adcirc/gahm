@@ -47,17 +47,17 @@ class AtcfQuadrant {
         m_isotach_speed_at_boundary_layer(isotach_speed_at_boundary_layer),
         m_vmax_at_boundary_layer(vmax_at_boundary_layer) {}
 
-  NODISCARD auto getIsotachRadius() const -> double { return m_isotach_radius; }
-  NODISCARD auto getRadiusToMaxWindSpeed() const -> double {
+  NODISCARD auto isotachRadius() const -> double { return m_isotach_radius; }
+  NODISCARD auto radiusToMaxWindSpeed() const -> double {
     return m_radius_to_max_wind_speed;
   }
-  NODISCARD auto getGahmHollandB() const -> double { return m_gahm_holland_b; }
-  NODISCARD auto getIsotachSpeedAtBoundaryLayer() const -> double {
+  NODISCARD auto gahmHollandB() const -> double { return m_gahm_holland_b; }
+  NODISCARD auto isotachSpeedAtBoundaryLayer() const -> double {
     return m_isotach_speed_at_boundary_layer;
   }
-  NODISCARD auto getQuadrantIndex() const -> int { return m_quadrant_index; }
+  NODISCARD auto quadrantIndex() const -> int { return m_quadrant_index; }
 
-  NODISCARD auto getVmaxAtBoundaryLayer() const -> double {
+  NODISCARD auto vmaxAtBoundaryLayer() const -> double {
     return m_vmax_at_boundary_layer;
   }
 
@@ -81,7 +81,7 @@ class AtcfQuadrant {
     m_vmax_at_boundary_layer = vmax_at_boundary_layer;
   }
 
-  static constexpr double quadrant_angle(int quadrant_index) {
+  static constexpr auto quadrant_angle(int quadrant_index) -> double {
     return s_quadrant_angles[quadrant_index];
   }
 
@@ -106,12 +106,12 @@ class AtcfQuadrant {
 #ifndef SWIG
 static auto operator<<(std::ostream &os, const Gahm::Atcf::AtcfQuadrant &q)
     -> std::ostream & {
-  os << "[Quadrant]: " << q.getQuadrantIndex() << std::endl;
-  os << "   Isotach Radius: " << q.getIsotachRadius() << std::endl;
-  os << "   Radius to Max Wind Speed: " << q.getRadiusToMaxWindSpeed() << '\n';
-  os << "   GAHM Holland B: " << q.getGahmHollandB() << std::endl;
+  os << "[Quadrant]: " << q.quadrantIndex() << std::endl;
+  os << "   Isotach Radius: " << q.isotachRadius() << std::endl;
+  os << "   Radius to Max Wind Speed: " << q.radiusToMaxWindSpeed() << '\n';
+  os << "   GAHM Holland B: " << q.gahmHollandB() << std::endl;
   os << "   Isotach Speed at Boundary Layer: "
-     << q.getIsotachSpeedAtBoundaryLayer() << std::endl;
+     << q.isotachSpeedAtBoundaryLayer() << std::endl;
   return os;
 }
 #endif

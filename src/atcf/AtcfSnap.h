@@ -85,10 +85,10 @@ class AtcfSnap {
   void setStormName(const std::string& stormName);
 
 #ifndef SWIG
-  NODISCARD auto getIsotachs() const
+  NODISCARD auto isotachs() const
       -> const std::vector<Gahm::Atcf::AtcfIsotach>&;
 #endif
-  std::vector<Gahm::Atcf::AtcfIsotach> &getIsotachs();
+  std::vector<Gahm::Atcf::AtcfIsotach>& isotachs();
 
   NODISCARD static auto basinFromString(const std::string& basin)
       -> Gahm::Atcf::AtcfSnap::BASIN;
@@ -96,7 +96,7 @@ class AtcfSnap {
   NODISCARD static auto basinToString(Gahm::Atcf::AtcfSnap::BASIN basin)
       -> std::string;
 
-  NODISCARD auto numberOfIsotachs() const -> size_t;
+  NODISCARD auto isotachCount() const -> size_t;
 
   NODISCARD const Gahm::Atcf::StormPosition& position() const;
   void setPosition(const Gahm::Atcf::StormPosition& position);
@@ -115,7 +115,8 @@ class AtcfSnap {
 
   NODISCARD auto to_string(size_t cycle,
                            const Gahm::Datatypes::Date& start_date,
-                           size_t isotach_index) const -> std::string;
+                           const Gahm::Atcf::AtcfIsotach& isotach) const
+      -> std::string;
 
   void processIsotachRadii();
 

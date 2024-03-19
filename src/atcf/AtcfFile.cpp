@@ -78,7 +78,7 @@ void AtcfFile::addAtcfSnap(const AtcfSnap& snap) {
   if (iter == m_atcfSnaps.end()) {
     m_atcfSnaps.push_back(snap);
   } else {
-    for (const auto& iso : snap.getIsotachs()) {
+    for (const auto& iso : snap.isotachs()) {
       iter->addIsotach(iso);
     }
   }
@@ -103,8 +103,8 @@ void AtcfFile::write(const std::string& filename) {
   size_t cycle = 0;
   for (const auto& snap : m_atcfSnaps) {
     cycle += 1;
-    for (size_t i = 0; i < snap.numberOfIsotachs(); ++i) {
-      *(file_obj.get()) << snap.to_string(cycle, m_atcfSnaps[0].date(), i)
+    for (const auto& iso : snap.isotachs()) {
+      *(file_obj.get()) << snap.to_string(cycle, m_atcfSnaps[0].date(), iso)
                         << "\n";
     }
   }
