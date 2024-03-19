@@ -446,12 +446,12 @@ auto Vortex::interpolateParameterPackIsotach(
 auto Vortex::interpolateParameterPackQuadrant(
     const Gahm::Datatypes::PointPosition &point_position,
     const Atcf::AtcfSnap &snap) -> Vortex::t_parameter_pack {
-  const auto p0 =
+  const auto pack0 =
       Vortex::interpolateParameterPackIsotach(point_position, snap, -1);
-  const auto p1 =
+  const auto pack1 =
       Vortex::interpolateParameterPackIsotach(point_position, snap, 0);
   return Vortex::interpolateParameterPackRadial(
-      p0, p1, point_position.quadrant_weight());
+      pack0, pack1, point_position.quadrant_weight());
 }
 
 /**
@@ -475,9 +475,9 @@ auto Vortex::interpolateParameterPack(const Vortex::t_parameter_pack &pack0,
   const auto isotach_speed =
       Interpolation::linear(pack0.isotach_speed_at_boundary_layer,
                             pack1.isotach_speed_at_boundary_layer, weight);
-  const auto b =
+  const auto holland_b =
       Interpolation::linear(pack0.holland_b, pack1.holland_b, weight);
-  return {rmax, rmax_true, vmax, isotach_speed, b};
+  return {rmax, rmax_true, vmax, isotach_speed, holland_b};
 }
 
 /**
@@ -493,32 +493,24 @@ auto Vortex::interpolateParameterPackRadial(
     const Vortex::t_parameter_pack &pack1, double weight)
     -> Vortex::t_parameter_pack {
   constexpr double angle_90 = 90.0 * Physical::Constants::deg2rad();
-  constexpr double angle_89 = 89.0 * Physical::Constants::deg2rad();
+  const double nd0 = 1.0 / std::pow(weight, 2.0);
+  const double nd1 = 1.0 / std::pow(angle_90 - weight, 2.0);
+  const double den = 1.0 / (nd0 + nd1);
 
-  if (weight < Physical::Constants::deg2rad()) {
-    return pack0;
-  } else if (weight > angle_89) {
-    return pack1;
-  } else {
-    const double nd0 = 1.0 / std::pow(weight, 2.0);
-    const double nd1 = 1.0 / std::pow(angle_90 - weight, 2.0);
-    const double den = 1.0 / (nd0 + nd1);
-
-    const double rmax =
-        (nd0 * pack0.radius_to_max_wind + nd1 * pack1.radius_to_max_wind) * den;
-    const double rmax_true = (nd0 * pack0.radius_to_max_wind_true +
-                              nd1 * pack1.radius_to_max_wind_true) *
-                             den;
-    const double vmax = (nd0 * pack0.vmax_at_boundary_layer +
-                         nd1 * pack1.vmax_at_boundary_layer) *
-                        den;
-    const double isotach_speed = (nd0 * pack0.isotach_speed_at_boundary_layer +
-                                  nd1 * pack1.isotach_speed_at_boundary_layer) *
-                                 den;
-    const double holland_b =
-        (nd0 * pack0.holland_b + nd1 * pack1.holland_b) * den;
-    return {rmax, rmax_true, vmax, isotach_speed, holland_b};
-  }
+  const double rmax =
+      (nd0 * pack0.radius_to_max_wind + nd1 * pack1.radius_to_max_wind) * den;
+  const double rmax_true = (nd0 * pack0.radius_to_max_wind_true +
+                            nd1 * pack1.radius_to_max_wind_true) *
+                           den;
+  const double vmax = (nd0 * pack0.vmax_at_boundary_layer +
+                       nd1 * pack1.vmax_at_boundary_layer) *
+                      den;
+  const double isotach_speed = (nd0 * pack0.isotach_speed_at_boundary_layer +
+                                nd1 * pack1.isotach_speed_at_boundary_layer) *
+                               den;
+  const double holland_b =
+      (nd0 * pack0.holland_b + nd1 * pack1.holland_b) * den;
+  return {rmax, rmax_true, vmax, isotach_speed, holland_b};
 }
 
 /**
