@@ -1,0 +1,5 @@
+BasedOnStyle: Google
+BreakStringLiterals: true
+Standard: c++20
+TabWidth: 8
+UseTab: Never
