@@ -26,13 +26,14 @@ GahmRadiusSolverPrivate::GahmRadiusSolverPrivate(double isotachRadius,
  * @param rmax radius to max winds to computeRadiusToMaxWind at
  * @return std::pair containing the solution to Vg and Vg'
  */
-std::pair<double, double> GahmRadiusSolverPrivate::operator()(
-    const double &rmax) const {
-  const double vg = GahmRadiusSolverPrivate::f(
-      rmax, m_vmax, m_isotachSpeed, m_isotachRadius, m_f_coriolis, m_gahm_b);
-  const double vgp = GahmRadiusSolverPrivate::f_prime(
-      rmax, m_vmax, m_isotachRadius, m_f_coriolis, m_gahm_b);
-  return {vg, vgp};
+auto GahmRadiusSolverPrivate::operator()(const double radius_to_max_winds) const
+    -> std::pair<double, double> {
+  const double f_result =
+      GahmRadiusSolverPrivate::f(radius_to_max_winds, m_vmax, m_isotachSpeed,
+                                 m_isotachRadius, m_f_coriolis, m_gahm_b);
+  const double f_result_prime = GahmRadiusSolverPrivate::f_prime(
+      radius_to_max_winds, m_vmax, m_isotachRadius, m_f_coriolis, m_gahm_b);
+  return {f_result, f_result_prime};
 }
 
 /**
@@ -45,11 +46,11 @@ void GahmRadiusSolverPrivate::setGahmB(double gahm_b) { m_gahm_b = gahm_b; }
  * Returns the solvers current GAHM Holland B
  * @return GAHM B
  */
-double GahmRadiusSolverPrivate::gahm_b() const { return m_gahm_b; }
+auto GahmRadiusSolverPrivate::gahm_b() const -> double { return m_gahm_b; }
 
 /**
  * Solves the gahm gradient wind function
- * @param rmax radius to max winds
+ * @param radius_to_max_winds radius to max winds
  * @param vmax maximum wind speed
  * @param isotach_speed speed of the current isotach
  * @param isotach_radius radius of the current isotach
@@ -57,26 +58,27 @@ double GahmRadiusSolverPrivate::gahm_b() const { return m_gahm_b; }
  * @param gahm_b GAHM Holland B
  * @return Solution to gradient wind
  */
-auto GahmRadiusSolverPrivate::f(double rmax, double vmax, double isotach_speed,
-                                double isotach_radius, double f_coriolis,
-                                double gahm_b) -> double {
+auto GahmRadiusSolverPrivate::f(double radius_to_max_winds, double vmax,
+                                double isotach_speed, double isotach_radius,
+                                double f_coriolis, double gahm_b) -> double {
   return Gahm::Solver::GahmEquations::GahmFunction(
-      rmax, vmax, isotach_speed, isotach_radius, f_coriolis, gahm_b);
+      radius_to_max_winds, vmax, isotach_speed, isotach_radius, f_coriolis,
+      gahm_b);
 }
 
 /**
  * Function to computeRadiusToMaxWind first derivative of gahm function
- * @param rmax Radius to max winds
+ * @param radius_to_max_winds Radius to max winds
  * @param vmax Maximum wind speed
  * @param isotach_radius radius of the current isotach
  * @param f_coriolis coriolis force
  * @param gahm_b GAHM Holland B parameter
  * @return Solution to first derivative
  */
-auto GahmRadiusSolverPrivate::f_prime(double rmax, double vmax,
+auto GahmRadiusSolverPrivate::f_prime(double radius_to_max_winds, double vmax,
                                       double isotach_radius, double f_coriolis,
                                       double gahm_b) -> double {
   return Gahm::Solver::GahmEquations::GahmFunctionDerivative(
-      rmax, vmax, isotach_radius, f_coriolis, gahm_b);
+      radius_to_max_winds, vmax, isotach_radius, f_coriolis, gahm_b);
 }
 }  // namespace Gahm::Solver::detail

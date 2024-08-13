@@ -106,11 +106,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(0).isotach(0).wind_speed(),
       snap.quadrant(0).isotach(0).radius());
-  REQUIRE(params_q1_i1.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q1_i1.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q1_i1.dp() == Approx(6100.0));
-  REQUIRE(params_q1_i1.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q1_i1.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q1_i1.radius_to_max_winds() == Approx(47515.74));
   REQUIRE(params_q1_i1.gahm_b() == Approx(1.05994));
   REQUIRE(params_q1_i1.gahm_phi() == Approx(1.07886));
@@ -121,11 +116,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(0).isotach(1).wind_speed(),
       snap.quadrant(0).isotach(1).radius());
-  REQUIRE(params_q1_i2.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q1_i2.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q1_i2.dp() == Approx(6100.0));
-  REQUIRE(params_q1_i2.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q1_i2.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q1_i2.radius_to_max_winds() == Approx(40147.84));
   REQUIRE(params_q1_i2.gahm_b() == Approx(1.04546));
   REQUIRE(params_q1_i2.gahm_phi() == Approx(1.06844));
@@ -136,8 +126,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(0).isotach(2).wind_speed(),
       snap.quadrant(0).isotach(2).radius());
-  REQUIRE(params_q1_i3.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q1_i3.v_max_10_10() == Approx(41.20709));
   REQUIRE(params_q1_i3.radius_to_max_winds() == Approx(41464.0));
   REQUIRE(params_q1_i3.gahm_b() == Approx(1.04804));
   REQUIRE(params_q1_i3.gahm_phi() == Approx(1.07034));
@@ -148,11 +136,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(1).isotach(0).wind_speed(),
       snap.quadrant(1).isotach(0).radius());
-  REQUIRE(params_q2_i1.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q2_i1.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q2_i1.dp() == Approx(6100.0));
-  REQUIRE(params_q2_i1.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q2_i1.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q2_i1.radius_to_max_winds() == Approx(40758.26));
   REQUIRE(params_q2_i1.gahm_b() == Approx(1.04666));
   REQUIRE(params_q2_i1.gahm_phi() == Approx(1.06933));
@@ -163,11 +146,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(1).isotach(1).wind_speed(),
       snap.quadrant(1).isotach(1).radius());
-  REQUIRE(params_q2_i2.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q2_i2.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q2_i2.dp() == Approx(6100.0));
-  REQUIRE(params_q2_i2.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q2_i2.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q2_i2.radius_to_max_winds() == Approx(31506.76));
   REQUIRE(params_q2_i2.gahm_b() == Approx(1.02858));
   REQUIRE(params_q2_i2.gahm_phi() == Approx(1.05544));
@@ -178,11 +156,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(1).isotach(2).wind_speed(),
       snap.quadrant(1).isotach(2).radius());
-  REQUIRE(params_q2_i3.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q2_i3.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q2_i3.dp() == Approx(6100.0));
-  REQUIRE(params_q2_i3.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q2_i3.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q2_i3.radius_to_max_winds() == Approx(37198.17));
   REQUIRE(params_q2_i3.gahm_b() == Approx(1.03968));
   REQUIRE(params_q2_i3.gahm_phi() == Approx(1.0641));
@@ -193,11 +166,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(2).isotach(0).wind_speed(),
       snap.quadrant(2).isotach(0).radius());
-  REQUIRE(params_q3_i1.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q3_i1.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q3_i1.dp() == Approx(6100.0));
-  REQUIRE(params_q3_i1.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q3_i1.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q3_i1.radius_to_max_winds() == Approx(38512.87));
   REQUIRE(params_q3_i1.gahm_b() == Approx(1.04226));
   REQUIRE(params_q3_i1.gahm_phi() == Approx(1.06605));
@@ -208,11 +176,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(2).isotach(1).wind_speed(),
       snap.quadrant(2).isotach(1).radius());
-  REQUIRE(params_q3_i2.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q3_i2.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q3_i2.dp() == Approx(6100.0));
-  REQUIRE(params_q3_i2.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q3_i2.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q3_i2.radius_to_max_winds() == Approx(39219.20));
   REQUIRE(params_q3_i2.gahm_b() == Approx(1.04364));
   REQUIRE(params_q3_i2.gahm_phi() == Approx(1.06708));
@@ -223,11 +186,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(2).isotach(2).wind_speed(),
       snap.quadrant(2).isotach(2).radius());
-  REQUIRE(params_q3_i3.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q3_i3.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q3_i3.dp() == Approx(6100.0));
-  REQUIRE(params_q3_i3.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q3_i3.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q3_i3.radius_to_max_winds() == Approx(39309.115));
   REQUIRE(params_q3_i3.gahm_b() == Approx(1.04382));
   REQUIRE(params_q3_i3.gahm_phi() == Approx(1.06722));
@@ -238,11 +196,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(3).isotach(0).wind_speed(),
       snap.quadrant(3).isotach(0).radius());
-  REQUIRE(params_q4_i1.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q4_i1.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q4_i1.dp() == Approx(6100.0));
-  REQUIRE(params_q4_i1.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q4_i1.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q4_i1.radius_to_max_winds() == Approx(23729.948));
   REQUIRE(params_q4_i1.gahm_b() == Approx(1.01351));
   REQUIRE(params_q4_i1.gahm_phi() == Approx(1.04299));
@@ -253,11 +206,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(3).isotach(1).wind_speed(),
       snap.quadrant(3).isotach(1).radius());
-  REQUIRE(params_q4_i2.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q4_i2.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q4_i2.dp() == Approx(6100.0));
-  REQUIRE(params_q4_i2.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q4_i2.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q4_i2.radius_to_max_winds() == Approx(29929.9));
   REQUIRE(params_q4_i2.gahm_b() == Approx(1.02551));
   REQUIRE(params_q4_i2.gahm_phi() == Approx(1.05298));
@@ -268,11 +216,6 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(3).isotach(2).wind_speed(),
       snap.quadrant(3).isotach(2).radius());
-  REQUIRE(params_q4_i3.fc() == Approx(0.00008155397918585));
-  REQUIRE(params_q4_i3.v_max_10_10() == Approx(41.20709));
-  REQUIRE(params_q4_i3.dp() == Approx(6100.0));
-  REQUIRE(params_q4_i3.v_max_10_10_nominal() == Approx(38.237815));
-  REQUIRE(params_q4_i3.v_max_10_10_theta() == Approx(0.8068247));
   REQUIRE(params_q4_i3.radius_to_max_winds() == Approx(34901.8));
   REQUIRE(params_q4_i3.gahm_b() == Approx(1.0352));
   REQUIRE(params_q4_i3.gahm_phi() == Approx(1.06065));

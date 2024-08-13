@@ -9,8 +9,20 @@
 #include <string>
 
 namespace Gahm::Types {
+
+/**
+ * @class Datetime
+ * @brief A class to represent a datetime object
+ * @details This class is used to represent a datetime object. It is used to
+ * store and manipulate datetime objects at a higher level than the underlying
+ * Boost date library. Date objects are stored as the number of seconds since
+ * the epoch.
+ */
 class Datetime {
  public:
+  /**
+   * Structure which exposes the human readable components of a datetime object
+   */
   struct s_DateTime {
     short unsigned int year;
     short unsigned int month;

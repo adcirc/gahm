@@ -12,26 +12,26 @@
 
 namespace Gahm::Solver::GahmEquations {
 
-[[nodiscard]] auto GahmFunction(double radius_to_max_wind,
+[[nodiscard]] auto GahmFunction(double radius_to_max_winds,
                                 double vmax_at_boundary_layer,
                                 double isotach_windspeed_at_boundary_layer,
                                 double distance, double coriolis_force,
                                 double gahm_holland_b, double phi) -> double;
 
-[[nodiscard]] auto GahmFunction(double radius_to_max_wind,
+[[nodiscard]] auto GahmFunction(double radius_to_max_winds,
                                 double vmax_at_boundary_layer,
                                 double isotach_windspeed_at_boundary_layer,
                                 double distance, double coriolis_force,
                                 double gahm_holland_b) -> double;
 
 [[nodiscard]] auto GahmFunctionDerivative(
-    double radius_to_max_wind, double vmax_at_boundary_layer,
-    double isotach_windspeed_at_boundary_layer, double coriolis_force,
+    double radius_to_max_winds, double vmax_at_boundary_layer,
+    double isotach_radius, double coriolis_force,
     double gahm_holland_b, double phi) -> double;
 
 [[nodiscard]] auto GahmFunctionDerivative(
-    double radius_to_max_wind, double vmax_at_boundary_layer,
-    double isotach_windspeed_at_boundary_layer, double coriolis_force,
+    double radius_to_max_winds, double vmax_at_boundary_layer,
+    double isotach_radius, double coriolis_force,
     double gahm_holland_b) -> double;
 
 [[nodiscard]] auto GahmPressure(double central_pressure,
@@ -39,7 +39,7 @@ namespace Gahm::Solver::GahmEquations {
                                 double radius_to_max_winds,
                                 double gahm_holland_b, double phi) -> double;
 
-[[nodiscard]] auto GahmWindSpeed(double radius_to_max_wind,
+[[nodiscard]] auto GahmWindSpeed(double radius_to_max_winds,
                                  double vmax_at_boundary_layer, double distance,
                                  double coriolis,
                                  double gahm_holland_b) -> double;

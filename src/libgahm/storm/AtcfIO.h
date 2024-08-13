@@ -6,12 +6,13 @@
 #define GAHM_ATCFIO_H
 
 #include <array>
-#include <chrono>
 #include <optional>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "AtcfTrack.h"
+#include "storm/Quadrant.h"
 
 namespace Gahm::Atcf {
 
@@ -28,6 +29,11 @@ class AtcfIO {
   struct TempIsotach {
     double wind_speed;
     std::array<double, 4> distance;
+
+    TempIsotach(double in_wind_speed, std::array<double, 4> in_distance)
+        : wind_speed(in_wind_speed), distance(in_distance) {}
+
+    TempIsotach() : wind_speed(0.0), distance({0.0, 0.0, 0.0, 0.0}) {}
   };
 
   static auto transpose_to_quadrants(

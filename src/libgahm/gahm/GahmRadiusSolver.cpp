@@ -37,10 +37,10 @@ GahmRadiusSolver::GahmRadiusSolver(double isotach_radius, double isotach_speed,
  * @param guess guess for solution
  * @return radius to maximum winds
  */
-auto GahmRadiusSolver::solve(double lower, double upper, double guess) const
-    -> double {
-  auto iter = m_max_it;
+auto GahmRadiusSolver::solve(double lower, double upper,
+                             double guess) const -> double {
   try {
+    auto iter = m_max_it;
     return boost::math::tools::newton_raphson_iterate(
         m_solver, guess, lower, upper, std::numeric_limits<double>::digits,
         iter);

@@ -5,6 +5,7 @@
 #include "AtcfIO.h"
 
 #include <array>
+#include <cstddef>
 #include <exception>
 #include <fstream>
 #include <iostream>
@@ -13,6 +14,7 @@
 
 #include "AtcfPeriod.h"
 #include "datatypes/Datetime.h"
+#include "datatypes/QuadCode.h"
 #include "physical/Units.h"
 #include "storm/Isotach.h"
 #include "storm/Quadrant.h"
@@ -36,20 +38,20 @@ auto Gahm::Atcf::AtcfIO::transpose_to_quadrants(
   std::array<Gahm::Atcf::AtcfIO::TempIsotach, 3> isotach_array = {};
   for (size_t i = 0; i < 3; i++) {
     if (i < isotachs.size()) {
-      isotach_array[i] = isotachs[i];
+      isotach_array.at(i) = isotachs.at(i);
     }
   }
 
   // Do the transpose
-  for (auto i = 0; i < 4; ++i) {
-    auto i0 = Storm::Isotach(isotach_array[0].wind_speed,
-                             isotach_array[0].distance[i]);
-    auto i1 = Storm::Isotach(isotach_array[1].wind_speed,
-                             isotach_array[1].distance[i]);
-    auto i2 = Storm::Isotach(isotach_array[2].wind_speed,
-                             isotach_array[2].distance[i]);
-    quadrants[i] = Storm::Quadrant(Storm::Quadrant::integer_to_quadrant_code(i),
-                                   latitude, {i0, i1, i2});
+  for (unsigned i = 0; i < 4; ++i) {
+    auto i0 = Storm::Isotach(isotach_array.at(0).wind_speed,
+                             isotach_array.at(0).distance.at(i));
+    auto i1 = Storm::Isotach(isotach_array.at(1).wind_speed,
+                             isotach_array.at(1).distance.at(i));
+    auto i2 = Storm::Isotach(isotach_array.at(2).wind_speed,
+                             isotach_array.at(2).distance.at(i));
+    quadrants.at(i) = Storm::Quadrant(
+        Types::QuadCode::integer_to_quadrant_code(i), latitude, {i0, i1, i2});
   }
 
   return quadrants;

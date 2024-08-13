@@ -5,12 +5,7 @@
 #ifndef GAHM_ISOTACH_H
 #define GAHM_ISOTACH_H
 
-#include <algorithm>
-#include <array>
 #include <cassert>
-#include <functional>
-#include <iterator>
-#include <numeric>
 #include <ostream>
 
 namespace Gahm::Storm {
@@ -30,7 +25,11 @@ class Isotach {
     return m_distance_to_isotach;
   }
 
-  auto operator==(const Isotach &rhs) const -> bool {
+  [[nodiscard]] constexpr auto is_populated() const -> bool {
+    return m_wind_speed != 0.0;
+  }
+
+  [[nodiscard]] constexpr auto operator==(const Isotach &rhs) const -> bool {
     return m_wind_speed == rhs.m_wind_speed;
   }
 
@@ -88,7 +87,6 @@ class Isotach {
   //    return {populated_radius, populated_radius, populated_radius,
   //            populated_radius};
   //  }
-
   double m_wind_speed;
   double m_distance_to_isotach;
 };

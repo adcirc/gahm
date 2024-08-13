@@ -4,6 +4,7 @@
 
 #include "Datetime.h"
 
+#include <ostream>
 #include <stdexcept>
 #include <string>
 
@@ -12,16 +13,33 @@
 
 using namespace Gahm::Types;
 
+/**
+ * @brief The Unix epoch time
+ * @return A boost::posix_time::ptime object representing the Unix epoch
+ */
 constexpr auto epoch() -> boost::posix_time::ptime {
   return boost::posix_time::ptime(boost::gregorian::date(1970, 1, 1));
 }
 
+/**
+ * @brief Convert seconds since epoch to a boost::posix_time::ptime object
+ * @param seconds The number of seconds since epoch
+ * @return A boost::posix_time::ptime object representing the time
+ */
 constexpr auto from_seconds(long seconds) -> boost::posix_time::ptime {
   return epoch() + boost::posix_time::seconds(seconds);
 }
 
+/**
+ * @brief Default constructor
+ */
 Datetime::Datetime() : m_second_since_epoch(0) {}
 
+/**
+ * @brief Construct a Datetime object from a date string and hours
+ * @param date_string Date string in the format YYYYMMDDHH
+ * @param hours The number of hours to add to the date (default 0)
+ */
 Datetime::Datetime(const std::string &date_string, int hours) {
   auto date_string_internal = date_string;
   if (date_string.size() == 10) {
@@ -39,9 +57,17 @@ Datetime::Datetime(const std::string &date_string, int hours) {
   m_second_since_epoch = (ptime - epoch()).total_seconds();
 }
 
+/**
+ * @brief Construct a Datetime object from a s_DateTime struct
+ * @param in_datetime The s_DateTime struct to convert
+ */
 Datetime::Datetime(Datetime::s_DateTime in_datetime)
     : m_second_since_epoch(from_struct(in_datetime)) {}
 
+/**
+ * @brief Helper function to convert a Datetime object to a s_DateTime struct
+ * @return A s_DateTime struct representing the Datetime object
+ */
 auto Datetime::to_struct() const -> Datetime::s_DateTime {
   const auto ptime = from_seconds(m_second_since_epoch);
   return Datetime::s_DateTime{ptime.date().year(),
@@ -52,6 +78,11 @@ auto Datetime::to_struct() const -> Datetime::s_DateTime {
                               ptime.time_of_day().seconds()};
 }
 
+/**
+ * @brief Helper function to convert a s_DateTime struct to seconds since epoch
+ * @param in_datetime The s_DateTime struct to convert
+ * @return The number of seconds since epoch
+ */
 auto Datetime::from_struct(const s_DateTime &in_datetime) -> long {
   auto ptime = boost::posix_time::ptime(boost::gregorian::date(
       in_datetime.year, in_datetime.month, in_datetime.day));
@@ -61,6 +92,12 @@ auto Datetime::from_struct(const s_DateTime &in_datetime) -> long {
   return ptime.time_of_day().total_seconds();
 }
 
+/**
+ * @brief Overload the << operator to print a Datetime object to a stream
+ * @param stream Output stream
+ * @param datetime Datetime object to print
+ * @return The output stream
+ */
 auto Gahm::Types::operator<<(std::ostream &stream,
                              const Datetime &datetime) -> std::ostream & {
   const auto ptime = from_seconds(datetime.m_second_since_epoch);
@@ -68,6 +105,10 @@ auto Gahm::Types::operator<<(std::ostream &stream,
   return stream;
 }
 
+/**
+ * @brief Convert a Datetime object to a string
+ * @return A string representation of the Datetime object
+ */
 auto Datetime::to_string() const -> std::string {
   const auto ptime = from_seconds(m_second_since_epoch);
   return boost::posix_time::to_iso_extended_string(ptime);

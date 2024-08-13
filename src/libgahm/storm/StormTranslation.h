@@ -35,7 +35,8 @@ class StormTranslation {
             Types::Vec{m_unit_vector.u() * m_translation_speed,
                        m_unit_vector.v() * m_translation_speed}) {};
 
-  StormTranslation(Types::Point point_0, Types::Point point_1, double time_delta)
+  StormTranslation(Types::Point point_0, Types::Point point_1,
+                   double time_delta)
       : m_translation_speed(std::abs(
             Gahm::Physical::Earth::distance(point_0, point_1) / time_delta)),
         m_translation_direction(
@@ -47,6 +48,9 @@ class StormTranslation {
         m_translation_vector(
             Types::Vec{m_unit_vector.u() * m_translation_speed,
                        m_unit_vector.v() * m_translation_speed}) {}
+
+  StormTranslation(Types::Point point_0, Types::Point point_1, long time_delta)
+      : StormTranslation(point_0, point_1, static_cast<double>(time_delta)) {}
 
   [[nodiscard]] constexpr auto speed() const -> double {
     return m_translation_speed;

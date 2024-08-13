@@ -67,7 +67,7 @@ class AtcfPeriod {
     return m_quadrants[index];
   }
 
-  [[nodiscard]] auto translation() const -> StormTranslation {
+  [[nodiscard]] auto translation() const -> const StormTranslation & {
     return m_translation;
   }
 

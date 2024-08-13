@@ -31,11 +31,22 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Check for C++20 support
 include(CheckCXXCompilerFlag)
-CHECK_CXX_COMPILER_FLAG("-std=c++20" COMPILER_SUPPORTS_CXX20)
+check_cxx_compiler_flag("-std=c++20" COMPILER_SUPPORTS_CXX20)
 if(NOT COMPILER_SUPPORTS_CXX20)
-    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
+  message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++20 support. Please use a different C++ compiler.")
 endif()
+# ##############################################################################
 
+# ##############################################################################
+# Set up the build options
+# ##############################################################################
+include(cmake/PreventInSourceBuilds.cmake)
+include(cmake/ProjectOptions.cmake)
+gahm_setup_options()
+gahm_global_options()
+gahm_local_options()
+add_library(gahm::gahm_options ALIAS gahm_options)
+add_library(gahm::gahm_warnings ALIAS gahm_warnings)
 # ##############################################################################
 
 # ##############################################################################

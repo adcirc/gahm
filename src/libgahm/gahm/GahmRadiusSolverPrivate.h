@@ -19,7 +19,7 @@ class GahmRadiusSolverPrivate {
   GahmRadiusSolverPrivate(double isotachRadius, double isotachSpeed,
                           double vmax, double f_coriolis, double gahm_b);
 
-  [[nodiscard]] auto operator()(const double &radiusToMaxWinds) const
+  [[nodiscard]] auto operator()(double radius_to_max_winds) const
       -> std::pair<double, double>;
 
   void setGahmB(double gahm_b);
