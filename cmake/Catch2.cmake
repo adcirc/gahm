@@ -2,7 +2,8 @@ include(FetchContent)
 FetchContent_Declare(
   Catch2
   GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG v3.6.0)
+  GIT_TAG v3.6.0
+  EXCLUDE_FROM_ALL)
 FetchContent_MakeAvailable(Catch2)
 
 # Ignore Catch2 cpp-check and clang-tidy

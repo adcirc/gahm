@@ -34,6 +34,27 @@ enum QuadrantCode : uint8_t { NE = 0, SE = 1, SW = 2, NW = 3 };
   return static_cast<Types::QuadCode::QuadrantCode>(code);
 }
 
+[[nodiscard]] static constexpr auto quadrant_code_to_integer(
+    Types::QuadCode::QuadrantCode code) -> unsigned {
+  return static_cast<unsigned>(code);
+}
+
+[[nodiscard]] static constexpr auto quadrant_code_to_string(
+    Types::QuadCode::QuadrantCode code) -> const char* {
+  switch (code) {
+    case Types::QuadCode::QuadrantCode::NE:
+      return "NE";
+    case Types::QuadCode::QuadrantCode::SE:
+      return "SE";
+    case Types::QuadCode::QuadrantCode::SW:
+      return "SW";
+    case Types::QuadCode::QuadrantCode::NW:
+      return "NW";
+    default:
+      return "Unknown";
+  }
+}
+
 }  // namespace Gahm::Types::QuadCode
 
 #endif  // GAHM_QUADCODE_H

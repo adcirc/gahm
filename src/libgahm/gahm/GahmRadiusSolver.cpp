@@ -5,6 +5,7 @@
 #include "gahm/GahmRadiusSolver.h"
 
 #include <cstddef>
+#include <iostream>
 #include <limits>
 #include <string>
 
@@ -39,14 +40,23 @@ GahmRadiusSolver::GahmRadiusSolver(double isotach_radius, double isotach_speed,
  */
 auto GahmRadiusSolver::solve(double lower, double upper,
                              double guess) const -> double {
+  constexpr auto n_digits_precision = std::numeric_limits<double>::digits / 2;
   try {
     auto iter = m_max_it;
     return boost::math::tools::newton_raphson_iterate(
-        m_solver, guess, lower, upper, std::numeric_limits<double>::digits,
-        iter);
+        m_solver, guess, lower, upper, n_digits_precision, iter);
   } catch (const boost::wrapexcept<boost::math::evaluation_error> &e) {
     auto error =
-        "Unable to solve for radius to maximum winds: " + std::string(e.what());
+        "Unable to solve for radius to maximum winds: " +
+        std::string(e.what()) + "\n\nInput Data:\n\n" +
+        "  Lower Bound: " + std::to_string(lower) +
+        "\nUpper Bound: " + std::to_string(upper) +
+        "\nGuess: " + std::to_string(guess) +
+        "\nIsotach Radius: " + std::to_string(m_solver.isotach_radius()) +
+        "\nIsotach Speed: " + std::to_string(m_solver.isotach_speed()) +
+        "\nVmax: " + std::to_string(m_solver.v_max()) +
+        "\nCoriolis Force: " + std::to_string(m_solver.coriolis()) +
+        "\nGAHM B: " + std::to_string(m_solver.gahm_b());
     throw boost::math::evaluation_error(error);
   }
 }

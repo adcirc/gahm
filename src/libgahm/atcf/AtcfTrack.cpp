@@ -5,6 +5,7 @@
 #include "AtcfTrack.h"
 
 #include <iostream>
+#include <iterator>
 
 void Gahm::Atcf::AtcfTrack::compute_storm_translation_velocity() {
   if (m_periods.size() < 2) {
@@ -17,10 +18,10 @@ void Gahm::Atcf::AtcfTrack::compute_storm_translation_velocity() {
         static_cast<double>(previous_period->datetime().seconds_since_epoch() -
                             this_period->datetime().seconds_since_epoch());
     this_period->set_translation(
-        StormTranslation(previous_period->eye_location(),
-                         this_period->eye_location(), delta_time));
+        Storm::StormTranslation(previous_period->eye_location(),
+                                this_period->eye_location(), delta_time));
   }
-  m_periods[0].set_translation(m_periods[1].translation());
+  m_periods.at(0).set_translation(m_periods[1].translation());
 }
 
 auto operator<<(std::ostream &os,

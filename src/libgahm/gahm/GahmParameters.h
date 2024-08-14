@@ -5,34 +5,37 @@
 #ifndef GAHM_GAHMPARAMETERS_H
 #define GAHM_GAHMPARAMETERS_H
 
+#include <tuple>
+
 #include "datatypes/Point.h"
 #include "datatypes/Vec.h"
 #include "storm/StormTranslation.h"
 
-namespace Gahm {
+namespace Gahm::Solver {
 
-class GahmParameters {
- public:
-  explicit GahmParameters(const Gahm::Atcf::StormTranslation& translation,
-                          const Gahm::Types::Point& eye_location,
-                          const Gahm::Types::Vec& unit_vector,
-                          double central_pressure, double background_pressure,
-                          double v_max, double isotach_speed,
-                          double isotach_radius);
+/**
+ * @brief A struct to hold the parameters for the Gahm model.
+ */
+struct GahmParamPack {
+  double radius_to_max_winds;
+  double gahm_b;
+  double gahm_phi;
+  double holland_b;
 
-  [[nodiscard]] constexpr auto radius_to_max_winds() const -> double {
-    return m_rmax;
-  }
-
-  [[nodiscard]] constexpr auto gahm_b() const -> double { return m_gahm_b; }
-
-  [[nodiscard]] constexpr auto gahm_phi() const -> double { return m_gahm_phi; }
-
- private:
-  double m_rmax;
-  double m_gahm_b;
-  double m_gahm_phi;
+  GahmParamPack(double in_radius_to_max_winds, double in_gahm_b,
+                double in_gahm_phi, double in_holland_b)
+      : radius_to_max_winds(in_radius_to_max_winds),
+        gahm_b(in_gahm_b),
+        gahm_phi(in_gahm_phi),
+        holland_b(in_holland_b) {}
 };
 
-}  // namespace Gahm
+auto GahmParameters(const Gahm::Storm::StormTranslation& translation,
+                    const Gahm::Types::Point& eye_location,
+                    const Gahm::Types::Vec& unit_vector,
+                    double central_pressure, double background_pressure,
+                    double v_max, double isotach_speed,
+                    double isotach_radius) -> GahmParamPack;
+
+}  // namespace Gahm::Solver
 #endif  // GAHM_GAHMPARAMETERS_H

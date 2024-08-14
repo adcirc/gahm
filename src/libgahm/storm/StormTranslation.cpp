@@ -8,7 +8,7 @@
 #include "physical/Constants.h"
 
 auto operator<<(std::ostream &stream,
-                const Gahm::Atcf::StormTranslation &translation)
+                const Gahm::Storm::StormTranslation &translation)
     -> std::ostream & {
   constexpr auto rad2deg = Gahm::Physical::Constants::rad2deg();
   stream << "  Translation Speed: " << translation.speed() << " m/s\n";

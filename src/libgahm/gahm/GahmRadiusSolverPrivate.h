@@ -25,6 +25,14 @@ class GahmRadiusSolverPrivate {
   void setGahmB(double gahm_b);
   [[nodiscard]] auto gahm_b() const -> double;
 
+  [[nodiscard]] auto isotach_radius() const -> double { return m_isotachRadius; }
+
+  [[nodiscard]] auto v_max() const -> double { return m_vmax; }
+
+  [[nodiscard]] auto coriolis() const -> double { return m_f_coriolis; }
+
+  [[nodiscard]] auto isotach_speed() const -> double { return m_isotachSpeed; }
+
  private:
   static auto f(double radius_to_max_winds, double vmax, double isotach_speed,
                 double isotach_radius, double f_coriolis,

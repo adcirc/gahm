@@ -5,27 +5,24 @@
 #ifndef GAHM_ATCFPERIOD_H
 #define GAHM_ATCFPERIOD_H
 
+#include <array>
 #include <cassert>
 #include <ostream>
-#include <utility>
-#include <vector>
 
-#include "Quadrant.h"
-#include "StormTranslation.h"
 #include "datatypes/Datetime.h"
 #include "datatypes/Point.h"
+#include "storm/Quadrant.h"
+#include "storm/StormTranslation.h"
 
 namespace Gahm::Atcf {
 
 class AtcfPeriod {
  public:
   AtcfPeriod()
-      : m_datetime(),
-        m_central_pressure(0),
+      : m_central_pressure(0),
         m_background_pressure(0),
         m_v_max(0),
         m_r_max(0),
-        m_eye_location(),
         m_quadrants() {}
 
   AtcfPeriod(Gahm::Types::Datetime datetime, double central_pressure,
@@ -38,7 +35,8 @@ class AtcfPeriod {
         m_v_max(v_max),
         m_r_max(r_max),
         m_eye_location(eye_location),
-        m_quadrants(std::move(quadrants)) {}
+        m_quadrants(quadrants) {
+  }
 
   [[nodiscard]] auto central_pressure() const -> double {
     return m_central_pressure;
@@ -61,28 +59,35 @@ class AtcfPeriod {
     return m_quadrants;
   }
 
+  [[nodiscard]] auto quadrant(size_t index) -> Gahm::Storm::Quadrant & {
+    assert(index < 4);
+    return m_quadrants.at(index);
+  }
+
   [[nodiscard]] auto quadrant(size_t index) const
       -> const Gahm::Storm::Quadrant & {
     assert(index < 4);
-    return m_quadrants[index];
+    return m_quadrants.at(index);
   }
 
-  [[nodiscard]] auto translation() const -> const StormTranslation & {
+  [[nodiscard]] auto translation() const -> const Storm::StormTranslation & {
     return m_translation;
   }
 
-  void set_translation(const StormTranslation &translation) {
+  void set_translation(const Storm::StormTranslation &translation) {
     m_translation = translation;
   }
 
+  void compute_gahm_parameters();
+
  private:
-  Types::Datetime m_datetime;      // Datetime of the period
-  double m_central_pressure;       // Central pressure in millibars
-  double m_background_pressure;    // Background pressure in millibars
-  double m_v_max;                  // Maximum wind speed
-  double m_r_max;                  // Maximum radius
-  Types::Point m_eye_location;     // Eye location in latitude and longitude
-  StormTranslation m_translation;  // Storm translation
+  Types::Datetime m_datetime;    // Datetime of the period
+  double m_central_pressure;     // Central pressure in millibars
+  double m_background_pressure;  // Background pressure in millibars
+  double m_v_max;                // Maximum wind speed
+  double m_r_max;                // Maximum radius
+  Types::Point m_eye_location;   // Eye location in latitude and longitude
+  Storm::StormTranslation m_translation;  // Storm translation
   std::array<Gahm::Storm::Quadrant, 4>
       m_quadrants;  // Quadrant data for the period
 };

@@ -9,7 +9,7 @@ using namespace Catch;
 
 #include <string>
 
-#include "storm/AtcfIO.h"
+#include "atcf/AtcfIO.h"
 
 TEST_CASE("AtcfIO", "[AtcfIO]") {
   SECTION("Read ATCF") {

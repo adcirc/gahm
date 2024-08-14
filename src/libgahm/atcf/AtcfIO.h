@@ -41,6 +41,10 @@ class AtcfIO {
       const std::vector<Gahm::Atcf::AtcfIO::TempIsotach> &isotachs)
       -> std::array<Gahm::Storm::Quadrant, 4>;
 
+  static auto sanitize_temp_isotach(double radius_to_max_winds,
+                                    const TempIsotach &temp_isotach)
+      -> TempIsotach;
+
  private:
   std::string m_filename;
 };

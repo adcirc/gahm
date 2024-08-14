@@ -50,7 +50,7 @@ GahmSolver::GahmSolver(double isotach_radius, double isotach_speed, double vmax,
 void GahmSolver::solve() {
   const auto guess = m_rmax_guess;
   for (size_t i = 0; i < m_max_it; ++i) {
-    auto new_rmax = m_solver.solve(1.0, m_isotachRadius, guess);
+    auto new_rmax = m_solver.solve(0.1, m_isotachRadius, guess);
     if (!std::isnan(new_rmax) && !std::isinf(new_rmax) &&
         new_rmax != std::numeric_limits<double>::max()) {
       m_rmax = new_rmax;

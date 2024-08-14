@@ -16,7 +16,7 @@
 #include "physical/Earth.h"
 #include "physical/Units.h"
 
-namespace Gahm::Atcf {
+namespace Gahm::Storm {
 
 class StormTranslation {
  public:
@@ -40,9 +40,10 @@ class StormTranslation {
       : m_translation_speed(std::abs(
             Gahm::Physical::Earth::distance(point_0, point_1) / time_delta)),
         m_translation_direction(
-            Gahm::Physical::Constants::twoPi() -
-            Gahm::Physical::Earth::azimuth(point_0, point_1) +
-            Gahm::Physical::Constants::halfPi()),
+            std::fmod(Gahm::Physical::Constants::twoPi() -
+                          Gahm::Physical::Earth::azimuth(point_0, point_1) +
+                          Gahm::Physical::Constants::halfPi(),
+                      Gahm::Physical::Constants::twoPi())),
         m_unit_vector(Types::Vec{std::cos(m_translation_direction),
                                  std::sin(m_translation_direction)}),
         m_translation_vector(
@@ -83,10 +84,10 @@ class StormTranslation {
   Types::Vec m_translation_vector;
 };
 
-}  // namespace Gahm::Atcf
+}  // namespace Gahm::Storm
 
 auto operator<<(std::ostream &stream,
-                const Gahm::Atcf::StormTranslation &translation)
+                const Gahm::Storm::StormTranslation &translation)
     -> std::ostream &;
 
 #endif  // GAHM_STORMTRANSLATION_H

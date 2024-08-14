@@ -5,16 +5,19 @@
 #ifndef GAHM_QUADRANT_H
 #define GAHM_QUADRANT_H
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
 #include <cstddef>
 #include <ostream>
 
+#include "datatypes/Point.h"
 #include "datatypes/QuadCode.h"
 #include "datatypes/QuadUnitVec.h"
 #include "datatypes/Vec.h"
 #include "storm/Isotach.h"
+#include "storm/StormTranslation.h"
 
 namespace Gahm::Storm {
 
@@ -30,7 +33,9 @@ class Quadrant {
   /**
    * @brief Default constructor for the Quadrant class.
    */
-  constexpr Quadrant() : m_isotachs(), m_quadrant_code(Types::QuadCode::NE) {}
+  constexpr Quadrant()
+      : m_isotachs(),
+        m_quadrant_code(Types::QuadCode::NE) {}
 
   /**
    * @brief Constructor for the Quadrant class.
@@ -74,6 +79,11 @@ class Quadrant {
     return m_isotachs.at(index);
   }
 
+  [[nodiscard]] constexpr auto isotach(size_t index) -> Isotach& {
+    assert(index < 3);
+    return m_isotachs.at(index);
+  }
+
   /**
    * Sets the isotachs.
    * @param isotachs Array of Isotach objects
@@ -96,7 +106,26 @@ class Quadrant {
     return m_unit_vector_tbl;
   }
 
+  /**
+   * Returns the number of populated isotachs.
+   * @return Number of populated isotachs
+   */
+  [[nodiscard]] constexpr auto n_populated_isotachs() const -> unsigned {
+    return static_cast<unsigned>(std::count_if(
+        m_isotachs.begin(), m_isotachs.end(),
+        [](const Isotach& isotach) { return isotach.is_populated(); }));
+  }
+
+  /**
+   * Computes the GAHM parameters for the quadrant.
+   */
+  void compute_gahm_parameters(const StormTranslation& translation,
+                               const Types::Point& eye_location,
+                               double central_pressure,
+                               double background_pressure, double v_max);
+
  private:
+
   std::array<Isotach, 3> m_isotachs;
   Types::QuadCode::QuadrantCode m_quadrant_code;
   Types::Vec m_unit_vector_tbl;
