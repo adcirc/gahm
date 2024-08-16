@@ -28,8 +28,6 @@ class AtcfTrack {
 
   void compute_gahm_parameters() {
     std::ranges::for_each(m_periods, [](AtcfPeriod &period) {
-      std::cerr << "Computing GAHM parameters for period: " << period.datetime()
-                << std::endl;
       period.compute_gahm_parameters();
     });
   }

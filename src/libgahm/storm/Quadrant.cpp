@@ -31,6 +31,7 @@ void Quadrant::compute_gahm_parameters(
       isotach.compute_gahm_parameters(translation, eye_location,
                                       m_unit_vector_tbl, central_pressure,
                                       background_pressure, v_max);
+      m_valid_isotachs.push_back(isotach);
     }
   });
 }

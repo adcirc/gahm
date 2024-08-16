@@ -7,10 +7,13 @@
 
 #include <array>
 #include <cassert>
+#include <cstddef>
 #include <ostream>
+#include <string>
 
 #include "datatypes/Datetime.h"
 #include "datatypes/Point.h"
+#include "physical/Earth.h"
 #include "storm/Quadrant.h"
 #include "storm/StormTranslation.h"
 
@@ -23,6 +26,8 @@ class AtcfPeriod {
         m_background_pressure(0),
         m_v_max(0),
         m_r_max(0),
+        m_eye_location({0, 0}),
+        m_coriolis_force(0),
         m_quadrants() {}
 
   AtcfPeriod(Gahm::Types::Datetime datetime, double central_pressure,
@@ -35,8 +40,8 @@ class AtcfPeriod {
         m_v_max(v_max),
         m_r_max(r_max),
         m_eye_location(eye_location),
-        m_quadrants(quadrants) {
-  }
+        m_coriolis_force(Gahm::Physical::Earth::coriolis(eye_location.y())),
+        m_quadrants(quadrants) {}
 
   [[nodiscard]] auto central_pressure() const -> double {
     return m_central_pressure;
@@ -74,11 +79,17 @@ class AtcfPeriod {
     return m_translation;
   }
 
+  [[nodiscard]] auto coriolis_force() const -> double {
+    return m_coriolis_force;
+  }
+
   void set_translation(const Storm::StormTranslation &translation) {
     m_translation = translation;
   }
 
   void compute_gahm_parameters();
+
+  void to_gnuplot(const std::string &filename) const;
 
  private:
   Types::Datetime m_datetime;    // Datetime of the period
@@ -87,6 +98,7 @@ class AtcfPeriod {
   double m_v_max;                // Maximum wind speed
   double m_r_max;                // Maximum radius
   Types::Point m_eye_location;   // Eye location in latitude and longitude
+  double m_coriolis_force;       // Coriolis force
   Storm::StormTranslation m_translation;  // Storm translation
   std::array<Gahm::Storm::Quadrant, 4>
       m_quadrants;  // Quadrant data for the period

@@ -60,7 +60,7 @@ TEST_CASE("Date", "[date]") {
 
 TEST_CASE("Split String", "[split_string]") {
   const std::string str = "1,2,3,4,5,6,7,8,9,10";
-  auto split = Gahm::io::split_string(str);
+  auto split = Gahm::Util::IO::split_string(str);
   REQUIRE(split.size() == 10);
   REQUIRE(split[0] == "1");
   REQUIRE(split[1] == "2");
@@ -74,7 +74,7 @@ TEST_CASE("Split String", "[split_string]") {
   REQUIRE(split[9] == "10");
 
   const std::string str3 = "1,2,3,4,5,6,7,8,9,10,";
-  auto split3 = Gahm::io::split_string(str3);
+  auto split3 = Gahm::Util::IO::split_string(str3);
   REQUIRE(split3.size() == 11);
   REQUIRE(split3[0] == "1");
   REQUIRE(split3[1] == "2");
@@ -89,7 +89,7 @@ TEST_CASE("Split String", "[split_string]") {
   REQUIRE(split3[10] == "");
 
   const std::string str4 = "1,2,3,,4,5  ,6,7,8,9,10";
-  auto split4 = Gahm::io::split_string(str4);
+  auto split4 = Gahm::Util::IO::split_string(str4);
   REQUIRE(split4.size() == 11);
   REQUIRE(split4[0] == "1");
   REQUIRE(split4[1] == "2");

@@ -110,6 +110,13 @@ auto limit_quadrant_vmax(double v_max, double quadrant_wind_speed,
 
     if (a_diff == 0 && b_diff == 0) {
       std::cerr << "[ERROR]: Failed to limit quadrant wind speed\n";
+      std::cerr << "[ERROR]: Quadrant wind speed: " << quadrant_wind_speed;
+      std::cerr << "[ERROR]: Quadrant unit vector: " << quadrant_unit_vector;
+      std::cerr << "[ERROR]: " << translation;
+      std::cerr << "[ERROR]: Solutions: " << sln.value()[0] << ", "
+                << sln.value()[1] << '\n';
+      std::cerr << "[ERROR]: Diff: A: " << sln.value()[0] - v_max
+                << ", B: " << sln.value()[1] - v_max << '\n';
       return quadrant_wind_speed;
     } else if (a_diff == 0.0) {
       return sln.value()[1];
@@ -233,18 +240,6 @@ auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
       vortex_quad_10_10 *
       Gahm::Physical::Constants::tenMeterToTopOfBoundaryLayer();
 
-//  std::cerr << "vortex_quad_10_tbl: " << vortex_quad_10_tbl << std::endl;
-//  std::cerr << "vortex_max_10_10: " << v_vortex_max_10_10 << std::endl;
-//  std::cerr << "vortex_max_10_tbl: " << v_vortex_max_10_tbl << std::endl;
-//  std::cerr << "background_pressure: " << background_pressure / 100.0
-//            << std::endl;
-//  std::cerr << "central_pressure: " << central_pressure / 100.0 << std::endl;
-//  std::cerr << "isotach_radius: " << isotach_radius << std::endl;
-//  std::cerr << "translation: " << this_translation.velocity();
-//  std::cerr << "translation_speed: " << this_translation.speed() << std::endl;
-//  std::cerr << "unit_vector: " << unit_vector << std::endl;
-//  std::cerr << std::endl;
-
   // Solve the GAHM equations
   auto solver = Gahm::Solver::GahmSolver(
       isotach_radius, vortex_quad_10_tbl, v_vortex_max_10_tbl,
@@ -254,7 +249,9 @@ auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
   const auto holland_b = Gahm::Physical::Atmospheric::holland_b(
       v_vortex_max_10_tbl, (background_pressure - central_pressure));
 
-  return {solver.rmax(), solver.gahm_b(), solver.phi(), holland_b};
+  return {solver.rmax(),     solver.gahm_b(),    solver.phi(),
+          holland_b,         vortex_quad_10_tbl, v_vortex_max_10_tbl,
+          vortex_quad_10_10, v_vortex_max_10_10, unit_vector};
 }
 
 }  // namespace Gahm::Solver::detail

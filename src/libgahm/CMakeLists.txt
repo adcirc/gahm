@@ -20,6 +20,7 @@ set(GAHM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/gahm/GahmRadiusSolver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/gahm/GahmRadiusSolverPrivate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/gahm/GahmSolver.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/output/RadialProfile.cpp
 )
 
 add_library(gahm_objects OBJECT ${GAHM_SOURCES})

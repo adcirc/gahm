@@ -22,7 +22,11 @@ class Isotach {
         m_radius_to_max_winds(0.0),
         m_holland_b(0.0),
         m_gahm_b(0.0),
-        m_gahm_phi(0.0) {}
+        m_gahm_phi(0.0),
+        m_vortex_quad_10_tbl(0.0),
+        m_vortex_max_10_tbl(0.0),
+        m_vortex_quad_10_10(0.0),
+        m_vortex_max_10_10(0.0) {}
 
   constexpr explicit Isotach(double wind_speed, double radius)
       : m_wind_speed(wind_speed),
@@ -30,7 +34,11 @@ class Isotach {
         m_radius_to_max_winds(0.0),
         m_holland_b(0.0),
         m_gahm_b(0.0),
-        m_gahm_phi(0.0) {}
+        m_gahm_phi(0.0),
+        m_vortex_quad_10_tbl(0.0),
+        m_vortex_max_10_tbl(0.0),
+        m_vortex_quad_10_10(0.0),
+        m_vortex_max_10_10(0.0) {}
 
   [[nodiscard]] constexpr auto wind_speed() const -> double {
     return m_wind_speed;
@@ -60,6 +68,26 @@ class Isotach {
     return m_holland_b;
   }
 
+  [[nodiscard]] constexpr auto vortex_quad_10_tbl() const -> double {
+    return m_vortex_quad_10_tbl;
+  }
+
+  [[nodiscard]] constexpr auto vortex_max_10_tbl() const -> double {
+    return m_vortex_max_10_tbl;
+  }
+
+  [[nodiscard]] constexpr auto vortex_quad_10_10() const -> double {
+    return m_vortex_quad_10_10;
+  }
+
+  [[nodiscard]] constexpr auto vortex_max_10_10() const -> double {
+    return m_vortex_max_10_10;
+  }
+
+  [[nodiscard]] constexpr auto unit_vector_tbl() const -> Types::Vec {
+    return m_unit_vector_tbl;
+  }
+
   void compute_gahm_parameters(const StormTranslation &translation,
                                const Types::Point &eye_location,
                                const Types::Vec &unit_vector,
@@ -73,6 +101,11 @@ class Isotach {
   double m_holland_b;
   double m_gahm_b;
   double m_gahm_phi;
+  double m_vortex_quad_10_tbl;
+  double m_vortex_max_10_tbl;
+  double m_vortex_quad_10_10;
+  double m_vortex_max_10_10;
+  Types::Vec m_unit_vector_tbl;
 };
 
 }  // namespace Gahm::Storm

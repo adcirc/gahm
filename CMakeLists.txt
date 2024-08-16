@@ -10,7 +10,7 @@
 # ##############################################################################
 # Set up the project
 # ##############################################################################
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.19)
 project(gahm CXX)
 enable_testing()
 

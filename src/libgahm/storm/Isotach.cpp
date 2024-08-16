@@ -10,7 +10,6 @@
 #include "datatypes/Point.h"
 #include "datatypes/Vec.h"
 #include "gahm/GahmParameters.h"
-#include "physical/Atmospheric.h"
 #include "physical/Units.h"
 
 namespace Gahm::Storm {
@@ -26,6 +25,11 @@ void Isotach::compute_gahm_parameters(
   m_gahm_b = params.gahm_b;
   m_gahm_phi = params.gahm_phi;
   m_holland_b = params.holland_b;
+  m_vortex_quad_10_tbl = params.vortex_quad_10_tbl;
+  m_vortex_max_10_tbl = params.vortex_max_10_tbl;
+  m_vortex_quad_10_10 = params.vortex_quad_10_10;
+  m_vortex_max_10_10 = params.vortex_max_10_10;
+  m_unit_vector_tbl = params.unit_vector;
 }
 
 }  // namespace Gahm::Storm

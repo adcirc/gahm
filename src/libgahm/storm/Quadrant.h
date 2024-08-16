@@ -11,6 +11,8 @@
 #include <cmath>
 #include <cstddef>
 #include <ostream>
+#include <ranges>
+#include <vector>
 
 #include "datatypes/Point.h"
 #include "datatypes/QuadCode.h"
@@ -33,9 +35,7 @@ class Quadrant {
   /**
    * @brief Default constructor for the Quadrant class.
    */
-  constexpr Quadrant()
-      : m_isotachs(),
-        m_quadrant_code(Types::QuadCode::NE) {}
+  constexpr Quadrant() : m_isotachs(), m_quadrant_code(Types::QuadCode::NE) {}
 
   /**
    * @brief Constructor for the Quadrant class.
@@ -50,7 +50,6 @@ class Quadrant {
         m_quadrant_code(code),
         m_unit_vector_tbl(Types::QuadUnitVec::quadrant_unit_vector(
             m_quadrant_code, latitude)) {}
-
   /**
    * Returns the quadrant code.
    * @return Quadrant code
@@ -110,10 +109,13 @@ class Quadrant {
    * Returns the number of populated isotachs.
    * @return Number of populated isotachs
    */
-  [[nodiscard]] constexpr auto n_populated_isotachs() const -> unsigned {
-    return static_cast<unsigned>(std::count_if(
-        m_isotachs.begin(), m_isotachs.end(),
-        [](const Isotach& isotach) { return isotach.is_populated(); }));
+  [[nodiscard]] constexpr auto n_populated_isotachs() const -> size_t {
+    return m_valid_isotachs.size();
+  }
+
+  [[nodiscard]] constexpr auto valid_isotachs() const
+      -> const std::vector<Isotach>& {
+    return m_valid_isotachs;
   }
 
   /**
@@ -125,10 +127,10 @@ class Quadrant {
                                double background_pressure, double v_max);
 
  private:
-
   std::array<Isotach, 3> m_isotachs;
   Types::QuadCode::QuadrantCode m_quadrant_code;
   Types::Vec m_unit_vector_tbl;
+  std::vector<Isotach> m_valid_isotachs;
 };
 
 }  // namespace Gahm::Storm

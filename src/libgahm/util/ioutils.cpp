@@ -4,12 +4,9 @@
 
 #include "ioutils.h"
 
-#include <chrono>
-#include <sstream>
-
 #include "boost/algorithm/string.hpp"
 
-auto Gahm::io::split_string(const std::string &str)
+auto Gahm::Util::IO::split_string(const std::string &str)
     -> std::vector<std::string> {
   std::vector<std::string> v;
   boost::split(v, str, boost::is_any_of(","), boost::token_compress_off);
@@ -22,7 +19,7 @@ auto Gahm::io::split_string(const std::string &str)
   return v;
 }
 
-auto Gahm::io::parse_position(const std::string &position) -> double {
+auto Gahm::Util::IO::parse_position(const std::string &position) -> double {
   // Parse the position. Use the last character to determine if it is
   //  either N/S or E/W, divide by 10, and multiply by -1 if S or W
 
