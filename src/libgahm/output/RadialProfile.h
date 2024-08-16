@@ -5,32 +5,28 @@
 #ifndef GAHM_RADIALPROFILE_H
 #define GAHM_RADIALPROFILE_H
 
-#include <utility>
 #include <vector>
 
 #include "atcf/AtcfPeriod.h"
 #include "datatypes/QuadCode.h"
-#include "datatypes/Vec.h"
+#include "gahm/GahmSolution.h"
 #include "storm/Quadrant.h"
 
 namespace Gahm::Output::RadialProfile {
 
 struct ProfilePoint {
   double distance;
-  Types::Vec wind_vector;
   double pressure;
-
-  constexpr ProfilePoint(double in_distance,
-                         const Types::Vec& in_wind_speed_vector,
-                         double in_pressure)
-      : distance(in_distance),
-        wind_vector(in_wind_speed_vector),
-        pressure(in_pressure) {}
+  Types::Vec wind_vector;
 };
 
 struct Profile {
   std::vector<ProfilePoint> data;
 };
+
+[[nodiscard]] auto generate_distance_vector(
+    double distance_start, double distance_end,
+    double distance_step) -> std::vector<double>;
 
 [[nodiscard]] auto get_profile(const Atcf::AtcfPeriod& period,
                                Types::QuadCode::QuadrantCode quadrant_code,
@@ -41,6 +37,10 @@ struct Profile {
                                const Storm::Quadrant& quadrant,
                                double distance_start, double distance_end,
                                double distance_step) -> Profile;
+
+[[nodiscard]] auto get_profile(
+    const Atcf::AtcfPeriod& period, const Storm::Quadrant& quadrant,
+    const std::vector<double>& distance_pts) -> Profile;
 
 }  // namespace Gahm::Output::RadialProfile
 

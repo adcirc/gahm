@@ -180,6 +180,7 @@ void AtcfPeriod::to_gnuplot(const std::string &filename) const {
                                  std::to_string(quad.quadrant_code()) + "_" +
                                  std::to_string(isotach_id);
           file << data_block_name << "<< EOD\n";
+
           std::ranges::for_each(profile.data, [&](const auto &snap) {
             file << snap.distance / 1000.0 << " "
                  << snap.wind_vector.magnitude() << "\n";

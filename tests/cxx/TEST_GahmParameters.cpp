@@ -379,6 +379,6 @@ TEST_CASE("GahmParameters-AdjVMax", "[GahmAdjVMax]") {
 //  REQUIRE(snap.quadrant(3).isotach(2).holland_b() == Approx(1.05068));
 
   snap.compute_gahm_parameters();
-//  snap.to_gnuplot("test.gnuplot");
+  snap.to_gnuplot("test.gnuplot");
 
 }
