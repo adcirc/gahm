@@ -87,20 +87,15 @@ auto get_profile(const Atcf::AtcfPeriod &period,
   Profile profile;
   profile.data.reserve(distance_pts.size());
 
-  std::vector<Solver::Solution::GahmSolutionPoint> solution;
-  solution.reserve(distance_pts.size());
   std::ranges::transform(
-      distance_pts, std::back_inserter(solution), [&](const auto &distance) {
-        return Solver::Solution::get(Solver::Solution::GahmInputParams{
-            quadrant, distance, period.eye_location(), period.translation(),
-            period.central_pressure(), period.background_pressure(),
-            period.coriolis_force()});
-      });
-
-  std::ranges::transform(
-      distance_pts, solution, std::back_inserter(profile.data),
-      [](const auto &distance, const auto &sol) {
-        return ProfilePoint{distance, sol.pressure, sol.wind_vector};
+      distance_pts, std::back_inserter(profile.data),
+      [&](const auto &distance) {
+        const auto sln =
+            Solver::Solution::get(Solver::Solution::GahmInputParams{
+                quadrant, distance, period.eye_location(), period.translation(),
+                period.central_pressure(), period.background_pressure(),
+                period.coriolis_force()});
+        return ProfilePoint{distance, sln.pressure, sln.wind_vector};
       });
 
   return profile;

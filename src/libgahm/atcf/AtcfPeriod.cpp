@@ -15,6 +15,7 @@
 
 #include "datatypes/QuadCode.h"
 #include "output/RadialProfile.h"
+#include "physical/Constants.h"
 #include "storm/Quadrant.h"
 
 namespace Gahm::Atcf {
@@ -48,10 +49,10 @@ void AtcfPeriod::to_gnuplot(const std::string &filename) const {
   file << "# --- GRAPH ISOTACH RADII\n";
   file << "set origin 0.16,0.75\n";
   file << "set size 0.25,0.25\n";
-  file << "set xrange [" << eye_location().x() - 10 << ":"
-       << eye_location().x() + 10 << "]\n";
-  file << "set yrange [" << eye_location().y() - 10 << ":"
-       << eye_location().y() + 10 << "]\n";
+  file << "set xrange [" << eye_location().x() - 5 << ":"
+       << eye_location().x() + 5 << "]\n";
+  file << "set yrange [" << eye_location().y() - 5 << ":"
+       << eye_location().y() + 5 << "]\n";
   file << "set xlabel 'Longitude'\n";
   file << "set ylabel 'Latitude'\n";
   file << "set title 'Isotach Radii'\n";
@@ -163,35 +164,32 @@ void AtcfPeriod::to_gnuplot(const std::string &filename) const {
     file << "set grid\n";
 
     size_t isotach_id = 0;
-    std::for_each(
-        quad.isotachs().begin(), quad.isotachs().end(),
-        [&](const auto &isotach) {
-          // Plot a vertical line at the isotach radius between 0 and the
-          // isotach speed
-          file << "set arrow " << std::to_string(isotach_id + 1) << " from "
-               << isotach.radius() / 1000.0 << ",0 to "
-               << isotach.radius() / 1000.0 << ","
-               << isotach.wind_speed() *
-                      Physical::Constants::oneMinuteToTenMinuteWind()
-               << " nohead lc " << isotach_colors[isotach_id] << " lw 2\n";
+    std::for_each(quad.isotachs().begin(), quad.isotachs().end(),
+                  [&](const auto &isotach) {
+                    // Plot a vertical line at the isotach radius between 0 and
+                    // the isotach speed
+                    file << "set arrow " << std::to_string(isotach_id + 1)
+                         << " from " << isotach.radius() / 1000.0 << ",0 to "
+                         << isotach.radius() / 1000.0 << ","
+                         << isotach.wind_speed() *
+                                Physical::Constants::oneMinuteToTenMinuteWind()
+                         << " nohead lc " << isotach_colors[isotach_id]
+                         << " lw 2\n";
+                    isotach_id++;
+                  });
 
-          const auto profile = Output::RadialProfile::get_profile(*this, quad, 0, 500000, 10);
-          auto data_block_name = "$data_" +
-                                 std::to_string(quad.quadrant_code()) + "_" +
-                                 std::to_string(isotach_id);
-          file << data_block_name << "<< EOD\n";
+    const auto profile =
+        Output::RadialProfile::get_profile(*this, quad, 0, 500000, 1000);
+    auto data_block_name = "$data_" + std::to_string(quad.quadrant_code()) +
+                           "_" + std::to_string(1);
+    file << data_block_name << "<< EOD\n";
 
-          std::ranges::for_each(profile.data, [&](const auto &snap) {
-            file << snap.distance / 1000.0 << " "
-                 << snap.wind_vector.magnitude() << "\n";
-          });
-          file << "EOD\n";
-          file << "plot " << data_block_name << " with lines lc "
-               << isotach_colors[isotach_id] << " " << " lw 3 title '"
-               << isotach.wind_speed() << " m/s'\n";
-
-          ++isotach_id;
-        });
+    std::ranges::for_each(profile.data, [&](const auto &snap) {
+      file << snap.distance / 1000.0 << " " << snap.wind_vector.magnitude()
+           << "\n";
+    });
+    file << "EOD\n";
+    file << "plot " << data_block_name << " with lines lc rgb 'black' lw 3\n";
 
     file << "unset object\n";
     file << "unset arrow\n";
