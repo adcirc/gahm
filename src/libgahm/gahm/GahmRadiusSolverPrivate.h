@@ -7,10 +7,7 @@
 
 #include <cassert>
 #include <cmath>
-#include <utility>
-
-#include "physical/Atmospheric.h"
-#include "physical/Constants.h"
+#include <tuple>
 
 namespace Gahm::Solver::detail {
 
@@ -20,12 +17,14 @@ class GahmRadiusSolverPrivate {
                           double vmax, double f_coriolis, double gahm_b);
 
   [[nodiscard]] auto operator()(double radius_to_max_winds) const
-      -> std::pair<double, double>;
+      -> std::tuple<double, double>;
 
   void setGahmB(double gahm_b);
   [[nodiscard]] auto gahm_b() const -> double;
 
-  [[nodiscard]] auto isotach_radius() const -> double { return m_isotachRadius; }
+  [[nodiscard]] auto isotach_radius() const -> double {
+    return m_isotachRadius;
+  }
 
   [[nodiscard]] auto v_max() const -> double { return m_vmax; }
 

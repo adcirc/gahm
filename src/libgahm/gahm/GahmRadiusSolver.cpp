@@ -5,7 +5,6 @@
 #include "gahm/GahmRadiusSolver.h"
 
 #include <cstddef>
-#include <iostream>
 #include <limits>
 #include <string>
 

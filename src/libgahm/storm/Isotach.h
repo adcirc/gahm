@@ -10,35 +10,17 @@
 
 #include "datatypes/Point.h"
 #include "datatypes/Vec.h"
+#include "gahm/GahmParameters.h"
 #include "storm/StormTranslation.h"
 
 namespace Gahm::Storm {
 
 class Isotach {
  public:
-  constexpr Isotach()
-      : m_wind_speed(0.0),
-        m_distance_to_isotach(0.0),
-        m_radius_to_max_winds(0.0),
-        m_holland_b(0.0),
-        m_gahm_b(0.0),
-        m_gahm_phi(0.0),
-        m_vortex_quad_10_tbl(0.0),
-        m_vortex_max_10_tbl(0.0),
-        m_vortex_quad_10_10(0.0),
-        m_vortex_max_10_10(0.0) {}
+  constexpr Isotach() : m_wind_speed(0.0), m_distance_to_isotach(0.0) {}
 
   constexpr explicit Isotach(double wind_speed, double radius)
-      : m_wind_speed(wind_speed),
-        m_distance_to_isotach(radius),
-        m_radius_to_max_winds(0.0),
-        m_holland_b(0.0),
-        m_gahm_b(0.0),
-        m_gahm_phi(0.0),
-        m_vortex_quad_10_tbl(0.0),
-        m_vortex_max_10_tbl(0.0),
-        m_vortex_quad_10_10(0.0),
-        m_vortex_max_10_10(0.0) {}
+      : m_wind_speed(wind_speed), m_distance_to_isotach(radius) {}
 
   [[nodiscard]] constexpr auto wind_speed() const -> double {
     return m_wind_speed;
@@ -56,36 +38,9 @@ class Isotach {
     return m_wind_speed == rhs.m_wind_speed;
   }
 
-  [[nodiscard]] constexpr auto radius_to_max_winds() const -> double {
-    return m_radius_to_max_winds;
-  }
-
-  [[nodiscard]] constexpr auto gahm_b() const -> double { return m_gahm_b; }
-
-  [[nodiscard]] constexpr auto gahm_phi() const -> double { return m_gahm_phi; }
-
-  [[nodiscard]] constexpr auto holland_b() const -> double {
-    return m_holland_b;
-  }
-
-  [[nodiscard]] constexpr auto vortex_quad_10_tbl() const -> double {
-    return m_vortex_quad_10_tbl;
-  }
-
-  [[nodiscard]] constexpr auto vortex_max_10_tbl() const -> double {
-    return m_vortex_max_10_tbl;
-  }
-
-  [[nodiscard]] constexpr auto vortex_quad_10_10() const -> double {
-    return m_vortex_quad_10_10;
-  }
-
-  [[nodiscard]] constexpr auto vortex_max_10_10() const -> double {
-    return m_vortex_max_10_10;
-  }
-
-  [[nodiscard]] constexpr auto unit_vector_tbl() const -> Types::Vec {
-    return m_unit_vector_tbl;
+  [[nodiscard]] constexpr auto gahm_parameters() const
+      -> const Gahm::Solver::GahmParamPack & {
+    return m_gahm_params;
   }
 
   void compute_gahm_parameters(const StormTranslation &translation,
@@ -97,15 +52,7 @@ class Isotach {
  private:
   double m_wind_speed;
   double m_distance_to_isotach;
-  double m_radius_to_max_winds;
-  double m_holland_b;
-  double m_gahm_b;
-  double m_gahm_phi;
-  double m_vortex_quad_10_tbl;
-  double m_vortex_max_10_tbl;
-  double m_vortex_quad_10_10;
-  double m_vortex_max_10_10;
-  Types::Vec m_unit_vector_tbl;
+  Gahm::Solver::GahmParamPack m_gahm_params;
 };
 
 }  // namespace Gahm::Storm

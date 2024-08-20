@@ -119,9 +119,10 @@ void AtcfPeriod::to_gnuplot(const std::string &filename) const {
       const auto end_angle = (quad.quadrant_code() + 1) * 90;
       file << "set object circle at " << eye_location().x() << ","
            << eye_location().y() << " size "
-           << 2 * isotach.radius_to_max_winds() / 111111.0 << " arc ["
-           << std::to_string(start_angle) << ":" << std::to_string(end_angle)
-           << "] lw 2 fc " << isotach_colors[isotach_counter] << " nowedge\n";
+           << 2 * isotach.gahm_parameters().radius_to_max_winds() / 111111.0
+           << " arc [" << std::to_string(start_angle) << ":"
+           << std::to_string(end_angle) << "] lw 2 fc "
+           << isotach_colors[isotach_counter] << " nowedge\n";
       file << "\n";
       ++isotach_counter;
     }
@@ -164,6 +165,24 @@ void AtcfPeriod::to_gnuplot(const std::string &filename) const {
     file << "set grid\n";
 
     size_t isotach_id = 0;
+
+    // Plot the v_max
+    std::for_each(
+        quad.isotachs().begin(), quad.isotachs().end(),
+        [&](const auto &isotach) {
+          auto r_max = isotach.gahm_parameters().radius_to_max_winds() / 1000.0;
+          auto v_max = isotach.gahm_parameters().vortex_max_10_10();
+          auto vmax_data_block = "$vmax_" +
+                                 std::to_string(quad.quadrant_code()) + "_" +
+                                 std::to_string(isotach_id);
+          file << vmax_data_block << "<< EOD\n";
+          file << r_max << " " << v_max << "\n";
+          file << "EOD\n";
+          file << "plot " << vmax_data_block << " with points lc rgb 'black' "
+               << "pt 6 ps 2\n";
+        });
+
+    isotach_id = 0;
     std::for_each(quad.isotachs().begin(), quad.isotachs().end(),
                   [&](const auto &isotach) {
                     // Plot a vertical line at the isotach radius between 0 and

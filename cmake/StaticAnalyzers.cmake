@@ -11,7 +11,7 @@ macro(gahm_enable_cppcheck WARNINGS_AS_ERRORS CPPCHECK_OPTIONS)
     if("${CPPCHECK_OPTIONS}" STREQUAL "")
       # Enable all warnings that are actionable by the user of this toolset
       # style should enable the other 3, but we'll be explicit just in case
-      set(SUPPRESS_DIR "*:${CMAKE_CURRENT_BINARY_DIR}/_deps/*.h")
+      set(SUPPRESS_DIR "*:${CMAKE_CURRENT_BINARY_DIR}/_deps/*")
       message(STATUS "CPPCHECK_OPTIONS suppress: ${SUPPRESS_DIR}")
       set(CMAKE_CXX_CPPCHECK
           ${CPPCHECK}

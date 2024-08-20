@@ -5,6 +5,11 @@
 #include "catch2/catch_test_macros.hpp"
 #include "physical/Constants.h"
 
+// NOLINTBEGIN(cppcoreguidelines-macro-usage,
+// cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
+// readability-function-cognitive-complexity, cert-err58-cpp,
+// readability-magic-numbers)
+
 using namespace Catch;
 
 TEST_CASE("Physical Constants", "[PhysicalConstants]") {
@@ -51,3 +56,8 @@ TEST_CASE("Physical Constants", "[PhysicalConstants]") {
             Approx(1.11111111111111111111));
   }
 }
+
+// NOLINTEND(cppcoreguidelines-macro-usage,
+// cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
+// readability-function-cognitive-complexity, cert-err58-cpp,
+// readability-magic-numbers)

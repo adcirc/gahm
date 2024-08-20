@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <numeric>
 #include <vector>
 
 #include "atcf/AtcfPeriod.h"
@@ -14,8 +15,7 @@
 #include "gahm/GahmSolution.h"
 #include "storm/Quadrant.h"
 
-namespace Gahm::Output::RadialProfile {
-
+namespace {
 /**
  * @brief Generate a vector of distances from the storm center
  * @param distance_start Starting distance from the storm center
@@ -36,6 +36,9 @@ auto generate_distance_vector(double distance_start, double distance_end,
       });
   return distance_pts;
 }
+}  // namespace
+
+namespace Gahm::Output::RadialProfile {
 
 /**
  * @brief Get the wind speed and pressure along a radial profile

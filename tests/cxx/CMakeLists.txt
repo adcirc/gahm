@@ -1,6 +1,8 @@
 # ##############################################################################
 # ...CXX TESTS
 # ##############################################################################
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/SystemLink.cmake)
+
 file(GLOB_RECURSE TestList ${CMAKE_CURRENT_SOURCE_DIR}/TEST_*.cpp)
 
 foreach(test ${TestList})
@@ -11,11 +13,11 @@ foreach(test ${TestList})
             COMMAND ${test_name}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 
-    target_include_directories(
-            ${test_name}
-            PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../src/libgahm ${catch2_SOURCE_DIR})
-
-    target_link_libraries(${test_name} PRIVATE Catch2::Catch2WithMain)
+    target_include_directories(${test_name} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../src/libgahm)
+    target_include_directories(${test_name} SYSTEM PUBLIC
+            ${CMAKE_CURRENT_BINARY_DIR}/../../_deps/catch2-src/src
+            ${CMAKE_CURRENT_BINARY_DIR}/../../_deps/catch2-build/generated-includes)
+    target_link_system_libraries(${test_name} PUBLIC Catch2WithMain)
     set_target_properties(
             ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
             ${CMAKE_CURRENT_BINARY_DIR}/tests)

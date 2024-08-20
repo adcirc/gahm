@@ -94,7 +94,8 @@ auto Gahm::Solver::GahmEquations::GahmFunctionDerivative(
     double radius_to_max_winds, double vmax_at_boundary_layer,
     double isotach_radius, double coriolis_force, double gahm_holland_b,
     double phi) -> double {
-  const auto f3 = std::pow(radius_to_max_winds / isotach_radius, gahm_holland_b);
+  const auto f3 =
+      std::pow(radius_to_max_winds / isotach_radius, gahm_holland_b);
   const auto f4 =
       std::pow(radius_to_max_winds / isotach_radius, gahm_holland_b - 1.0);
   const auto f1 = std::exp(-phi * (f3 - 1));
@@ -110,8 +111,8 @@ auto Gahm::Solver::GahmEquations::GahmFunctionDerivative(
   const auto d =
       2.0 *
       std::sqrt(
-          (coriolis_force * coriolis_force * isotach_radius * isotach_radius) /
-              4.0 +
+          ((coriolis_force * coriolis_force * isotach_radius * isotach_radius) /
+           4.0) +
           (vmax_at_boundary_layer * vmax_at_boundary_layer * f1 * f2 * f3));
   return (a + b - c) / d;
 }

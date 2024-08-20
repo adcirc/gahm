@@ -15,6 +15,7 @@
 #include "physical/Atmospheric.h"
 #include "physical/Constants.h"
 #include "storm/Quadrant.h"
+#include "storm/StormTranslation.h"
 #include "util/Interpolation.h"
 
 namespace Gahm::Solver::Solution {
@@ -83,21 +84,23 @@ constexpr auto get_isotach_params(
     const std::vector<Storm::Isotach>::const_iterator &isotach_upper,
     double isotach_ratio) -> IsotachParams {
   const auto r_max = Gahm::Util::Interpolation::linear(
-      isotach_lower->radius_to_max_winds(),
-      isotach_upper->radius_to_max_winds(), isotach_ratio);
+      isotach_lower->gahm_parameters().radius_to_max_winds(),
+      isotach_upper->gahm_parameters().radius_to_max_winds(), isotach_ratio);
   const auto v_max = Gahm::Util::Interpolation::linear(
-      isotach_lower->vortex_max_10_tbl(), isotach_upper->vortex_max_10_tbl(),
-      isotach_ratio);
+      isotach_lower->gahm_parameters().vortex_max_10_tbl(),
+      isotach_upper->gahm_parameters().vortex_max_10_tbl(), isotach_ratio);
   const auto v_max_10_10 = Gahm::Util::Interpolation::linear(
-      isotach_lower->vortex_max_10_10(), isotach_upper->vortex_max_10_10(),
-      isotach_ratio);
+      isotach_lower->gahm_parameters().vortex_max_10_10(),
+      isotach_upper->gahm_parameters().vortex_max_10_10(), isotach_ratio);
   const auto gahm_b = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_b(), isotach_upper->gahm_b(), isotach_ratio);
+      isotach_lower->gahm_parameters().gahm_b(),
+      isotach_upper->gahm_parameters().gahm_b(), isotach_ratio);
   const auto gahm_phi = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_phi(), isotach_upper->gahm_phi(), isotach_ratio);
+      isotach_lower->gahm_parameters().gahm_phi(),
+      isotach_upper->gahm_parameters().gahm_phi(), isotach_ratio);
   const auto unit_vector = Gahm::Util::Interpolation::linear(
-      isotach_lower->unit_vector_tbl(), isotach_upper->unit_vector_tbl(),
-      isotach_ratio);
+      isotach_lower->gahm_parameters().unit_vector_tbl(),
+      isotach_upper->gahm_parameters().unit_vector_tbl(), isotach_ratio);
 
   return IsotachParams{.radius_to_max_winds = r_max,
                        .vortex_max_10_tbl = v_max,
@@ -126,6 +129,85 @@ auto get_solution_parameters(const GahmInputParams &input,
 }
 
 /**
+ * @brief Add the turning angle and background velocity to the wind vector
+ * @param input Input parameters for the solver
+ * @param storm_params Isotach parameters passed to the solver
+ * @param wind_speed_10_10 Wind speed at 10m
+ * @return Wind vector at 10m with the turning angle and background wind speed
+ * added
+ */
+auto add_turning_angle_to_wind_vector(
+    const GahmInputParams &input, const IsotachParams &storm_params,
+    const double wind_speed_10_10) -> Types::Vec {
+  // Generate the rotation matrix based on the calculated turning angle
+  const auto turning_angle_matrix = Types::RotationMatrix(
+      -Physical::Atmospheric::turning_angle(input.distance,
+                                            storm_params.radius_to_max_winds),
+      input.eye_location.y());
+
+  const auto v_vor_quad_uv = Types::Vec::matmul_22_21(
+      turning_angle_matrix.data(), storm_params.unit_vector_tbl);
+  const auto v_vor_rad_prof_10_10 = v_vor_quad_uv * wind_speed_10_10;
+
+  return v_vor_rad_prof_10_10;
+}
+
+/**
+ * @brief Add the background velocity vector to the wind vector
+ * @param vel_10_10 Wind vector at 10m with the turning angle added
+ * @param v_max_10_10 Maximum wind speed at 10m
+ * @param translation Storm translation object
+ * @return Wind vector at 10m with the turning angle and background wind speed
+ */
+auto add_background_velocity_to_wind_vector(
+    const Types::Vec &vel_10_10, const double v_max_10_10,
+    const Storm::StormTranslation &translation) -> Types::Vec {
+  const auto s_env_ratio = vel_10_10.magnitude() / v_max_10_10;
+  const auto v_env_10_10 = translation.velocity() * s_env_ratio;
+
+  return vel_10_10 + v_env_10_10;
+}
+
+/**
+ * @brief Limit the quadrant profile wind speed
+ *
+ * The turning angle can cause the profile velocity to exceed the specified
+ * Vmax when adjusted for the radial position around the storm and the
+ * environmental velocity. Cap the profile velocity in this situation.
+ *
+ * @param input Input parameters for the solver
+ * @param storm_params Isotach parameters passed to the solver
+ * @param vel_10_10 velocity at 10m with the turning angle and background wind
+ * speed added
+ * @return Wind vector at 10m with the turning angle and background wind speed
+ * added
+ */
+auto limit_quadrant_profile_wind_speed(
+    const GahmInputParams &input, const IsotachParams &storm_params,
+    const Types::Vec &vel_10_10) -> Types::Vec {
+  const auto v_vor_max_10_10 =
+      (Types::Vec::matmul_22_21(
+           Types::RotationMatrix(-10 * Physical::Constants::deg2rad(),
+                                 input.eye_location.y())
+               .data(),
+           storm_params.unit_vector_tbl) *
+       storm_params.vortex_max_10_10);
+  const auto v_max_10_10_rp = v_vor_max_10_10 + input.translation.velocity();
+  const auto s_max_10_10_rp = v_max_10_10_rp.magnitude();
+  const auto s_vel_10_10 = vel_10_10.magnitude();
+
+  // Scaling factor for the wind speed
+  const auto s_ratio = [&]() {
+    if (s_vel_10_10 > s_max_10_10_rp) {
+      return (s_max_10_10_rp / s_vel_10_10);
+    }
+    return 1.0;
+  }();
+
+  return vel_10_10 * s_ratio;
+}
+
+/**
  * @brief Transform the wind vector from the top of the boundary layer to 10m
  * and adjust for the background wind speed
  * @param input Input parameters for the solver
@@ -140,38 +222,16 @@ auto transform_wind_vector(const GahmInputParams &input,
   auto wind_speed_10_10 =
       wind_speed_tbl * Physical::Constants::topOfBoundaryLayerToTenMeter();
 
-  // Generate the rotation matrix based on the calculated turning angle
-  const auto turning_angle_matrix = Types::RotationMatrix(
-      -Physical::Atmospheric::turning_angle(input.distance,
-                                            storm_params.radius_to_max_winds),
-      input.eye_location.y());
+  // Add the turning angle to the wind vector
+  const auto vel_10_10 =
+      add_turning_angle_to_wind_vector(input, storm_params, wind_speed_10_10);
 
-  auto v_vor_quad_uv = Types::Vec::matmul_22_21(turning_angle_matrix.data(),
-                                                storm_params.unit_vector_tbl);
-  auto v_vor_rad_prof_10_10 = v_vor_quad_uv * wind_speed_10_10;
-  auto s_env_ratio = wind_speed_10_10 / storm_params.vortex_max_10_10;
-  auto v_env_10_10 = input.translation.velocity() * s_env_ratio;
-  auto vel_10_10 = v_vor_rad_prof_10_10 + v_env_10_10;
-  auto s_vel_10_10 = vel_10_10.magnitude();
+  // Add the background velocity to the wind vector
+  const auto vel_10_10_env = add_background_velocity_to_wind_vector(
+      vel_10_10, storm_params.vortex_max_10_10, input.translation);
 
-  // Adjust the wind vector for the storm speed
-  const auto v_vor_max_10_10 =
-      (Types::Vec::matmul_22_21(
-           Types::RotationMatrix(-10, input.eye_location.y()).data(),
-           storm_params.unit_vector_tbl) *
-       storm_params.vortex_max_10_10);
-  const auto v_max_10_10_rp = v_vor_max_10_10 + input.translation.velocity();
-  const auto s_max_10_10_rp = v_max_10_10_rp.magnitude();
-
-  const auto s_ratio = [&]() {
-    if (s_vel_10_10 > s_max_10_10_rp) {
-      return 1.0;
-      return s_max_10_10_rp / s_vel_10_10;
-    }
-    return 1.0;
-  }();
-
-  return vel_10_10 * s_ratio;
+  // Limit the wind speed if necessary
+  return limit_quadrant_profile_wind_speed(input, storm_params, vel_10_10_env);
 }
 
 }  // namespace

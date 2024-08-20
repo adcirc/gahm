@@ -7,7 +7,6 @@
 #include <algorithm>
 #include <array>
 #include <cmath>
-#include <cstdlib>
 #include <iostream>
 #include <optional>
 #include <tuple>
@@ -20,41 +19,7 @@
 #include "physical/Constants.h"
 #include "storm/StormTranslation.h"
 
-// Forward declarations
-namespace Gahm::Solver::detail {
-auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
-                             const Gahm::Types::Point& eye_location,
-                             const Gahm::Types::Vec& unit_vector,
-                             double central_pressure,
-                             double background_pressure, double v_max,
-                             double isotach_speed,
-                             double isotach_radius) -> GahmParamPack;
-}  // namespace Gahm::Solver::detail
-
-/**
- * @brief Construct a new Gahm Parameters object and solve the GAHM equations
- *
- * @param translation Storm translation object
- * @param eye_location Eye location
- * @param unit_vector Unit vector for the quadrant
- * @param central_pressure Storm central pressure
- * @param background_pressure Storm background pressure
- * @param v_max Maximum wind speed
- * @param isotach_speed Isotach speed
- * @param isotach_radius Isotach radius
- */
-auto Gahm::Solver::GahmParameters(
-    const Gahm::Storm::StormTranslation& translation,
-    const Gahm::Types::Point& eye_location, const Gahm::Types::Vec& unit_vector,
-    double central_pressure, double background_pressure, double v_max,
-    double isotach_speed,
-    double isotach_radius) -> Gahm::Solver::GahmParamPack {
-  return detail::compute_gahm_parameters(translation, eye_location, unit_vector,
-                                         central_pressure, background_pressure,
-                                         v_max, isotach_speed, isotach_radius);
-}
-
-namespace Gahm::Solver::detail {
+namespace {
 /**
  * @brief Simple quadratic solver
  *
@@ -67,23 +32,21 @@ namespace Gahm::Solver::detail {
  * @param c_coef C coefficient
  * @return Optional array of solutions
  */
-constexpr auto quadratic(double a_coef, double b_coef, double c_coef)
-    -> std::optional<std::array<double, 2>> {
+constexpr auto quadratic(double a_coef, double b_coef,
+                         double c_coef) -> double {
   const auto disc = b_coef * b_coef - 4 * a_coef * c_coef;
-  if (disc < 0) {
-    return std::nullopt;
-  }
+  //  if (disc < 0) {
+  //    return std::nullopt;
+  //  }
   const auto disc_sqrt = std::sqrt(disc);
   const auto sln_a = (-b_coef + disc_sqrt) / (2 * a_coef);
-  const auto sln_b = (-b_coef - disc_sqrt) / (2 * a_coef);
-  return std::make_optional(std::array<double, 2>{sln_a, sln_b});
+  //  const auto sln_b = (-b_coef - disc_sqrt) / (2 * a_coef);
+  return sln_a;
 }
 
 /**
- * @brief Limit the quadrant wind speed
- *
- * Limits the quadrant wind speed when it exceeds the maximum allowable wind
- * speed based on the background speed (i.e. the storm translation)
+ * @brief Updates the quadrant v_max so that it is always greater than the
+ * isotach speed
  *
  * @param v_max Maximum wind speed
  * @param quadrant_wind_speed Quadrant wind speed
@@ -91,45 +54,17 @@ constexpr auto quadratic(double a_coef, double b_coef, double c_coef)
  * @param translation Storm translation object
  * @return Limited wind speed
  */
-auto limit_quadrant_vmax(double v_max, double quadrant_wind_speed,
-                         const Gahm::Types::Vec& quadrant_unit_vector,
-                         const Gahm::Storm::StormTranslation& translation)
-    -> double {
+auto compute_new_quadrant_vmax(
+    double quadrant_wind_speed, const Gahm::Types::Vec& quadrant_unit_vector,
+    const Gahm::Storm::StormTranslation& translation) -> double {
   constexpr double acoef = 1.0;
   const double bcoef =
       2.0 * translation.speed() *
       (quadrant_unit_vector.u() * translation.unit_vector().u() +
        quadrant_unit_vector.v() * translation.unit_vector().v());
-  const double ccoef = translation.speed() * translation.speed() -
-                       quadrant_wind_speed * quadrant_wind_speed;
-  const auto sln = quadratic(acoef, bcoef, ccoef);
-
-  if (sln.has_value()) {
-    const auto a_diff = std::max(0.0, sln.value()[0] - v_max);
-    const auto b_diff = std::max(0.0, sln.value()[1] - v_max);
-
-    if (a_diff == 0 && b_diff == 0) {
-      std::cerr << "[ERROR]: Failed to limit quadrant wind speed\n";
-      std::cerr << "[ERROR]: Quadrant wind speed: " << quadrant_wind_speed;
-      std::cerr << "[ERROR]: Quadrant unit vector: " << quadrant_unit_vector;
-      std::cerr << "[ERROR]: " << translation;
-      std::cerr << "[ERROR]: Solutions: " << sln.value()[0] << ", "
-                << sln.value()[1] << '\n';
-      std::cerr << "[ERROR]: Diff: A: " << sln.value()[0] - v_max
-                << ", B: " << sln.value()[1] - v_max << '\n';
-      return quadrant_wind_speed;
-    } else if (a_diff == 0.0) {
-      return sln.value()[1];
-    } else if (b_diff == 0.0) {
-      return sln.value()[0];
-    } else {
-      return std::min(a_diff, b_diff) + v_max;
-    }
-
-  } else {
-    std::cerr << "[ERROR]: Failed to solve quadratic for isotach wind speed\n";
-    return quadrant_wind_speed;
-  }
+  const double ccoef = (translation.speed() * translation.speed()) -
+                       (quadrant_wind_speed * quadrant_wind_speed);
+  return quadratic(acoef, bcoef, ccoef);
 }
 
 /**
@@ -155,9 +90,9 @@ auto check_quadrant_vmax(double v_max, double quadrant_wind_speed,
       std::hypot(v_max_vector.u() + translation.velocity().u(),
                  v_max_vector.v() + translation.velocity().v());
   return quadrant_wind_speed > max_allowable_vmax
-             ? std::make_tuple(
-                   true, limit_quadrant_vmax(v_max, quadrant_wind_speed,
-                                             quadrant_unit_vector, translation))
+             ? std::make_tuple(true, compute_new_quadrant_vmax(
+                                         quadrant_wind_speed,
+                                         quadrant_unit_vector, translation))
              : std::make_tuple(false, v_max);
 }
 
@@ -171,11 +106,10 @@ auto check_quadrant_vmax(double v_max, double quadrant_wind_speed,
 auto generate_translation_obj(const Gahm::Storm::StormTranslation& translation,
                               const double v_max_10_10)
     -> Gahm::Storm::StormTranslation {
-  if (translation.speed() > v_max_10_10 / 2.0) {
-    return {v_max_10_10 / 2.0, translation.direction()};
-  } else {
-    return translation;
-  }
+  return translation.speed() > v_max_10_10 / 2.0
+             ? Gahm::Storm::StormTranslation(v_max_10_10 / 2.0,
+                                             translation.direction())
+             : translation;
 }
 
 /**
@@ -190,21 +124,16 @@ auto generate_translation_obj(const Gahm::Storm::StormTranslation& translation,
  * @param isotach_speed Isotach speed
  * @param isotach_radius Isotach radius
  */
-auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
-                             const Gahm::Types::Point& eye_location,
-                             const Gahm::Types::Vec& unit_vector,
-                             double central_pressure,
-                             double background_pressure, double v_max,
-                             double isotach_speed,
-                             double isotach_radius) -> GahmParamPack {
+auto compute_gahm_parameters(
+    const Gahm::Storm::StormTranslation& translation,
+    const Gahm::Types::Point& eye_location, const Gahm::Types::Vec& unit_vector,
+    double central_pressure, double background_pressure, double v_max,
+    double isotach_speed,
+    double isotach_radius) -> Gahm::Solver::GahmParamPack {
   const auto v_max_10_10 =
       v_max * Gahm::Physical::Constants::oneMinuteToTenMinuteWind();
 
   const auto v_max_10_10_nominal = v_max_10_10 - translation.speed();
-
-  //  const auto v_max_10_10_theta =
-  //      std::atan2(translation.velocity().v(), translation.velocity().u()) -
-  //      Gahm::Physical::Constants::halfPi();
 
   const auto v_isotach_10_10 =
       isotach_speed * Gahm::Physical::Constants::oneMinuteToTenMinuteWind();
@@ -227,7 +156,7 @@ auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
         -25.0 * Gahm::Physical::Constants::deg2rad(), eye_location.y());
     quadrant_vector_10 = Gahm::Types::Vec::matmul_22_21(
         rotation_matrix_ccw25.data(), unit_vector);
-  }
+  };
 
   const auto v_vortex_max_10_tbl =
       v_vortex_max_10_10 *
@@ -236,6 +165,7 @@ auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
       v_isotach_10_10 /
       (quadrant_vector_10 + translation.velocity() / v_vortex_max_10_10)
           .magnitude();
+
   const auto vortex_quad_10_tbl =
       vortex_quad_10_10 *
       Gahm::Physical::Constants::tenMeterToTopOfBoundaryLayer();
@@ -251,7 +181,31 @@ auto compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
 
   return {solver.rmax(),     solver.gahm_b(),    solver.phi(),
           holland_b,         vortex_quad_10_tbl, v_vortex_max_10_tbl,
-          vortex_quad_10_10, v_vortex_max_10_10, unit_vector};
+          vortex_quad_10_10, v_vortex_max_10_10, unit_vector,
+          is_limited};
 }
 
-}  // namespace Gahm::Solver::detail
+}  // namespace
+
+/**
+ * @brief Construct a new Gahm Parameters object and solve the GAHM equations
+ *
+ * @param translation Storm translation object
+ * @param eye_location Eye location
+ * @param unit_vector Unit vector for the quadrant
+ * @param central_pressure Storm central pressure
+ * @param background_pressure Storm background pressure
+ * @param v_max Maximum wind speed
+ * @param isotach_speed Isotach speed
+ * @param isotach_radius Isotach radius
+ */
+auto Gahm::Solver::GahmParameters(
+    const Gahm::Storm::StormTranslation& translation,
+    const Gahm::Types::Point& eye_location, const Gahm::Types::Vec& unit_vector,
+    double central_pressure, double background_pressure, double v_max,
+    double isotach_speed,
+    double isotach_radius) -> Gahm::Solver::GahmParamPack {
+  return compute_gahm_parameters(translation, eye_location, unit_vector,
+                                 central_pressure, background_pressure, v_max,
+                                 isotach_speed, isotach_radius);
+}

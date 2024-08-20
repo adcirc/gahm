@@ -9,6 +9,11 @@
 #include "datatypes/Datetime.h"
 #include "util/ioutils.h"
 
+// NOLINTBEGIN(cppcoreguidelines-macro-usage,
+// cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
+// readability-function-cognitive-complexity, cert-err58-cpp,
+// readability-magic-numbers)
+
 TEST_CASE("Date", "[date]") {
   const std::string date1 = "2024010406";
   int hours = 0;
@@ -103,3 +108,8 @@ TEST_CASE("Split String", "[split_string]") {
   REQUIRE(split4[9] == "9");
   REQUIRE(split4[10] == "10");
 }
+
+// NOLINTEND(cppcoreguidelines-macro-usage,
+// cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
+// readability-function-cognitive-complexity, cert-err58-cpp,
+// readability-magic-numbers)

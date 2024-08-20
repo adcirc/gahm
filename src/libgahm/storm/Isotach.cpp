@@ -18,18 +18,9 @@ void Isotach::compute_gahm_parameters(
     const Gahm::Storm::StormTranslation &translation,
     const Types::Point &eye_location, const Types::Vec &unit_vector,
     double central_pressure, double background_pressure, double v_max) {
-  auto params = Gahm::Solver::GahmParameters(
+  m_gahm_params = Gahm::Solver::GahmParameters(
       translation, eye_location, unit_vector, central_pressure,
       background_pressure, v_max, m_wind_speed, m_distance_to_isotach);
-  m_radius_to_max_winds = params.radius_to_max_winds;
-  m_gahm_b = params.gahm_b;
-  m_gahm_phi = params.gahm_phi;
-  m_holland_b = params.holland_b;
-  m_vortex_quad_10_tbl = params.vortex_quad_10_tbl;
-  m_vortex_max_10_tbl = params.vortex_max_10_tbl;
-  m_vortex_quad_10_10 = params.vortex_quad_10_10;
-  m_vortex_max_10_10 = params.vortex_max_10_10;
-  m_unit_vector_tbl = params.unit_vector;
 }
 
 }  // namespace Gahm::Storm
@@ -44,10 +35,11 @@ auto operator<<(std::ostream &stream,
          << isotach.wind_speed() * ms2kt << " knots)"
          << ", Radius=" << isotach.radius() << " (" << isotach.radius() * m2nmi
          << " nmi)"
-         << ", Radius to Max Winds=" << isotach.radius_to_max_winds()
-         << ", Gahm B=" << isotach.gahm_b()
-         << ", Gahm Phi=" << isotach.gahm_phi()
-         << ", Holland B=" << isotach.holland_b();
+         << ", Radius to Max Winds="
+         << isotach.gahm_parameters().radius_to_max_winds()
+         << ", Gahm B=" << isotach.gahm_parameters().gahm_b()
+         << ", Gahm Phi=" << isotach.gahm_parameters().gahm_phi()
+         << ", Holland B=" << isotach.gahm_parameters().holland_b();
 
   return stream;
 }

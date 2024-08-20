@@ -4,6 +4,7 @@
 
 #include "gahm/GahmRadiusSolverPrivate.h"
 
+#include <tuple>
 #include <utility>
 
 #include "gahm/GahmEquations.h"
@@ -24,10 +25,10 @@ GahmRadiusSolverPrivate::GahmRadiusSolverPrivate(double isotachRadius,
  * Function to computeRadiusToMaxWind the Vg function and first derivative for
  * the Newton-Raphson solver
  * @param rmax radius to max winds to computeRadiusToMaxWind at
- * @return std::pair containing the solution to Vg and Vg'
+ * @return std::tuple containing the solution to Vg and Vg'
  */
 auto GahmRadiusSolverPrivate::operator()(const double radius_to_max_winds) const
-    -> std::pair<double, double> {
+    -> std::tuple<double, double> {
   const double f_result =
       GahmRadiusSolverPrivate::f(radius_to_max_winds, m_vmax, m_isotachSpeed,
                                  m_isotachRadius, m_f_coriolis, m_gahm_b);

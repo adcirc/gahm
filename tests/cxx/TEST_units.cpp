@@ -3,9 +3,14 @@
 //
 #include <cmath>
 
-#include "physical/Units.h"
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
+#include "physical/Units.h"
+
+// NOLINTBEGIN(cppcoreguidelines-macro-usage,
+// cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
+// readability-function-cognitive-complexity, cert-err58-cpp,
+// readability-magic-numbers)
 
 using namespace Catch;
 
@@ -73,3 +78,8 @@ TEST_CASE("Unit Conversions", "[Unit Conversions]") {
             Approx(1.0));
   }
 }
+
+// NOLINTEND(cppcoreguidelines-macro-usage,
+// cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
+// readability-function-cognitive-complexity, cert-err58-cpp,
+// readability-magic-numbers)

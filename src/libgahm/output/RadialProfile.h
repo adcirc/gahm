@@ -9,24 +9,21 @@
 
 #include "atcf/AtcfPeriod.h"
 #include "datatypes/QuadCode.h"
+#include "datatypes/Vec.h"
 #include "gahm/GahmSolution.h"
 #include "storm/Quadrant.h"
 
 namespace Gahm::Output::RadialProfile {
 
 struct ProfilePoint {
-  double distance;
-  double pressure;
+  double distance{};
+  double pressure{};
   Types::Vec wind_vector;
 };
 
 struct Profile {
-  std::vector<ProfilePoint> data;
+  std::vector<ProfilePoint> data{};
 };
-
-[[nodiscard]] auto generate_distance_vector(
-    double distance_start, double distance_end,
-    double distance_step) -> std::vector<double>;
 
 [[nodiscard]] auto get_profile(const Atcf::AtcfPeriod& period,
                                Types::QuadCode::QuadrantCode quadrant_code,

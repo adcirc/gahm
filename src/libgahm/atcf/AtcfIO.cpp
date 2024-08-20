@@ -48,7 +48,6 @@ auto Gahm::Atcf::AtcfIO::transpose_to_quadrants(
   }
 
   // Isotachs are always organized as 34, 50, and 64 kt winds
-
   constexpr auto kt2ms = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::Knot, Gahm::Physical::Units::MetersPerSecond);
 
