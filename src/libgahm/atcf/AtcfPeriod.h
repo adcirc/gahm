@@ -89,8 +89,6 @@ class AtcfPeriod {
 
   void compute_gahm_parameters();
 
-  void to_gnuplot(const std::string &filename) const;
-
  private:
   Types::Datetime m_datetime;    // Datetime of the period
   double m_central_pressure;     // Central pressure in millibars

@@ -29,6 +29,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+set(CMAKE_NINJA_FORCE_RESPONSE_FILE "ON" CACHE BOOL "Force Ninja to use response files.")
+mark_as_advanced(CMAKE_NINJA_FORCE_RESPONSE_FILE)
+
 # Check for C++20 support
 include(CheckCXXCompilerFlag)
 check_cxx_compiler_flag("-std=c++20" COMPILER_SUPPORTS_CXX20)
@@ -51,6 +54,12 @@ add_library(gahm::gahm_warnings ALIAS gahm_warnings)
 
 # ##############################################################################
 # Set Up the Dependencies
+option(gahm_ENABLE_PLOTTING "Enable plotting with VTK" OFF)
+if(NOT DEFINED gahm_BUILD_TESTS AND gahm_MAINTAINER_MODE)
+  option(gahm_BUILD_TESTS "Build all tests." ON)
+else()
+  option(gahm_BUILD_TESTS "Build all tests." OFF)
+endif()
 include(cmake/Dependencies.cmake)
 gahm_setup_dependencies()
 # ##############################################################################

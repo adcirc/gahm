@@ -197,12 +197,8 @@ auto limit_quadrant_profile_wind_speed(
   const auto s_vel_10_10 = vel_10_10.magnitude();
 
   // Scaling factor for the wind speed
-  const auto s_ratio = [&]() {
-    if (s_vel_10_10 > s_max_10_10_rp) {
-      return (s_max_10_10_rp / s_vel_10_10);
-    }
-    return 1.0;
-  }();
+  const auto s_ratio =
+      s_vel_10_10 > s_max_10_10_rp ? s_max_10_10_rp / s_vel_10_10 : 1.0;
 
   return vel_10_10 * s_ratio;
 }

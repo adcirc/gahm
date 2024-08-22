@@ -18,55 +18,26 @@ macro(gahm_setup_dependencies)
   # ##################################################################################################################
   # Boost @ 1.86.0
   # ##################################################################################################################
-  set(TRY_BOOST_VERSION "1.86.0")
-  set(BOOST_INCLUDE_LIBRARIES "math;algorithm;date_time")
-  set(BOOST_URL
-          "https://github.com/boostorg/boost/releases/download/boost-${TRY_BOOST_VERSION}/boost-${TRY_BOOST_VERSION}-cmake.tar.xz"
-  )
-  CPMAddPackage(
-          NAME Boost
-          VERSION ${TRY_BOOST_VERSION}
-          URL ${BOOST_URL}
-          OPTIONS "BOOST_SKIP_INSTALL_RULES OFF"
-  )
+  find_package(Boost 1.50.0 REQUIRED)
 
-  # Mark the BOOST_* variables as advanced
-  mark_as_advanced_wildcard("BOOST_")
-
-  # Do not use CPPCHECK on Boost
-  set_target_properties(boost_container PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
-  set_target_properties(boost_random PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
-  set_target_properties(boost_date_time PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
-  set_target_properties(boost_algorithm PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
-  set_target_properties(boost_math PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
 
   # ##################################################################################################################
-  # Quill @ 6.1.2
+  # Vtk
   # ##################################################################################################################
-  CPMAddPackage(
-          NAME Quill
-          VERSION 6.1.2
-          GITHUB_REPOSITORY odygrd/quill
-          GIT_TAG v6.1.2
-  )
-  mark_as_advanced_wildcard("QUILL_")
-
-  # ##################################################################################################################
-  # Matplot++ @ 1.2.1
-  # ##################################################################################################################
-  if(GAHM_ENABLE_PLOTTING)
-    CPMAddPackage(
-            NAME matplotplusplus
-            VERSION 1.2.1
-            GITHUB_REPOSITORY alandefreitas/matplotplusplus
-            GIT_TAG v1.2.1
+  if(gahm_ENABLE_PLOTTING)
+    find_package(VTK REQUIRED ChartsCore
+            CommonColor
+            CommonCore
+            CommonDataModel
+            InteractionStyle
+            RenderingContextOpenGL2
+            RenderingCore
+            RenderingFreeType
+            RenderingGL2PSOpenGL2
+            RenderingOpenGL2
+            ViewsContext2D
+            QUIET
     )
-
-    # Mark the MATPLOTPLUSPLUS_* variables as advanced
-    mark_as_advanced_wildcard("MATPLOTPP_")
-    mark_as_advanced_wildcard("OPENCV_")
-    mark_as_advanced_wildcard("OpenCV_")
-    mark_as_advanced("Tiff_DIR")
   endif()
 
   # ##################################################################################################################

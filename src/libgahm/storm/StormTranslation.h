@@ -37,8 +37,11 @@ class StormTranslation {
 
   StormTranslation(Types::Point point_0, Types::Point point_1,
                    double time_delta)
-      : m_translation_speed(std::abs(
-            Gahm::Physical::Earth::distance(point_0, point_1) / time_delta)),
+      : m_translation_speed(1.5 *
+                            std::pow(std::abs(Gahm::Physical::Earth::distance(
+                                                  point_0, point_1) /
+                                              time_delta),
+                                     0.63)),
         m_translation_direction(
             std::fmod(Gahm::Physical::Constants::twoPi() -
                           Gahm::Physical::Earth::azimuth(point_0, point_1) +
