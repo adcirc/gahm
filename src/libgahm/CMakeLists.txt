@@ -20,6 +20,7 @@ set(GAHM_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/gahm/GahmSolver.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/gahm/GahmSolution.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/output/RadialProfile.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/output/PointOutput.cpp
 )
 
 if(gahm_ENABLE_PLOTTING)

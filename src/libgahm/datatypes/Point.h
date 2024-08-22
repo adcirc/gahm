@@ -51,6 +51,24 @@ class Point {
    */
   void setY(double y_location) { m_y = y_location; }
 
+  /**
+   * @brief Equality operator
+   * @param other Point to compare
+   * @return true if the points are equal, false otherwise
+   */
+  [[nodiscard]] auto operator==(const Point &other) const -> bool {
+    return m_x == other.m_x && m_y == other.m_y;
+  }
+
+  /**
+   * @brief Inequality operator
+   * @param other Point to compare
+   * @return true if the points are not equal, false otherwise
+   */
+  [[nodiscard]] auto operator!=(const Point &other) const -> bool {
+    return !(*this == other);
+  }
+
  private:
   double m_x;
   double m_y;

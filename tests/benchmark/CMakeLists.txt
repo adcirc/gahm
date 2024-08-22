@@ -1,0 +1,6 @@
+include(${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/SystemLink.cmake)
+add_executable(gahm_benchmark benchmark_gahm.cpp)
+target_include_directories(gahm_benchmark PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../../src/libgahm)
+target_link_system_libraries(gahm_benchmark PRIVATE benchmark::benchmark)
+target_link_libraries(gahm_benchmark PRIVATE gahm_objects)
+add_dependencies(gahm_benchmark gahm_objects)

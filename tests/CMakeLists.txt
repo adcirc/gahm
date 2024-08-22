@@ -5,3 +5,10 @@ if(gahm_BUILD_TESTS)
     enable_testing()
     add_subdirectory(cxx)
 endif()
+
+# ##############################################################################
+# Benchmarks
+# ##############################################################################
+if(gahm_ENABLE_BENCHMARKS)
+    add_subdirectory(benchmark)
+endif()

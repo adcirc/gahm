@@ -5,15 +5,19 @@
 #include "GahmSolution.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <iterator>
 #include <tuple>
 #include <vector>
 
+#include "datatypes/Point.h"
 #include "datatypes/RotationMatrix.h"
 #include "datatypes/Vec.h"
 #include "gahm/GahmEquations.h"
 #include "physical/Atmospheric.h"
 #include "physical/Constants.h"
+#include "physical/Earth.h"
 #include "storm/Quadrant.h"
 #include "storm/StormTranslation.h"
 #include "util/Interpolation.h"
@@ -24,13 +28,6 @@ namespace {
 /**
  * @brief Find the isotachs that bound the distance
  *
- * Let's do this (below), but with standard algorithms
- *   auto isotach_lower = quadrant.valid_isotachs().begin();
- *   auto isotach_upper = std::next(isotach_lower);
- *   while (isotach_upper->radius() > distance) {
- *     isotach_lower = isotach_upper;
- *     isotach_upper++;
- *   }
  * The isotachs are arranged from the fastest isotach to the slowest, so
  * we will look for something like this:
  *  64        50        35
@@ -79,7 +76,7 @@ struct IsotachParams {
   Types::Vec unit_vector_tbl;
 };
 
-constexpr auto get_isotach_params(
+auto get_isotach_params(
     const std::vector<Storm::Isotach>::const_iterator &isotach_lower,
     const std::vector<Storm::Isotach>::const_iterator &isotach_upper,
     double isotach_ratio) -> IsotachParams {
@@ -110,40 +107,105 @@ constexpr auto get_isotach_params(
                        .unit_vector_tbl = unit_vector};
 }
 
+constexpr auto select_quadrant(const std::array<Storm::Quadrant, 4> &quadrants,
+                               double angle)
+    -> std::tuple<const Storm::Quadrant &, const Storm::Quadrant &, double> {
+  constexpr double deg2rad = Physical::Constants::deg2rad();
+  constexpr double angle_45 = 45.0 * deg2rad;
+  constexpr double angle_135 = 135.0 * deg2rad;
+  constexpr double angle_225 = 225.0 * deg2rad;
+  constexpr double angle_315 = 315.0 * deg2rad;
+
+  if (angle < angle_45) {
+    return {quadrants[0], quadrants[1], angle_45 + angle};
+  } else if (angle <= angle_135) {
+    return {quadrants[1], quadrants[2], angle - angle_45};
+  } else if (angle <= angle_225) {
+    return {quadrants[2], quadrants[3], angle - angle_135};
+  } else if (angle <= angle_315) {
+    return {quadrants[3], quadrants[0], angle - angle_225};
+  } else {
+    return {quadrants[0], quadrants[1], angle - angle_315};
+  }
+}
+
+auto interpolate_storm_params(const IsotachParams &p1, const IsotachParams &p2,
+                              double angle) -> IsotachParams {
+  constexpr double angle_90 = 90.0 * Physical::Constants::deg2rad();
+  const double nd0 = 1.0 / std::pow(angle, 2.0);
+  const double nd1 = 1.0 / std::pow(angle_90 - angle, 2.0);
+  const double den = 1.0 / (nd0 + nd1);
+
+  return IsotachParams{
+      .radius_to_max_winds =
+          (p1.radius_to_max_winds * nd0 + p2.radius_to_max_winds * nd1) * den,
+      .vortex_max_10_tbl =
+          (p1.vortex_max_10_tbl * nd0 + p2.vortex_max_10_tbl * nd1) * den,
+      .vortex_max_10_10 =
+          (p1.vortex_max_10_10 * nd0 + p2.vortex_max_10_10 * nd1) * den,
+      .gahm_b = (p1.gahm_b * nd0 + p2.gahm_b * nd1) * den,
+      .gahm_phi = (p1.gahm_phi * nd0 + p2.gahm_phi * nd1) * den,
+      .unit_vector_tbl =
+          (p1.unit_vector_tbl * nd0 + p2.unit_vector_tbl * nd1) * den};
+}
+
 /**
  * @brief Get the solution parameters for the GAHM equations
  * @param input Input parameters for the solver
  * @param storm_params Isotach parameters passed to the solver
+ * @param distance Distance from the storm center
  * @return Tuple containing the wind speed and pressure
  */
-auto get_solution_parameters(const GahmInputParams &input,
-                             const IsotachParams &storm_params)
-    -> std::tuple<double, double> {
+auto get_solution_parameters(const GahmInputParamsBase &input,
+                             const IsotachParams &storm_params,
+                             double distance) -> std::tuple<double, double> {
   return {Solver::GahmEquations::GahmWindSpeed(
               storm_params.radius_to_max_winds, storm_params.vortex_max_10_tbl,
-              input.distance, input.coriolis, storm_params.gahm_b),
+              distance, input.coriolis, storm_params.gahm_b),
           Solver::GahmEquations::GahmPressure(
-              input.central_pressure, input.background_pressure, input.distance,
+              input.central_pressure, input.background_pressure, distance,
               storm_params.radius_to_max_winds, storm_params.gahm_b,
               storm_params.gahm_phi)};
+}
+
+auto interpolate_quadrants(const std::array<Storm::Quadrant, 4> &quadrants,
+                           const Types::Point &eye_location,
+                           const Types::Point &point,
+                           double distance) -> IsotachParams {
+  const auto azimuth = Physical::Earth::azimuth(eye_location, point);
+
+  const auto [quadrant_first, quadrant_second, quadrant_angle] =
+      select_quadrant(quadrants, azimuth);
+  const auto [isotach_first_lower, isotach_first_upper, isotach_first_ratio] =
+      select_isotach(quadrant_first, distance);
+  const auto [isotach_second_lower, isotach_second_upper,
+              isotach_second_ratio] = select_isotach(quadrant_second, distance);
+  const auto storm_params_first = get_isotach_params(
+      isotach_first_lower, isotach_first_upper, isotach_first_ratio);
+  const auto storm_params_second = get_isotach_params(
+      isotach_second_lower, isotach_second_upper, isotach_second_ratio);
+
+  return interpolate_storm_params(storm_params_first, storm_params_second,
+                                  quadrant_angle);
 }
 
 /**
  * @brief Add the turning angle and background velocity to the wind vector
  * @param input Input parameters for the solver
  * @param storm_params Isotach parameters passed to the solver
+ * @param distance Distance from the storm center
  * @param wind_speed_10_10 Wind speed at 10m
  * @return Wind vector at 10m with the turning angle and background wind speed
  * added
  */
 auto add_turning_angle_to_wind_vector(
-    const GahmInputParams &input, const IsotachParams &storm_params,
-    const double wind_speed_10_10) -> Types::Vec {
+    const GahmInputParamsBase &input, const IsotachParams &storm_params,
+    const double distance, const double wind_speed_10_10) -> Types::Vec {
   // Generate the rotation matrix based on the calculated turning angle
-  const auto turning_angle_matrix = Types::RotationMatrix(
-      -Physical::Atmospheric::turning_angle(input.distance,
-                                            storm_params.radius_to_max_winds),
-      input.eye_location.y());
+  const auto turning_angle_matrix =
+      Types::RotationMatrix(-Physical::Atmospheric::turning_angle(
+                                distance, storm_params.radius_to_max_winds),
+                            input.eye_location.y());
 
   const auto v_vor_quad_uv = Types::Vec::matmul_22_21(
       turning_angle_matrix.data(), storm_params.unit_vector_tbl);
@@ -183,7 +245,7 @@ auto add_background_velocity_to_wind_vector(
  * added
  */
 auto limit_quadrant_profile_wind_speed(
-    const GahmInputParams &input, const IsotachParams &storm_params,
+    const GahmInputParamsBase &input, const IsotachParams &storm_params,
     const Types::Vec &vel_10_10) -> Types::Vec {
   const auto v_vor_max_10_10 =
       (Types::Vec::matmul_22_21(
@@ -208,19 +270,21 @@ auto limit_quadrant_profile_wind_speed(
  * and adjust for the background wind speed
  * @param input Input parameters for the solver
  * @param storm_params Isotach parameters passed to the solver
+ * @param distance Distance from the storm center
  * @param wind_speed_tbl Wind speed at the top of the boundary layer
  * @return Wind vector at 10m
  */
-auto transform_wind_vector(const GahmInputParams &input,
+auto transform_wind_vector(const GahmInputParamsBase &input,
                            const IsotachParams &storm_params,
+                           const double distance,
                            double wind_speed_tbl) -> Types::Vec {
   // Convert the wind speed from the top of the boundary layer to 10m
   auto wind_speed_10_10 =
       wind_speed_tbl * Physical::Constants::topOfBoundaryLayerToTenMeter();
 
   // Add the turning angle to the wind vector
-  const auto vel_10_10 =
-      add_turning_angle_to_wind_vector(input, storm_params, wind_speed_10_10);
+  const auto vel_10_10 = add_turning_angle_to_wind_vector(
+      input, storm_params, distance, wind_speed_10_10);
 
   // Add the background velocity to the wind vector
   const auto vel_10_10_env = add_background_velocity_to_wind_vector(
@@ -238,14 +302,14 @@ auto transform_wind_vector(const GahmInputParams &input,
  * @param input Input parameters for the solver
  * @return Solution point
  */
-auto get(const Solver::Solution::GahmInputParams &input)
+auto get(const Solver::Solution::GahmInputParamsQuadrant &input)
     -> Solver::Solution::GahmSolutionPoint {
   // If the distance is less than 1m, then we are at the eye of the storm and
   // the wind speed is 0, and the pressure is the central pressure. This avoids
   // division by zero in the equations
   if (input.distance < 1.0) {
     return Solver::Solution::GahmSolutionPoint{Types::Vec(0, 0),
-                                               input.central_pressure};
+                                               input.central_pressure / 100.0};
   }
 
   // Find the isotachs that bound the distance we are looking for
@@ -258,14 +322,42 @@ auto get(const Solver::Solution::GahmInputParams &input)
 
   // Get the wind speed and pressure for the solution
   const auto [wind_speed_tbl, pressure] =
-      get_solution_parameters(input, storm_params);
+      get_solution_parameters(input, storm_params, input.distance);
+
+  // Transform the wind vector to 10m and adjust for the background wind speed
+  const auto wind_vec_10_10 = transform_wind_vector(
+      input, storm_params, input.distance, wind_speed_tbl);
+
+  // Return the solution point
+  return Solver::Solution::GahmSolutionPoint{wind_vec_10_10, pressure / 100.0};
+}
+
+auto get(const Solver::Solution::GahmInputParamsPoint &input)
+    -> GahmSolutionPoint {
+  const auto distance =
+      Physical::Earth::distance(input.point, input.eye_location);
+
+  // If the distance is less than 1m, then we are at the eye of the storm and
+  // will avoid division by zero
+  if (distance < 1.0) {
+    return GahmSolutionPoint{Types::Vec(0.0, 0.0),
+                             input.central_pressure / 100.0};
+  }
+
+  // Interpolate the quadrant data
+  const auto storm_params = interpolate_quadrants(
+      input.quadrants, input.eye_location, input.point, distance);
+
+  // Get the wind speed and pressure for the solution
+  const auto [wind_speed_tbl, pressure] =
+      get_solution_parameters(input, storm_params, distance);
 
   // Transform the wind vector to 10m and adjust for the background wind speed
   const auto wind_vec_10_10 =
-      transform_wind_vector(input, storm_params, wind_speed_tbl);
+      transform_wind_vector(input, storm_params, distance, wind_speed_tbl);
 
   // Return the solution point
-  return Solver::Solution::GahmSolutionPoint{wind_vec_10_10, pressure};
+  return Solver::Solution::GahmSolutionPoint{wind_vec_10_10, pressure / 100.0};
 }
 
 }  // namespace Gahm::Solver::Solution

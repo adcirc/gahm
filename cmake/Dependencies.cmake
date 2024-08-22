@@ -58,6 +58,30 @@ macro(gahm_setup_dependencies)
 
   endif()
 
+  # ##################################################################################################################
+  # Google Benchmark
+  # ##################################################################################################################
+  if(gahm_ENABLE_BENCHMARKS)
+    set(BENCHMARK_DOWNLOAD_DEPENDENCIES ON)
+    set(BENCHMARK_ENABLE_TESTING OFF)
+    set(BENCHMARK_ENABLE_GTEST_TESTS OFF)
+    set(BENCHMARK_INSTALL_DOCS OFF)
+    set(BENCHMARK_ENABLE_INSTALL OFF)
+    CPMAddPackage(
+            NAME benchmark
+            GITHUB_REPOSITORY google/benchmark
+            GIT_TAG v1.9.0
+            EXCLUDE_FROM_ALL
+    )
+    mark_as_advanced_wildcard("BENCHMARK_")
+    mark_as_advanced(GOOGLETEST_PATH)
+    mark_as_advanced(CXXFEATURECHECK_DEBUG)
+
+    # Disable cppcheck and clang-tidy on Google Benchmark
+    set_target_properties(benchmark PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
+    set_target_properties(benchmark_main PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
+  endif()
+
   # Mark the FetchContent variables as advanced
   mark_as_advanced_wildcard("FETCHCONTENT_")
 

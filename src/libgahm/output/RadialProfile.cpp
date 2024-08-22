@@ -92,7 +92,7 @@ auto get_profile(const Atcf::AtcfPeriod &period,
       distance_pts, std::back_inserter(profile.data),
       [&](const auto &distance) {
         const auto sln =
-            Solver::Solution::get(Solver::Solution::GahmInputParams{
+            Solver::Solution::get(Solver::Solution::GahmInputParamsQuadrant{
                 quadrant, distance, period.eye_location(), period.translation(),
                 period.central_pressure(), period.background_pressure(),
                 period.coriolis_force()});

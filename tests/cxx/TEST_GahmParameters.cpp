@@ -54,12 +54,12 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
   REQUIRE(p_bk == Approx(101300.0));
   REQUIRE(v_max == Approx(46.300107));
   REQUIRE(r_max == Approx(37039.907));
-  //  REQUIRE(translation.speed() == Approx(2.96927));
-  //  REQUIRE(translation.direction() == Approx(2.37762));
-  //  REQUIRE(translation.unit_vector().u() == Approx(-0.72209));
-  //  REQUIRE(translation.unit_vector().v() == Approx(0.691794));
-  //  REQUIRE(translation.velocity().u() == Approx(-2.14409));
-  //  REQUIRE(translation.velocity().v() == Approx(2.05413));
+  REQUIRE(translation.speed() == Approx(2.977566));
+  REQUIRE(translation.direction() == Approx(2.37762));
+  REQUIRE(translation.unit_vector().u() == Approx(-0.72209));
+  REQUIRE(translation.unit_vector().v() == Approx(0.691794));
+  REQUIRE(translation.velocity().u() == Approx(-2.15008));
+  REQUIRE(translation.velocity().v() == Approx(2.05986));
 
   const Gahm::Atcf::AtcfIO::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
