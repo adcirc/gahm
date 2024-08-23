@@ -5,11 +5,10 @@
 #ifndef GAHM_GAHMPARAMETERS_H
 #define GAHM_GAHMPARAMETERS_H
 
-#include <tuple>
-
 #include "datatypes/Point.h"
 #include "datatypes/Vec.h"
 #include "storm/StormTranslation.h"
+#include "util/Interpolation.h"
 
 namespace Gahm::Solver {
 
@@ -26,15 +25,52 @@ class GahmParamPack {
         m_vortex_quad_10_tbl(0),
         m_vortex_max_10_tbl(0),
         m_vortex_quad_10_10(0),
-        m_vortex_max_10_10(0),
-        m_limited_quadrant_vmax(false) {}
+        m_vortex_max_10_10(0) {}
+
+  static constexpr auto interpolate(const GahmParamPack& gahm_params_1,
+                                    const GahmParamPack& gahm_params_2,
+                                    const double& weight) -> GahmParamPack {
+    const auto radius_to_max_winds = Util::Interpolation::linear(
+        gahm_params_1.radius_to_max_winds(),
+        gahm_params_2.radius_to_max_winds(), weight);
+    const auto gahm_b = Util::Interpolation::linear(
+        gahm_params_1.gahm_b(), gahm_params_2.gahm_b(), weight);
+    const auto gahm_phi = Util::Interpolation::linear(
+        gahm_params_1.gahm_phi(), gahm_params_2.gahm_phi(), weight);
+    const auto holland_b = Util::Interpolation::linear(
+        gahm_params_1.holland_b(), gahm_params_2.holland_b(), weight);
+    const auto vortex_quad_10_tbl =
+        Util::Interpolation::linear(gahm_params_1.vortex_quad_10_tbl(),
+                                    gahm_params_2.vortex_quad_10_tbl(), weight);
+    const auto vortex_max_10_tbl =
+        Util::Interpolation::linear(gahm_params_1.vortex_max_10_tbl(),
+                                    gahm_params_2.vortex_max_10_tbl(), weight);
+    const auto vortex_quad_10_10 =
+        Util::Interpolation::linear(gahm_params_1.vortex_quad_10_10(),
+                                    gahm_params_2.vortex_quad_10_10(), weight);
+    const auto vortex_max_10_10 =
+        Util::Interpolation::linear(gahm_params_1.vortex_max_10_10(),
+                                    gahm_params_2.vortex_max_10_10(), weight);
+    const auto unit_vector_tbl =
+        Util::Interpolation::linear(gahm_params_1.unit_vector_tbl(),
+                                    gahm_params_2.unit_vector_tbl(), weight);
+
+    return {radius_to_max_winds,
+            gahm_b,
+            gahm_phi,
+            holland_b,
+            vortex_quad_10_tbl,
+            vortex_max_10_tbl,
+            vortex_quad_10_10,
+            vortex_max_10_10,
+            unit_vector_tbl};
+  }
 
   constexpr GahmParamPack(double radius_to_max_winds, double gahm_b,
                           double gahm_phi, double holland_b,
                           double vortex_quad_10_tbl, double vortex_max_10_tbl,
                           double vortex_quad_10_10, double vortex_max_10_10,
-                          const Types::Vec& unit_vector_tbl,
-                          bool limited_quadrant_vmax)
+                          const Types::Vec& unit_vector_tbl)
       : m_radius_to_max_winds(radius_to_max_winds),
         m_gahm_b(gahm_b),
         m_gahm_phi(gahm_phi),
@@ -43,8 +79,7 @@ class GahmParamPack {
         m_vortex_max_10_tbl(vortex_max_10_tbl),
         m_vortex_quad_10_10(vortex_quad_10_10),
         m_vortex_max_10_10(vortex_max_10_10),
-        m_unit_vector_tbl(unit_vector_tbl),
-        m_limited_quadrant_vmax(limited_quadrant_vmax) {}
+        m_unit_vector_tbl(unit_vector_tbl) {}
 
   [[nodiscard]] constexpr auto radius_to_max_winds() const -> double {
     return m_radius_to_max_winds;
@@ -78,10 +113,6 @@ class GahmParamPack {
     return m_unit_vector_tbl;
   }
 
-  [[nodiscard]] constexpr auto limited_quadrant_vmax() const -> bool {
-    return m_limited_quadrant_vmax;
-  }
-
  private:
   double m_radius_to_max_winds;
   double m_gahm_b;
@@ -92,7 +123,6 @@ class GahmParamPack {
   double m_vortex_quad_10_10;
   double m_vortex_max_10_10;
   Types::Vec m_unit_vector_tbl;
-  bool m_limited_quadrant_vmax;
 };
 
 auto GahmParameters(const Gahm::Storm::StormTranslation& translation,

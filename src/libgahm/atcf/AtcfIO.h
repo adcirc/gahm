@@ -30,10 +30,11 @@ class AtcfIO {
     double wind_speed;
     std::array<double, 4> distance;
 
-    TempIsotach(double in_wind_speed, std::array<double, 4> in_distance)
+    constexpr TempIsotach(double in_wind_speed,
+                          std::array<double, 4> in_distance)
         : wind_speed(in_wind_speed), distance(in_distance) {}
 
-    TempIsotach() : wind_speed(0.0), distance({0.0, 0.0, 0.0, 0.0}) {}
+    constexpr TempIsotach() : wind_speed(0.0), distance({0.0, 0.0, 0.0, 0.0}) {}
   };
 
   static auto transpose_to_quadrants(

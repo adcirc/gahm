@@ -5,9 +5,13 @@
 #include "Quadrant.h"
 
 #include <algorithm>
+#include <array>
+#include <numeric>
 #include <ostream>
+#include <ranges>
 
 #include "datatypes/Point.h"
+#include "datatypes/QuadUnitVec.h"
 #include "storm/Isotach.h"
 #include "storm/StormTranslation.h"
 
@@ -31,9 +35,23 @@ void Quadrant::compute_gahm_parameters(
       isotach.compute_gahm_parameters(translation, eye_location,
                                       m_unit_vector_tbl, central_pressure,
                                       background_pressure, v_max);
-      m_valid_isotachs.push_back(isotach);
     }
   });
+}
+
+auto Quadrant::interpolate(const Gahm::Storm::Quadrant& quadrant_1,
+                           const Gahm::Storm::Quadrant& quadrant_2,
+                           const double weight, double latitude) -> Quadrant {
+  const auto this_unit_vector_tbl = Types::QuadUnitVec::quadrant_unit_vector(
+      quadrant_1.quadrant_code(), latitude);
+
+  std::array<Isotach, 3> this_isotachs;
+  std::ranges::transform(
+      quadrant_1.isotachs(), quadrant_2.isotachs(), this_isotachs.begin(),
+      [&](const Isotach& isotach_1, const Isotach& isotach_2) {
+        return Isotach::interpolate(isotach_1, isotach_2, weight);
+      });
+  return {quadrant_1.quadrant_code(), this_unit_vector_tbl, this_isotachs};
 }
 
 }  // namespace Gahm::Storm

@@ -14,11 +14,9 @@ class AtcfPeriodPlot {
   explicit AtcfPeriodPlot(const Atcf::AtcfPeriod& period);
 
   void show() const;
-  // void save(const std::string& filename);
 
-  [[nodiscard]] auto period() const -> const Atcf::AtcfPeriod& {
-    return m_period;
-  }
+  void save(const std::string& filename) const;
+
 
  private:
   Atcf::AtcfPeriod m_period;

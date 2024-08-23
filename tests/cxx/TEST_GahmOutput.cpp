@@ -9,11 +9,10 @@
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
 #include "datatypes/Datetime.h"
-#include "datatypes/Grid.h"
-#include "datatypes/Point.h"
 #include "output/PointOutput.h"
 #include "output/RadialProfile.h"
 #include "physical/Units.h"
+#include "plotting/AtcfPeriodPlot.h"
 
 // NOLINTBEGIN(cppcoreguidelines-macro-usage,
 // cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
@@ -22,7 +21,7 @@
 
 using namespace Catch;
 
-auto generate_test_snap() -> Gahm::Atcf::AtcfPeriod {
+auto generate_test_snap_1() -> Gahm::Atcf::AtcfPeriod {
   constexpr auto mb2pa = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::Millibar, Gahm::Physical::Units::Pascal);
   constexpr auto kt2ms = Gahm::Physical::Units::convert(
@@ -138,8 +137,49 @@ auto read_control_point_solution(const std::string &filename) {
   return control_solution;
 }
 
+auto generate_test_snap_2() -> Gahm::Atcf::AtcfPeriod {
+  constexpr auto mb2pa = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::Millibar, Gahm::Physical::Units::Pascal);
+  constexpr auto kt2ms = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::Knot, Gahm::Physical::Units::MetersPerSecond);
+  constexpr auto nmi2m = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::NauticalMile, Gahm::Physical::Units::Meter);
+
+  const Gahm::Types::Datetime previous_date("2018091400");
+  const Gahm::Types::Datetime snap_date("2018091406");
+  const auto dt =
+      snap_date.seconds_since_epoch() - previous_date.seconds_since_epoch();
+  const double p_c = 952.0 * mb2pa;
+  const double p_bk = 1013.0 * mb2pa;
+  const double v_max = 90.0 * kt2ms;
+  const double r_max = 20.0 * nmi2m;
+  const Gahm::Types::Point eye_location(-77.2, 34.2);
+  const Gahm::Types::Point previous_eye_location(-76.5, 34.0);
+  const Gahm::Storm::StormTranslation translation(eye_location,
+                                                  previous_eye_location, dt);
+  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+      34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
+                                          100 * nmi2m});
+  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+      50.0 * kt2ms,
+      std::array<double, 4>{100 * nmi2m, 80 * nmi2m, 80 * nmi2m, 70 * nmi2m});
+  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+      64.0 * kt2ms,
+      std::array<double, 4>{70 * nmi2m, 60 * nmi2m, 60 * nmi2m, 50 * nmi2m});
+
+  const auto quadrants = Gahm::Atcf::AtcfIO::transpose_to_quadrants(
+      eye_location.y(), {i34, i50, i64});
+
+  Gahm::Atcf::AtcfPeriod snap(snap_date, p_c, p_bk, v_max, r_max, eye_location,
+                              quadrants);
+  snap.set_translation(translation);
+  snap.compute_gahm_parameters();
+
+  return snap;
+}
+
 TEST_CASE("OutputData", "[output]") {
-  const auto snap = generate_test_snap();
+  const auto snap = generate_test_snap_1();
 
   SECTION("Radial Profile") {
     const auto profile_ne = Gahm::Output::RadialProfile::get_profile(
@@ -245,7 +285,7 @@ TEST_CASE("OutputData", "[output]") {
 }
 
 TEST_CASE("Point Output", "[output]") {
-  const auto snap = generate_test_snap();
+  const auto snap = generate_test_snap_1();
 
   SECTION("Point Output") {
     const auto x_init = snap.eye_location().x() - 2.0;
@@ -285,6 +325,125 @@ TEST_CASE("Point Output", "[output]") {
       REQUIRE(p.wind_vector.u() == Approx(cp.wind_vector.u()));
       REQUIRE(p.wind_vector.v() == Approx(cp.wind_vector.v()));
     }
+  }
+}
+
+TEST_CASE("Point Output Multi-snap", "[output]") {
+  constexpr auto ms2kt = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::MetersPerSecond, Gahm::Physical::Units::Knot);
+  constexpr auto nmi2m = Gahm::Physical::Units::convert(
+      Gahm::Physical::Units::NauticalMile, Gahm::Physical::Units::Meter);
+
+  const auto snap_1 = generate_test_snap_1();
+  const auto snap_2 = generate_test_snap_2();
+
+  SECTION("Snap Interpolation") {
+    const auto interp_date = Gahm::Types::Datetime("2018091403");
+    const auto interp_snap =
+        Gahm::Atcf::AtcfPeriod::interpolate(snap_1, snap_2, interp_date);
+
+    REQUIRE(interp_snap.has_value());
+
+    const auto interp = interp_snap.value();
+
+    REQUIRE(interp.eye_location().x() == Approx(-76.85));
+    REQUIRE(interp.eye_location().y() == Approx(34.1));
+    REQUIRE(interp.central_pressure() / 100.0 == Approx(952.0));
+    REQUIRE(interp.background_pressure() / 100.0 == Approx(1013.0));
+    REQUIRE(interp.v_max() * ms2kt == Approx(90.0));
+    REQUIRE(interp.r_max() / nmi2m == Approx(20.0));
+
+    const auto quadrants = interp.quadrants();
+    REQUIRE(quadrants.size() == 4);
+    REQUIRE(quadrants[0].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
+    REQUIRE(quadrants[0].isotach(0).radius() / nmi2m == Approx(170.0));
+    REQUIRE(quadrants[0].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
+    REQUIRE(quadrants[0].isotach(1).radius() / nmi2m == Approx(100.0));
+    REQUIRE(quadrants[0].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
+    REQUIRE(quadrants[0].isotach(2).radius() / nmi2m == Approx(70.0));
+
+    REQUIRE(quadrants[1].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
+    REQUIRE(quadrants[1].isotach(0).radius() / nmi2m == Approx(150.0));
+    REQUIRE(quadrants[1].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
+    REQUIRE(quadrants[1].isotach(1).radius() / nmi2m == Approx(80.0));
+    REQUIRE(quadrants[1].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
+    REQUIRE(quadrants[1].isotach(2).radius() / nmi2m == Approx(60.0));
+
+    REQUIRE(quadrants[2].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
+    REQUIRE(quadrants[2].isotach(0).radius() / nmi2m == Approx(130.0));
+    REQUIRE(quadrants[2].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
+    REQUIRE(quadrants[2].isotach(1).radius() / nmi2m == Approx(80.0));
+    REQUIRE(quadrants[2].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
+    REQUIRE(quadrants[2].isotach(2).radius() / nmi2m == Approx(55.0));
+
+    REQUIRE(quadrants[3].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
+    REQUIRE(quadrants[3].isotach(0).radius() / nmi2m == Approx(100.0));
+    REQUIRE(quadrants[3].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
+    REQUIRE(quadrants[3].isotach(1).radius() / nmi2m == Approx(70.0));
+    REQUIRE(quadrants[3].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
+    REQUIRE(quadrants[3].isotach(2).radius() / nmi2m == Approx(50.0));
+
+    // Lastly, check the radius to max winds
+    REQUIRE(quadrants[0].isotach(0).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(25.2020));
+    REQUIRE(quadrants[0].isotach(1).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(21.2783));
+    REQUIRE(quadrants[0].isotach(2).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(21.9693));
+
+    REQUIRE(quadrants[1].isotach(0).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(23.0634));
+    REQUIRE(quadrants[1].isotach(1).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(18.1137));
+    REQUIRE(quadrants[1].isotach(2).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(21.7528));
+
+    REQUIRE(quadrants[2].isotach(0).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(21.1364));
+    REQUIRE(quadrants[2].isotach(1).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(21.7089));
+    REQUIRE(quadrants[2].isotach(2).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(24.6346));
+
+    REQUIRE(quadrants[3].isotach(0).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(12.0107));
+    REQUIRE(quadrants[3].isotach(1).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(15.0321));
+    REQUIRE(quadrants[3].isotach(2).gahm_parameters().radius_to_max_winds() /
+                nmi2m ==
+            Approx(17.3128));
+  }
+
+  SECTION("Point Output") {
+    const auto x_init =
+        ((snap_1.eye_location().x() + snap_2.eye_location().x()) / 2.0) - 2.0;
+    const auto y_init =
+        ((snap_1.eye_location().y() + snap_2.eye_location().y()) / 2.0) - 2.0;
+    const auto x_end =
+        ((snap_1.eye_location().x() + snap_2.eye_location().x()) / 2.0) + 2.0;
+    const auto y_end =
+        ((snap_1.eye_location().y() + snap_2.eye_location().y()) / 2.0) + 2.0;
+    const auto grid = Gahm::Types::Grid::fromCorners(
+        Gahm::Types::Point(x_init, y_init), Gahm::Types::Point(x_end, y_end),
+        0.01, 0.01);
+
+    const Gahm::Types::Datetime interp_date("2018091403");
+
+    const auto solution = Gahm::Output::PointOutput::get_points(
+        snap_1, snap_2, interp_date, grid);
+
+    REQUIRE(solution.data.size() == grid.size());
   }
 }
 

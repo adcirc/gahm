@@ -24,7 +24,10 @@ set(GAHM_SOURCES
 )
 
 if(gahm_ENABLE_PLOTTING)
-    list(APPEND GAHM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/plotting/AtcfPeriodPlot.cpp)
+    list(APPEND GAHM_SOURCES
+            ${CMAKE_CURRENT_SOURCE_DIR}/plotting/AtcfPeriodPlot.cpp
+#            ${CMAKE_CURRENT_SOURCE_DIR}/plotting/AtcfVortexPlot.cpp
+    )
 endif()
 
 add_library(gahm_objects OBJECT ${GAHM_SOURCES})

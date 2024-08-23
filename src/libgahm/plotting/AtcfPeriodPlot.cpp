@@ -19,9 +19,11 @@
 #include "vtkContextActor.h"
 #include "vtkContextView.h"
 #include "vtkFloatArray.h"
+#include "vtkImageWriter.h"
 #include "vtkInteractorStyleRubberBandZoom.h"
 #include "vtkNamedColors.h"
 #include "vtkNew.h"
+#include "vtkPNGWriter.h"
 #include "vtkPlot.h"
 #include "vtkPlotPoints.h"
 #include "vtkPolyDataMapper.h"
@@ -30,6 +32,7 @@
 #include "vtkRenderWindowInteractor.h"
 #include "vtkRenderer.h"
 #include "vtkTable.h"
+#include "vtkWindowToImageFilter.h"
 
 namespace {
 
@@ -309,4 +312,35 @@ void Gahm::Plotting::AtcfPeriodPlot::show() const {
   window->SetWindowName("GAHM: ATCF Period Plot");
   interactor->Initialize();
   interactor->Start();
+}
+
+/**
+ * Function to save a radial profile plot to a file
+ * @param filename The name of the file to save the plot to
+ */
+void Gahm::Plotting::AtcfPeriodPlot::save(const std::string& filename) const {
+  auto [window, interactor] = generate_plot(m_period);
+  window->OffScreenRenderingOn();
+  window->Render();
+
+  const auto filename_wext = [&]() {
+    auto f = filename;
+    if (filename.find(".png") == std::string::npos) {
+      f = filename + ".png";
+    }
+    return f;
+  }();
+
+  vtkSmartPointer<vtkImageWriter> image_writer =
+      vtkSmartPointer<vtkPNGWriter>::New();
+  vtkNew<vtkWindowToImageFilter> window_to_image_filter;
+  window_to_image_filter->SetInput(window);
+  window_to_image_filter->SetScale(1);
+  window_to_image_filter->SetInputBufferTypeToRGB();
+  window_to_image_filter->ReadFrontBufferOff();
+  window_to_image_filter->Update();
+
+  image_writer->SetFileName(filename_wext.c_str());
+  image_writer->SetInputConnection(window_to_image_filter->GetOutputPort());
+  image_writer->Write();
 }

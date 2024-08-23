@@ -8,6 +8,7 @@
 #include <array>
 #include <cassert>
 #include <cstddef>
+#include <optional>
 #include <ostream>
 #include <string>
 
@@ -42,6 +43,26 @@ class AtcfPeriod {
         m_eye_location(eye_location),
         m_coriolis_force(Gahm::Physical::Earth::coriolis(eye_location.y())),
         m_quadrants(quadrants) {}
+
+  AtcfPeriod(Gahm::Types::Datetime datetime, double central_pressure,
+             double background_pressure, double v_max, double r_max,
+             const Types::Point &eye_location,
+             const Storm::StormTranslation &translation,
+             std::array<Gahm::Storm::Quadrant, 4> quadrants,
+             bool compute_gahm_parameters = true)
+      : m_datetime(datetime),
+        m_central_pressure(central_pressure),
+        m_background_pressure(background_pressure),
+        m_v_max(v_max),
+        m_r_max(r_max),
+        m_eye_location(eye_location),
+        m_coriolis_force(Gahm::Physical::Earth::coriolis(eye_location.y())),
+        m_translation(translation),
+        m_quadrants(quadrants) {
+    if (compute_gahm_parameters) {
+      this->compute_gahm_parameters();
+    }
+  }
 
   [[nodiscard]] auto central_pressure() const -> double {
     return m_central_pressure;
@@ -88,6 +109,13 @@ class AtcfPeriod {
   }
 
   void compute_gahm_parameters();
+
+  static auto is_interpolatable(const AtcfPeriod &period_1,
+                                const AtcfPeriod &period_2) -> bool;
+
+  [[nodiscard]] static auto interpolate(
+      const AtcfPeriod &period_1, const AtcfPeriod &period_2,
+      const Types::Datetime &datetime) -> std::optional<AtcfPeriod>;
 
  private:
   Types::Datetime m_datetime;    // Datetime of the period

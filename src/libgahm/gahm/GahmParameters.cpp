@@ -32,12 +32,12 @@ namespace {
  * @param c_coef C coefficient
  * @return Optional array of solutions
  */
-constexpr auto quadratic(double a_coef, double b_coef,
-                         double c_coef) -> double {
+auto quadratic(double a_coef, double b_coef,
+               double c_coef) -> std::optional<double> {
   const auto disc = b_coef * b_coef - 4 * a_coef * c_coef;
-  //  if (disc < 0) {
-  //    return std::nullopt;
-  //  }
+  if (disc < 0) {
+    return std::nullopt;
+  }
   const auto disc_sqrt = std::sqrt(disc);
   const auto sln_a = (-b_coef + disc_sqrt) / (2 * a_coef);
   //  const auto sln_b = (-b_coef - disc_sqrt) / (2 * a_coef);
@@ -64,7 +64,8 @@ auto compute_new_quadrant_vmax(
        quadrant_unit_vector.v() * translation.unit_vector().v());
   const double ccoef = (translation.speed() * translation.speed()) -
                        (quadrant_wind_speed * quadrant_wind_speed);
-  return quadratic(acoef, bcoef, ccoef);
+  const auto sln = quadratic(acoef, bcoef, ccoef);
+  return sln.has_value() ? sln.value() : quadrant_wind_speed;
 }
 
 /**
@@ -112,6 +113,35 @@ auto generate_translation_obj(const Gahm::Storm::StormTranslation& translation,
              : translation;
 }
 
+auto limit_wind_speed(const Gahm::Storm::StormTranslation& translation,
+                      const Gahm::Types::Point& eye_location,
+                      const double v_max_10_10,
+                      const double v_max_10_10_nominal,
+                      const double v_isotach_10_10,
+                      const Gahm::Types::Vec& unit_vector)
+    -> std::tuple<double, Gahm::Types::Vec> {
+  const Gahm::Types::RotationMatrix rotation_matrix_ccw10(
+      -10.0 * Gahm::Physical::Constants::deg2rad(), eye_location.y());
+
+  const auto this_translation =
+      generate_translation_obj(translation, v_max_10_10);
+
+  auto quadrant_vector_10 =
+      Gahm::Types::Vec::matmul_22_21(rotation_matrix_ccw10.data(), unit_vector);
+
+  const auto [is_limited, v_max_out] = check_quadrant_vmax(
+      v_max_10_10_nominal, v_isotach_10_10, unit_vector * v_max_10_10_nominal,
+      quadrant_vector_10, this_translation);
+
+  if (!is_limited) {
+    const Gahm::Types::RotationMatrix rotation_matrix_ccw25(
+        -25.0 * Gahm::Physical::Constants::deg2rad(), eye_location.y());
+    quadrant_vector_10 = Gahm::Types::Vec::matmul_22_21(
+        rotation_matrix_ccw25.data(), unit_vector);
+  };
+
+  return std::make_tuple(v_max_out, quadrant_vector_10);
+}
 /**
  * @brief Compute the GAHM parameters using the Newton-Raphson solver
  *
@@ -138,25 +168,9 @@ auto compute_gahm_parameters(
   const auto v_isotach_10_10 =
       isotach_speed * Gahm::Physical::Constants::oneMinuteToTenMinuteWind();
 
-  const auto this_translation =
-      generate_translation_obj(translation, v_max_10_10);
-
-  const Gahm::Types::RotationMatrix rotation_matrix_ccw10(
-      -10.0 * Gahm::Physical::Constants::deg2rad(), eye_location.y());
-  auto quadrant_vector_10 =
-      Gahm::Types::Vec::matmul_22_21(rotation_matrix_ccw10.data(), unit_vector);
-
-  const auto [is_limited, v_max_out] = check_quadrant_vmax(
-      v_max_10_10_nominal, v_isotach_10_10, unit_vector * v_max_10_10_nominal,
-      quadrant_vector_10, this_translation);
-  const double v_vortex_max_10_10 = v_max_out;
-
-  if (!is_limited) {
-    const Gahm::Types::RotationMatrix rotation_matrix_ccw25(
-        -25.0 * Gahm::Physical::Constants::deg2rad(), eye_location.y());
-    quadrant_vector_10 = Gahm::Types::Vec::matmul_22_21(
-        rotation_matrix_ccw25.data(), unit_vector);
-  };
+  const auto [v_vortex_max_10_10, quadrant_vector_10] =
+      limit_wind_speed(translation, eye_location, v_max_10_10,
+                       v_max_10_10_nominal, v_isotach_10_10, unit_vector);
 
   const auto v_vortex_max_10_tbl =
       v_vortex_max_10_10 *
@@ -181,8 +195,7 @@ auto compute_gahm_parameters(
 
   return {solver.rmax(),     solver.gahm_b(),    solver.phi(),
           holland_b,         vortex_quad_10_tbl, v_vortex_max_10_tbl,
-          vortex_quad_10_10, v_vortex_max_10_10, unit_vector,
-          is_limited};
+          vortex_quad_10_10, v_vortex_max_10_10, unit_vector};
 }
 
 }  // namespace

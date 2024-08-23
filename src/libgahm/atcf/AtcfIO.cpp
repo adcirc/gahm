@@ -53,11 +53,15 @@ auto Gahm::Atcf::AtcfIO::transpose_to_quadrants(
 
   // Do the transpose
   for (unsigned i = 0; i < 4; ++i) {
-    auto i0 = Storm::Isotach(34.0 * kt2ms, isotach_array.at(0).distance.at(i));
-    auto i1 = Storm::Isotach(50.0 * kt2ms, isotach_array.at(1).distance.at(i));
-    auto i2 = Storm::Isotach(64.0 * kt2ms, isotach_array.at(2).distance.at(i));
-    quadrants.at(i) = Storm::Quadrant(
-        Types::QuadCode::integer_to_quadrant_code(i), latitude, {i0, i1, i2});
+    const auto iso_0 =
+        Storm::Isotach(34.0 * kt2ms, isotach_array.at(0).distance.at(i));
+    const auto iso_1 =
+        Storm::Isotach(50.0 * kt2ms, isotach_array.at(1).distance.at(i));
+    const auto iso_2 =
+        Storm::Isotach(64.0 * kt2ms, isotach_array.at(2).distance.at(i));
+    quadrants.at(i) =
+        Storm::Quadrant(Types::QuadCode::integer_to_quadrant_code(i), latitude,
+                        {iso_0, iso_1, iso_2});
   }
 
   return quadrants;

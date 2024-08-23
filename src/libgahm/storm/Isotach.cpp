@@ -4,6 +4,7 @@
 
 #include "Isotach.h"
 
+#include <cassert>
 #include <ostream>
 
 #include "StormTranslation.h"

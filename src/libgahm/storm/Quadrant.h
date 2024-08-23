@@ -10,9 +10,9 @@
 #include <cassert>
 #include <cmath>
 #include <cstddef>
+#include <numeric>
 #include <ostream>
 #include <ranges>
-#include <vector>
 
 #include "datatypes/Point.h"
 #include "datatypes/QuadCode.h"
@@ -35,7 +35,11 @@ class Quadrant {
   /**
    * @brief Default constructor for the Quadrant class.
    */
-  constexpr Quadrant() : m_isotachs(), m_quadrant_code(Types::QuadCode::NE) {}
+  constexpr Quadrant()
+      : m_isotachs(),
+        m_last_populated_isotach_pos(0),
+        m_n_populated_isotachs(0),
+        m_quadrant_code(Types::QuadCode::NE) {}
 
   /**
    * @brief Constructor for the Quadrant class.
@@ -47,9 +51,20 @@ class Quadrant {
   constexpr Quadrant(Types::QuadCode::QuadrantCode code, double latitude,
                      const std::array<Isotach, 3>& isotachs)
       : m_isotachs(isotachs),
-        m_quadrant_code(code),
-        m_unit_vector_tbl(Types::QuadUnitVec::quadrant_unit_vector(
-            m_quadrant_code, latitude)) {}
+        m_unit_vector_tbl(
+            Types::QuadUnitVec::quadrant_unit_vector(code, latitude)),
+        m_last_populated_isotach_pos(find_last_populated_isotach()),
+        m_n_populated_isotachs(count_populated_isotachs()),
+        m_quadrant_code(code) {}
+
+  constexpr Quadrant(Types::QuadCode::QuadrantCode code, Types::Vec unit_vector,
+                     const std::array<Isotach, 3>& isotachs)
+      : m_isotachs(isotachs),
+        m_unit_vector_tbl(unit_vector),
+        m_last_populated_isotach_pos(find_last_populated_isotach()),
+        m_n_populated_isotachs(count_populated_isotachs()),
+        m_quadrant_code(code) {}
+
   /**
    * Returns the quadrant code.
    * @return Quadrant code
@@ -84,14 +99,6 @@ class Quadrant {
   }
 
   /**
-   * Sets the isotachs.
-   * @param isotachs Array of Isotach objects
-   */
-  void set_isotachs(const std::array<Isotach, 3>& isotachs) {
-    m_isotachs = isotachs;
-  }
-
-  /**
    * Sets the unit vector at the top of the boundary layer.
    * @param vec Unit vector
    */
@@ -109,13 +116,13 @@ class Quadrant {
    * Returns the number of populated isotachs.
    * @return Number of populated isotachs
    */
-  [[nodiscard]] constexpr auto n_populated_isotachs() const -> size_t {
-    return m_valid_isotachs.size();
+  [[nodiscard]] constexpr auto n_populated_isotachs() const -> int {
+    return m_n_populated_isotachs;
   }
 
-  [[nodiscard]] constexpr auto valid_isotachs() const
-      -> const std::vector<Isotach>& {
-    return m_valid_isotachs;
+  [[nodiscard]] constexpr auto last_populated_isotach() const
+      -> const Isotach& {
+    return m_isotachs[m_last_populated_isotach_pos];
   }
 
   /**
@@ -126,11 +133,45 @@ class Quadrant {
                                double central_pressure,
                                double background_pressure, double v_max);
 
+  static constexpr auto is_interpolatable(const Quadrant& quad_1,
+                                          const Quadrant& quad_2) -> bool {
+    return quad_1.n_populated_isotachs() == quad_2.n_populated_isotachs();
+  }
+
+  static auto interpolate(const Quadrant& quadrant_1,
+                          const Quadrant& quadrant_2, double weight,
+                          double latitude) -> Quadrant;
+
  private:
+  /**
+   * @brief Finds the last populated isotach in the array.
+   * @return Index of the last populated isotach
+   */
+  [[nodiscard]] constexpr auto find_last_populated_isotach() const -> size_t {
+    return static_cast<size_t>(
+        std::ranges::find_if(std::views::reverse(m_isotachs),
+                             [](const Gahm::Storm::Isotach& isotach) {
+                               return isotach.is_populated();
+                             })
+            .base() -
+        m_isotachs.begin() - 1);
+  }
+
+  /**
+   * @brief Counts the number of populated isotachs in the array.
+   * @return Number of populated isotachs
+   */
+  [[nodiscard]] constexpr auto count_populated_isotachs() const -> int {
+    return static_cast<int>(std::ranges::count_if(
+        m_isotachs,
+        [](const Isotach& isotach) { return isotach.is_populated(); }));
+  }
+
   std::array<Isotach, 3> m_isotachs;
-  Types::QuadCode::QuadrantCode m_quadrant_code;
   Types::Vec m_unit_vector_tbl;
-  std::vector<Isotach> m_valid_isotachs;
+  size_t m_last_populated_isotach_pos;
+  int m_n_populated_isotachs;
+  Types::QuadCode::QuadrantCode m_quadrant_code;
 };
 
 }  // namespace Gahm::Storm

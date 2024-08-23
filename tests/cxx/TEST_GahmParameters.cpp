@@ -5,15 +5,8 @@
 #include <array>
 
 #include "atcf/AtcfIO.h"
-#include "atcf/AtcfPeriod.h"
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "datatypes/Datetime.h"
-#include "datatypes/Point.h"
-#include "gahm/GahmParameters.h"
-#include "physical/Units.h"
-#include "plotting/AtcfPeriodPlot.h"
-#include "storm/StormTranslation.h"
 
 // NOLINTBEGIN(cppcoreguidelines-macro-usage,
 // cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,

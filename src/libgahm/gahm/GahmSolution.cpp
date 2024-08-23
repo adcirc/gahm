@@ -9,7 +9,6 @@
 #include <cmath>
 #include <iterator>
 #include <tuple>
-#include <vector>
 
 #include "datatypes/Point.h"
 #include "datatypes/RotationMatrix.h"
@@ -18,6 +17,7 @@
 #include "physical/Atmospheric.h"
 #include "physical/Constants.h"
 #include "physical/Earth.h"
+#include "storm/Isotach.h"
 #include "storm/Quadrant.h"
 #include "storm/StormTranslation.h"
 #include "util/Interpolation.h"
@@ -41,30 +41,39 @@ namespace {
  * @return Tuple containing the lower isotach, upper isotach, and the weighting
  */
 auto select_isotach(const Storm::Quadrant &quadrant, const double distance) {
-  if (distance >= quadrant.valid_isotachs().begin()->radius() ||
-      quadrant.valid_isotachs().size() == 1) {
-    return std::make_tuple(quadrant.valid_isotachs().begin(),
-                           quadrant.valid_isotachs().begin(), 0.0);
+  if (quadrant.n_populated_isotachs() == 1 ||
+      distance >= quadrant.isotachs().begin()->radius()) {
+    return std::make_tuple(*quadrant.isotachs().begin(),
+                           *quadrant.isotachs().begin(), 0.0);
   }
 
-  if (distance <= quadrant.valid_isotachs().back().radius()) {
-    return std::make_tuple(std::prev(quadrant.valid_isotachs().end()),
-                           std::prev(quadrant.valid_isotachs().end()), 0.0);
+  if (distance <= quadrant.last_populated_isotach().radius()) {
+    return std::make_tuple(quadrant.last_populated_isotach(),
+                           quadrant.last_populated_isotach(), 0.0);
   }
 
-  auto isotach_faster =
-      std::lower_bound(quadrant.valid_isotachs().rbegin(),
-                       quadrant.valid_isotachs().rend(), distance,
+  if (quadrant.n_populated_isotachs() == 2) {
+    auto isotach_slower = quadrant.isotachs().begin();
+    auto isotach_faster = std::next(isotach_slower);
+    const auto isotach_ratio =
+        (distance - isotach_slower->radius()) /
+        (isotach_faster->radius() - isotach_slower->radius());
+    return std::make_tuple(*isotach_slower, *isotach_faster, isotach_ratio);
+  }
+
+  const auto isotach_faster =
+      std::lower_bound(quadrant.isotachs().rbegin(), quadrant.isotachs().rend(),
+                       distance,
                        [](const auto &isotach, const auto &dis) {
                          return isotach.radius() < dis;
                        })
           .base();
-  auto isotach_slower = std::prev(isotach_faster);
+  const auto isotach_slower = std::prev(isotach_faster);
   const auto isotach_ratio =
       (distance - isotach_slower->radius()) /
       (isotach_faster->radius() - isotach_slower->radius());
 
-  return std::make_tuple(isotach_slower, isotach_faster, isotach_ratio);
+  return std::make_tuple(*isotach_slower, *isotach_faster, isotach_ratio);
 }
 
 struct IsotachParams {
@@ -76,28 +85,27 @@ struct IsotachParams {
   Types::Vec unit_vector_tbl;
 };
 
-auto get_isotach_params(
-    const std::vector<Storm::Isotach>::const_iterator &isotach_lower,
-    const std::vector<Storm::Isotach>::const_iterator &isotach_upper,
-    double isotach_ratio) -> IsotachParams {
+auto get_isotach_params(const Storm::Isotach &isotach_lower,
+                        const Storm::Isotach &isotach_upper,
+                        double isotach_ratio) -> IsotachParams {
   const auto r_max = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_parameters().radius_to_max_winds(),
-      isotach_upper->gahm_parameters().radius_to_max_winds(), isotach_ratio);
+      isotach_lower.gahm_parameters().radius_to_max_winds(),
+      isotach_upper.gahm_parameters().radius_to_max_winds(), isotach_ratio);
   const auto v_max = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_parameters().vortex_max_10_tbl(),
-      isotach_upper->gahm_parameters().vortex_max_10_tbl(), isotach_ratio);
+      isotach_lower.gahm_parameters().vortex_max_10_tbl(),
+      isotach_upper.gahm_parameters().vortex_max_10_tbl(), isotach_ratio);
   const auto v_max_10_10 = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_parameters().vortex_max_10_10(),
-      isotach_upper->gahm_parameters().vortex_max_10_10(), isotach_ratio);
+      isotach_lower.gahm_parameters().vortex_max_10_10(),
+      isotach_upper.gahm_parameters().vortex_max_10_10(), isotach_ratio);
   const auto gahm_b = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_parameters().gahm_b(),
-      isotach_upper->gahm_parameters().gahm_b(), isotach_ratio);
+      isotach_lower.gahm_parameters().gahm_b(),
+      isotach_upper.gahm_parameters().gahm_b(), isotach_ratio);
   const auto gahm_phi = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_parameters().gahm_phi(),
-      isotach_upper->gahm_parameters().gahm_phi(), isotach_ratio);
+      isotach_lower.gahm_parameters().gahm_phi(),
+      isotach_upper.gahm_parameters().gahm_phi(), isotach_ratio);
   const auto unit_vector = Gahm::Util::Interpolation::linear(
-      isotach_lower->gahm_parameters().unit_vector_tbl(),
-      isotach_upper->gahm_parameters().unit_vector_tbl(), isotach_ratio);
+      isotach_lower.gahm_parameters().unit_vector_tbl(),
+      isotach_upper.gahm_parameters().unit_vector_tbl(), isotach_ratio);
 
   return IsotachParams{.radius_to_max_winds = r_max,
                        .vortex_max_10_tbl = v_max,
@@ -129,7 +137,8 @@ constexpr auto select_quadrant(const std::array<Storm::Quadrant, 4> &quadrants,
   }
 }
 
-auto interpolate_storm_params(const IsotachParams &p1, const IsotachParams &p2,
+auto interpolate_storm_params(const IsotachParams &params_1,
+                              const IsotachParams &params_2,
                               double angle) -> IsotachParams {
   constexpr double angle_90 = 90.0 * Physical::Constants::deg2rad();
   const double nd0 = 1.0 / std::pow(angle, 2.0);
@@ -137,16 +146,20 @@ auto interpolate_storm_params(const IsotachParams &p1, const IsotachParams &p2,
   const double den = 1.0 / (nd0 + nd1);
 
   return IsotachParams{
-      .radius_to_max_winds =
-          (p1.radius_to_max_winds * nd0 + p2.radius_to_max_winds * nd1) * den,
-      .vortex_max_10_tbl =
-          (p1.vortex_max_10_tbl * nd0 + p2.vortex_max_10_tbl * nd1) * den,
+      .radius_to_max_winds = (params_1.radius_to_max_winds * nd0 +
+                              params_2.radius_to_max_winds * nd1) *
+                             den,
+      .vortex_max_10_tbl = (params_1.vortex_max_10_tbl * nd0 +
+                            params_2.vortex_max_10_tbl * nd1) *
+                           den,
       .vortex_max_10_10 =
-          (p1.vortex_max_10_10 * nd0 + p2.vortex_max_10_10 * nd1) * den,
-      .gahm_b = (p1.gahm_b * nd0 + p2.gahm_b * nd1) * den,
-      .gahm_phi = (p1.gahm_phi * nd0 + p2.gahm_phi * nd1) * den,
+          (params_1.vortex_max_10_10 * nd0 + params_2.vortex_max_10_10 * nd1) *
+          den,
+      .gahm_b = (params_1.gahm_b * nd0 + params_2.gahm_b * nd1) * den,
+      .gahm_phi = (params_1.gahm_phi * nd0 + params_2.gahm_phi * nd1) * den,
       .unit_vector_tbl =
-          (p1.unit_vector_tbl * nd0 + p2.unit_vector_tbl * nd1) * den};
+          (params_1.unit_vector_tbl * nd0 + params_2.unit_vector_tbl * nd1) *
+          den};
 }
 
 /**

@@ -36,6 +36,7 @@ macro(gahm_setup_dependencies)
             RenderingGL2PSOpenGL2
             RenderingOpenGL2
             ViewsContext2D
+            IOImage
             QUIET
     )
   endif()
