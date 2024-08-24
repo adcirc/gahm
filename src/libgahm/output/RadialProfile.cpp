@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/15/24.
 //
 
-#include "RadialProfile.h"
+#include "RadialProfile.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -10,10 +10,10 @@
 #include <numeric>
 #include <vector>
 
-#include "atcf/AtcfPeriod.h"
-#include "datatypes/QuadCode.h"
-#include "gahm/GahmSolution.h"
-#include "storm/Quadrant.h"
+#include "atcf/AtcfPeriod.hpp"
+#include "datatypes/QuadCode.hpp"
+#include "gahm/GahmSolution.hpp"
+#include "storm/Quadrant.hpp"
 
 namespace Gahm::Output::RadialProfile {
 

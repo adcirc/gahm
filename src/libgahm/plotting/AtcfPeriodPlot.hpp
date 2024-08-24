@@ -2,10 +2,10 @@
 // Created by Zach Cobell on 8/20/24.
 //
 
-#ifndef GAHM_ATCFPERIODPLOT_H
-#define GAHM_ATCFPERIODPLOT_H
+#ifndef GAHM_ATCFPERIODPLOT_HPP
+#define GAHM_ATCFPERIODPLOT_HPP
 
-#include "atcf/AtcfPeriod.h"
+#include "atcf/AtcfPeriod.hpp"
 
 namespace Gahm::Plotting {
 
@@ -24,4 +24,4 @@ class AtcfPeriodPlot {
 
 }  // namespace Gahm::Plotting
 
-#endif  // GAHM_ATCFPERIODPLOT_H
+#endif  // GAHM_ATCFPERIODPLOT_HPP

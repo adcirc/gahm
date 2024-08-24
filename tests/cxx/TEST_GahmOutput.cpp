@@ -4,15 +4,15 @@
 
 #include <fstream>
 
-#include "atcf/AtcfIO.h"
-#include "atcf/AtcfPeriod.h"
+#include "atcf/AtcfIO.hpp"
+#include "atcf/AtcfPeriod.hpp"
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "datatypes/Datetime.h"
-#include "output/PointOutput.h"
-#include "output/RadialProfile.h"
-#include "physical/Units.h"
-#include "plotting/AtcfPeriodPlot.h"
+#include "datatypes/Datetime.hpp"
+#include "output/PointOutput.hpp"
+#include "output/RadialProfile.hpp"
+#include "physical/Units.hpp"
+#include "plotting/AtcfPeriodPlot.hpp"
 
 // NOLINTBEGIN(cppcoreguidelines-macro-usage,
 // cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,
@@ -41,13 +41,13 @@ auto generate_test_snap_1() -> Gahm::Atcf::AtcfPeriod {
   const Gahm::Types::Point previous_eye_location(-76.0, 33.6);
   const Gahm::Storm::StormTranslation translation(eye_location,
                                                   previous_eye_location, dt);
-  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+  const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
                                           100 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+  const Gahm::Atcf::TempIsotach i50(
       50.0 * kt2ms,
       std::array<double, 4>{100 * nmi2m, 80 * nmi2m, 80 * nmi2m, 70 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+  const Gahm::Atcf::TempIsotach i64(
       64.0 * kt2ms,
       std::array<double, 4>{70 * nmi2m, 60 * nmi2m, 50 * nmi2m, 50 * nmi2m});
 
@@ -157,13 +157,13 @@ auto generate_test_snap_2() -> Gahm::Atcf::AtcfPeriod {
   const Gahm::Types::Point previous_eye_location(-76.5, 34.0);
   const Gahm::Storm::StormTranslation translation(eye_location,
                                                   previous_eye_location, dt);
-  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+  const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
                                           100 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+  const Gahm::Atcf::TempIsotach i50(
       50.0 * kt2ms,
       std::array<double, 4>{100 * nmi2m, 80 * nmi2m, 80 * nmi2m, 70 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+  const Gahm::Atcf::TempIsotach i64(
       64.0 * kt2ms,
       std::array<double, 4>{70 * nmi2m, 60 * nmi2m, 60 * nmi2m, 50 * nmi2m});
 

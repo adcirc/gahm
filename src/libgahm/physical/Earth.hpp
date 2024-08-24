@@ -2,16 +2,16 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#ifndef GAHM_EARTH_H
-#define GAHM_EARTH_H
+#ifndef GAHM_EARTH_HPP
+#define GAHM_EARTH_HPP
 
 #include <cmath>
 #include <limits>
 #include <tuple>
 
-#include "Constants.h"
-#include "datatypes/Point.h"
-#include "physical/Units.h"
+#include "Constants.hpp"
+#include "datatypes/Point.hpp"
+#include "physical/Units.hpp"
 
 namespace Gahm::Physical::Earth {
 
@@ -166,4 +166,4 @@ static auto sphericalDx(const double x1, const double y1, const double x2,
 }
 }  // namespace Gahm::Physical::Earth
 
-#endif  // GAHM_EARTH_H
+#endif  // GAHM_EARTH_HPP

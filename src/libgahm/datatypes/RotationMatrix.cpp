@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/1/24.
 //
 
-#include "RotationMatrix.h"
+#include "RotationMatrix.hpp"
 
 #include <ostream>
 

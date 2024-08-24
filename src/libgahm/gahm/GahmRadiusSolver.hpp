@@ -2,10 +2,10 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#ifndef GAHM_GAHMRADIUSSOLVER_H
-#define GAHM_GAHMRADIUSSOLVER_H
+#ifndef GAHM_GAHMRADIUSSOLVER_HPP
+#define GAHM_GAHMRADIUSSOLVER_HPP
 
-#include "GahmRadiusSolverPrivate.h"
+#include "GahmRadiusSolverPrivate.hpp"
 
 namespace Gahm::Solver {
 
@@ -39,4 +39,4 @@ class GahmRadiusSolver {
 };
 
 }  // namespace Gahm::Solver
-#endif  // GAHM_GAHMRADIUSSOLVER_H
+#endif  // GAHM_GAHMRADIUSSOLVER_HPP

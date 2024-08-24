@@ -2,8 +2,8 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#ifndef GAHM_GAHMRADIUSSOLVERPRIVATE_H
-#define GAHM_GAHMRADIUSSOLVERPRIVATE_H
+#ifndef GAHM_GAHMRADIUSSOLVERPRIVATE_HPP
+#define GAHM_GAHMRADIUSSOLVERPRIVATE_HPP
 
 #include <cassert>
 #include <cmath>
@@ -49,4 +49,4 @@ class GahmRadiusSolverPrivate {
 
 }  // namespace Gahm::Solver::detail
 
-#endif  // GAHM_GAHMRADIUSSOLVERPRIVATE_H
+#endif  // GAHM_GAHMRADIUSSOLVERPRIVATE_HPP

@@ -2,16 +2,16 @@
 // Created by Zach Cobell on 8/22/24.
 //
 
-#include "PointOutput.h"
+#include "PointOutput.hpp"
 
 #include <algorithm>
 
-#include "atcf/AtcfPeriod.h"
-#include "datatypes/Datetime.h"
-#include "datatypes/Grid.h"
-#include "datatypes/Point.h"
-#include "datatypes/PointCloud.h"
-#include "gahm/GahmSolution.h"
+#include "atcf/AtcfPeriod.hpp"
+#include "datatypes/Datetime.hpp"
+#include "datatypes/Grid.hpp"
+#include "datatypes/Point.hpp"
+#include "datatypes/PointCloud.hpp"
+#include "gahm/GahmSolution.hpp"
 
 namespace {
 

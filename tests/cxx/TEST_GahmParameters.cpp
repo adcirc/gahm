@@ -4,7 +4,7 @@
 
 #include <array>
 
-#include "atcf/AtcfIO.h"
+#include "atcf/AtcfIO.hpp"
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
 
@@ -54,13 +54,13 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
   REQUIRE(translation.velocity().u() == Approx(-2.15008));
   REQUIRE(translation.velocity().v() == Approx(2.05986));
 
-  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+  const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
                                           100 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+  const Gahm::Atcf::TempIsotach i50(
       50.0 * kt2ms,
       std::array<double, 4>{100 * nmi2m, 80 * nmi2m, 80 * nmi2m, 70 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+  const Gahm::Atcf::TempIsotach i64(
       64.0 * kt2ms,
       std::array<double, 4>{70 * nmi2m, 60 * nmi2m, 50 * nmi2m, 50 * nmi2m});
 
@@ -261,13 +261,13 @@ TEST_CASE("GahmParameters-AdjVMax", "[GahmAdjVMax]") {
   const Gahm::Storm::StormTranslation translation(eye_location,
                                                   previous_eye_location, dt);
 
-  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+  const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms,
       std::array<double, 4>{75 * nmi2m, 90 * nmi2m, 90 * nmi2m, 50 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+  const Gahm::Atcf::TempIsotach i50(
       50.0 * kt2ms,
       std::array<double, 4>{50 * nmi2m, 60 * nmi2m, 0 * nmi2m, 0 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+  const Gahm::Atcf::TempIsotach i64(
       64.0 * kt2ms,
       std::array<double, 4>{0 * nmi2m, 0 * nmi2m, 0 * nmi2m, 0 * nmi2m});
 

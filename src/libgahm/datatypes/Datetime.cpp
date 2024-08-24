@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#include "Datetime.h"
+#include "Datetime.hpp"
 
 #include <ostream>
 #include <stdexcept>
@@ -61,21 +61,21 @@ Datetime::Datetime(const std::string &date_string, int hours) {
  * @brief Construct a Datetime object from a s_DateTime struct
  * @param in_datetime The s_DateTime struct to convert
  */
-Datetime::Datetime(Datetime::s_DateTime in_datetime)
+Datetime::Datetime(s_DateTime in_datetime)
     : m_second_since_epoch(from_struct(in_datetime)) {}
 
 /**
  * @brief Helper function to convert a Datetime object to a s_DateTime struct
  * @return A s_DateTime struct representing the Datetime object
  */
-auto Datetime::to_struct() const -> Datetime::s_DateTime {
+auto Datetime::to_struct() const -> s_DateTime {
   const auto ptime = from_seconds(m_second_since_epoch);
-  return Datetime::s_DateTime{ptime.date().year(),
-                              ptime.date().month(),
-                              ptime.date().day(),
-                              ptime.time_of_day().hours(),
-                              ptime.time_of_day().minutes(),
-                              ptime.time_of_day().seconds()};
+  return s_DateTime{ptime.date().year(),
+                    ptime.date().month(),
+                    ptime.date().day(),
+                    ptime.time_of_day().hours(),
+                    ptime.time_of_day().minutes(),
+                    ptime.time_of_day().seconds()};
 }
 
 /**

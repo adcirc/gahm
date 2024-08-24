@@ -3,7 +3,7 @@
 //
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "physical/Constants.h"
+#include "physical/Constants.hpp"
 
 // NOLINTBEGIN(cppcoreguidelines-macro-usage,
 // cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,

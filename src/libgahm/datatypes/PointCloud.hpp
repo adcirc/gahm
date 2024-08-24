@@ -2,15 +2,15 @@
 // Created by Zach Cobell on 8/22/24.
 //
 
-#ifndef GAHM_POINTCLOUD_H
-#define GAHM_POINTCLOUD_H
+#ifndef GAHM_POINTCLOUD_HPP
+#define GAHM_POINTCLOUD_HPP
 
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <vector>
 
-#include "datatypes/Point.h"
+#include "datatypes/Point.hpp"
 
 namespace Gahm::Types {
 
@@ -27,7 +27,7 @@ class PointCloud {
                    [](double x, double y) { return Point(x, y); });
   }
 
-  [[nodiscard]] const std::vector<Point> &points() const { return m_points; }
+  [[nodiscard]] const std::vector<Gahm::Types::Point> &points() const { return m_points; }
 
   [[nodiscard]] auto x() const -> std::vector<double> {
     std::vector<double> x_vals;
@@ -53,7 +53,7 @@ class PointCloud {
 
   void clear() { m_points.clear(); }
 
-  void removePoint(const Point &point) {
+  void removePoint(const Gahm::Types::Point &point) {
     auto iter = std::find(m_points.begin(), m_points.end(), point);
     if (iter != m_points.end()) {
       m_points.erase(iter);
@@ -62,6 +62,7 @@ class PointCloud {
 
   void reserve(size_t size) { m_points.reserve(size); }
 
+#ifndef SWIG
   auto begin() { return m_points.begin(); }
   [[nodiscard]] auto begin() const { return m_points.begin(); }
 
@@ -88,15 +89,16 @@ class PointCloud {
   [[nodiscard]] auto operator[](size_t index) const -> const Point & {
     return m_points[index];
   }
+#endif
 
   [[nodiscard]] auto size() const -> size_t { return m_points.size(); }
 
   [[nodiscard]] auto empty() const -> bool { return m_points.empty(); }
 
  private:
-  std::vector<Point> m_points;
+  std::vector<Gahm::Types::Point> m_points;
 };
 
 }  // namespace Gahm::Types
 
-#endif  // GAHM_POINTCLOUD_H
+#endif  // GAHM_POINTCLOUD_HPP

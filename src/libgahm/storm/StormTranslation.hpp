@@ -2,19 +2,19 @@
 // Created by Zach Cobell on 7/31/24.
 //
 
-#ifndef GAHM_STORMTRANSLATION_H
-#define GAHM_STORMTRANSLATION_H
+#ifndef GAHM_STORMTRANSLATION_HPP
+#define GAHM_STORMTRANSLATION_HPP
 
 #include <array>
 #include <cmath>
 #include <ostream>
 #include <tuple>
 
-#include "datatypes/Point.h"
-#include "datatypes/Vec.h"
-#include "physical/Constants.h"
-#include "physical/Earth.h"
-#include "physical/Units.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/Vec.hpp"
+#include "physical/Constants.hpp"
+#include "physical/Earth.hpp"
+#include "physical/Units.hpp"
 
 namespace Gahm::Storm {
 
@@ -47,13 +47,14 @@ class StormTranslation {
                           Gahm::Physical::Earth::azimuth(point_0, point_1) +
                           Gahm::Physical::Constants::halfPi(),
                       Gahm::Physical::Constants::twoPi())),
-        m_unit_vector(Types::Vec{std::cos(m_translation_direction),
-                                 std::sin(m_translation_direction)}),
+        m_unit_vector(Gahm::Types::Vec{std::cos(m_translation_direction),
+                                       std::sin(m_translation_direction)}),
         m_translation_vector(
             Types::Vec{m_unit_vector.u() * m_translation_speed,
                        m_unit_vector.v() * m_translation_speed}) {}
 
-  StormTranslation(Types::Point point_0, Types::Point point_1, long time_delta)
+  StormTranslation(Gahm::Types::Point point_0, Gahm::Types::Point point_1,
+                   long time_delta)
       : StormTranslation(point_0, point_1, static_cast<double>(time_delta)) {}
 
   [[nodiscard]] constexpr auto speed() const -> double {
@@ -64,16 +65,16 @@ class StormTranslation {
     return m_translation_direction;
   }
 
-  [[nodiscard]] constexpr auto velocity() const -> Types::Vec {
+  [[nodiscard]] constexpr auto velocity() const -> Gahm::Types::Vec {
     return m_translation_vector;
   }
 
-  [[nodiscard]] constexpr auto unit_vector() const -> Types::Vec {
+  [[nodiscard]] constexpr auto unit_vector() const -> Gahm::Types::Vec {
     return m_unit_vector;
   }
 
-  [[nodiscard]] constexpr auto operator==(const StormTranslation &rhs) const
-      -> bool {
+  [[nodiscard]] constexpr auto operator==(
+      const Gahm::Storm::StormTranslation &rhs) const -> bool {
     return m_translation_speed == rhs.m_translation_speed &&
            m_translation_direction == rhs.m_translation_direction &&
            m_unit_vector == rhs.m_unit_vector &&
@@ -89,8 +90,10 @@ class StormTranslation {
 
 }  // namespace Gahm::Storm
 
+#ifndef SWIG
 auto operator<<(std::ostream &stream,
                 const Gahm::Storm::StormTranslation &translation)
     -> std::ostream &;
+#endif
 
-#endif  // GAHM_STORMTRANSLATION_H
+#endif  // GAHM_STORMTRANSLATION_HPP

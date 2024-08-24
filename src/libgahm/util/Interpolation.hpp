@@ -2,8 +2,8 @@
 // Created by Zach Cobell on 8/16/24.
 //
 
-#ifndef GAHM_INTERPOLATION_H
-#define GAHM_INTERPOLATION_H
+#ifndef GAHM_INTERPOLATION_HPP
+#define GAHM_INTERPOLATION_HPP
 
 namespace Gahm::Util::Interpolation {
 
@@ -14,4 +14,4 @@ constexpr auto linear(T value_1, T value_2, double weight) -> T {
 
 }  // namespace Gahm::Util::Interpolation
 
-#endif  // GAHM_INTERPOLATION_H
+#endif  // GAHM_INTERPOLATION_HPP

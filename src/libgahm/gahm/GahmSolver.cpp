@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#include "GahmSolver.h"
+#include "GahmSolver.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -12,9 +12,9 @@
 #include <string>
 
 #include "boost/math/policies/error_handling.hpp"
-#include "gahm/GahmEquations.h"
-#include "physical/Atmospheric.h"
-#include "physical/Earth.h"
+#include "gahm/GahmEquations.hpp"
+#include "physical/Atmospheric.hpp"
+#include "physical/Earth.hpp"
 
 namespace Gahm::Solver {
 

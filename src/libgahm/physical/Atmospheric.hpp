@@ -2,13 +2,13 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#ifndef GAHM_ATMOSPHERIC_H
-#define GAHM_ATMOSPHERIC_H
+#ifndef GAHM_ATMOSPHERIC_HPP
+#define GAHM_ATMOSPHERIC_HPP
 
 #include <cassert>
 #include <cmath>
 
-#include "physical/Constants.h"
+#include "physical/Constants.hpp"
 
 namespace Gahm::Physical::Atmospheric {
 
@@ -38,7 +38,7 @@ constexpr auto rossbyNumber(double vmax, double rmax,
  * @param r_max radius to max winds for this quadrant/isotach
  * @return turning angle in radians
  */
-constexpr auto turning_angle(double distance, double r_max) {
+constexpr auto turning_angle(double distance, double r_max) -> double {
   constexpr auto deg_10 = 10.0 * Constants::deg2rad();
   constexpr auto deg_75 = 75.0 * Constants::deg2rad();
   constexpr auto deg_25 = 25.0 * Constants::deg2rad();
@@ -52,9 +52,6 @@ constexpr auto turning_angle(double distance, double r_max) {
   }
 }
 
-
-
-
 }  // namespace Gahm::Physical::Atmospheric
 
-#endif  // GAHM_ATMOSPHERIC_H
+#endif  // GAHM_ATMOSPHERIC_HPP

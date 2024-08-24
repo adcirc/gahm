@@ -2,12 +2,12 @@
 // Created by Zach Cobell on 8/16/24.
 //
 
-#ifndef GAHM_GAHMSOLUTION_H
-#define GAHM_GAHMSOLUTION_H
+#ifndef GAHM_GAHMSOLUTION_HPP
+#define GAHM_GAHMSOLUTION_HPP
 
-#include "datatypes/Vec.h"
-#include "storm/Quadrant.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Vec.hpp"
+#include "storm/Quadrant.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace Gahm::Solver::Solution {
 
@@ -79,4 +79,4 @@ struct GahmInputParamsPoint : public GahmInputParamsBase {
 [[nodiscard]] auto get(const GahmInputParamsPoint &input) -> GahmSolutionPoint;
 
 }  // namespace Gahm::Solver::Solution
-#endif  // GAHM_GAHMSOLUTION_H
+#endif  // GAHM_GAHMSOLUTION_HPP

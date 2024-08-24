@@ -2,16 +2,16 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#include "Isotach.h"
+#include "Isotach.hpp"
 
 #include <cassert>
 #include <ostream>
 
-#include "StormTranslation.h"
-#include "datatypes/Point.h"
-#include "datatypes/Vec.h"
-#include "gahm/GahmParameters.h"
-#include "physical/Units.h"
+#include "StormTranslation.hpp"
+#include "datatypes/Point.hpp"
+#include "datatypes/Vec.hpp"
+#include "gahm/GahmParameters.hpp"
+#include "physical/Units.hpp"
 
 namespace Gahm::Storm {
 

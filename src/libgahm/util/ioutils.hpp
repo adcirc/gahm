@@ -2,8 +2,8 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#ifndef GAHM_IOUTILS_H
-#define GAHM_IOUTILS_H
+#ifndef GAHM_IOUTILS_HPP
+#define GAHM_IOUTILS_HPP
 
 #include <string>
 #include <vector>
@@ -16,4 +16,4 @@ auto parse_position(const std::string &position) -> double;
 
 }  // namespace Gahm::util::io
 
-#endif  // GAHM_IOUTILS_H
+#endif  // GAHM_IOUTILS_HPP

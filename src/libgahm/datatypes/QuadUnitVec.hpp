@@ -2,14 +2,14 @@
 // Created by Zach Cobell on 8/13/24.
 //
 
-#ifndef GAHM_QUADUNITVEC_H
-#define GAHM_QUADUNITVEC_H
+#ifndef GAHM_QUADUNITVEC_HPP
+#define GAHM_QUADUNITVEC_HPP
 
 #include <cmath>
 
-#include "datatypes/QuadCode.h"
-#include "datatypes/Vec.h"
-#include "physical/Constants.h"
+#include "datatypes/QuadCode.hpp"
+#include "datatypes/Vec.hpp"
+#include "physical/Constants.hpp"
 
 namespace Gahm::Types::QuadUnitVec {
 
@@ -58,4 +58,4 @@ constexpr auto generate_unit_vector(double value1, double value2,
 
 }  // namespace Gahm::Types::QuadUnitVec
 
-#endif  // GAHM_QUADUNITVEC_H
+#endif  // GAHM_QUADUNITVEC_HPP

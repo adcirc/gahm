@@ -1,11 +1,11 @@
 //
 // Created by Zach Cobell on 7/31/24.
 //
-#include "StormTranslation.h"
+#include "StormTranslation.hpp"
 
 #include <iostream>
 
-#include "physical/Constants.h"
+#include "physical/Constants.hpp"
 
 auto operator<<(std::ostream &stream,
                 const Gahm::Storm::StormTranslation &translation)

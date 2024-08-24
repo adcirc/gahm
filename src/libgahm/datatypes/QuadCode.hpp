@@ -39,6 +39,7 @@ enum QuadrantCode : uint8_t { NE = 0, SE = 1, SW = 2, NW = 3 };
   return static_cast<unsigned>(code);
 }
 
+#ifndef SWIG
 [[nodiscard]] static constexpr auto quadrant_code_to_string(
     Types::QuadCode::QuadrantCode code) -> const char* {
   switch (code) {
@@ -54,6 +55,7 @@ enum QuadrantCode : uint8_t { NE = 0, SE = 1, SW = 2, NW = 3 };
       return "Unknown";
   }
 }
+#endif
 
 }  // namespace Gahm::Types::QuadCode
 

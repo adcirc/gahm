@@ -2,14 +2,14 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#ifndef GAHM_ATCFTRACK_H
-#define GAHM_ATCFTRACK_H
+#ifndef GAHM_ATCFTRACK_HPP
+#define GAHM_ATCFTRACK_HPP
 
 #include <algorithm>
 #include <utility>
 #include <vector>
 
-#include "AtcfPeriod.h"
+#include "AtcfPeriod.hpp"
 
 namespace Gahm::Atcf {
 class AtcfTrack {
@@ -22,7 +22,7 @@ class AtcfTrack {
     this->compute_gahm_parameters();
   }
 
-  [[nodiscard]] auto periods() const -> const std::vector<AtcfPeriod> & {
+  [[nodiscard]] const std::vector<AtcfPeriod> & periods() const {
     return m_periods;
   }
 
@@ -40,7 +40,9 @@ class AtcfTrack {
 
 }  // namespace Gahm::Atcf
 
+#ifndef SWIG
 auto operator<<(std::ostream &os,
                 const Gahm::Atcf::AtcfTrack &track) -> std::ostream &;
+#endif
 
-#endif  // GAHM_ATCFTRACK_H
+#endif  // GAHM_ATCFTRACK_HPP

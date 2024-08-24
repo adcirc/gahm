@@ -2,16 +2,16 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#ifndef GAHM_ISOTACH_H
-#define GAHM_ISOTACH_H
+#ifndef GAHM_ISOTACH_HPP
+#define GAHM_ISOTACH_HPP
 
 #include <cassert>
 #include <ostream>
 
-#include "datatypes/Point.h"
-#include "datatypes/Vec.h"
-#include "gahm/GahmParameters.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/Vec.hpp"
+#include "gahm/GahmParameters.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace Gahm::Storm {
 
@@ -44,8 +44,8 @@ class Isotach {
     return m_wind_speed == rhs.m_wind_speed;
   }
 
-  [[nodiscard]] constexpr auto gahm_parameters() const
-      -> const Gahm::Solver::GahmParamPack & {
+  [[nodiscard]] constexpr const Gahm::Solver::GahmParamPack &gahm_parameters()
+      const {
     return m_gahm_params;
   }
 
@@ -55,9 +55,9 @@ class Isotach {
     m_gahm_params = params;
   }
 
-  void compute_gahm_parameters(const StormTranslation &translation,
-                               const Types::Point &eye_location,
-                               const Types::Vec &unit_vector,
+  void compute_gahm_parameters(const Gahm::Storm::StormTranslation &translation,
+                               const Gahm::Types::Point &eye_location,
+                               const Gahm::Types::Vec &unit_vector,
                                double central_pressure,
                                double background_pressure, double v_max);
 
@@ -78,7 +78,9 @@ class Isotach {
 
 }  // namespace Gahm::Storm
 
+#ifndef SWIG
 auto operator<<(std::ostream &stream,
                 const Gahm::Storm::Isotach &isotach) -> std::ostream &;
+#endif
 
-#endif  // GAHM_ISOTACH_H
+#endif  // GAHM_ISOTACH_HPP

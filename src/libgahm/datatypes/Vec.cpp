@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/2/24.
 //
 
-#include "Vec.h"
+#include "Vec.hpp"
 #include <ostream>
 
 auto operator<<(std::ostream &stream,

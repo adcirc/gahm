@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/16/24.
 //
 
-#include "GahmSolution.h"
+#include "GahmSolution.hpp"
 
 #include <algorithm>
 #include <array>
@@ -10,17 +10,17 @@
 #include <iterator>
 #include <tuple>
 
-#include "datatypes/Point.h"
-#include "datatypes/RotationMatrix.h"
-#include "datatypes/Vec.h"
-#include "gahm/GahmEquations.h"
-#include "physical/Atmospheric.h"
-#include "physical/Constants.h"
-#include "physical/Earth.h"
-#include "storm/Isotach.h"
-#include "storm/Quadrant.h"
-#include "storm/StormTranslation.h"
-#include "util/Interpolation.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/RotationMatrix.hpp"
+#include "datatypes/Vec.hpp"
+#include "gahm/GahmEquations.hpp"
+#include "physical/Atmospheric.hpp"
+#include "physical/Constants.hpp"
+#include "physical/Earth.hpp"
+#include "storm/Isotach.hpp"
+#include "storm/Quadrant.hpp"
+#include "storm/StormTranslation.hpp"
+#include "util/Interpolation.hpp"
 
 namespace Gahm::Solver::Solution {
 

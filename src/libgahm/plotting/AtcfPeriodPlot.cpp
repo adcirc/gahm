@@ -2,15 +2,15 @@
 // Created by Zach Cobell on 8/20/24.
 //
 
-#include "plotting/AtcfPeriodPlot.h"
+#include "plotting/AtcfPeriodPlot.hpp"
 
 #include <algorithm>
 #include <ranges>
 #include <unordered_map>
 
-#include "output/RadialProfile.h"
-#include "physical/Constants.h"
-#include "physical/Units.h"
+#include "output/RadialProfile.hpp"
+#include "physical/Constants.hpp"
+#include "physical/Units.hpp"
 #include "vtkAxis.h"
 #include "vtkCamera.h"
 #include "vtkChart.h"

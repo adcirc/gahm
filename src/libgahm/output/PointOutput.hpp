@@ -2,14 +2,14 @@
 // Created by Zach Cobell on 8/22/24.
 //
 
-#ifndef GAHM_POINTOUTPUT_H
-#define GAHM_POINTOUTPUT_H
+#ifndef GAHM_POINTOUTPUT_HPP
+#define GAHM_POINTOUTPUT_HPP
 
-#include "atcf/AtcfPeriod.h"
-#include "datatypes/Datetime.h"
-#include "datatypes/Grid.h"
-#include "datatypes/Point.h"
-#include "datatypes/PointCloud.h"
+#include "atcf/AtcfPeriod.hpp"
+#include "datatypes/Datetime.hpp"
+#include "datatypes/Grid.hpp"
+#include "datatypes/Point.hpp"
+#include "datatypes/PointCloud.hpp"
 
 namespace Gahm::Output::PointOutput {
 
@@ -39,4 +39,4 @@ struct PointSolution {
                               const Types::Grid &grid) -> PointSolution;
 
 }  // namespace Gahm::Output::PointOutput
-#endif  // GAHM_POINTOUTPUT_H
+#endif  // GAHM_POINTOUTPUT_HPP

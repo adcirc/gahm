@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#include "AtcfTrack.h"
+#include "AtcfTrack.hpp"
 
 #include <iostream>
 #include <iterator>

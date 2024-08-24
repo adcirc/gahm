@@ -2,16 +2,16 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#include "AtcfPeriod.h"
+#include "AtcfPeriod.hpp"
 
 #include <algorithm>
 #include <array>
 #include <iostream>
 #include <optional>
 
-#include "datatypes/Datetime.h"
-#include "storm/Quadrant.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Datetime.hpp"
+#include "storm/Quadrant.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace Gahm::Atcf {
 

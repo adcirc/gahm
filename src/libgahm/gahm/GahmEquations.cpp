@@ -2,11 +2,11 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#include "GahmEquations.h"
+#include "GahmEquations.hpp"
 
 #include <cmath>
 
-#include "physical/Atmospheric.h"
+#include "physical/Atmospheric.hpp"
 
 /**
  * Function to compute radius to max wind \f$V_g(r)\f$

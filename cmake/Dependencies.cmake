@@ -20,6 +20,17 @@ macro(gahm_setup_dependencies)
   # ##################################################################################################################
   find_package(Boost 1.50.0 REQUIRED)
 
+  # ##################################################################################################################
+  # SWIG
+  # ##################################################################################################################
+  if(gahm_ENABLE_PYTHON)
+    find_package(SWIG 4 REQUIRED)
+
+    # We also need the python interpreter and headers
+    find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
+
+  endif()
+
 
   # ##################################################################################################################
   # Vtk
@@ -39,6 +50,16 @@ macro(gahm_setup_dependencies)
             IOImage
             QUIET
     )
+
+    if(NOT VTK_FOUND)
+      message(FATAL_ERROR "VTK was not found. Please set VTK_DIR.")
+    endif()
+
+    mark_as_advanced(VTK_DIR)
+    mark_as_advanced(Tiff_DIR)
+    mark_as_advanced(LZMA_LIBRARY)
+    mark_as_advanced(LZMA_INCLUDE_DIR)
+
   endif()
 
   # ##################################################################################################################
@@ -85,5 +106,6 @@ macro(gahm_setup_dependencies)
 
   # Mark the FetchContent variables as advanced
   mark_as_advanced_wildcard("FETCHCONTENT_")
+  mark_as_advanced("pugixml_DIR")
 
 endmacro()

@@ -75,7 +75,8 @@ class Point {
 };
 }  // namespace Gahm::Types
 
+#ifndef SWIG
 auto operator<<(std::ostream &stream,
                 const Gahm::Types::Point &point) -> std::ostream &;
-
+#endif
 #endif  // GAHM_POINT_H

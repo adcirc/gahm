@@ -19,6 +19,8 @@ mark_as_advanced(CLEAR CMAKE_BUILD_TYPE)
 mark_as_advanced(CLEAR CMAKE_CXX_COMPILER)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_RELEASE)
+mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_MINSIZEREL)
 mark_as_advanced(CLEAR CMAKE_CXX_FLAGS_DEBUG)
 
 # ##############################################################################
@@ -54,6 +56,7 @@ add_library(gahm::gahm_warnings ALIAS gahm_warnings)
 
 # ##############################################################################
 # Set Up the Dependencies
+option(gahm_ENABLE_PYTHON "Enable Python bindings with SWIG" OFF)
 option(gahm_ENABLE_PLOTTING "Enable plotting with VTK" OFF)
 option(gahm_ENABLE_BENCHMARKS "Enable benchmarks with Google Benchmark" OFF)
 if(NOT DEFINED gahm_BUILD_TESTS AND gahm_MAINTAINER_MODE)

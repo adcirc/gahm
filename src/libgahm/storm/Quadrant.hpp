@@ -2,8 +2,8 @@
 // Created by Zach Cobell on 8/4/24.
 //
 
-#ifndef GAHM_QUADRANT_H
-#define GAHM_QUADRANT_H
+#ifndef GAHM_QUADRANT_HPP
+#define GAHM_QUADRANT_HPP
 
 #include <algorithm>
 #include <array>
@@ -14,12 +14,12 @@
 #include <ostream>
 #include <ranges>
 
-#include "datatypes/Point.h"
-#include "datatypes/QuadCode.h"
-#include "datatypes/QuadUnitVec.h"
-#include "datatypes/Vec.h"
-#include "storm/Isotach.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/QuadCode.hpp"
+#include "datatypes/QuadUnitVec.hpp"
+#include "datatypes/Vec.hpp"
+#include "storm/Isotach.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace Gahm::Storm {
 
@@ -78,8 +78,7 @@ class Quadrant {
    * Returns the isotachs
    * @return Array of Isotach objects
    */
-  [[nodiscard]] constexpr auto isotachs() const
-      -> const std::array<Isotach, 3>& {
+  [[nodiscard]] constexpr const std::array<Isotach, 3>& isotachs() const {
     return m_isotachs;
   }
 
@@ -88,12 +87,14 @@ class Quadrant {
    * @param index Index of the isotach
    * @return Isotach object
    */
-  [[nodiscard]] constexpr auto isotach(size_t index) const -> const Isotach& {
+#ifndef SWIG
+  [[nodiscard]] constexpr const Isotach& isotach(size_t index) const {
     assert(index < 3);
     return m_isotachs.at(index);
   }
+#endif
 
-  [[nodiscard]] constexpr auto isotach(size_t index) -> Isotach& {
+  [[nodiscard]] constexpr auto isotach(size_t index) -> Gahm::Storm::Isotach& {
     assert(index < 3);
     return m_isotachs.at(index);
   }
@@ -102,13 +103,15 @@ class Quadrant {
    * Sets the unit vector at the top of the boundary layer.
    * @param vec Unit vector
    */
-  void set_unit_vector_tbl(const Types::Vec& vec) { m_unit_vector_tbl = vec; }
+  void set_unit_vector_tbl(const Gahm::Types::Vec& vec) {
+    m_unit_vector_tbl = vec;
+  }
 
   /**
    * Returns the unit vector at the top of the boundary layer.
    * @return Unit vector
    */
-  [[nodiscard]] constexpr auto unit_vector_tbl() const -> const Types::Vec& {
+  [[nodiscard]] constexpr const Gahm::Types::Vec& unit_vector_tbl() const {
     return m_unit_vector_tbl;
   }
 
@@ -120,27 +123,28 @@ class Quadrant {
     return m_n_populated_isotachs;
   }
 
-  [[nodiscard]] constexpr auto last_populated_isotach() const
-      -> const Isotach& {
+  [[nodiscard]] constexpr const Isotach& last_populated_isotach() const {
     return m_isotachs[m_last_populated_isotach_pos];
   }
 
   /**
    * Computes the GAHM parameters for the quadrant.
    */
-  void compute_gahm_parameters(const StormTranslation& translation,
-                               const Types::Point& eye_location,
+  void compute_gahm_parameters(const Gahm::Storm::StormTranslation& translation,
+                               const Gahm::Types::Point& eye_location,
                                double central_pressure,
                                double background_pressure, double v_max);
 
-  static constexpr auto is_interpolatable(const Quadrant& quad_1,
-                                          const Quadrant& quad_2) -> bool {
+  static constexpr auto is_interpolatable(const Gahm::Storm::Quadrant& quad_1,
+                                          const Gahm::Storm::Quadrant& quad_2)
+      -> bool {
     return quad_1.n_populated_isotachs() == quad_2.n_populated_isotachs();
   }
 
-  static auto interpolate(const Quadrant& quadrant_1,
-                          const Quadrant& quadrant_2, double weight,
-                          double latitude) -> Quadrant;
+  static auto interpolate(const Gahm::Storm::Quadrant& quadrant_1,
+                          const Gahm::Storm::Quadrant& quadrant_2,
+                          double weight,
+                          double latitude) -> Gahm::Storm::Quadrant;
 
  private:
   /**
@@ -163,12 +167,13 @@ class Quadrant {
    */
   [[nodiscard]] constexpr auto count_populated_isotachs() const -> int {
     return static_cast<int>(std::ranges::count_if(
-        m_isotachs,
-        [](const Isotach& isotach) { return isotach.is_populated(); }));
+        m_isotachs, [](const Gahm::Storm::Isotach& isotach) {
+          return isotach.is_populated();
+        }));
   }
 
-  std::array<Isotach, 3> m_isotachs;
-  Types::Vec m_unit_vector_tbl;
+  std::array<Gahm::Storm::Isotach, 3> m_isotachs;
+  Gahm::Types::Vec m_unit_vector_tbl;
   size_t m_last_populated_isotach_pos;
   int m_n_populated_isotachs;
   Types::QuadCode::QuadrantCode m_quadrant_code;
@@ -176,7 +181,9 @@ class Quadrant {
 
 }  // namespace Gahm::Storm
 
+#ifndef SWIG
 auto operator<<(std::ostream& stream,
                 const Gahm::Storm::Quadrant& quadrant) -> std::ostream&;
+#endif
 
-#endif  // GAHM_QUADRANT_H
+#endif  // GAHM_QUADRANT_HPP

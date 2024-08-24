@@ -2,12 +2,12 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#include "gahm/GahmRadiusSolverPrivate.h"
+#include "gahm/GahmRadiusSolverPrivate.hpp"
 
 #include <tuple>
 #include <utility>
 
-#include "gahm/GahmEquations.h"
+#include "gahm/GahmEquations.hpp"
 
 namespace Gahm::Solver::detail {
 

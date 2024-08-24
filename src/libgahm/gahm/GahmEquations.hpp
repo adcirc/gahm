@@ -2,13 +2,13 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#ifndef GAHM_GAHMEQUATIONS_H
-#define GAHM_GAHMEQUATIONS_H
+#ifndef GAHM_GAHMEQUATIONS_HPP
+#define GAHM_GAHMEQUATIONS_HPP
 
 #include <cassert>
 #include <cmath>
 
-#include "physical/Atmospheric.h"
+#include "physical/Atmospheric.hpp"
 
 namespace Gahm::Solver::GahmEquations {
 
@@ -83,4 +83,4 @@ namespace Gahm::Solver::GahmEquations {
 }
 }  // namespace Gahm::Solver::GahmEquations
 
-#endif  // GAHM_GAHMEQUATIONS_H
+#endif  // GAHM_GAHMEQUATIONS_HPP

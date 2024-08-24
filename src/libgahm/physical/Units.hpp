@@ -2,8 +2,8 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#ifndef GAHM_UNITS_H
-#define GAHM_UNITS_H
+#ifndef GAHM_UNITS_HPP
+#define GAHM_UNITS_HPP
 
 namespace Gahm::Physical {
 
@@ -73,4 +73,4 @@ constexpr auto convert(const T &lhs, const T &rhs) -> double
 
 }  // namespace Units
 }  // namespace Gahm::Physical
-#endif  // GAHM_UNITS_H
+#endif  // GAHM_UNITS_HPP

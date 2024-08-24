@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/2/24.
 //
 
-#include "Point.h"
+#include "Point.hpp"
 #include <ostream>
 
 auto operator<<(std::ostream &stream, const Gahm::Types::Point &point) -> std::ostream & {

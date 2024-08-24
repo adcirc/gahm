@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#include "AtcfIO.h"
+#include "AtcfIO.hpp"
 
 #include <algorithm>
 #include <array>
@@ -13,17 +13,18 @@
 #include <iterator>
 #include <numeric>
 #include <optional>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
-#include "AtcfPeriod.h"
-#include "AtcfTrack.h"
-#include "datatypes/Datetime.h"
-#include "datatypes/QuadCode.h"
-#include "physical/Units.h"
-#include "storm/Isotach.h"
-#include "storm/Quadrant.h"
-#include "util/ioutils.h"
+#include "AtcfPeriod.hpp"
+#include "AtcfTrack.hpp"
+#include "datatypes/Datetime.hpp"
+#include "datatypes/QuadCode.hpp"
+#include "physical/Units.hpp"
+#include "storm/Isotach.hpp"
+#include "storm/Quadrant.hpp"
+#include "util/ioutils.hpp"
 
 /**
  * Convert the ATCF ordering of the radial data (by isotach is major index)
@@ -34,13 +35,12 @@
  * @return Array of quadrants
  */
 auto Gahm::Atcf::AtcfIO::transpose_to_quadrants(
-    double latitude,
-    const std::vector<Gahm::Atcf::AtcfIO::TempIsotach> &isotachs)
+    double latitude, const std::vector<Gahm::Atcf::TempIsotach> &isotachs)
     -> std::array<Gahm::Storm::Quadrant, 4> {
   std::array<Gahm::Storm::Quadrant, 4> quadrants;
 
   // The Isotachs vector needs to be length 3. Fill out if not
-  std::array<Gahm::Atcf::AtcfIO::TempIsotach, 3> isotach_array = {};
+  std::array<Gahm::Atcf::TempIsotach, 3> isotach_array = {};
   for (size_t i = 0; i < 3; i++) {
     if (i < isotachs.size()) {
       isotach_array.at(i) = isotachs.at(i);
@@ -69,7 +69,7 @@ auto Gahm::Atcf::AtcfIO::transpose_to_quadrants(
 
 auto Gahm::Atcf::AtcfIO::sanitize_temp_isotach(
     double radius_to_max_winds,
-    const Gahm::Atcf::AtcfIO::TempIsotach &temp_isotach) -> TempIsotach {
+    const Gahm::Atcf::TempIsotach &temp_isotach) -> TempIsotach {
   const auto n_quad_populated =
       std::count_if(temp_isotach.distance.begin(), temp_isotach.distance.end(),
                     [](const auto &d) { return d > 0.0; });
@@ -125,11 +125,10 @@ auto Gahm::Atcf::AtcfIO::sanitize_temp_isotach(
  *
  * @return std::optional of type AtcfTrack
  */
-auto Gahm::Atcf::AtcfIO::read() const -> std::optional<AtcfTrack> {
+auto Gahm::Atcf::AtcfIO::read() const -> AtcfTrack {
   std::ifstream file(m_filename);
   if (!file.is_open()) {
-    std::cerr << "Could not open file: " << m_filename << '\n';
-    return std::nullopt;
+    throw std::runtime_error("Could not open file");
   }
 
   constexpr auto kt_to_ms = Gahm::Physical::Units::convert(
@@ -142,7 +141,7 @@ auto Gahm::Atcf::AtcfIO::read() const -> std::optional<AtcfTrack> {
   try {
     Types::Datetime previous_datetime;
     std::vector<AtcfPeriod> periods;
-    std::vector<Gahm::Atcf::AtcfIO::TempIsotach> isotachs;
+    std::vector<Gahm::Atcf::TempIsotach> isotachs;
     std::string line;
     while (std::getline(file, line)) {
       const auto tokens = Util::IO::split_string(line);
@@ -163,17 +162,16 @@ auto Gahm::Atcf::AtcfIO::read() const -> std::optional<AtcfTrack> {
         }
       }();
 
-      const auto this_isotach = [&]() -> Gahm::Atcf::AtcfIO::TempIsotach {
+      const auto this_isotach = [&]() -> Gahm::Atcf::TempIsotach {
         const auto isotach_speed = std::stod(tokens.at(11)) * kt_to_ms;
         const auto isotach_distance_1 = std::stod(tokens.at(13)) * nmi_to_m;
         const auto isotach_distance_2 = std::stod(tokens.at(14)) * nmi_to_m;
         const auto isotach_distance_3 = std::stod(tokens.at(15)) * nmi_to_m;
         const auto isotach_distance_4 = std::stod(tokens.at(16)) * nmi_to_m;
 
-        const AtcfIO::TempIsotach iso = {
-            isotach_speed,
-            {isotach_distance_1, isotach_distance_2, isotach_distance_3,
-             isotach_distance_4}};
+        const TempIsotach iso = {isotach_speed,
+                                 {isotach_distance_1, isotach_distance_2,
+                                  isotach_distance_3, isotach_distance_4}};
 
         auto iso_sanitized = AtcfIO::sanitize_temp_isotach(r_max, iso);
         if (iso_sanitized.wind_speed == 0.0) {
@@ -202,12 +200,10 @@ auto Gahm::Atcf::AtcfIO::read() const -> std::optional<AtcfTrack> {
       }
     }
 
-    auto track = AtcfTrack(periods);
-    std::cout << track;
+    return AtcfTrack(periods);
 
-    return std::make_optional<AtcfTrack>(track);
   } catch (const std::exception &e) {
-    std::cerr << "Error reading file: " << e.what() << '\n';
-    return std::nullopt;
+    throw std::runtime_error("Error reading ATCF file: " +
+                             std::string(e.what()));
   }
 }

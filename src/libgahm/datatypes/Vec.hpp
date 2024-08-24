@@ -10,7 +10,7 @@
 #include <iostream>
 #include <ostream>
 
-#include "physical/Constants.h"
+#include "physical/Constants.hpp"
 
 namespace Gahm::Types {
 
@@ -179,7 +179,7 @@ class Vec {
    * @return Dot product of the two vectors
    */
   [[nodiscard]] constexpr auto dot(const Vec &rhs) const -> double {
-    return m_u * rhs.m_u + m_v * rhs.m_v;
+    return (m_u * rhs.m_u) + (m_v * rhs.m_v);
   }
 
   /**
@@ -188,7 +188,7 @@ class Vec {
    * @return Cross product of the two vectors
    */
   [[nodiscard]] constexpr auto cross(const Vec &rhs) const -> double {
-    return m_u * rhs.m_v - m_v * rhs.m_u;
+    return (m_u * rhs.m_v) - (m_v * rhs.m_u);
   }
 
   /**
@@ -218,7 +218,8 @@ class Vec {
 
 }  // namespace Gahm::Types
 
+#ifndef SWIG
 auto operator<<(std::ostream &stream,
                 const Gahm::Types::Vec &vec) -> std::ostream &;
-
+#endif
 #endif  // GAHM_VEC_H

@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/12/24.
 //
 
-#include "gahm/GahmRadiusSolver.h"
+#include "gahm/GahmRadiusSolver.hpp"
 
 #include <cstddef>
 #include <limits>

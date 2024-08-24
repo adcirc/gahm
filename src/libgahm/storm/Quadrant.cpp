@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 8/4/24.
 //
 
-#include "Quadrant.h"
+#include "Quadrant.hpp"
 
 #include <algorithm>
 #include <array>
@@ -10,10 +10,10 @@
 #include <ostream>
 #include <ranges>
 
-#include "datatypes/Point.h"
-#include "datatypes/QuadUnitVec.h"
-#include "storm/Isotach.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/QuadUnitVec.hpp"
+#include "storm/Isotach.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace Gahm::Storm {
 

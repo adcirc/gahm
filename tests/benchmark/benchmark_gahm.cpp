@@ -5,16 +5,16 @@
 #include <array>
 #include <cstddef>
 
-#include "atcf/AtcfIO.h"
-#include "atcf/AtcfPeriod.h"
+#include "atcf/AtcfIO.hpp"
+#include "atcf/AtcfPeriod.hpp"
 #include "benchmark/benchmark.h"
-#include "datatypes/Datetime.h"
-#include "datatypes/Grid.h"
-#include "datatypes/Point.h"
-#include "datatypes/PointCloud.h"
-#include "output/PointOutput.h"
-#include "physical/Units.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Datetime.hpp"
+#include "datatypes/Grid.hpp"
+#include "datatypes/Point.hpp"
+#include "datatypes/PointCloud.hpp"
+#include "output/PointOutput.hpp"
+#include "physical/Units.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace {
 
@@ -38,13 +38,13 @@ auto generate_test_snap_1(bool compute_gahm = true) -> Gahm::Atcf::AtcfPeriod {
   const Gahm::Types::Point previous_eye_location(-76.0, 33.6);
   const Gahm::Storm::StormTranslation translation(eye_location,
                                                   previous_eye_location, dt);
-  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+  const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
                                           100 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+  const Gahm::Atcf::TempIsotach i50(
       50.0 * kt2ms,
       std::array<double, 4>{100 * nmi2m, 80 * nmi2m, 80 * nmi2m, 70 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+  const Gahm::Atcf::TempIsotach i64(
       64.0 * kt2ms,
       std::array<double, 4>{70 * nmi2m, 60 * nmi2m, 50 * nmi2m, 50 * nmi2m});
 
@@ -62,7 +62,7 @@ auto generate_test_snap_1(bool compute_gahm = true) -> Gahm::Atcf::AtcfPeriod {
   return snap;
 }
 
-auto generate_test_snap_2(bool compute_gahm = true) -> Gahm::Atcf::AtcfPeriod {
+auto generate_test_snap_2() -> Gahm::Atcf::AtcfPeriod {
   constexpr auto mb2pa = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::Millibar, Gahm::Physical::Units::Pascal);
   constexpr auto kt2ms = Gahm::Physical::Units::convert(
@@ -82,13 +82,13 @@ auto generate_test_snap_2(bool compute_gahm = true) -> Gahm::Atcf::AtcfPeriod {
   const Gahm::Types::Point previous_eye_location(-76.5, 34.0);
   const Gahm::Storm::StormTranslation translation(eye_location,
                                                   previous_eye_location, dt);
-  const Gahm::Atcf::AtcfIO::TempIsotach i34(
+  const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
                                           100 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i50(
+  const Gahm::Atcf::TempIsotach i50(
       50.0 * kt2ms,
       std::array<double, 4>{100 * nmi2m, 80 * nmi2m, 80 * nmi2m, 70 * nmi2m});
-  const Gahm::Atcf::AtcfIO::TempIsotach i64(
+  const Gahm::Atcf::TempIsotach i64(
       64.0 * kt2ms,
       std::array<double, 4>{70 * nmi2m, 60 * nmi2m, 60 * nmi2m, 50 * nmi2m});
 
@@ -99,9 +99,7 @@ auto generate_test_snap_2(bool compute_gahm = true) -> Gahm::Atcf::AtcfPeriod {
                               quadrants);
   snap.set_translation(translation);
 
-  if (compute_gahm) {
-    snap.compute_gahm_parameters();
-  }
+  snap.compute_gahm_parameters();
 
   return snap;
 }

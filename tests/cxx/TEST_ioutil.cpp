@@ -6,8 +6,8 @@
 
 #include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
-#include "datatypes/Datetime.h"
-#include "util/ioutils.h"
+#include "datatypes/Datetime.hpp"
+#include "util/ioutils.hpp"
 
 // NOLINTBEGIN(cppcoreguidelines-macro-usage,
 // cppcoreguidelines-avoid-magic-numbers, misc-use-anonymous-namespace,

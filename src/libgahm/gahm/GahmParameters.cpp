@@ -2,7 +2,7 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#include "GahmParameters.h"
+#include "GahmParameters.hpp"
 
 #include <algorithm>
 #include <array>
@@ -11,13 +11,13 @@
 #include <optional>
 #include <tuple>
 
-#include "datatypes/Point.h"
-#include "datatypes/RotationMatrix.h"
-#include "datatypes/Vec.h"
-#include "gahm/GahmSolver.h"
-#include "physical/Atmospheric.h"
-#include "physical/Constants.h"
-#include "storm/StormTranslation.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/RotationMatrix.hpp"
+#include "datatypes/Vec.hpp"
+#include "gahm/GahmSolver.hpp"
+#include "physical/Atmospheric.hpp"
+#include "physical/Constants.hpp"
+#include "storm/StormTranslation.hpp"
 
 namespace {
 /**

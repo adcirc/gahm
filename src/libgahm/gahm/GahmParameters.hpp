@@ -2,13 +2,13 @@
 // Created by Zach Cobell on 7/30/24.
 //
 
-#ifndef GAHM_GAHMPARAMETERS_H
-#define GAHM_GAHMPARAMETERS_H
+#ifndef GAHM_GAHMPARAMETERS_HPP
+#define GAHM_GAHMPARAMETERS_HPP
 
-#include "datatypes/Point.h"
-#include "datatypes/Vec.h"
-#include "storm/StormTranslation.h"
-#include "util/Interpolation.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/Vec.hpp"
+#include "storm/StormTranslation.hpp"
+#include "util/Interpolation.hpp"
 
 namespace Gahm::Solver {
 
@@ -133,4 +133,4 @@ auto GahmParameters(const Gahm::Storm::StormTranslation& translation,
                     double isotach_radius) -> GahmParamPack;
 
 }  // namespace Gahm::Solver
-#endif  // GAHM_GAHMPARAMETERS_H
+#endif  // GAHM_GAHMPARAMETERS_HPP

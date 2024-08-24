@@ -2,24 +2,24 @@
 // Created by Zach Cobell on 8/22/24.
 //
 
-#ifndef GAHM_GRID_H
-#define GAHM_GRID_H
+#ifndef GAHM_GRID_HPP
+#define GAHM_GRID_HPP
 
 #include <cstddef>
 
-#include "datatypes/Point.h"
-#include "datatypes/PointCloud.h"
+#include "datatypes/Point.hpp"
+#include "datatypes/PointCloud.hpp"
 
 namespace Gahm::Types {
 
 class Grid {
  public:
-  constexpr Grid(const Point &lower_left, double dx, double dy, size_t nx,
+  constexpr Grid(const Gahm::Types::Point &lower_left, double dx, double dy, size_t nx,
                  size_t ny)
       : m_ll(lower_left), m_dx(dx), m_dy(dy), m_nx(nx), m_ny(ny) {}
 
   static constexpr auto fromCorners(double x1, double y1, double x2, double y2,
-                                    double dx, double dy) -> Grid {
+                                    double dx, double dy) -> Gahm::Types::Grid {
     const auto xll = std::min(x1, x2);
     const auto yll = std::min(y1, y2);
     const auto xur = std::max(x1, x2);
@@ -31,8 +31,8 @@ class Grid {
             static_cast<size_t>((yur - yll) / dy)};
   }
 
-  static constexpr auto fromCorners(const Point &pt1, const Point &pt2,
-                                    double dx, double dy) -> Grid {
+  static constexpr auto fromCorners(const Gahm::Types::Point &pt1, const Gahm::Types::Point &pt2,
+                                    double dx, double dy) -> Gahm::Types::Grid {
     return fromCorners(pt1.x(), pt1.y(), pt2.x(), pt2.y(), dx, dy);
   }
 
@@ -69,7 +69,7 @@ class Grid {
     return y_vec;
   }
 
-  [[nodiscard]] auto points() const -> PointCloud {
+  [[nodiscard]] auto points() const -> Gahm::Types::PointCloud {
     const auto x_vec = this->x_vector();
     const auto y_vec = this->y_vector();
     PointCloud points;
@@ -109,7 +109,7 @@ class Grid {
   }
 
  private:
-  Point m_ll;
+  Gahm::Types::Point m_ll;
   double m_dx;
   double m_dy;
   size_t m_nx;
@@ -118,4 +118,4 @@ class Grid {
 
 }  // namespace Gahm::Types
 
-#endif  // GAHM_GRID_H
+#endif  // GAHM_GRID_HPP
