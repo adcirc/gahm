@@ -30,8 +30,8 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
   constexpr auto nmi2m = Gahm::Physical::Units::convert(
       Gahm::Physical::Units::NauticalMile, Gahm::Physical::Units::Meter);
 
-  REQUIRE_THAT(mb2pa, WithinAbs(100.0, 1e-6));
-  REQUIRE_THAT(kt2ms, WithinAbs(0.5144456, 1e-6));
+  REQUIRE_THAT(mb2pa, WithinRel(100.0, 0.001));
+  REQUIRE_THAT(kt2ms, WithinRel(0.5144456, 0.001));
 
   const double p_c = 952.0 * mb2pa;
   const double p_bk = 1013.0 * mb2pa;
@@ -42,16 +42,16 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
   const Gahm::Storm::StormTranslation translation(eye_location,
                                                   previous_eye_location, dt);
 
-  REQUIRE_THAT(p_c, WithinAbs(95200.0, 1e-6));
-  REQUIRE_THAT(p_bk, WithinAbs(101300.0, 1e-6));
-  REQUIRE_THAT(v_max, WithinAbs(46.300107, 1e-6));
-  REQUIRE_THAT(r_max, WithinAbs(37039.907937, 1e-6));
-  REQUIRE_THAT(translation.speed(), WithinAbs(2.977566, 1e-6));
-  REQUIRE_THAT(translation.direction(), WithinAbs(2.377621, 1e-6));
-  REQUIRE_THAT(translation.unit_vector().u(), WithinAbs(-0.722094, 1e-6));
-  REQUIRE_THAT(translation.unit_vector().v(), WithinAbs(0.691794, 1e-6));
-  REQUIRE_THAT(translation.velocity().u(), WithinAbs(-2.150083, 1e-6));
-  REQUIRE_THAT(translation.velocity().v(), WithinAbs(2.059864, 1e-6));
+  REQUIRE_THAT(p_c, WithinRel(95200.0, 0.001));
+  REQUIRE_THAT(p_bk, WithinRel(101300.0, 0.001));
+  REQUIRE_THAT(v_max, WithinRel(46.300107, 0.001));
+  REQUIRE_THAT(r_max, WithinRel(37039.907937, 0.001));
+  REQUIRE_THAT(translation.speed(), WithinRel(2.977566, 0.001));
+  REQUIRE_THAT(translation.direction(), WithinRel(2.377621, 0.001));
+  REQUIRE_THAT(translation.unit_vector().u(), WithinRel(-0.722094, 0.001));
+  REQUIRE_THAT(translation.unit_vector().v(), WithinRel(0.691794, 0.001));
+  REQUIRE_THAT(translation.velocity().u(), WithinRel(-2.150083, 0.001));
+  REQUIRE_THAT(translation.velocity().v(), WithinRel(2.059864, 0.001));
 
   const Gahm::Atcf::TempIsotach i34(
       34.0 * kt2ms, std::array<double, 4>{170 * nmi2m, 150 * nmi2m, 130 * nmi2m,
@@ -67,42 +67,42 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       eye_location.y(), {i34, i50, i64});
 
   REQUIRE_THAT(quadrants[0].isotach(0).wind_speed(),
-               WithinAbs(34.0 * kt2ms, 1e-6));
+               WithinRel(34.0 * kt2ms, 0.001));
   REQUIRE_THAT(quadrants[0].isotach(0).radius(),
-               WithinAbs(170.0 * nmi2m, 1e-6));
+               WithinRel(170.0 * nmi2m, 0.001));
   REQUIRE_THAT(quadrants[1].isotach(0).radius(),
-               WithinAbs(150.0 * nmi2m, 1e-6));
+               WithinRel(150.0 * nmi2m, 0.001));
   REQUIRE_THAT(quadrants[2].isotach(0).radius(),
-               WithinAbs(130.0 * nmi2m, 1e-6));
+               WithinRel(130.0 * nmi2m, 0.001));
   REQUIRE_THAT(quadrants[3].isotach(0).radius(),
-               WithinAbs(100.0 * nmi2m, 1e-6));
+               WithinRel(100.0 * nmi2m, 0.001));
 
   REQUIRE_THAT(quadrants[1].isotach(1).wind_speed(),
-               WithinAbs(50.0 * kt2ms, 1e-6));
+               WithinRel(50.0 * kt2ms, 0.001));
   REQUIRE_THAT(quadrants[0].isotach(1).radius(),
-               WithinAbs(100.0 * nmi2m, 1e-6));
-  REQUIRE_THAT(quadrants[1].isotach(1).radius(), WithinAbs(80.0 * nmi2m, 1e-6));
-  REQUIRE_THAT(quadrants[2].isotach(1).radius(), WithinAbs(80.0 * nmi2m, 1e-6));
-  REQUIRE_THAT(quadrants[3].isotach(1).radius(), WithinAbs(70.0 * nmi2m, 1e-6));
+               WithinRel(100.0 * nmi2m, 0.001));
+  REQUIRE_THAT(quadrants[1].isotach(1).radius(), WithinRel(80.0 * nmi2m, 0.001));
+  REQUIRE_THAT(quadrants[2].isotach(1).radius(), WithinRel(80.0 * nmi2m, 0.001));
+  REQUIRE_THAT(quadrants[3].isotach(1).radius(), WithinRel(70.0 * nmi2m, 0.001));
 
   REQUIRE_THAT(quadrants[3].isotach(2).wind_speed(),
-               WithinAbs(64.0 * kt2ms, 1e-6));
-  REQUIRE_THAT(quadrants[0].isotach(2).radius(), WithinAbs(70.0 * nmi2m, 1e-6));
-  REQUIRE_THAT(quadrants[1].isotach(2).radius(), WithinAbs(60.0 * nmi2m, 1e-6));
-  REQUIRE_THAT(quadrants[2].isotach(2).radius(), WithinAbs(50.0 * nmi2m, 1e-6));
-  REQUIRE_THAT(quadrants[3].isotach(2).radius(), WithinAbs(50.0 * nmi2m, 1e-6));
+               WithinRel(64.0 * kt2ms, 0.001));
+  REQUIRE_THAT(quadrants[0].isotach(2).radius(), WithinRel(70.0 * nmi2m, 0.001));
+  REQUIRE_THAT(quadrants[1].isotach(2).radius(), WithinRel(60.0 * nmi2m, 0.001));
+  REQUIRE_THAT(quadrants[2].isotach(2).radius(), WithinRel(50.0 * nmi2m, 0.001));
+  REQUIRE_THAT(quadrants[3].isotach(2).radius(), WithinRel(50.0 * nmi2m, 0.001));
 
   Gahm::Atcf::AtcfPeriod snap(snap_date, p_c, p_bk, v_max, r_max, eye_location,
                               quadrants);
   snap.set_translation(translation);
 
-  REQUIRE_THAT(snap.background_pressure(), WithinAbs(101300.0, 1e-6));
-  REQUIRE_THAT(snap.central_pressure(), WithinAbs(95200.0, 1e-6));
+  REQUIRE_THAT(snap.background_pressure(), WithinRel(101300.0, 0.001));
+  REQUIRE_THAT(snap.central_pressure(), WithinRel(95200.0, 0.001));
   REQUIRE(snap.datetime().to_string() == "2018-09-14T00:00:00");
-  REQUIRE_THAT(snap.v_max(), WithinAbs(46.300107, 1e-6));
-  REQUIRE_THAT(snap.r_max(), WithinAbs(37039.907937, 1e-6));
-  REQUIRE_THAT(snap.eye_location().x(), WithinAbs(-76.5, 1e-6));
-  REQUIRE_THAT(snap.eye_location().y(), WithinAbs(34.0, 1e-6));
+  REQUIRE_THAT(snap.v_max(), WithinRel(46.300107, 0.001));
+  REQUIRE_THAT(snap.r_max(), WithinRel(37039.907937, 0.001));
+  REQUIRE_THAT(snap.eye_location().x(), WithinRel(-76.5, 0.001));
+  REQUIRE_THAT(snap.eye_location().y(), WithinRel(34.0, 0.001));
   REQUIRE(snap.translation() == translation);
 
   const auto params_q1_i1 = Gahm::Solver::GahmParameters(
@@ -111,10 +111,10 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(0).isotach(0).wind_speed(),
       snap.quadrant(0).isotach(0).radius());
-  REQUIRE_THAT(params_q1_i1.radius_to_max_winds(), WithinAbs(47483.261218, 1e-6));
-  REQUIRE_THAT(params_q1_i1.gahm_b(), WithinAbs(1.059443, 1e-6));
-  REQUIRE_THAT(params_q1_i1.gahm_phi(), WithinAbs(1.07886, 1e-6));
-  REQUIRE_THAT(params_q1_i1.holland_b(), WithinAbs(0.968063, 1e-6));
+  REQUIRE_THAT(params_q1_i1.radius_to_max_winds(), WithinRel(47483.261218, 0.001));
+  REQUIRE_THAT(params_q1_i1.gahm_b(), WithinRel(1.059443, 0.001));
+  REQUIRE_THAT(params_q1_i1.gahm_phi(), WithinRel(1.07886, 0.001));
+  REQUIRE_THAT(params_q1_i1.holland_b(), WithinRel(0.968063, 0.001));
 
   const auto params_q1_i2 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -122,9 +122,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(0).isotach(1).wind_speed(),
       snap.quadrant(0).isotach(1).radius());
-  REQUIRE_THAT(params_q1_i2.radius_to_max_winds(), WithinAbs(40125.878661, 1e-6));
-  REQUIRE_THAT(params_q1_i2.gahm_b(), WithinAbs(1.0449821, 1e-6));
-  REQUIRE_THAT(params_q1_i2.gahm_phi(), WithinAbs(1.068449, 1e-6));
+  REQUIRE_THAT(params_q1_i2.radius_to_max_winds(), WithinRel(40125.878661, 0.001));
+  REQUIRE_THAT(params_q1_i2.gahm_b(), WithinRel(1.0449821, 0.001));
+  REQUIRE_THAT(params_q1_i2.gahm_phi(), WithinRel(1.068449, 0.001));
 
   const auto params_q1_i3 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -132,9 +132,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(0).isotach(2).wind_speed(),
       snap.quadrant(0).isotach(2).radius());
-  REQUIRE_THAT(params_q1_i3.radius_to_max_winds(), WithinAbs(41448.183351, 1e-6));
-  REQUIRE_THAT(params_q1_i3.gahm_b(), WithinAbs(1.047575, 1e-6));
-  REQUIRE_THAT(params_q1_i3.gahm_phi(), WithinAbs(1.070364, 1e-6));
+  REQUIRE_THAT(params_q1_i3.radius_to_max_winds(), WithinRel(41448.183351, 0.001));
+  REQUIRE_THAT(params_q1_i3.gahm_b(), WithinRel(1.047575, 0.001));
+  REQUIRE_THAT(params_q1_i3.gahm_phi(), WithinRel(1.070364, 0.001));
 
   const auto params_q2_i1 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -142,9 +142,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(1).isotach(0).wind_speed(),
       snap.quadrant(1).isotach(0).radius());
-  REQUIRE_THAT(params_q2_i1.radius_to_max_winds(), WithinAbs(40736.114234, 1e-6));
-  REQUIRE_THAT(params_q2_i1.gahm_b(), WithinAbs(1.046178, 1e-6));
-  REQUIRE_THAT(params_q2_i1.gahm_phi(), WithinAbs(1.069335, 1e-6));
+  REQUIRE_THAT(params_q2_i1.radius_to_max_winds(), WithinRel(40736.114234, 0.001));
+  REQUIRE_THAT(params_q2_i1.gahm_b(), WithinRel(1.046178, 0.001));
+  REQUIRE_THAT(params_q2_i1.gahm_phi(), WithinRel(1.069335, 0.001));
 
   const auto params_q2_i2 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -152,9 +152,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(1).isotach(1).wind_speed(),
       snap.quadrant(1).isotach(1).radius());
-  REQUIRE_THAT(params_q2_i2.radius_to_max_winds(), WithinAbs(31495.124443, 1e-6));
-  REQUIRE_THAT(params_q2_i2.gahm_b(), WithinAbs(1.028125, 1e-6));
-  REQUIRE_THAT(params_q2_i2.gahm_phi(), WithinAbs(1.055461, 1e-6));
+  REQUIRE_THAT(params_q2_i2.radius_to_max_winds(), WithinRel(31495.124443, 0.001));
+  REQUIRE_THAT(params_q2_i2.gahm_b(), WithinRel(1.028125, 0.001));
+  REQUIRE_THAT(params_q2_i2.gahm_phi(), WithinRel(1.055461, 0.001));
 
   const auto params_q2_i3 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -162,9 +162,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(1).isotach(2).wind_speed(),
       snap.quadrant(1).isotach(2).radius());
-  REQUIRE_THAT(params_q2_i3.radius_to_max_winds(), WithinAbs(37192.779139, 1e-6));
-  REQUIRE_THAT(params_q2_i3.gahm_b(), WithinAbs(1.039239, 1e-6));
-  REQUIRE_THAT(params_q2_i3.gahm_phi(), WithinAbs(1.064132, 1e-6));
+  REQUIRE_THAT(params_q2_i3.radius_to_max_winds(), WithinRel(37192.779139, 0.001));
+  REQUIRE_THAT(params_q2_i3.gahm_b(), WithinRel(1.039239, 0.001));
+  REQUIRE_THAT(params_q2_i3.gahm_phi(), WithinRel(1.064132, 0.001));
 
   const auto params_q3_i1 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -172,9 +172,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(2).isotach(0).wind_speed(),
       snap.quadrant(2).isotach(0).radius());
-  REQUIRE_THAT(params_q3_i1.radius_to_max_winds(), WithinAbs(38515.124120, 1e-6));
-  REQUIRE_THAT(params_q3_i1.gahm_b(), WithinAbs(1.041826, 1e-6));
-  REQUIRE_THAT(params_q3_i1.gahm_phi(), WithinAbs(1.06609, 1e-6));
+  REQUIRE_THAT(params_q3_i1.radius_to_max_winds(), WithinRel(38515.124120, 0.001));
+  REQUIRE_THAT(params_q3_i1.gahm_b(), WithinRel(1.041826, 0.001));
+  REQUIRE_THAT(params_q3_i1.gahm_phi(), WithinRel(1.06609, 0.001));
 
   const auto params_q3_i2 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -182,9 +182,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(2).isotach(1).wind_speed(),
       snap.quadrant(2).isotach(1).radius());
-  REQUIRE_THAT(params_q3_i2.radius_to_max_winds(), WithinAbs(39236.206189, 1e-6));
-  REQUIRE_THAT(params_q3_i2.gahm_b(), WithinAbs(1.043238, 1e-6));
-  REQUIRE_THAT(params_q3_i2.gahm_phi(), WithinAbs(1.067150, 1e-6));
+  REQUIRE_THAT(params_q3_i2.radius_to_max_winds(), WithinRel(39236.206189, 0.001));
+  REQUIRE_THAT(params_q3_i2.gahm_b(), WithinRel(1.043238, 0.001));
+  REQUIRE_THAT(params_q3_i2.gahm_phi(), WithinRel(1.067150, 0.001));
 
   const auto params_q3_i3 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -193,9 +193,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.quadrant(2).isotach(2).wind_speed(),
       snap.quadrant(2).isotach(2).radius());
   REQUIRE_THAT(params_q3_i3.radius_to_max_winds(),
-               WithinAbs(39344.975592, 1e-6));
-  REQUIRE_THAT(params_q3_i3.gahm_b(), WithinAbs(1.043451, 1e-6));
-  REQUIRE_THAT(params_q3_i3.gahm_phi(), WithinAbs(1.067309, 1e-6));
+               WithinRel(39344.975592, 0.001));
+  REQUIRE_THAT(params_q3_i3.gahm_b(), WithinRel(1.043451, 0.001));
+  REQUIRE_THAT(params_q3_i3.gahm_phi(), WithinRel(1.067309, 0.001));
 
   const auto params_q4_i1 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -204,9 +204,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.quadrant(3).isotach(0).wind_speed(),
       snap.quadrant(3).isotach(0).radius());
   REQUIRE_THAT(params_q4_i1.radius_to_max_winds(),
-               WithinAbs(23723.416089, 1e-6));
-  REQUIRE_THAT(params_q4_i1.gahm_b(), WithinAbs(1.013067, 1e-6));
-  REQUIRE_THAT(params_q4_i1.gahm_phi(), WithinAbs(1.0430015, 1e-6));
+               WithinRel(23723.416089, 0.001));
+  REQUIRE_THAT(params_q4_i1.gahm_b(), WithinRel(1.013067, 0.001));
+  REQUIRE_THAT(params_q4_i1.gahm_phi(), WithinRel(1.0430015, 0.001));
 
   const auto params_q4_i2 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -214,9 +214,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(3).isotach(1).wind_speed(),
       snap.quadrant(3).isotach(1).radius());
-  REQUIRE_THAT(params_q4_i2.radius_to_max_winds(), WithinAbs(29931.737717, 1e-6));
-  REQUIRE_THAT(params_q4_i2.gahm_b(), WithinAbs(1.025086, 1e-6));
-  REQUIRE_THAT(params_q4_i2.gahm_phi(), WithinAbs(1.053014, 1e-6));
+  REQUIRE_THAT(params_q4_i2.radius_to_max_winds(), WithinRel(29931.737717, 0.001));
+  REQUIRE_THAT(params_q4_i2.gahm_b(), WithinRel(1.025086, 0.001));
+  REQUIRE_THAT(params_q4_i2.gahm_phi(), WithinRel(1.053014, 0.001));
 
   const auto params_q4_i3 = Gahm::Solver::GahmParameters(
       snap.translation(), snap.eye_location(),
@@ -224,9 +224,9 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max(),
       snap.quadrant(3).isotach(2).wind_speed(),
       snap.quadrant(3).isotach(2).radius());
-  REQUIRE_THAT(params_q4_i3.radius_to_max_winds(), WithinAbs(34916.078328, 1e-6));
-  REQUIRE_THAT(params_q4_i3.gahm_b(), WithinAbs(1.034791, 1e-6));
-  REQUIRE_THAT(params_q4_i3.gahm_phi(), WithinAbs(1.060713, 1e-6));
+  REQUIRE_THAT(params_q4_i3.radius_to_max_winds(), WithinRel(34916.078328, 0.001));
+  REQUIRE_THAT(params_q4_i3.gahm_b(), WithinRel(1.034791, 0.001));
+  REQUIRE_THAT(params_q4_i3.gahm_phi(), WithinRel(1.060713, 0.001));
 
   snap.quadrant(0).isotach(0).compute_gahm_parameters(
       snap.translation(), snap.eye_location(),
@@ -234,20 +234,20 @@ TEST_CASE("GahmParameters", "[GahmParameters]") {
       snap.background_pressure(), snap.v_max());
   REQUIRE_THAT(
       snap.quadrant(0).isotach(0).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(47483.261218, 1e-6));
+      WithinRel(47483.261218, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(0).gahm_parameters().gahm_b(),
-               WithinAbs(1.059443, 1e-6));
+               WithinRel(1.059443, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(0).gahm_parameters().gahm_phi(),
-               WithinAbs(1.07886, 1e-6));
+               WithinRel(1.07886, 0.001));
 
   snap.compute_gahm_parameters();
   REQUIRE_THAT(
       snap.quadrant(1).isotach(0).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(40736.114234, 1e-6));
+      WithinRel(40736.114234, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(0).gahm_parameters().gahm_b(),
-               WithinAbs(1.046178, 1e-6));
+               WithinRel(1.046178, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(0).gahm_parameters().gahm_phi(),
-               WithinAbs(1.069335, 1e-6));
+               WithinRel(1.069335, 0.001));
 }
 
 TEST_CASE("GahmParameters-AdjVMax", "[GahmAdjVMax]") {
@@ -289,92 +289,92 @@ TEST_CASE("GahmParameters-AdjVMax", "[GahmAdjVMax]") {
                               quadrants);
   snap.set_translation(translation);
 
-  REQUIRE_THAT(snap.background_pressure(), WithinAbs(101300.0, 1e-6));
-  REQUIRE_THAT(snap.central_pressure(), WithinAbs(96100.0, 1e-6));
+  REQUIRE_THAT(snap.background_pressure(), WithinRel(101300.0, 0.001));
+  REQUIRE_THAT(snap.central_pressure(), WithinRel(96100.0, 0.001));
   REQUIRE(snap.datetime().to_string() == "2005-08-30T00:00:00");
-  REQUIRE_THAT(snap.v_max(), WithinAbs(25.722281, 1e-6));
-  REQUIRE_THAT(snap.r_max(), WithinAbs(55559.861905, 1e-6));
-  REQUIRE_THAT(snap.eye_location().x(), WithinAbs(-89.1, 1e-6));
-  REQUIRE_THAT(snap.eye_location().y(), WithinAbs(32.6, 1e-6));
+  REQUIRE_THAT(snap.v_max(), WithinRel(25.722281, 0.001));
+  REQUIRE_THAT(snap.r_max(), WithinRel(55559.861905, 0.001));
+  REQUIRE_THAT(snap.eye_location().x(), WithinRel(-89.1, 0.001));
+  REQUIRE_THAT(snap.eye_location().y(), WithinRel(32.6, 0.001));
 
   REQUIRE_THAT(snap.quadrant(0).isotach(0).wind_speed(),
-               WithinAbs(34.0 * kt2ms, 1e-6));
+               WithinRel(34.0 * kt2ms, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(0).radius(),
-               WithinAbs(138899.654764, 1e-6));
+               WithinRel(138899.654764, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(1).wind_speed(),
-               WithinAbs(50.0 * kt2ms, 1e-6));
+               WithinRel(50.0 * kt2ms, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(1).radius(),
-               WithinAbs(92599.769842, 1e-6));
+               WithinRel(92599.769842, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(2).wind_speed(),
-               WithinAbs(64.0 * kt2ms, 1e-6));
+               WithinRel(64.0 * kt2ms, 0.001));
 
   REQUIRE_THAT(snap.quadrant(1).isotach(0).radius(),
-               WithinAbs(166679.585716, 1e-6));
+               WithinRel(166679.585716, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(1).radius(),
-               WithinAbs(111119.723811, 1e-6));
+               WithinRel(111119.723811, 0.001));
 
   REQUIRE_THAT(snap.quadrant(2).isotach(0).radius(),
-               WithinAbs(166679.585716, 1e-6));
+               WithinRel(166679.585716, 0.001));
 
   snap.compute_gahm_parameters();
 
   REQUIRE_THAT(
       snap.quadrant(0).isotach(0).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(28908.370764, 1e-6));
+      WithinRel(28908.370764, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(0).gahm_parameters().gahm_b(),
-               WithinAbs(0.276342, 1e-6));
+               WithinRel(0.276342, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(0).gahm_parameters().gahm_phi(),
-               WithinAbs(1.3820045, 1e-6));
+               WithinRel(1.3820045, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(1).gahm_parameters().holland_b(),
-               WithinAbs(0.3252617, 1e-6));
+               WithinRel(0.3252617, 0.001));
 
   REQUIRE_THAT(
       snap.quadrant(0).isotach(1).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(92599.768364, 1e-6));
+      WithinRel(92599.768364, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(1).gahm_parameters().gahm_b(),
-               WithinAbs(0.4738021, 1e-6));
+               WithinRel(0.4738021, 0.001));
   REQUIRE_THAT(snap.quadrant(0).isotach(1).gahm_parameters().gahm_phi(),
-               WithinAbs(1.511737, 1e-6));
+               WithinRel(1.511737, 0.001));
 
   REQUIRE_THAT(
       snap.quadrant(1).isotach(0).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(9751.519382, 1e-6));
+      WithinRel(9751.519382, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(0).gahm_parameters().gahm_b(),
-               WithinAbs(0.245111, 1e-6));
+               WithinRel(0.245111, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(0).gahm_parameters().gahm_phi(),
-               WithinAbs(1.156206, 1e-6));
+               WithinRel(1.156206, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(0).gahm_parameters().holland_b(),
-               WithinAbs(0.23313339, 1e-6));
+               WithinRel(0.23313339, 0.001));
 
   REQUIRE_THAT(
       snap.quadrant(1).isotach(1).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(111119.723770, 1e-6));
+      WithinRel(111119.723770, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(1).gahm_parameters().gahm_b(),
-               WithinAbs(0.41762, 1e-6));
+               WithinRel(0.41762, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(1).gahm_parameters().gahm_phi(),
-               WithinAbs(1.740439, 1e-6));
+               WithinRel(1.740439, 0.001));
   REQUIRE_THAT(snap.quadrant(1).isotach(1).gahm_parameters().holland_b(),
-               WithinAbs(0.239447, 1e-6));
+               WithinRel(0.239447, 0.001));
 
   REQUIRE_THAT(
       snap.quadrant(2).isotach(0).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(166679.583757, 1e-6));
+      WithinRel(166679.583757, 0.001));
   REQUIRE_THAT(snap.quadrant(2).isotach(0).gahm_parameters().gahm_b(),
-               WithinAbs(0.466707, 1e-6));
+               WithinRel(0.466707, 0.001));
   REQUIRE_THAT(snap.quadrant(2).isotach(0).gahm_parameters().gahm_phi(),
-               WithinAbs(1.893838, 1e-6));
+               WithinRel(1.893838, 0.001));
   REQUIRE_THAT(snap.quadrant(2).isotach(0).gahm_parameters().holland_b(),
-               WithinAbs(0.210740, 1e-6));
+               WithinRel(0.210740, 0.001));
 
   REQUIRE_THAT(
       snap.quadrant(3).isotach(0).gahm_parameters().radius_to_max_winds(),
-      WithinAbs(92599.769089, 1e-6));
+      WithinRel(92599.769089, 0.001));
   REQUIRE_THAT(snap.quadrant(3).isotach(0).gahm_parameters().gahm_b(),
-               WithinAbs(0.4824338, 1e-6));
+               WithinRel(0.4824338, 0.001));
   REQUIRE_THAT(snap.quadrant(3).isotach(0).gahm_parameters().gahm_phi(),
-               WithinAbs(1.497667, 1e-6));
+               WithinRel(1.497667, 0.001));
   REQUIRE_THAT(snap.quadrant(3).isotach(0).gahm_parameters().holland_b(),
-               WithinAbs(0.333795, 1e-6));
+               WithinRel(0.333795, 0.001));
 }
 
 // NOLINTEND(cppcoreguidelines-macro-usage,

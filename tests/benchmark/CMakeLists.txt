@@ -4,3 +4,4 @@ target_include_directories(gahm_benchmark PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/..
 target_link_system_libraries(gahm_benchmark PRIVATE benchmark::benchmark)
 target_link_libraries(gahm_benchmark PRIVATE gahm_objects)
 add_dependencies(gahm_benchmark gahm_objects)
+set_target_properties(gahm_benchmark PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
