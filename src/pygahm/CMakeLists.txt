@@ -34,7 +34,7 @@ set_property(
 )
 
 # Options used when building the Python package for distribution
-if(PYTHON_PACKAGE_BUILD)
+if(gahm_PYTHON_PACKAGE_BUILD)
     set_target_properties(pygahm PROPERTIES LIBRARY_OUTPUT_DIRECTORY
             ${CMAKE_INSTALL_PREFIX}
     )
@@ -53,6 +53,8 @@ else()
             RENAME __init__.py
     )
 endif()
+
+#
 
 # Mac specific settings
 if(APPLE)

@@ -31,8 +31,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_NINJA_FORCE_RESPONSE_FILE "ON" CACHE BOOL "Force Ninja to use response files.")
-mark_as_advanced(CMAKE_NINJA_FORCE_RESPONSE_FILE)
+#set(CMAKE_NINJA_FORCE_RESPONSE_FILE "ON" CACHE BOOL "Force Ninja to use response files.")
+#mark_as_advanced(CMAKE_NINJA_FORCE_RESPONSE_FILE)
 
 # Check for C++20 support
 include(CheckCXXCompilerFlag)
@@ -55,8 +55,15 @@ add_library(gahm::gahm_warnings ALIAS gahm_warnings)
 # ##############################################################################
 
 # ##############################################################################
+# Set up the build type
+# ##############################################################################
+option(gahm_ENABLE_SHARED "Build shared libraries" ON)
+option(gahm_ENABLE_STATIC "Build static libraries" OFF)
+
+# ##############################################################################
 # Set Up the Dependencies
 option(gahm_ENABLE_PYTHON "Enable Python bindings with SWIG" OFF)
+option(gahm_PYTHON_PACKAGE_BUILD "Build the Python package for distribution" OFF)
 option(gahm_ENABLE_PLOTTING "Enable plotting with VTK" OFF)
 option(gahm_ENABLE_BENCHMARKS "Enable benchmarks with Google Benchmark" OFF)
 if(NOT DEFINED gahm_BUILD_TESTS AND gahm_MAINTAINER_MODE)
@@ -64,6 +71,7 @@ if(NOT DEFINED gahm_BUILD_TESTS AND gahm_MAINTAINER_MODE)
 else()
   option(gahm_BUILD_TESTS "Build all tests." OFF)
 endif()
+mark_as_advanced(gahm_PYTHON_PACKAGE_BUILD)
 include(cmake/Dependencies.cmake)
 gahm_setup_dependencies()
 # ##############################################################################
