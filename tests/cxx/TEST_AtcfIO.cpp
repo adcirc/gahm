@@ -16,8 +16,7 @@ using namespace Catch;
 
 TEST_CASE("AtcfIO", "[AtcfIO]") {
   SECTION("Read ATCF") {
-    const std::string filename =
-        "/Users/zcobell/Documents/Code/gahm/tests/test_files/bal122005.dat";
+    const std::string filename = "../test_files/bal122005.dat";
 
     const Gahm::Atcf::AtcfIO atcfIO(filename);
     auto atcf = atcfIO.read();
