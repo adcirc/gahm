@@ -64,6 +64,18 @@ Datetime::Datetime(const std::string &date_string, int hours) {
 Datetime::Datetime(s_DateTime in_datetime)
     : m_second_since_epoch(from_struct(in_datetime)) {}
 
+Datetime::Datetime(int year, int month, int day, int hour, int minute,
+                   int second) {
+  boost::gregorian::date date(static_cast<unsigned short>(year),
+                              static_cast<unsigned short>(month),
+                              static_cast<unsigned short>(day));
+  boost::posix_time::ptime ptime(date);
+  ptime += boost::posix_time::hours(hour);
+  ptime += boost::posix_time::minutes(minute);
+  ptime += boost::posix_time::seconds(second);
+  m_second_since_epoch = (ptime - epoch()).total_seconds();
+}
+
 /**
  * @brief Helper function to convert a Datetime object to a s_DateTime struct
  * @return A s_DateTime struct representing the Datetime object

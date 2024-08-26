@@ -39,6 +39,8 @@ class Datetime {
 
   explicit Datetime(s_DateTime in_datetime);
 
+  Datetime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0);
+
   [[nodiscard]] constexpr auto operator==(const Datetime &rhs) const -> bool {
     return m_second_since_epoch == rhs.m_second_since_epoch;
   }

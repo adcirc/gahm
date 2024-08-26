@@ -6,9 +6,10 @@
 
 #include "atcf/AtcfIO.hpp"
 #include "atcf/AtcfPeriod.hpp"
-#include "catch2/catch_approx.hpp"
 #include "catch2/catch_test_macros.hpp"
+#include "catch2/matchers/catch_matchers_floating_point.hpp"
 #include "datatypes/Datetime.hpp"
+#include "fmt/core.h"
 #include "output/PointOutput.hpp"
 #include "output/RadialProfile.hpp"
 #include "physical/Units.hpp"
@@ -20,6 +21,7 @@
 // readability-magic-numbers)
 
 using namespace Catch;
+using namespace Catch::Matchers;
 
 auto generate_test_snap_1() -> Gahm::Atcf::AtcfPeriod {
   constexpr auto mb2pa = Gahm::Physical::Units::convert(
@@ -196,32 +198,36 @@ TEST_CASE("OutputData", "[output]") {
     control_file.open(
         "../tests/test_files/control_solutions/test_sln_ne_profile.csv");
     for (const auto &p : profile_ne.data) {
-      control_file << p.distance << "," << p.pressure << ","
-                   << p.wind_vector.u() << "," << p.wind_vector.v() << "\n";
+      control_file << fmt::format("{:.8f},{:.8f},{:.8f},{:.8f}\n", p.distance,
+                                  p.pressure, p.wind_vector.u(),
+                                  p.wind_vector.v());
     }
     control_file.close();
 
     control_file.open(
         "../tests/test_files/control_solutions/test_sln_nw_profile.csv");
     for (const auto &p : profile_nw.data) {
-      control_file << p.distance << "," << p.pressure << ","
-                   << p.wind_vector.u() << "," << p.wind_vector.v() << "\n";
+      control_file << fmt::format("{:.8f},{:.8f},{:.8f},{:.8f}\n", p.distance,
+                                  p.pressure, p.wind_vector.u(),
+                                  p.wind_vector.v());
     }
     control_file.close();
 
     control_file.open(
         "../tests/test_files/control_solutions/test_sln_sw_profile.csv");
     for (const auto &p : profile_sw.data) {
-      control_file << p.distance << "," << p.pressure << ","
-                   << p.wind_vector.u() << "," << p.wind_vector.v() << "\n";
+      control_file << fmt::format("{:.8f},{:.8f},{:.8f},{:.8f}\n", p.distance,
+                                  p.pressure, p.wind_vector.u(),
+                                  p.wind_vector.v());
     }
     control_file.close();
 
     control_file.open(
         "../tests/test_files/control_solutions/test_sln_se_profile.csv");
     for (const auto &p : profile_se.data) {
-      control_file << p.distance << "," << p.pressure << ","
-                   << p.wind_vector.u() << "," << p.wind_vector.v() << "\n";
+      control_file << fmt::format("{:.8f},{:.8f},{:.8f},{:.8f}\n", p.distance,
+                                  p.pressure, p.wind_vector.u(),
+                                  p.wind_vector.v());
     }
     control_file.close();
 #endif
@@ -233,10 +239,10 @@ TEST_CASE("OutputData", "[output]") {
       for (size_t i = 0; i < profile_nw.data.size(); ++i) {
         const auto &p = profile_nw.data[i];
         const auto &cp = control_profile.data[i];
-        REQUIRE(p.distance == Approx(cp.distance));
-        REQUIRE(p.pressure == Approx(cp.pressure));
-        REQUIRE(p.wind_vector.u() == Approx(cp.wind_vector.u()));
-        REQUIRE(p.wind_vector.v() == Approx(cp.wind_vector.v()));
+        REQUIRE_THAT(p.distance, WithinAbs(cp.distance, 1e-6));
+        REQUIRE_THAT(p.pressure, WithinAbs(cp.pressure, 1e-6));
+        REQUIRE_THAT(p.wind_vector.u(), WithinAbs(cp.wind_vector.u(), 1e-6));
+        REQUIRE_THAT(p.wind_vector.v(), WithinAbs(cp.wind_vector.v(), 1e-6));
       }
     }
 
@@ -247,10 +253,10 @@ TEST_CASE("OutputData", "[output]") {
       for (size_t i = 0; i < profile_ne.data.size(); ++i) {
         const auto &p = profile_ne.data[i];
         const auto &cp = control_profile.data[i];
-        REQUIRE(p.distance == Approx(cp.distance));
-        REQUIRE(p.pressure == Approx(cp.pressure));
-        REQUIRE(p.wind_vector.u() == Approx(cp.wind_vector.u()));
-        REQUIRE(p.wind_vector.v() == Approx(cp.wind_vector.v()));
+        REQUIRE_THAT(p.distance, WithinAbs(cp.distance, 1e-6));
+        REQUIRE_THAT(p.pressure, WithinAbs(cp.pressure, 1e-6));
+        REQUIRE_THAT(p.wind_vector.u(), WithinAbs(cp.wind_vector.u(), 1e-6));
+        REQUIRE_THAT(p.wind_vector.v(), WithinAbs(cp.wind_vector.v(), 1e-6));
       }
     }
 
@@ -261,10 +267,10 @@ TEST_CASE("OutputData", "[output]") {
       for (size_t i = 0; i < profile_sw.data.size(); ++i) {
         const auto &p = profile_sw.data[i];
         const auto &cp = control_profile.data[i];
-        REQUIRE(p.distance == Approx(cp.distance));
-        REQUIRE(p.pressure == Approx(cp.pressure));
-        REQUIRE(p.wind_vector.u() == Approx(cp.wind_vector.u()));
-        REQUIRE(p.wind_vector.v() == Approx(cp.wind_vector.v()));
+        REQUIRE_THAT(p.distance, WithinAbs(cp.distance, 1e-6));
+        REQUIRE_THAT(p.pressure, WithinAbs(cp.pressure, 1e-6));
+        REQUIRE_THAT(p.wind_vector.u(), WithinAbs(cp.wind_vector.u(), 1e-6));
+        REQUIRE_THAT(p.wind_vector.v(), WithinAbs(cp.wind_vector.v(), 1e-6));
       }
     }
 
@@ -275,10 +281,10 @@ TEST_CASE("OutputData", "[output]") {
       for (size_t i = 0; i < profile_se.data.size(); ++i) {
         const auto &p = profile_se.data[i];
         const auto &cp = control_profile.data[i];
-        REQUIRE(p.distance == Approx(cp.distance));
-        REQUIRE(p.pressure == Approx(cp.pressure));
-        REQUIRE(p.wind_vector.u() == Approx(cp.wind_vector.u()));
-        REQUIRE(p.wind_vector.v() == Approx(cp.wind_vector.v()));
+        REQUIRE_THAT(p.distance, WithinAbs(cp.distance, 1e-6));
+        REQUIRE_THAT(p.pressure, WithinAbs(cp.pressure, 1e-6));
+        REQUIRE_THAT(p.wind_vector.u(), WithinAbs(cp.wind_vector.u(), 1e-6));
+        REQUIRE_THAT(p.wind_vector.v(), WithinAbs(cp.wind_vector.v(), 1e-6));
       }
     }
   }
@@ -301,18 +307,20 @@ TEST_CASE("Point Output", "[output]") {
     REQUIRE(solution.data.size() == grid.size());
 
 #ifdef REWRITE_SOLUTION_FILES
-    // Write the solution to file
+    // Write the solution to file using 6 decimal places
     std::ofstream control_file(
         "../tests/test_files/control_solutions/test_sln_point_output.csv");
+
     auto pts = grid.points();
     auto x_vec = pts.x();
     auto y_vec = pts.y();
     for (size_t i = 0; i < solution.data.size(); i++) {
-      control_file << x_vec[i] << "," << y_vec[i] << ","
-                   << solution.data[i].pressure << ","
-                   << solution.data[i].wind_vector.u() << ","
-                   << solution.data[i].wind_vector.v() << "\n";
+      control_file << fmt::format("{:.8f},{:.8f},{:.8f},{:.8f},{:.8f}\n",
+                                  x_vec[i], y_vec[i], solution.data[i].pressure,
+                                  solution.data[i].wind_vector.u(),
+                                  solution.data[i].wind_vector.v());
     }
+    control_file.close();
 #endif
 
     const auto control_solution = read_control_point_solution(
@@ -321,9 +329,9 @@ TEST_CASE("Point Output", "[output]") {
     for (size_t i = 0; i < solution.data.size(); ++i) {
       const auto &p = solution.data[i];
       const auto &cp = control_solution.data[i];
-      REQUIRE(p.pressure == Approx(cp.pressure));
-      REQUIRE(p.wind_vector.u() == Approx(cp.wind_vector.u()));
-      REQUIRE(p.wind_vector.v() == Approx(cp.wind_vector.v()));
+      REQUIRE_THAT(p.pressure, WithinAbs(cp.pressure, 1e-6));
+      REQUIRE_THAT(p.wind_vector.u(), WithinAbs(cp.wind_vector.u(), 1e-6));
+      REQUIRE_THAT(p.wind_vector.v(), WithinAbs(cp.wind_vector.v(), 1e-6));
     }
   }
 }
@@ -346,83 +354,107 @@ TEST_CASE("Point Output Multi-snap", "[output]") {
 
     const auto interp = interp_snap.value();
 
-    REQUIRE(interp.eye_location().x() == Approx(-76.85));
-    REQUIRE(interp.eye_location().y() == Approx(34.1));
-    REQUIRE(interp.central_pressure() / 100.0 == Approx(952.0));
-    REQUIRE(interp.background_pressure() / 100.0 == Approx(1013.0));
-    REQUIRE(interp.v_max() * ms2kt == Approx(90.0));
-    REQUIRE(interp.r_max() / nmi2m == Approx(20.0));
+    REQUIRE_THAT(interp.eye_location().x(), WithinAbs(-76.85, 1e-6));
+    REQUIRE_THAT(interp.eye_location().y(), WithinAbs(34.1, 1e-6));
+    REQUIRE_THAT(interp.central_pressure() / 100.0, WithinAbs(952.0, 1e-6));
+    REQUIRE_THAT(interp.background_pressure() / 100.0, WithinAbs(1013.0, 1e-6));
+    REQUIRE_THAT(interp.v_max() * ms2kt, WithinAbs(90.0, 1e-6));
+    REQUIRE_THAT(interp.r_max() / nmi2m, WithinAbs(20.0, 1e-6));
 
     const auto quadrants = interp.quadrants();
     REQUIRE(quadrants.size() == 4);
-    REQUIRE(quadrants[0].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
-    REQUIRE(quadrants[0].isotach(0).radius() / nmi2m == Approx(170.0));
-    REQUIRE(quadrants[0].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
-    REQUIRE(quadrants[0].isotach(1).radius() / nmi2m == Approx(100.0));
-    REQUIRE(quadrants[0].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
-    REQUIRE(quadrants[0].isotach(2).radius() / nmi2m == Approx(70.0));
+    REQUIRE_THAT(quadrants[0].isotach(0).wind_speed(),
+                 WithinAbs(34.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[0].isotach(0).radius() / nmi2m,
+                 WithinAbs(170.0, 1e-6));
+    REQUIRE_THAT(quadrants[0].isotach(1).wind_speed(),
+                 WithinAbs(50.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[0].isotach(1).radius() / nmi2m,
+                 WithinAbs(100.0, 1e-6));
+    REQUIRE_THAT(quadrants[0].isotach(2).wind_speed(),
+                 WithinAbs(64.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[0].isotach(2).radius() / nmi2m,
+                 WithinAbs(70.0, 1e-6));
 
-    REQUIRE(quadrants[1].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
-    REQUIRE(quadrants[1].isotach(0).radius() / nmi2m == Approx(150.0));
-    REQUIRE(quadrants[1].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
-    REQUIRE(quadrants[1].isotach(1).radius() / nmi2m == Approx(80.0));
-    REQUIRE(quadrants[1].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
-    REQUIRE(quadrants[1].isotach(2).radius() / nmi2m == Approx(60.0));
+    REQUIRE_THAT(quadrants[1].isotach(0).wind_speed(),
+                 WithinAbs(34.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[1].isotach(0).radius() / nmi2m,
+                 WithinAbs(150.0, 1e-6));
+    REQUIRE_THAT(quadrants[1].isotach(1).wind_speed(),
+                 WithinAbs(50.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[1].isotach(1).radius() / nmi2m,
+                 WithinAbs(80.0, 1e-6));
+    REQUIRE_THAT(quadrants[1].isotach(2).wind_speed(),
+                 WithinAbs(64.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[1].isotach(2).radius() / nmi2m,
+                 WithinAbs(60.0, 1e-6));
 
-    REQUIRE(quadrants[2].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
-    REQUIRE(quadrants[2].isotach(0).radius() / nmi2m == Approx(130.0));
-    REQUIRE(quadrants[2].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
-    REQUIRE(quadrants[2].isotach(1).radius() / nmi2m == Approx(80.0));
-    REQUIRE(quadrants[2].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
-    REQUIRE(quadrants[2].isotach(2).radius() / nmi2m == Approx(55.0));
+    REQUIRE_THAT(quadrants[2].isotach(0).wind_speed(),
+                 WithinAbs(34.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[2].isotach(0).radius() / nmi2m,
+                 WithinAbs(130.0, 1e-6));
+    REQUIRE_THAT(quadrants[2].isotach(1).wind_speed(),
+                 WithinAbs(50.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[2].isotach(1).radius() / nmi2m,
+                 WithinAbs(80.0, 1e-6));
+    REQUIRE_THAT(quadrants[2].isotach(2).wind_speed(),
+                 WithinAbs(64.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[2].isotach(2).radius() / nmi2m,
+                 WithinAbs(55.0, 1e-6));
 
-    REQUIRE(quadrants[3].isotach(0).wind_speed() == Approx(34.0 / ms2kt));
-    REQUIRE(quadrants[3].isotach(0).radius() / nmi2m == Approx(100.0));
-    REQUIRE(quadrants[3].isotach(1).wind_speed() == Approx(50.0 / ms2kt));
-    REQUIRE(quadrants[3].isotach(1).radius() / nmi2m == Approx(70.0));
-    REQUIRE(quadrants[3].isotach(2).wind_speed() == Approx(64.0 / ms2kt));
-    REQUIRE(quadrants[3].isotach(2).radius() / nmi2m == Approx(50.0));
+    REQUIRE_THAT(quadrants[3].isotach(0).wind_speed(),
+                 WithinAbs(34.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[3].isotach(0).radius() / nmi2m,
+                 WithinAbs(100.0, 1e-6));
+    REQUIRE_THAT(quadrants[3].isotach(1).wind_speed(),
+                 WithinAbs(50.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[3].isotach(1).radius() / nmi2m,
+                 WithinAbs(70.0, 1e-6));
+    REQUIRE_THAT(quadrants[3].isotach(2).wind_speed(),
+                 WithinAbs(64.0 / ms2kt, 1e-6));
+    REQUIRE_THAT(quadrants[3].isotach(2).radius() / nmi2m,
+                 WithinAbs(50.0, 1e-6));
 
     // Lastly, check the radius to max winds
-    REQUIRE(quadrants[0].isotach(0).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(25.2020));
-    REQUIRE(quadrants[0].isotach(1).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(21.2783));
-    REQUIRE(quadrants[0].isotach(2).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(21.9693));
+    REQUIRE_THAT(
+        quadrants[0].isotach(0).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(25.202015, 1e-6));
+    REQUIRE_THAT(
+        quadrants[0].isotach(1).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(21.278301, 1e-6));
+    REQUIRE_THAT(
+        quadrants[0].isotach(2).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(21.969396, 1e-6));
 
-    REQUIRE(quadrants[1].isotach(0).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(23.0634));
-    REQUIRE(quadrants[1].isotach(1).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(18.1137));
-    REQUIRE(quadrants[1].isotach(2).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(21.7528));
+    REQUIRE_THAT(
+        quadrants[1].isotach(0).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(23.063446, 1e-6));
+    REQUIRE_THAT(
+        quadrants[1].isotach(1).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(18.113743, 1e-6));
+    REQUIRE_THAT(
+        quadrants[1].isotach(2).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(21.752882, 1e-6));
 
-    REQUIRE(quadrants[2].isotach(0).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(21.1364));
-    REQUIRE(quadrants[2].isotach(1).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(21.7089));
-    REQUIRE(quadrants[2].isotach(2).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(24.6346));
+    REQUIRE_THAT(
+        quadrants[2].isotach(0).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(21.136460, 1e-6));
+    REQUIRE_THAT(
+        quadrants[2].isotach(1).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(21.708920, 1e-6));
+    REQUIRE_THAT(
+        quadrants[2].isotach(2).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(24.634652, 1e-6));
 
-    REQUIRE(quadrants[3].isotach(0).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(12.0107));
-    REQUIRE(quadrants[3].isotach(1).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(15.0321));
-    REQUIRE(quadrants[3].isotach(2).gahm_parameters().radius_to_max_winds() /
-                nmi2m ==
-            Approx(17.3128));
+    REQUIRE_THAT(
+        quadrants[3].isotach(0).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(12.010748, 1e-6));
+    REQUIRE_THAT(
+        quadrants[3].isotach(1).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(15.032159, 1e-6));
+    REQUIRE_THAT(
+        quadrants[3].isotach(2).gahm_parameters().radius_to_max_winds() / nmi2m,
+        WithinAbs(17.312822, 1e-6));
   }
 
   SECTION("Point Output") {

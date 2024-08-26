@@ -17,7 +17,7 @@ foreach(test ${TestList})
     target_include_directories(${test_name} SYSTEM PUBLIC
             ${CMAKE_CURRENT_BINARY_DIR}/../../_deps/catch2-src/src
             ${CMAKE_CURRENT_BINARY_DIR}/../../_deps/catch2-build/generated-includes)
-    target_link_system_libraries(${test_name} PUBLIC Catch2WithMain)
+    target_link_system_libraries(${test_name} PUBLIC Catch2WithMain fmt::fmt)
     set_target_properties(
             ${test_name} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
             ${CMAKE_CURRENT_BINARY_DIR}/tests)

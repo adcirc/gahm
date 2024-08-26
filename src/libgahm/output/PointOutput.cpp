@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include "atcf/AtcfPeriod.hpp"
+#include "atcf/AtcfTrack.hpp"
 #include "datatypes/Datetime.hpp"
 #include "datatypes/Grid.hpp"
 #include "datatypes/Point.hpp"
@@ -109,6 +110,19 @@ namespace Gahm::Output::PointOutput {
                               const Types::Datetime &datetime,
                               const Types::Grid &grid) -> PointSolution {
   return get_points(period_1, period_2, datetime, grid.points());
+}
+
+[[nodiscard]] auto get_points(
+    const Gahm::Atcf::AtcfTrack &track, const Gahm::Types::Datetime &datetime,
+    const Gahm::Types::PointCloud &points) -> PointSolution {
+  const auto [period_1, period_2, weight] = track.select_periods(datetime);
+  return get_points(period_1, period_2, datetime, points);
+}
+
+[[nodiscard]] auto get_points(const Gahm::Atcf::AtcfTrack &track,
+                              const Gahm::Types::Datetime &datetime,
+                              const Gahm::Types::Grid &grid) -> PointSolution {
+  return get_points(track, datetime, grid.points());
 }
 
 }  // namespace Gahm::Output::PointOutput

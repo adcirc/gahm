@@ -45,6 +45,9 @@
 namespace std {
   %template(PeriodVector) vector<Gahm::Atcf::AtcfPeriod>;
   %template(DoubleVector) vector<double>;
+  %template(DoubleDoubleVector) vector<vector<double>>;
+  %template(PointVector) vector<Gahm::Types::Point>;
+  %template(SolutionPointVector) vector<Gahm::Output::PointOutput::SolutionPoint>;
 }
 
 %include "datatypes/Datetime.hpp"

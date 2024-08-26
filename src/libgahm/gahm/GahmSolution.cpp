@@ -215,10 +215,10 @@ auto add_turning_angle_to_wind_vector(
     const GahmInputParamsBase &input, const IsotachParams &storm_params,
     const double distance, const double wind_speed_10_10) -> Types::Vec {
   // Generate the rotation matrix based on the calculated turning angle
+  const auto turning_angle = Physical::Atmospheric::turning_angle(
+      distance, storm_params.radius_to_max_winds);
   const auto turning_angle_matrix =
-      Types::RotationMatrix(-Physical::Atmospheric::turning_angle(
-                                distance, storm_params.radius_to_max_winds),
-                            input.eye_location.y());
+      Types::RotationMatrix(-turning_angle, input.eye_location.y());
 
   const auto v_vor_quad_uv = Types::Vec::matmul_22_21(
       turning_angle_matrix.data(), storm_params.unit_vector_tbl);
@@ -275,7 +275,10 @@ auto limit_quadrant_profile_wind_speed(
   const auto s_ratio =
       s_vel_10_10 > s_max_10_10_rp ? s_max_10_10_rp / s_vel_10_10 : 1.0;
 
-  return vel_10_10 * s_ratio;
+  const auto scaled = vel_10_10 * s_ratio;
+
+  // Rotate the vector by 90 degrees
+  return Types::Vec(scaled.v(), -scaled.u());
 }
 
 /**
