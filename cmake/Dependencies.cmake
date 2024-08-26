@@ -32,6 +32,7 @@ macro(gahm_setup_dependencies)
             EXCLUDE_FROM_ALL
     )
     mark_as_advanced_wildcard("FMT_")
+    set_target_properties(fmt PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
 
   # ##################################################################################################################
   # SWIG
@@ -111,6 +112,7 @@ macro(gahm_setup_dependencies)
     mark_as_advanced_wildcard("BENCHMARK_")
     mark_as_advanced(GOOGLETEST_PATH)
     mark_as_advanced(CXXFEATURECHECK_DEBUG)
+    mark_as_advanced(LLVM_FILECHECK_EXE)
 
     # Disable cppcheck and clang-tidy on Google Benchmark
     set_target_properties(benchmark PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
