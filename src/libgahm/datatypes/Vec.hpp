@@ -67,7 +67,7 @@ class Vec {
    * @brief Set the u and v components of the vector
    * @param arr Array containing the u and v components of the vector
    */
-  constexpr void set(std::array<double, 2> arr) {
+  constexpr void set(const std::array<double, 2> &arr) {
     m_u = arr[0];
     m_v = arr[1];
   }

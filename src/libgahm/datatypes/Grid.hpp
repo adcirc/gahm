@@ -20,15 +20,15 @@ class Grid {
 
   static constexpr auto fromCorners(double x1, double y1, double x2, double y2,
                                     double dx, double dy) -> Gahm::Types::Grid {
-    const auto xll = std::min(x1, x2);
-    const auto yll = std::min(y1, y2);
-    const auto xur = std::max(x1, x2);
-    const auto yur = std::max(y1, y2);
-    return {{xll, yll},
+    const auto grid_xll = std::min(x1, x2);
+    const auto grid_yll = std::min(y1, y2);
+    const auto grid_xur = std::max(x1, x2);
+    const auto grid_yur = std::max(y1, y2);
+    return {{grid_xll, grid_yll},
             dx,
             dy,
-            static_cast<size_t>((xur - xll) / dx),
-            static_cast<size_t>((yur - yll) / dy)};
+            static_cast<size_t>((grid_xur - grid_xll) / dx),
+            static_cast<size_t>((grid_yur - grid_yll) / dy)};
   }
 
   static constexpr auto fromCorners(const Gahm::Types::Point &pt1, const Gahm::Types::Point &pt2,

@@ -117,6 +117,7 @@ macro(gahm_setup_dependencies)
     # Disable cppcheck and clang-tidy on Google Benchmark
     set_target_properties(benchmark PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
     set_target_properties(benchmark_main PROPERTIES CXX_CPPCHECK "" CXX_CLANG_TIDY "")
+    target_compile_options(benchmark PRIVATE "-w")
   endif()
 
   # Mark the FetchContent variables as advanced

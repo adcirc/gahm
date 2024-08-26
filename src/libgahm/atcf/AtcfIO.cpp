@@ -128,7 +128,7 @@ auto Gahm::Atcf::AtcfIO::sanitize_temp_isotach(
 auto Gahm::Atcf::AtcfIO::read() const -> AtcfTrack {
   std::ifstream file(m_filename);
   if (!file.is_open()) {
-    throw std::runtime_error("Could not open file");
+    throw std::runtime_error("Could not open file: "+m_filename);
   }
 
   constexpr auto kt_to_ms = Gahm::Physical::Units::convert(

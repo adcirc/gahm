@@ -76,15 +76,19 @@ class Datetime {
 
   [[nodiscard]] auto to_string() const -> std::string;
 
+#ifndef SWIG  
   friend auto operator<<(std::ostream &stream,
                          const Datetime &datetime) -> std::ostream &;
+#endif  
 
  private:
   long m_second_since_epoch;
 };
 
+#ifndef SWIG
 auto operator<<(std::ostream &stream,
                 const Datetime &datetime) -> std::ostream &;
+#endif
 
 }  // namespace Gahm::Types
 #endif  // GAHM_DATETIME_HPP
